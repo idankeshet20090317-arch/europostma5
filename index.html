@@ -2,58 +2,174 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>אירופוסטמה 5</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>אירופוסטמה 5 - העמוד הרשמי</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body{
-        font-family:Arial,sans-serif;
-        background: linear-gradient(135deg, #2b1055, #7597de);
-        color:white;
-        margin:0;
+        :root {
+            --primary-bg: #2b1055;
+            --secondary-bg: #7597de;
+            --header-gradient: linear-gradient(90deg, #6a00ff, #ff0080);
+            --article-bg: #222;
+            --accent-color: #ff0080;
         }
 
-        header{
-        background: linear-gradient(90deg, #6a00ff, #ff0080);
-        padding:40px;
-        text-align:center;
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
+            color: white;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
         }
 
-        section{
-        padding:20px;
-        max-width:1000px;
-        margin:auto;
+        header {
+            background: var(--header-gradient);
+            padding: 60px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
-        .article{
-        background:#222;
-        padding:20px;
-        margin:20px 0;
-        border-radius:15px;
+        header h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .subtitle-main {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+
+        .hosts-info {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 5px;
+            color: #ffdaeb;
+        }
+
+        section {
+            padding: 40px 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .article {
+            background: var(--article-bg);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 20px;
+            border-right: 5px solid var(--accent-color);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .article h2 {
+            margin-top: 0;
+            color: #fff;
+            font-size: 1.8rem;
+        }
+
+        .exchange-list {
+            line-height: 1.8;
+        }
+
+        .country-item {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+
+        .country-item:last-child {
+            border-bottom: none;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 50px;
+            padding: 40px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 30px;
+        }
+
+        .next-page-btn {
+            display: inline-block;
+            background: var(--header-gradient);
+            color: white;
+            padding: 20px 40px;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .next-page-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        .btn-text {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        strong {
+            color: #ffdaeb;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>אירופוסטמה 5</h1>
-    <p>אתר החדשות הרשמי של התחרות</p>
+    <h1>🎤 אירופוסטמה 5</h1>
+    <div class="subtitle-main">אתר החדשות הרשמי של התחרות</div>
+    <div class="hosts-info">מנחים: עידנים רשת וקשת</div>
 </header>
 
 <section>
 
-<div class="article">
-    <h2>הימורים חמים לאירופוסטמה 5</h2>
-    <p>תחרות המוזיקה הגדולה בין החברים שבה כל משתתף מייצג מדינה אחרת.</p>
-</div>
+    <div class="article">
+        <h2>החוקים לשליחת השירים ליופוסטמה 5</h2>
+    </div>
 
-<div class="article">
-    <h2>מהדורת חדשות 5 של אירופוסטמה</h2>
-    <p>ההכנות למשדר כבר בעיצומן וכל המשלחות מחפשות את השיר המנצח רק אתם תחליטו מי הוא המנצח הגדול של המהדורה החמישית.</p>
-</div>
+    <div class="article">
+        <h2>חוקים:</h2>
+    </div>
 
-<div class="article">
-    <h2>בדיקה</h2>
-    <p>אוקיווחוולכה.</p>
-</div>
+    <div class="article">
+        <h2>🔄 החלפת מדינות והקלות ברישום</h2>
+        <div class="exchange-list">
+            <div class="country-item">🇻🇦 <strong>הוותיקן</strong> - ניתן לשלוח זמר איטלקי 🇮🇹<br>(הוותיקן ממוקם בתוך איטליה, ורוב תושביו ועובדיו קשורים אליה באופן ישיר.)</div>
+            <div class="country-item">🇷🇴 <strong>רומניה</strong> - ניתן לשלוח זמר ממולדובה 🇲🇩<br>(בשל השפה המשותפת והקשר ההיסטורי והתרבותי העמוק בין המדינות.)</div>
+            <div class="country-item">🇮🇲 <strong>האי מאן</strong> - ניתן לשלוח זמר בריטי 🇬🇧<br>(האי מאן הוא טריטוריה בריטית בעלת קשרים מדיניים ותרבותיים הדוקים עם בריטניה.)</div>
+            <div class="country-item">🇫🇴 <strong>איי פארו</strong> - ניתן לשלוח זמר דני 🇩🇰<br>(איי פארו הם טריטוריה אוטונומית בתוך ממלכת דנמרק.)</div>
+            <div class="country-item">🇬🇱 <strong>גרינלנד</strong> - ניתן לשלוח זמר דני 🇩🇰<br>(גרינלנד היא טריטוריה אוטונומית בתוך ממלכת דנמרק.)</div>
+            <div class="country-item">🇲🇨 <strong>מונקו</strong> - ניתן לשלוח זמר צרפתי 🇫🇷<br>(מונקו מוקפת כמעט לחלוטין בצרפת ומושפעת ממנה מבחינה תרבותית.)</div>
+            <div class="country-item">🇸🇲 <strong>סן מרינו</strong> - ניתן לשלוח זמר איטלקי 🇮🇹<br>(סן מרינו מוקפת לחלוטין באיטליה ומקיימת עמה קשרים הדוקים.)</div>
+            <div class="country-item">🇦🇩 <strong>אנדורה</strong> - ניתן לשלוח זמר צרפתי 🇫🇷<br>(נשיא צרפת משמש כאחד משני ראשי המדינה של אנדורה.)</div>
+            <div class="country-item">🇲🇹 <strong>מלטה</strong> - ניתן לשלוח זמר בריטי 🇬🇧<br>(מלטה הייתה תחת שלטון בריטי עד שנת 1964.)</div>
+            <div class="country-item">🇰🇵 <strong>צפון קוריאה</strong> - ניתן לשלוח זמר מדרום קוריאה 🇰🇷<br>(שתי המדינות היו בעבר מדינה אחת וחולקות מורשת משותפת.)</div>
+            <div class="country-item">🇵🇸 <strong>פלסטין</strong> - ניתן לשלוח זמר ישראלי 🇮🇱<br>(בשל הקרבה הגאוגרפית והקשרים התרבותיים באזור.)</div>
+            <div class="country-item">🇭🇰 <strong>הונג קונג / מקאו</strong> - ניתן לשלוח זמר סיני 🇨🇳<br>(אזורים מנהליים מיוחדים של סין.)</div>
+            <div class="country-item">🇵🇷 <strong>פוארטו ריקו</strong> - ניתן לשלוח זמר אמריקאי 🇺🇸<br>(פוארטו ריקו היא טריטוריה של ארצות הברית.)</div>
+            <div class="country-item">🇫🇮 <strong>פינלנד</strong> - ניתן לשלוח זמר שוודי 🇸🇪 / 🇸🇪 <strong>שוודיה</strong> - ניתן לשלוח זמר פיני 🇫🇮<br>(בשל הקשרים ההיסטוריים והתרבותיים העמוקים באזור הנורדי.)</div>
+        </div>
+    </div>
+
+    <div class="article">
+        <h2>🎵 השיר של אלקסה</h2>
+        <p>כאן מופיע המידע על השיר של אלקסה...</p>
+        
+        <div class="btn-container">
+            <span class="btn-text">לחצו על הכפתור כדי לדעת את כל התוצאות מכללל הזמנים:</span>
+            <a href="results.html" class="next-page-btn">ללחיצת כפתור לעמוד הבא</a>
+        </div>
+    </div>
 
 </section>
 
