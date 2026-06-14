@@ -12,7 +12,6 @@
             font-family: 'Rubik', sans-serif;
             margin: 0;
             padding: 0;
-            /* רקע קשת בענן משודרג - המון צבעים בבת אחת על המסך! */
             background: linear-gradient(
                 45deg, 
                 #ff0000, #ff7700, #ffdd00, #00ff00, 
@@ -65,7 +64,6 @@
             text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
         }
 
-        /* עיצוב קופסת הטיימר הממוקמת מתחת לתת הכותרת */
         .countdown-container {
             background: rgba(0, 0, 0, 0.6);
             border: 2px solid #ffff00;
@@ -115,15 +113,6 @@
             border-color: rgba(255, 255, 255, 0.4);
         }
 
-        .card::before {
-            content: "🇪🇺 🏳️‍🌈";
-            position: absolute;
-            top: 15px;
-            left: 20px;
-            opacity: 0.25;
-            font-size: 1.5rem;
-        }
-
         h2 {
             font-size: 1.8rem;
             margin-top: 0;
@@ -142,7 +131,6 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
-        /* עיצוב תיבת החיפוש */
         .search-container {
             margin-bottom: 20px;
             position: relative;
@@ -178,7 +166,6 @@
             opacity: 0.7;
         }
 
-        /* הודעת שגיאה - איקס אדום */
         .no-results {
             display: none;
             text-align: center;
@@ -213,7 +200,6 @@
             transition: all 0.3s ease;
         }
 
-        /* אפקט הבהוב למדינה שנמצאה בחיפוש */
         .country-highlight {
             animation: pulseHighlight 1.5s infinite alternate;
             border-right-color: #ffff00;
@@ -241,13 +227,62 @@
             margin: 0;
         }
 
-        .alexa-section {
-            text-align: center;
-            padding: 20px;
+        /* עיצוב שורת השיר בארכיון */
+        .winner-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             background: rgba(255, 255, 255, 0.1);
+            padding: 12px 20px;
             border-radius: 15px;
-            margin-top: 20px;
+            margin-top: 15px;
             border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .winner-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .play-inline-btn {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #ffff00;
+            color: white;
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .play-inline-btn:hover {
+            transform: scale(1.05);
+            background: #ffff00;
+            color: black;
+            box-shadow: 0 0 10px rgba(255,255,0,0.4);
+        }
+
+        .audio-status-msg {
+            text-align: center;
+            font-size: 1rem;
+            color: #ffff00;
+            margin-top: 8px;
+            font-weight: bold;
+        }
+
+        /* הסתרת הנגן של יוטיוב כדי שלא יפריע לעיצוב, אך עדיין ינגן שמע */
+        .youtube-hidden-player {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
         }
 
         .btn {
@@ -280,27 +315,12 @@
             border: 2px dashed rgba(255,255,255,0.3);
         }
 
-        .results-box p {
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
         .mid-flags {
             text-align: center;
             font-size: 2rem;
             margin: 35px 0;
             opacity: 0.7;
             letter-spacing: 10px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-        }
-
-        .footer-flags {
-            text-align: center;
-            font-size: 2.5rem;
-            margin: 40px 0;
-            letter-spacing: 6px;
-            opacity: 0.95;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
         }
     </style>
 </head>
@@ -322,7 +342,7 @@
 
         <div class="card">
             <h2>📜 חוקי התחרות</h2>
-            </div>
+        </div>
 
         <div class="card">
             <h2>📝 החלפת מדינות</h2>
@@ -342,107 +362,67 @@
             <div id="countriesList">
                 <div class="country-rule">
                     <div class="country-title">🇻🇦 הוותיקן ← 🇮🇹 איטליה</div>
-                    <p class="country-desc">ניתן לשלוח זמר איטלקי 🇮🇹<br>(הוותיקן ממוקם בתוך איטליה, ורוב תושביו ועובדיו קשורים אליה באופן ישיר.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר איטלקי 🇮🇹</p>
                 </div>
-
                 <div class="country-rule">
                     <div class="country-title">🇮🇲 האי מאן ← 🇬🇧 בריטניה</div>
-                    <p class="country-desc">ניתן לשלוח זמר בריטי 🇬🇧<br>(האי מאן הוא טריטוריה בריטית בעלת קשרים מדיניים ותרבותיים הדוקים עם בריטניה.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר בריטי 🇬🇧</p>
                 </div>
-
                 <div class="country-rule">
                     <div class="country-title">🇫🇴 איי פארו ← 🇩🇰 דנמרק</div>
-                    <p class="country-desc">ניתן לשלוח זמר דני 🇩🇰<br>(איי פארו הם טריטוריה אוטונומית בתוך ממלכת דנמרק.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר דני 🇩🇰</p>
                 </div>
-
                 <div class="country-rule">
                     <div class="country-title">🇬🇱 גרינלנד ← 🇩🇰 דנמרק</div>
-                    <p class="country-desc">ניתן לשלוח זמר דני 🇩🇰<br>(גרינלנד היא טריטוריה אוטונומית בתוך ממלכת דנמרק.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר דני 🇩🇰</p>
                 </div>
-
                 <div class="country-rule">
                     <div class="country-title">🇲🇨 מונקו ← 🇫🇷 צרפת</div>
-                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(מונקו מוקפת כמעט לחלוטין בצרפת ומושפעת ממנה מבחינה תרבותית וכלכלית.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷</p>
                 </div>
-
                 <div class="country-rule">
                     <div class="country-title">🇸🇲 סן מרינו ← 🇮🇹 איטליה</div>
-                    <p class="country-desc">ניתן לשלוח זמר איטלקי 🇮🇹<br>(סן מרינו מוקפת לחלוטין באיטליה ומקיימת עמה קשרים הדוקים.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר איטלקי 🇮🇹</p>
                 </div>
-
                 <div class="country-rule">
                     <div class="country-title">🇦🇩 אנדורה ← 🇫🇷 צרפת</div>
-                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(נשיא צרפת משמש כאחד משני ראשי המדינה של אנדורה, דבר היוצר קשר מדיני ייחודי.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷</p>
                 </div>
-
                 <div class="country-rule">
                     <div class="country-title">🇦🇩 אנדורה ← 🇪🇸 ספרד</div>
-                    <p class="country-desc">ניתן לשלוח זמר ספרדי 🇪🇸<br>(בשל הקרבה הגאוגרפית והקשרים התרבותיים ההדוקים עם ספרד.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר ספרדי 🇪🇸</p>
                 </div>
-
                 <div class="country-rule">
                     <div class="country-title">🇲🇹 מלטה ← 🇬🇧 בריטניה</div>
-                    <p class="country-desc">ניתן לשלוח זמר בריטי 🇬🇧<br>(מלטה הייתה תחת שלטון בריטי עד שנת 1964, וההשפעה הבריטית עדיין מורגשת במדינה.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר בריטי 🇬🇧</p>
                 </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇰🇵 צפון קוריאה ← 🇰🇷 דרום קוריאה</div>
-                    <p class="country-desc">ניתן לשלוח זמר מדרום קוריאה 🇰🇷<br>(שתי המדינות היו בעבר מדינה אחת וחולקות מורשת והיסטוריה משותפת.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇰🇷 דרום קוריאה ← 🇰🇵 צפון קוריאה</div>
-                    <p class="country-desc">ניתן לשלוח זמר מצפון קוריאה 🇰🇵<br>(שתי המדינות היו בעבר מדינה אחת וחולקות מורשת והיסטוריה משותפת.)</p>
-                </div>
-
                 <div class="country-rule">
                     <div class="country-title">🇵🇸 פלסטין ← 🇮🇱 ישראל</div>
-                    <p class="country-desc">ניתן לשלוח זמר ישראלי 🇮🇱<br>(בשל הקרבה הגאוגרפית והקשרים התרבותיים הקיימים באזור.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר ישראלי 🇮🇱</p>
                 </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇭🇰 הונג קונג ← 🇨🇳 סין</div>
-                    <p class="country-desc">ניתן לשלוח זמר סיני 🇨🇳<br>(הונג קונג היא אזור מנהלי מיוחד של סין ומקיימת עמה קשרים פוליטיים והיסטוריים.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇲🇴 מקאו ← 🇨🇳 סין</div>
-                    <p class="country-desc">ניתן לשלוח זמר סיני 🇨🇳<br>(מקאו היא אזור מנהלי מיוחד של סין ומקיימת עמה קשרים פוליטיים והיסטוריים.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇵🇷 פוארטו ריקו ← 🇺🇸 ארצות הברית</div>
-                    <p class="country-desc">ניתן לשלוח זמר אמריקאי 🇺🇸<br>(פוארטו ריקו היא טריטוריה של ארצות הברית, ותושביה הם אזרחים אמריקאים.)</p>
-                </div>
-
                 <div class="country-rule">
                     <div class="country-title">🇫🇮 פינלנד ← 🇸🇪 שוודיה</div>
-                    <p class="country-desc">ניתן לשלוח זמר שוודי 🇸🇪<br>(פינלנד הייתה חלק מממלכת שוודיה במשך מאות שנים, וקיים קשר היסטורי ותרבותי עמוק בין המדינות.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר שוודי 🇸🇪</p>
                 </div>
-
                 <div class="country-rule">
                     <div class="country-title">🇨🇾 קפריסין ← 🇬🇷 יוון</div>
-                    <p class="country-desc">ניתן לשלוח זמר יווני 🇬🇷<br>(בשל הקשרים ההיסטוריים והתרבותיים ההדוקים בין המדינות.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר יווני 🇬🇷</p>
                 </div>
-
                 <div class="country-rule">
                     <div class="country-title">🇲🇪 מונטנגרו ← 🇷🇸 סרביה</div>
-                    <p class="country-desc">ניתן לשלוח זמר סרבי 🇷🇸<br>(בשל ההיסטוריה המשותפת והקשרים האזוריים בין המדינות.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר סרבי 🇷🇸</p>
                 </div>
-
                 <div class="country-rule">
                     <div class="country-title">🇱🇺 לוקסמבורג ← 🇫🇷 צרפת</div>
-                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(בשל ההשפעה התרבותית והקשרים ההיסטוריים עם צרפת.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷</p>
                 </div>
-
                 <div class="country-rule">
                     <div class="country-title">🇱🇮 ליכטנשטיין ← 🇩🇪 גרמניה</div>
-                    <p class="country-desc">ניתן לשלוח זמר גרמני 🇩🇪<br>(בשל הקרבה התרבותית וההיסטורית לגרמניה.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר גרמני 🇩🇪</p>
                 </div>
-
                 <div class="country-rule">
                     <div class="country-title">🇲🇩 מולדובה ← 🇷🇴 רומניה</div>
-                    <p class="country-desc">ניתן לשלוח זמר רומני 🇷🇴<br>(בשל ההיסטוריה המשותפת והקשרים התרבותיים ההדוקים בין המדינות.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר רומני 🇷🇴</p>
                 </div>
             </div>
         </div>
@@ -451,31 +431,56 @@
 
         <div class="card">
             <h2>🤖 השיר של אלקסה 🗺️</h2>
-            <p>רוצים לשמוע את השיר הנבחר או לתת פקודה חכמה? אלקסה כאן בשבילכם עם החיבור המוזיקלי המוביל של העונה.</p>
-            <div class="alexa-section">
-                <p>לחצו כאן כדי להאזין ישירות ביוטיוב:</p>
-                <a href="https://www.youtube.com/watch?v=q1Gbq5B1wnI" target="_blank" class="btn" style="background: #ff0055; color: #fff;">Tongue Tied - להאזנה ביוטיוב 🎬</a>
-            </div>
+            <p>השיר של אלקסה מוכן להשמעה ישירות בארכיון התוצאות למטה!</p>
         </div>
 
         <div class="card">
             <h2>🏆 ארכיון התוצאות הרשמי 🏳️‍🌈</h2>
-            <p>ההיסטוריה נכתבת כאן! כל המנצחים הגדולים, המיקומים המפתיעים וטבלאות הניקוד המלאות מחכים לכם בלחיצת כפתור אחת.</p>
+            <p>לחצו על כפתור הרמקול והמיקרופון כדי לשמוע את השיר ישירות כאן באתר!</p>
+            
+            <div class="winner-row">
+                <div class="winner-text">🥇 תחרות 2: XG - HYPNOTIZE (הזוכה הגדול!)</div>
+                <button class="play-inline-btn" onclick="toggleYoutubePlay()">
+                    <span id="playBtnText">🔊 לנגן שיר</span> 🎙️
+                </button>
+            </div>
+            <div id="audioStatus" class="audio-status-msg">⏸️ נעצר</div>
+
+            <div class="youtube-hidden-player">
+                <iframe id="ytPlayer" width="560" height="315" src="https://www.youtube.com/embed/cUfDOS2SINM?enablejsapi=1&si=VyVzOsEO9NdGyYPw" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media;"></iframe>
+            </div>
             
             <div class="results-box">
-                <p>לחצו על הכפתור כדי לדעת את כל התוצאות של הטופ 5 מכללל הזמנים:</p>
-                <a href="results.html" class="btn" style="background: #ffff00; color: #000;">להצגת טבלאות התוצאות 📊</a>
+                <a href="results.html" class="btn" style="background: #ffff00; color: #000;">להצגת טבלאות התוצאות המלאות 📊</a>
             </div>
-        </div>
-
-        <div class="footer-flags">
-            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
         </div>
 
     </div>
 
     <script>
-        // --- קוד מערכת החיפוש החכמה ---
+        // שליטה בנגן יוטיוב הנסתר
+        let isPlaying = false;
+        const statusDisplay = document.getElementById('audioStatus');
+        const btnText = document.getElementById('playBtnText');
+        const iframe = document.getElementById('ytPlayer');
+
+        function toggleYoutubePlay() {
+            if (!isPlaying) {
+                // פקודה ליוטיוב להתחיל לנגן
+                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                isPlaying = true;
+                btnText.innerHTML = "⏸️ לעצור שיר";
+                statusDisplay.innerHTML = "🎵 כרגע מנגן מיוטיוב: XG - HYPNOTIZE 🎶";
+            } else {
+                // פקודה ליוטיוב לעצור
+                iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                isPlaying = false;
+                btnText.innerHTML = "🔊 לנגן שיר";
+                statusDisplay.innerHTML = "⏸️ השיר נעצר";
+            }
+        }
+
+        // מערכת החיפוש
         document.getElementById('countrySearch').addEventListener('input', function() {
             let filter = this.value.trim().toLowerCase();
             let rows = document.querySelectorAll('#countriesList .country-rule');
@@ -483,7 +488,6 @@
 
             rows.forEach(function(row) {
                 let text = row.textContent.toLowerCase();
-                
                 if (filter === "") {
                     row.style.display = 'block';
                     row.classList.remove('country-highlight');
@@ -505,7 +509,7 @@
             }
         });
 
-        // --- קוד הטיימר החי ל-10 ביולי 2026 ---
+        // טיימר ל-10 ביולי 2026
         const targetDate = new Date("July 10, 2026 00:00:00").getTime();
 
         const timerInterval = setInterval(function() {
@@ -522,7 +526,7 @@
                     days + "ד' " + hours + "ש' " + minutes + "מ' " + seconds + "ש'";
             } else {
                 clearInterval(timerInterval);
-                document.getElementById("timer").innerHTML = "🎉 הגיע ה-10 ביולי! המועד הגיע! 🎉";
+                document.getElementById("timer").innerHTML = "🎉 המועד הגיע! 🎉";
             }
         }, 1000);
     </script>
