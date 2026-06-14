@@ -96,6 +96,7 @@
         td {
             padding: 14px 12px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
+            vertical-align: middle;
         }
 
         tr:last-child td { border-bottom: none; }
@@ -110,6 +111,59 @@
             font-size: 1.6rem;
             margin-left: 8px;
             vertical-align: middle;
+        }
+
+        /* עיצוב שם המשתתף יחד עם לחצן המוזיקה בשורה אחת */
+        .participant-cell {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        /* כפתור נגינה קטן ומעוצב לתוך הטבלה */
+        .play-row-btn {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #ffff00;
+            color: white;
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-family: 'Rubik', sans-serif;
+            transition: all 0.2s ease;
+        }
+
+        .play-row-btn:hover {
+            transform: scale(1.05);
+            background: #ffff00;
+            color: black;
+            box-shadow: 0 0 10px rgba(255,255,0,0.5);
+        }
+
+        /* הודעת סטטוס קטנה מתחת לטבלה */
+        .music-status-notice {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #ffff00;
+            min-height: 24px;
+        }
+
+        /* הסתרת נגן היוטיוב מהעין */
+        .youtube-hidden-box {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
         }
 
         .back-home {
@@ -205,7 +259,14 @@
                 <tbody>
                     <tr class="winner-row">
                         <td>🥇 מקום 1</td>
-                        <td><span class="flag">👑</span> גילי (מקום 1 בחצי גמר 2)</td>
+                        <td>
+                            <div class="participant-cell">
+                                <span><span class="flag">👑</span> גילי (מקום 1 בחצי גמר 2)</span>
+                                <button class="play-row-btn" onclick="toggleSong()">
+                                    <span id="btnText">🔊 נגן שיר</span> 🎙️
+                                </button>
+                            </div>
+                        </td>
                         <td>156</td>
                     </tr>
                     <tr>
@@ -230,6 +291,8 @@
                     </tr>
                 </tbody>
             </table>
+            
+            <div id="statusNotice" class="music-status-notice"></div>
         </div>
 
         <div class="results-card">
@@ -272,13 +335,40 @@
             </table>
         </div>
 
+        <div class="youtube-hidden-box">
+            <iframe id="youtubeAudioBridge" width="560" height="315" src="https://www.youtube.com/embed/cUfDOS2SINM?enablejsapi=1&si=VyVzOsEO9NdGyYPw" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media;"></iframe>
+        </div>
+
         <div class="footer-flags">
-            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰
+            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩👑
         </div>
 
         <a href="index.html" class="back-home">✨ חזרה לעמוד הבית</a>
 
     </div>
+
+    <script>
+        let musicPlaying = false;
+        const ytIframe = document.getElementById('youtubeAudioBridge');
+        const displayLabel = document.getElementById('btnText');
+        const noticeArea = document.getElementById('statusNotice');
+
+        function toggleSong() {
+            if (!musicPlaying) {
+                // משדר פקודת ניגון ישירות ל-iframe של יוטיוב
+                ytIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                musicPlaying = true;
+                displayLabel.innerHTML = "⏸️ עצור שיר";
+                noticeArea.innerHTML = "🎵 כרגע מנגן ישירות מהאתר: XG - HYPNOTIZE 🎶";
+            } else {
+                // משדר פקודת עצירה ל-iframe
+                ytIframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                musicPlaying = false;
+                displayLabel.innerHTML = "🔊 נגן שיר";
+                noticeArea.innerHTML = "⏸️ השיר נעצר";
+            }
+        }
+    </script>
 
 </body>
 </html>
