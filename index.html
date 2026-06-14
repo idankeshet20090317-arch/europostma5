@@ -227,61 +227,25 @@
             margin: 0;
         }
 
-        /* עיצוב שורת השיר בארכיון */
-        .winner-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 12px 20px;
-            border-radius: 15px;
-            margin-top: 15px;
-            border: 1px solid rgba(255,255,255,0.15);
-        }
-
-        .winner-text {
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
-        .play-inline-btn {
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid #ffff00;
-            color: white;
-            border-radius: 50px;
-            padding: 8px 16px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-        }
-
-        .play-inline-btn:hover {
-            transform: scale(1.05);
-            background: #ffff00;
-            color: black;
-            box-shadow: 0 0 10px rgba(255,255,0,0.4);
-        }
-
-        .audio-status-msg {
-            text-align: center;
-            font-size: 1rem;
-            color: #ffff00;
-            margin-top: 8px;
-            font-weight: bold;
-        }
-
-        /* הסתרת הנגן של יוטיוב כדי שלא יפריע לעיצוב, אך עדיין ינגן שמע */
-        .youtube-hidden-player {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
+        /* עיצוב עבור נגן הוידאו של יוטיוב */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* יחס גובה-רוחב 16:9 */
+            height: 0;
             overflow: hidden;
-            clip: rect(0, 0, 0, 0);
+            max-width: 100%;
+            background: #000;
+            border-radius: 12px;
+            margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             border: 0;
         }
 
@@ -370,7 +334,7 @@
                 </div>
                 <div class="country-rule">
                     <div class="country-title">🇫🇴 איי פארו ← 🇩🇰 דנמרק</div>
-                    <p class="country-desc">ניתן לשלוח זמר דני 🇩🇰</p>
+                    <p class="country-desc">ניתן לשלוח זמר דני 🇩קים</p>
                 </div>
                 <div class="country-rule">
                     <div class="country-title">🇬🇱 גרינלנד ← 🇩🇰 דנמרק</div>
@@ -431,24 +395,14 @@
 
         <div class="card">
             <h2>🤖 השיר של אלקסה 🗺️</h2>
-            <p>השיר של אלקסה מוכן להשמעה ישירות בארכיון התוצאות למטה!</p>
+            <p>השיר של אלקסה מוכן להשמעה! האזינו ל-"Tongue Tied" ישירות כאן:</p>
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/q1Gbq5B1wnI?si=ltjc7g_RfuhDBGYA" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
         </div>
 
         <div class="card">
             <h2>🏆 ארכיון התוצאות הרשמי 🏳️‍🌈</h2>
-            <p>לחצו על כפתור הרמקול והמיקרופון כדי לשמוע את השיר ישירות כאן באתר!</p>
-            
-            <div class="winner-row">
-                <div class="winner-text">🥇 תחרות 2: XG - HYPNOTIZE (הזוכה הגדול!)</div>
-                <button class="play-inline-btn" onclick="toggleYoutubePlay()">
-                    <span id="playBtnText">🔊 לנגן שיר</span> 🎙️
-                </button>
-            </div>
-            <div id="audioStatus" class="audio-status-msg">⏸️ נעצר</div>
-
-            <div class="youtube-hidden-player">
-                <iframe id="ytPlayer" width="560" height="315" src="https://www.youtube.com/embed/cUfDOS2SINM?enablejsapi=1&si=VyVzOsEO9NdGyYPw" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media;"></iframe>
-            </div>
             
             <div class="results-box">
                 <a href="results.html" class="btn" style="background: #ffff00; color: #000;">להצגת טבלאות התוצאות המלאות 📊</a>
@@ -458,28 +412,6 @@
     </div>
 
     <script>
-        // שליטה בנגן יוטיוב הנסתר
-        let isPlaying = false;
-        const statusDisplay = document.getElementById('audioStatus');
-        const btnText = document.getElementById('playBtnText');
-        const iframe = document.getElementById('ytPlayer');
-
-        function toggleYoutubePlay() {
-            if (!isPlaying) {
-                // פקודה ליוטיוב להתחיל לנגן
-                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                isPlaying = true;
-                btnText.innerHTML = "⏸️ לעצור שיר";
-                statusDisplay.innerHTML = "🎵 כרגע מנגן מיוטיוב: XG - HYPNOTIZE 🎶";
-            } else {
-                // פקודה ליוטיוב לעצור
-                iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-                isPlaying = false;
-                btnText.innerHTML = "🔊 לנגן שיר";
-                statusDisplay.innerHTML = "⏸️ השיר נעצר";
-            }
-        }
-
         // מערכת החיפוש
         document.getElementById('countrySearch').addEventListener('input', function() {
             let filter = this.value.trim().toLowerCase();
