@@ -12,15 +12,16 @@
             font-family: 'Rubik', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab, #ff00ff, #7000ff);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
+            /* רקע קשת בענן מלא, עשיר ויפהפה שנע מצד לצד */
+            background: linear-gradient(-45deg, #ff3333, #ff8833, #ffff33, #33cc33, #3399ff, #8833ff, #ff33cc);
+            background-size: 600% 600%;
+            animation: rainbowGradient 12s ease infinite;
             color: white;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        @keyframes gradient {
+        @keyframes rainbowGradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
@@ -38,8 +39,8 @@
         header {
             padding: 50px 20px;
             text-align: center;
-            background: rgba(0, 0, 0, 0.35);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(12px);
             margin-bottom: 30px;
             border-bottom: 3px solid rgba(255,255,255,0.2);
         }
@@ -48,14 +49,15 @@
             font-size: 3.5rem;
             margin: 0;
             font-weight: 900;
-            text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.6);
             letter-spacing: 1px;
         }
 
         header p {
             font-size: 1.4rem;
             margin: 10px 0 0;
-            opacity: 0.9;
+            opacity: 0.95;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
         }
 
         .container {
@@ -65,29 +67,30 @@
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.13);
+            background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(15px);
             border-radius: 25px;
             padding: 30px;
             margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
             overflow: hidden;
         }
 
         .card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
-        /* קישוט דגלים ברקע הכרטיסיות למראה טבעי */
         .card::before {
             content: "🇪🇺 🏳️‍🌈";
             position: absolute;
             top: 15px;
             left: 20px;
-            opacity: 0.15;
+            opacity: 0.25;
             font-size: 1.5rem;
         }
 
@@ -100,92 +103,102 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
         }
 
         p, li {
             font-size: 1.15rem;
             line-height: 1.7;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
         .alexa-section {
             text-align: center;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             margin-top: 20px;
+            border: 1px solid rgba(255,255,255,0.15);
         }
 
         .btn {
             display: inline-block;
             background: #fff;
-            color: #e73c7e;
-            padding: 12px 30px;
+            color: #000;
+            padding: 14px 35px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             margin-top: 15px;
         }
 
         .btn:hover {
             background: #ffff00;
             color: #000;
-            transform: scale(1.05);
+            transform: scale(1.08);
+            box-shadow: 0 8px 20px rgba(255,255,0,0.4);
         }
 
         .results-box {
             text-align: center;
             margin-top: 25px;
             padding: 20px;
-            background: rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.08);
             border-radius: 15px;
-            border: 1px dashed rgba(255,255,255,0.2);
+            border: 2px dashed rgba(255,255,255,0.3);
         }
 
         .results-box p {
             margin-bottom: 15px;
-            font-weight: 500;
+            font-weight: bold;
         }
 
         .country-rule {
-            background: rgba(0,0,0,0.15);
+            background: rgba(255, 255, 255, 0.08);
             padding: 15px;
             border-radius: 12px;
             margin-bottom: 12px;
-            border-right: 4px solid #23d5ab;
+            border-right: 5px solid #23d5ab;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .country-title {
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             margin-bottom: 5px;
             display: flex;
             align-items: center;
             gap: 8px;
+            color: #fff;
         }
 
         .country-desc {
-            font-size: 1rem;
-            opacity: 0.85;
+            font-size: 1.05rem;
+            opacity: 0.9;
             margin: 0;
         }
 
         .mid-flags {
             text-align: center;
-            font-size: 1.8rem;
+            font-size: 2rem;
             margin: 35px 0;
-            opacity: 0.5;
-            letter-spacing: 8px;
+            opacity: 0.7;
+            letter-spacing: 10px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
         }
 
         .footer-flags {
             text-align: center;
             font-size: 2.5rem;
             margin: 40px 0;
-            letter-spacing: 5px;
-            opacity: 0.9;
+            letter-spacing: 6px;
+            opacity: 0.95;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
         }
     </style>
 </head>
@@ -206,7 +219,7 @@
 
         <div class="card">
             <h2>📝 החלפת מדינות</h2>
-            <p style="margin-bottom: 20px;">לאור העלייה במספר המשתתפים והרצון להעניק הזדמנות שווה גם למדינות קטנות או בעלות תעשיית מוזיקה מצומצמת, הוחלט על מתן ההקלות הבאות:</p>
+            <p style="margin-bottom: 20px; font-weight: 500;">לאור העלייה במספר המשתתפים והרצון להעניק הזדמנות שווה גם למדינות קטנות או בעלות תעשיית מוזיקה מצומצמת, הוחלט על מתן ההקלות הבאות:</p>
 
             <div class="country-rule">
                 <div class="country-title">🇻🇦 הוותיקן</div>
@@ -314,14 +327,14 @@
             </div>
         </div>
 
-        <div class="mid-flags">🇪🇺 🇮🇱 🇺🇦 🇬🇷 🇨🇭</div>
+        <div class="mid-flags">🇪🇺 🇮🇱 🇺🇦 🇬🇷 🇨🇭 🇪🇸 🇮🇹 🇫🇷 🇬🇧</div>
 
         <div class="card">
             <h2>🤖 השיר של אלקסה 🗺️</h2>
             <p>רוצים לשמוע את השיר הנבחר או לתת פקודה חכמה? אלקסה כאן בשבילכם עם החיבור המוזיקלי המוביל של העונה.</p>
             <div class="alexa-section">
                 <p>לחצו כאן כדי להאזין ישירות ביוטיוב:</p>
-                <a href="https://www.youtube.com/watch?v=lyZcb9_m6X0" target="_blank" class="btn">Tongue Tied - להאזנה ביוטיוב 🎬</a>
+                <a href="https://www.youtube.com/watch?v=q1Gbq5B1wnI" target="_blank" class="btn" style="background: #ff0055; color: #fff;">Tongue Tied - להאזנה ביוטיוב 🎬</a>
             </div>
         </div>
 
@@ -336,7 +349,7 @@
         </div>
 
         <div class="footer-flags">
-            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩飛 🇳🇱 🇧🇪 🇦 Austria 🇨🇿
+            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
         </div>
 
     </div>
