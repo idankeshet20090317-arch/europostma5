@@ -73,10 +73,22 @@
             border: 1px solid rgba(255, 255, 255, 0.25);
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .card:hover {
             transform: translateY(-5px);
+        }
+
+        /* קישוט דגלים ברקע הכרטיסיות למראה טבעי */
+        .card::before {
+            content: "🇪🇺 🏳️‍🌈";
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            opacity: 0.15;
+            font-size: 1.5rem;
         }
 
         h2 {
@@ -160,6 +172,14 @@
             margin: 0;
         }
 
+        .mid-flags {
+            text-align: center;
+            font-size: 1.8rem;
+            margin: 35px 0;
+            opacity: 0.5;
+            letter-spacing: 8px;
+        }
+
         .footer-flags {
             text-align: center;
             font-size: 2.5rem;
@@ -174,30 +194,15 @@
     <div class="pride-bar"></div>
 
     <header>
-        <h1>🎵 אירופוסטמה 🎵</h1>
+        <h1>🎵 אירופוסטמה 🇪🇺</h1>
         <p>ברוכים הבאים לאתר הרשמי של תחרות השירים הגדולה</p>
     </header>
 
     <div class="container">
 
         <div class="card">
-            <h2>🤖 השיר של אלקסה</h2>
-            <p>רוצים לשמוע את השיר הנבחר או לתת פקודה חכמה? אלקסה כאן בשבילכם עם החיבור המוזיקלי המוביל של העונה.</p>
-            <div class="alexa-section">
-                <p>לחצו כאן כדי להאזין ישירות ביוטיוב:</p>
-                <a href="https://www.youtube.com/watch?v=cZpE0Z9EshM" target="_blank" class="btn">Tongue Tied - להאזנה ביוטיוב 🎬</a>
+            <h2>📜 חוקי התחרות</h2>
             </div>
-        </div>
-
-        <div class="card">
-            <h2>🏆 ארכיון התוצאות הרשמי</h2>
-            <p>ההיסטוריה נכתבת כאן! כל המנצחים הגדולים, המיקומים המפתיעים וטבלאות הניקוד המלאות מחכים לכם בלחיצת כפתור אחת.</p>
-            
-            <div class="results-box">
-                <p>לחצו על הכפתור כדי לדעת את כל התוצאות של הטופ 5 מכללל הזמנים:</p>
-                <a href="results.html" class="btn" style="background: #ffff00; color: #000;">להצגת טבלאות התוצאות 📊</a>
-            </div>
-        </div>
 
         <div class="card">
             <h2>📝 החלפת מדינות</h2>
@@ -294,7 +299,7 @@
             </div>
 
             <div class="country-rule">
-                <div class="country-title">🇱🇺 לוקסมבורג</div>
+                <div class="country-title">🇱🇺 לוקסמבורג</div>
                 <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(בשל ההשפעה התרבותית והקשרים ההיסטוריים עם צרפת.)</p>
             </div>
 
@@ -307,11 +312,31 @@
                 <div class="country-title">🇲🇩 מולדובה</div>
                 <p class="country-desc">ניתן לשלוח זמר רומני 🇷🇴<br>(בשל ההיסטוריה המשותפת והקשרים התרבותיים ההדוקים בין המדינות. עד שנת 1940 רוב שטחה של מולדובה המודרנית היה חלק מרומניה, וגם כיום קיימים קשרים חזקים בתחומי התרבות והמוזיקה.)</p>
             </div>
+        </div>
 
+        <div class="mid-flags">🇪🇺 🇮🇱 🇺🇦 🇬🇷 🇨🇭</div>
+
+        <div class="card">
+            <h2>🤖 השיר של אלקסה 🗺️</h2>
+            <p>רוצים לשמוע את השיר הנבחר או לתת פקודה חכמה? אלקסה כאן בשבילכם עם החיבור המוזיקלי המוביל של העונה.</p>
+            <div class="alexa-section">
+                <p>לחצו כאן כדי להאזין ישירות ביוטיוב:</p>
+                <a href="https://www.youtube.com/watch?v=lyZcb9_m6X0" target="_blank" class="btn">Tongue Tied - להאזנה ביוטיוב 🎬</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🏆 ארכיון התוצאות הרשמי 🏳️‍🌈</h2>
+            <p>ההיסטוריה נכתבת כאן! כל המנצחים הגדולים, המיקומים המפתיעים וטבלאות הניקוד המלאות מחכים לכם בלחיצת כפתור אחת.</p>
+            
+            <div class="results-box">
+                <p>לחצו על הכפתור כדי לדעת את כל התוצאות של הטופ 5 מכללל הזמנים:</p>
+                <a href="results.html" class="btn" style="background: #ffff00; color: #000;">להצגת טבלאות התוצאות 📊</a>
+            </div>
         </div>
 
         <div class="footer-flags">
-            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰
+            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩飛 🇳🇱 🇧🇪 🇦 Austria 🇨🇿
         </div>
 
     </div>
