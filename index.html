@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>אירופוסטמה - האתר הרשמי</title>
+    <title>יורופוסטמה - האתר הרשמי</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -65,6 +65,31 @@
             text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
         }
 
+        /* עיצוב קופסת הטיימר הממוקמת מתחת לתת הכותרת */
+        .countdown-container {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #ffff00;
+            border-radius: 15px;
+            padding: 15px;
+            max-width: 500px;
+            margin: 25px auto 0 auto;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+        }
+
+        .countdown-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #ffff00;
+        }
+
+        .countdown-display {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            font-variant-numeric: tabular-nums;
+        }
+
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -116,364 +141,3 @@
             line-height: 1.7;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
-
-        /* עיצוב תיבת החיפוש */
-        .search-container {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 15px 50px 15px 20px;
-            font-size: 1.2rem;
-            border-radius: 50px;
-            border: 2px solid rgba(255,255,255,0.4);
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            box-sizing: border-box;
-            font-family: 'Rubik', sans-serif;
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: #ffff00;
-            box-shadow: 0 0 15px rgba(255,255,0,0.4);
-            background: rgba(0, 0, 0, 0.85);
-        }
-
-        .search-icon {
-            position: absolute;
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
-            font-size: 1.4rem;
-            pointer-events: none;
-            opacity: 0.7;
-        }
-
-        /* הודעת שגיאה - איקס אדום */
-        .no-results {
-            display: none;
-            text-align: center;
-            padding: 30px;
-            background: rgba(255, 0, 0, 0.3);
-            border: 2px solid #ff0000;
-            border-radius: 15px;
-            margin-top: 15px;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .no-results .error-icon {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .country-rule {
-            background: rgba(255, 255, 255, 0.08);
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            border-right: 5px solid #23d5ab;
-            border-left: 1px solid rgba(255,255,255,0.1);
-            border-top: 1px solid rgba(255,255,255,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.3s ease;
-        }
-
-        /* אפקט הבהוב למדינה שנמצאה בחיפוש */
-        .country-highlight {
-            animation: pulseHighlight 1.5s infinite alternate;
-            border-right-color: #ffff00;
-            box-shadow: 0 0 15px rgba(255,255,0,0.3);
-        }
-
-        @keyframes pulseHighlight {
-            0% { background: rgba(255, 255, 255, 0.25); }
-            100% { background: rgba(255, 255, 255, 0.05); }
-        }
-
-        .country-title {
-            font-weight: bold;
-            font-size: 1.25rem;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #fff;
-        }
-
-        .country-desc {
-            font-size: 1.05rem;
-            opacity: 0.9;
-            margin: 0;
-        }
-
-        .alexa-section {
-            text-align: center;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            margin-top: 20px;
-            border: 1px solid rgba(255,255,255,0.15);
-        }
-
-        .btn {
-            display: inline-block;
-            background: #fff;
-            color: #000;
-            padding: 14px 35px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.15rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            margin-top: 15px;
-        }
-
-        .btn:hover {
-            background: #ffff00;
-            color: #000;
-            transform: scale(1.08);
-            box-shadow: 0 8px 20px rgba(255,255,0,0.4);
-        }
-
-        .results-box {
-            text-align: center;
-            margin-top: 25px;
-            padding: 20px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 15px;
-            border: 2px dashed rgba(255,255,255,0.3);
-        }
-
-        .results-box p {
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        .mid-flags {
-            text-align: center;
-            font-size: 2rem;
-            margin: 35px 0;
-            opacity: 0.7;
-            letter-spacing: 10px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-        }
-
-        .footer-flags {
-            text-align: center;
-            font-size: 2.5rem;
-            margin: 40px 0;
-            letter-spacing: 6px;
-            opacity: 0.95;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-        }
-    </style>
-</head>
-<body>
-
-    <div class="pride-bar"></div>
-
-    <header>
-        <h1>🎵 אירופוסטמה 🇪🇺</h1>
-        <p>ברוכים הבאים לאתר הרשמי של תחרות השירים הגדולה</p>
-    </header>
-
-    <div class="container">
-
-        <div class="card">
-            <h2>📜 חוקי התחרות</h2>
-            </div>
-
-        <div class="card">
-            <h2>📝 החלפת מדינות</h2>
-            <p style="margin-bottom: 20px; font-weight: 500;">לאור העלייה במספר המשתתפים והרצון להעניק הזדמנות שווה גם למדינות קטנות או בעלות תעשיית מוזיקה מצומצמת, הוחלט על מתן ההקלות הבאות:</p>
-
-            <div class="search-container">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="countrySearch" class="search-input" placeholder="חפש מדינה... (לדוגמה: ישראל, איטליה, הוותיקן)">
-            </div>
-
-            <div id="noResultsMessage" class="no-results">
-                <span class="error-icon">❌</span>
-                <strong>המדינה שחיפשת לא נמצאה ברשימה!</strong>
-                <p style="margin: 5px 0 0; font-size: 1rem; opacity: 0.8;">נסה לבדוק שוב את האיות או לחפש מדינה אחרת.</p>
-            </div>
-
-            <div id="countriesList">
-                <div class="country-rule">
-                    <div class="country-title">🇻🇦 הוותיקן ← 🇮🇹 איטליה</div>
-                    <p class="country-desc">ניתן לשלוח זמר איטלקי 🇮🇹<br>(הוותיקן ממוקם בתוך איטליה, ורוב תושביו ועובדיו קשורים אליה באופן ישיר.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇮🇲 האי מאן ← 🇬🇧 בריטניה</div>
-                    <p class="country-desc">ניתן לשלוח זמר בריטי 🇬🇧<br>(האי מאן הוא טריטוריה בריטית בעלת קשרים מדיניים ותרבותיים הדוקים עם בריטניה.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇫🇴 איי פארו ← 🇩🇰 דנמרק</div>
-                    <p class="country-desc">ניתן לשלוח זמר דני 🇩🇰<br>(איי פארו הם טריטוריה אוטונומית בתוך ממלכת דנמרק.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇬🇱 גרינלנד ← 🇩🇰 דנמרק</div>
-                    <p class="country-desc">ניתן לשלוח זמר דני 🇩🇰<br>(גרינלנד היא טריטוריה אוטונומית בתוך ממלכת דנמרק.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇲🇨 מונקו ← 🇫🇷 צרפת</div>
-                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(מונקו מוקפת כמעט לחלוטין בצרפת ומושפעת ממנה מבחינה תרבותית וכלכלית.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇸🇲 סן מרינו ← 🇮🇹 איטליה</div>
-                    <p class="country-desc">ניתן לשלוח זמר איטלקי 🇮🇹<br>(סן מרינו מוקפת לחלוטין באיטליה ומקיימת עמה קשרים הדוקים.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇦🇩 אנדורה ← 🇫🇷 צרפת</div>
-                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(נשיא צרפת משמש כאחד משני ראשי המדינה של אנדורה, דבר היוצר קשר מדיני ייחודי.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇦🇩 אנדורה ← 🇪🇸 ספרד</div>
-                    <p class="country-desc">ניתן לשלוח זמר ספרדי 🇪🇸<br>(בשל הקרבה הגאוגרפית והקשרים התרבותיים ההדוקים עם ספרד.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇲🇹 מלטה ← 🇬🇧 בריטניה</div>
-                    <p class="country-desc">ניתן לשלוח זמר בריטי 🇬🇧<br>(מלטה הייתה תחת שלטון בריטי עד שנת 1964, וההשפעה הבריטית עדיין מורגשת במדינה.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇰🇵 צפון קוריאה ← 🇰🇷 דרום קוריאה</div>
-                    <p class="country-desc">ניתן לשלוח זמר מדרום קוריאה 🇰🇷<br>(שתי המדינות היו בעבר מדינה אחת וחולקות מורשת והיסטוריה משותפת.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇰🇷 דרום קוריאה ← 🇰🇵 צפון קוריאה</div>
-                    <p class="country-desc">ניתן לשלוח זמר מצפון קוריאה 🇰🇵<br>(שתי המדינות היו בעבר מדינה אחת וחולקות מורשת והיסטוריה משותפת.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇵🇸 פלסטין ← 🇮🇱 ישראל</div>
-                    <p class="country-desc">ניתן לשלוח זמר ישראלי 🇮🇱<br>(בשל הקרבה הגאוגרפית והקשרים התרבותיים הקיימים באזור.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇭🇰 הונג קונג ← 🇨🇳 סין</div>
-                    <p class="country-desc">ניתן לשלוח זמר סיני 🇨🇳<br>(הונג קונג היא אזור מנהלי מיוחד של סין ומקיימת עמה קשרים פוליטיים והיסטוריים.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇲🇴 מקאו ← 🇨🇳 סין</div>
-                    <p class="country-desc">ניתן לשלוח זמר סיני 🇨🇳<br>(מקאו היא אזור מנהלי מיוחד של סין ומקיימת עמה קשרים פוליטיים והיסטוריים.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇵🇷 פוארטו ריקו ← 🇺🇸 ארצות הברית</div>
-                    <p class="country-desc">ניתן לשלוח זמר אמריקאי 🇺🇸<br>(פוארטו ריקו היא טריטוריה של ארצות הברית, ותושביה הם אזרחים אמריקאים.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇫🇮 פינלנד ← 🇸🇪 שוודיה</div>
-                    <p class="country-desc">ניתן לשלוח זמר שוודי 🇸🇪<br>(פינלנד הייתה חלק מממלכת שוודיה במשך מאות שנים, וקיים קשר היסטורי ותרבותי עמוק בין המדינות.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇨🇾 קפריסין ← 🇬🇷 יוון</div>
-                    <p class="country-desc">ניתן לשלוח זמר יווני 🇬🇷<br>(בשל הקשרים ההיסטוריים והתרבותיים ההדוקים בין המדינות.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇲🇪 מונטנגרו ← 🇷🇸 סרביה</div>
-                    <p class="country-desc">ניתן לשלוח זמר סרבי 🇷🇸<br>(בשל ההיסטוריה המשותפת והקשרים האזוריים בין המדינות.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇱🇺 לוקסמבורג ← 🇫🇷 צרפת</div>
-                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(בשל ההשפעה התרבותית והקשרים ההיסטוריים עם צרפת.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇱🇮 ליכטנשטיין ← 🇩🇪 גרמניה</div>
-                    <p class="country-desc">ניתן לשלוח זמר גרמני 🇩🇪<br>(בשל הקרבה התרבותית וההיסטורית לגרמניה.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇲🇩 מולדובה ← 🇷🇴 רומניה</div>
-                    <p class="country-desc">ניתן לשלוח זמר רומני 🇷🇴<br>(בשל ההיסטוריה המשותפת והקשרים התרבותיים ההדוקים בין המדינות. עד שנת 1940 רוב שטחה של מולדובה המודרנית היה חלק מרומניה, וגם כיום קיימים קשרים חזקים בתחומי התרבות והמוזיקה.)</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="mid-flags">🇪🇺 🇮🇱 🇺🇦 🇬🇷 🇨🇭 🇪🇸 🇮🇹 🇫🇷 🇬🇧</div>
-
-        <div class="card">
-            <h2>🤖 השיר של אלקסה 🗺️</h2>
-            <p>רוצים לשמוע את השיר הנבחר או לתת פקודה חכמה? אלקסה כאן בשבילכם עם החיבור המוזיקלי המוביל של העונה.</p>
-            <div class="alexa-section">
-                <p>לחצו כאן כדי להאזין ישירות ביוטיוב:</p>
-                <a href="https://www.youtube.com/watch?v=q1Gbq5B1wnI" target="_blank" class="btn" style="background: #ff0055; color: #fff;">Tongue Tied - להאזנה ביוטיוב 🎬</a>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>🏆 ארכיון התוצאות הרשמי 🏳️‍🌈</h2>
-            <p>ההיסטוריה נכתבת כאן! כל המנצחים הגדולים, המיקומים המפתיעים וטבלאות הניקוד המלאות מחכים לכם בלחיצת כפתור אחת.</p>
-            
-            <div class="results-box">
-                <p>לחצו על הכפתור כדי לדעת את כל התוצאות של הטופ 5 מכללל הזמנים:</p>
-                <a href="results.html" class="btn" style="background: #ffff00; color: #000;">להצגת טבלאות התוצאות 📊</a>
-            </div>
-        </div>
-
-        <div class="footer-flags">
-            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩ケン 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
-        </div>
-
-    </div>
-
-    <script>
-        document.getElementById('countrySearch').addEventListener('input', function() {
-            let filter = this.value.trim().toLowerCase();
-            let rows = document.querySelectorAll('#countriesList .country-rule');
-            let anyFound = false;
-
-            rows.forEach(function(row) {
-                let text = row.textContent.toLowerCase();
-                
-                if (filter === "") {
-                    row.style.display = 'block';
-                    row.classList.remove('country-highlight');
-                } else if (text.includes(filter)) {
-                    row.style.display = 'block';
-                    row.classList.add('country-highlight');
-                    anyFound = true;
-                } else {
-                    row.style.display = 'none';
-                    row.classList.remove('country-highlight');
-                }
-            });
-
-            let errorMessage = document.getElementById('noResultsMessage');
-            if (!anyFound && filter !== "") {
-                errorMessage.style.display = 'block';
-            } else {
-                errorMessage.style.display = 'none';
-            }
-        });
-    </script>
-
-</body>
-</html>
