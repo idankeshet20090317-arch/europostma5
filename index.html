@@ -41,20 +41,29 @@
             box-shadow: 0 0 30px rgba(255, 255, 0, 0.4) !important;
         }
 
-        /* מצב טלוויזיה של פעם (שחור לבן ואפקט מסך) */
+        /* מצב טלוויזיה של פעם - שינוי הרקע הצבעוני לשחור לבן אפור לחלוטין */
         body.tv-mode {
+            background: linear-gradient(45deg, #111, #222, #333, #444, #555, #444, #333, #222, #111) !important;
+            background-size: 400% 400% !important;
+            animation: ultimateRainbow 15s linear infinite !important;
             filter: grayscale(100%) contrast(120%);
         }
 
-        /* הפיכת כל הצלליות באתר לאפור/שחור/לבן במצב טלוויזיה */
+        /* הפיכת כל הצלליות והגבולות באתר לאפור/שחור/לבן במצב טלוויזיה */
         body.tv-mode .card,
         body.tv-mode .party-toggle-btn,
         body.tv-mode .tv-toggle-btn,
         body.tv-mode .countdown-container,
         body.tv-mode .btn,
-        body.tv-mode .random-btn {
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7) !important;
+        body.tv-mode .random-btn,
+        body.tv-mode .country-highlight {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8) !important;
             border-color: #888888 !important;
+            background: rgba(40, 40, 40, 0.6) !important;
+        }
+
+        body.tv-mode .pride-bar {
+            background: linear-gradient(to right, #333, #bbb, #555, #fff, #222, #999) !important;
         }
         
         /* אפקט ה"שלג" של הטלוויזיה הישנה */
@@ -69,6 +78,18 @@
             pointer-events: none;
             opacity: 0.4;
             animation: tvLines 0.2s infinite;
+        }
+
+        /* אלמנט ה-iframe הנסתר של יוטיוב */
+        #youtubeVideo {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
         }
 
         @keyframes tvLines {
@@ -483,6 +504,8 @@
 
     <div class="pride-bar"></div>
 
+    <div id="videoContainer"></div>
+
     <header>
         <div class="controls-container">
             <button class="party-toggle-btn" onclick="togglePartyMode()">🥳 מסיבה: כבוי</button>
@@ -623,23 +646,21 @@
         </div>
 
         <div class="footer-flags">
-            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
+            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩ケン 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
         </div>
 
     </div>
 
     <script>
-        // יצירת מערכת סאונד מובנית בדפדפן (Web Audio API)
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         let audioCtx = null;
-        let partyInterval = null;
         let tvInterval = null;
+        let confettiLoop = null;
 
         function initAudio() {
             if (!audioCtx) audioCtx = new AudioContext();
         }
 
-        // פונקציה לייצור צליל סינתטי קצר
         function playTone(freq, type, duration, volume) {
             try {
                 initAudio();
@@ -656,28 +677,11 @@
             } catch(e) {}
         }
 
-        // קצב מוזיקת מסיבה שמחה (לופ)
-        function startPartyMusic() {
-            const notes = [261.63, 329.63, 392.00, 523.25, 392.00, 493.88, 587.33, 659.25];
-            let step = 0;
-            partyInterval = setInterval(() => {
-                // מנגן ביט שמח ומהיר
-                playTone(notes[step % notes.length], 'sawtooth', 0.2, 0.1);
-                playTone(60, 'triangle', 0.1, 0.3); // קיק בס מלווה
-                step++;
-            }, 200);
-        }
-
-        function stopPartyMusic() {
-            clearInterval(partyInterval);
-        }
-
-        // נעימת כינור רטרו עצובה/ישנה (לופ)
+        // נעימת כינור רטרו אפורה וישנה
         function startTvMusic() {
             const tvNotes = [440.00, 493.88, 523.25, 587.33, 659.25, 587.33, 523.25, 493.88];
             let step = 0;
             tvInterval = setInterval(() => {
-                // צליל רך שמזכיר כלי מיתר ישן עם ויברטו עדין
                 playTone(tvNotes[step % tvNotes.length] + Math.sin(step)*5, 'triangle', 0.5, 0.15);
                 step++;
             }, 400);
@@ -687,15 +691,13 @@
             clearInterval(tvInterval);
         }
 
-        // --- 1. מתג מצב מסיבה + קונפטי אינסופי ---
-        let confettiLoop = null;
-
+        // --- 1. מתג מצב מסיבה + נגן יוטיוב פנימי ---
         function togglePartyMode() {
             const body = document.body;
             const btn = document.querySelector('.party-toggle-btn');
+            const videoContainer = document.getElementById('videoContainer');
             body.classList.toggle('party-mode');
             
-            // אם מצב טלוויזיה דלוק - נכבה אותו
             if(body.classList.contains('tv-mode')) {
                 toggleTvMode();
             }
@@ -705,10 +707,9 @@
                 btn.style.background = "#ffff00";
                 btn.style.color = "black";
                 
-                // הפעלת מוזיקת מסיבה
-                startPartyMusic();
+                // הזרקת ה-iframe מחדש עם ניגון אוטומטי (autoplay=1)
+                videoContainer.innerHTML = `<iframe id="youtubeVideo" src="https://www.youtube.com/embed/-hu6R3ZnOdY?si=dV1BCedml_77tMqd&start=79&autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
 
-                // לופ קונפטי שלא עוצר כל 500 מילישניות
                 confettiLoop = setInterval(() => {
                     confetti({ particleCount: 30, angle: 60, spread: 55, origin: { x: 0 } });
                     confetti({ particleCount: 30, angle: 120, spread: 55, origin: { x: 1 } });
@@ -719,18 +720,17 @@
                 btn.style.background = "#ff0055";
                 btn.style.color = "white";
                 
-                // עצירת מוזיקה וקונפטי
-                stopPartyMusic();
+                // הסרת הסרטון כדי לעצור את המוזיקה לחלוטין
+                videoContainer.innerHTML = "";
                 clearInterval(confettiLoop);
             }
         }
 
-        // --- 2. מתג מצב טלוויזיה ישנה + מוזיקת כינור ---
+        // --- 2. מתג מצב טלוויזיה ישנה ---
         function toggleTvMode() {
             const body = document.body;
             body.classList.toggle('tv-mode');
 
-            // אם מצב מסיבה דלוק - נכבה אותו
             if(body.classList.contains('party-mode') && body.classList.contains('tv-mode')) {
                 togglePartyMode();
             }
