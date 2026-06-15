@@ -250,7 +250,7 @@
                         <td>
                             <div class="participant-cell">
                                 <span><span class="flag">👑</span> גילי (מקום 1 בחצי גמר 2)</span>
-                                <button class="mic-play-btn" onclick="toggleSong('cUfDOS2SINM', 'XG - HYPNOTIZE', this)" title="נגן/עצור שיר">
+                                <button class="mic-play-btn" onclick="toggleSong('cUfDOS2SINM', 'XG - HYPNOTIZE', this, 1)" title="נגן/עצור שיר">
                                     <span class="mic-icon">🎙️</span>
                                 </button>
                             </div>
@@ -262,7 +262,7 @@
                         <td>
                             <div class="participant-cell">
                                 <span><span class="flag">🔥</span> חשאבה (מקום 4 בחצי גמר 2)</span>
-                                <button class="mic-play-btn" onclick="toggleSong('L1Snj1Pt-Hs', 'Cream Soda & Хлеб - Плачу на техно', this)" title="נגן/עצור שיר">
+                                <button class="mic-play-btn" onclick="toggleSong('L1Snj1Pt-Hs', 'Cream Soda & Хлеб - Плачу на техно', this, 0)" title="נגן/עצור שיר">
                                     <span class="mic-icon">🎙️</span>
                                 </button>
                             </div>
@@ -274,7 +274,7 @@
                         <td>
                             <div class="participant-cell">
                                 <span>ניצן (מקום 2 בחצי גמר 2)</span>
-                                <button class="mic-play-btn" onclick="toggleSong('_t5yfyHJOgE', 'Blanca Paloma - EaEa', this)" title="נגן/עצור שיר">
+                                <button class="mic-play-btn" onclick="toggleSong('_t5yfyHJOgE', 'Blanca Paloma - EaEa', this, 0)" title="נגן/עצור שיר">
                                     <span class="mic-icon">🎙️</span>
                                 </button>
                             </div>
@@ -286,7 +286,7 @@
                         <td>
                             <div class="participant-cell">
                                 <span>איילת (מקום 2 בחצי גמר 1)</span>
-                                <button class="mic-play-btn" onclick="toggleSong('4tkCGxSW0LE', 'Zoe Ko - EAT', this)" title="נגן/עצור שיר">
+                                <button class="mic-play-btn" onclick="toggleSong('4tkCGxSW0LE', 'Zoe Ko - EAT', this, 0)" title="נגן/עצור שיר">
                                     <span class="mic-icon">🎙️</span>
                                 </button>
                             </div>
@@ -298,7 +298,7 @@
                         <td>
                             <div class="participant-cell">
                                 <span>אלונה (מקום 1 בחצי גמר 1)</span>
-                                <button class="mic-play-btn" onclick="toggleSong('SdnJH72Ltus', 'Nina Chuba - RAGE GIRL', this)" title="נגן/עצור שיר">
+                                <button class="mic-play-btn" onclick="toggleSong('SdnJH72Ltus', 'Nina Chuba - RAGE GIRL', this, 0)" title="נגן/עצור שיר">
                                     <span class="mic-icon">🎙️</span>
                                 </button>
                             </div>
@@ -392,7 +392,7 @@
             });
         }
 
-        function toggleSong(videoId, songTitle, btnElement) {
+        function toggleSong(videoId, songTitle, btnElement, startSeconds) {
             if (!player || typeof player.loadVideoById !== 'function') {
                 console.error("הנגן עדיין נטען, אנא נסה שנית בעוד רגע.");
                 return;
@@ -414,7 +414,11 @@
             currentVideoId = videoId;
             currentBtn = btnElement;
 
-            player.loadVideoById(videoId);
+            player.loadVideoById({
+                videoId: videoId,
+                startSeconds: startSeconds || 0
+            });
+            
             player.playVideo();
             iconSpan.innerHTML = "⏸️";
             noticeArea.innerHTML = `🎵 כרגע מנגן: ${songTitle} 🎶`;
