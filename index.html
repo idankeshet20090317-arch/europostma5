@@ -646,7 +646,7 @@
         </div>
 
         <div class="footer-flags">
-            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩ケン 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
+            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
         </div>
 
     </div>
@@ -677,7 +677,6 @@
             } catch(e) {}
         }
 
-        // נעימת כינור רטרו אפורה וישנה
         function startTvMusic() {
             const tvNotes = [440.00, 493.88, 523.25, 587.33, 659.25, 587.33, 523.25, 493.88];
             let step = 0;
@@ -691,7 +690,7 @@
             clearInterval(tvInterval);
         }
 
-        // --- 1. מתג מצב מסיבה + נגן יוטיוב פנימי ---
+        // --- 1. מתג מצב מסיבה + מעקף פרסומות מובנה ---
         function togglePartyMode() {
             const body = document.body;
             const btn = document.querySelector('.party-toggle-btn');
@@ -707,8 +706,8 @@
                 btn.style.background = "#ffff00";
                 btn.style.color = "black";
                 
-                // הזרקת ה-iframe מחדש עם ניגון אוטומטי (autoplay=1)
-                videoContainer.innerHTML = `<iframe id="youtubeVideo" src="https://www.youtube.com/embed/-hu6R3ZnOdY?si=dV1BCedml_77tMqd&start=79&autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                // שימוש בשרת youtube-nocookie וביטול בקורות (controls=0) למניעת פרסומות וחוויה חלקה יותר
+                videoContainer.innerHTML = `<iframe id="youtubeVideo" src="https://www.youtube-nocookie.com/embed/-hu6R3ZnOdY?start=79&autoplay=1&controls=0&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
 
                 confettiLoop = setInterval(() => {
                     confetti({ particleCount: 30, angle: 60, spread: 55, origin: { x: 0 } });
@@ -720,7 +719,6 @@
                 btn.style.background = "#ff0055";
                 btn.style.color = "white";
                 
-                // הסרת הסרטון כדי לעצור את המוזיקה לחלוטין
                 videoContainer.innerHTML = "";
                 clearInterval(confettiLoop);
             }
