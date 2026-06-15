@@ -31,7 +31,7 @@
 
         /* מצב מסיבה משוגע */
         body.party-mode {
-            animation: ultimateRainbow 2s linear infinite !important; /* רקע זז במהירות מטורפת */
+            animation: ultimateRainbow 2s linear infinite !important;
         }
 
         body.party-mode .card {
@@ -65,7 +65,6 @@
             position: relative;
         }
 
-        /* כפתור מתג מסיבה */
         .party-toggle-btn {
             position: absolute;
             top: 20px;
@@ -162,7 +161,6 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.4);
             position: relative;
             overflow: hidden;
-            /* החזרנו מעבר פשוט ויציב ללא תלת-ממד */
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
 
@@ -308,27 +306,34 @@
         .country-desc {
             font-size: 1.05rem;
             opacity: 0.9;
-            margin: 0;
+            margin: 0 0 10px 0;
         }
 
         /* עיצוב מערכת דירוג ממוצעת חכמה */
         .rating-container {
-            margin-top: 15px;
+            margin-top: 10px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
-            border-radius: 15px;
+            align-items: flex-start;
+            gap: 2px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 10px;
+            border-radius: 10px;
         }
+
+        /* דירוג קטן יותר בתוך רשימת המדינות */
+        .country-rule .rating-container {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px 12px;
+        }
+
         .stars {
             display: flex;
             direction: ltr;
             gap: 5px;
         }
         .star {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             cursor: pointer;
             color: #444;
             transition: all 0.2s ease;
@@ -336,21 +341,20 @@
         }
         .star:hover, .star.selected {
             color: #ffbb00;
-            text-shadow: 0 0 15px #ffbb00;
+            text-shadow: 0 0 10px #ffbb00;
         }
         .star.user-selected {
             color: #ff0055 !important;
-            text-shadow: 0 0 15px #ff0055, 0 0 30px #ff0055 !important;
+            text-shadow: 0 0 10px #ff0055, 0 0 20px #ff0055 !important;
         }
         .rating-text {
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             color: #ffff00;
             font-weight: bold;
         }
         .rating-stats {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #a0ffff;
-            margin-top: 4px;
         }
 
         .alexa-section {
@@ -460,77 +464,77 @@
             </div>
 
             <div id="countriesList">
-                <div class="country-rule">
+                <div class="country-rule" data-country="vatican">
                     <div class="country-title">🇻🇦 הוותיקן ← 🇮🇹 איטליה</div>
                     <p class="country-desc">ניתן לשלוח זמר איטלקי 🇮🇹<br>(הוותיקן ממוקם בתוך איטליה, ורוב תושביו ועובדיו קשורים אליה באופן ישיר.)</p>
                 </div>
 
-                <div class="country-rule">
+                <div class="country-rule" data-country="isleofman">
                     <div class="country-title">🇮🇲 האי מאן ← 🇬🇧 בריטניה</div>
                     <p class="country-desc">ניתן לשלוח זמר בריטי 🇬🇧<br>(האי מאן הוא טריטוריה בריטית בעלת קשרים מדיניים ותרבותיים הדוקים.)</p>
                 </div>
 
-                <div class="country-rule">
+                <div class="country-rule" data-country="faroe">
                     <div class="country-title">🇫🇴 איי פארו ← 🇩🇰 דנמרק</div>
                     <p class="country-desc">ניתן לשלוח זמר דני 🇩🇰<br>(איי פארו הם טריטוריה אוטונומית בתוך ממלכת דנמרק.)</p>
                 </div>
 
-                <div class="country-rule">
+                <div class="country-rule" data-country="greenland">
                     <div class="country-title">🇬🇱 גרינלנד ← 🇩🇰 דנמרק</div>
                     <p class="country-desc">ניתן לשלוח זמר דני 🇩🇰<br>(גרינלנד היא טריטוריה אוטונומית בתוך ממלכת דנמרק.)</p>
                 </div>
 
-                <div class="country-rule">
+                <div class="country-rule" data-country="monaco">
                     <div class="country-title">🇲🇨 מונקו ← 🇫🇷 צרפת</div>
                     <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(מונקו מוקפת כמעט לחלוטין בצרפת ומושפעת ממנה תרבותית.)</p>
                 </div>
 
-                <div class="country-rule">
+                <div class="country-rule" data-country="sanmarino">
                     <div class="country-title">🇸🇲 סן מרינו ← 🇮🇹 איטליה</div>
                     <p class="country-desc">ניתן לשלוח זמר איטלקי 🇮🇹<br>(סן מרינו מוקפת לחלוטין באיטליה ומקיימת עמה קשרים הדוקים.)</p>
                 </div>
 
-                <div class="country-rule">
+                <div class="country-rule" data-country="andorra_fr">
                     <div class="country-title">🇦🇩 אנדורה ← 🇫🇷 צרפת</div>
                     <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(נשיא צרפת משמש כאחד משני ראשי המדינה של אנדורה.)</p>
                 </div>
 
-                <div class="country-rule">
+                <div class="country-rule" data-country="andorra_es">
                     <div class="country-title">🇦🇩 אנדורה ← 🇪🇸 ספרד</div>
                     <p class="country-desc">ניתן לשלוח זמר ספרדי 🇪🇸<br>(בשל הקרבה הגאוגרפית והקשרים התרבותיים ההדוקים עם ספרד.)</p>
                 </div>
 
-                <div class="country-rule">
+                <div class="country-rule" data-country="malta">
                     <div class="country-title">🇲🇹 מלטה ← 🇬🇧 בריטניה</div>
                     <p class="country-desc">ניתן לשלוח זמר בריטי 🇬🇧<br>(מלטה הייתה תחת שלטון בריטי וההשפעה עדיין מורגשת.)</p>
                 </div>
 
-                <div class="country-rule">
+                <div class="country-rule" data-country="northkorea">
                     <div class="country-title">🇰🇵 צפון קוריאה ← 🇰🇷 דרום קוריאה</div>
                     <p class="country-desc">ניתן לשלוח זמר מדרום קוריאה 🇰🇷<br>(שתי המדינות היו בעבר מדינה אחת וחולקות מורשת משותפת.)</p>
                 </div>
 
-                <div class="country-rule">
+                <div class="country-rule" data-country="palestine">
                     <div class="country-title">🇵🇸 פלסטין ← 🇮🇱 ישראל</div>
                     <p class="country-desc">ניתן לשלוח זמר ישראלי 🇮🇱<br>(בשל הקרבה הגאוגרפית והקשרים הקיימים באזור.)</p>
                 </div>
 
-                <div class="country-rule">
+                <div class="country-rule" data-country="hongkong">
                     <div class="country-title">🇭🇰 הונג קונג ← 🇨🇳 סין</div>
                     <p class="country-desc">ניתן לשלוח זמר סיני 🇨🇳<br>(הונג קונג היא אזור מנהלי מיוחד של סין.)</p>
                 </div>
 
-                <div class="country-rule">
+                <div class="country-rule" data-country="puertorico">
                     <div class="country-title">🇵🇷 פוארטו ריקו ← 🇺🇸 ארצות הברית</div>
                     <p class="country-desc">ניתן לשלוח זמר אמריקאי 🇺🇸<br>(פוארטו ריקו היא טריטוריה של ארצות הברית ותושביה אזרחים אמריקאים.)</p>
                 </div>
 
-                <div class="country-rule">
+                <div class="country-rule" data-country="finland">
                     <div class="country-title">🇫🇮 פינלנד ← 🇸🇪 שוודיה</div>
                     <p class="country-desc">ניתן לשלוח זמר שוודי 🇸🇪<br>(פינלנד הייתה חלק מממלכת שוודיה במשך מאות שנים.)</p>
                 </div>
 
-                <div class="country-rule">
+                <div class="country-rule" data-country="cyprus">
                     <div class="country-title">🇨🇾 קפריסין ← 🇬🇷 יוון</div>
                     <p class="country-desc">ניתן לשלוח זמר יווני 🇬🇷<br>(בשל הקשרים ההיסטוריים והתרבותיים ההדוקים.)</p>
                 </div>
@@ -539,24 +543,12 @@
 
         <div class="mid-flags">🇪🇺 🇮🇱 🇺🇦 🇬🇷 🇨🇭 🇪🇸 🇮🇹 🇫🇷 🇬🇧</div>
 
-        <div class="card">
+        <div class="card" data-country="alexasong">
             <h2>🤖 השיר של אלקסה 🗺️</h2>
             <p>רוצים לשמוע את השיר הנבחר או לתת פקודה חכמה? אלקסה כאן בשבילכם עם החיבור המוזיקלי המוביל של העונה.</p>
             <div class="alexa-section">
                 <p>לחצו כאן כדי להאזין ישירות ביוטיוב:</p>
                 <a href="https://www.youtube.com/watch?v=q1Gbq5B1wnI" target="_blank" class="btn" style="background: #ff0055; color: #fff;">Tongue Tied - להאזנה ביוטיוב 🎬</a>
-            </div>
-            
-            <div class="rating-container">
-                <div class="rating-text" id="ratingAverageDisplay">ציון ממוצע באתר: ללא הצבעות</div>
-                <div class="stars" id="starContainer">
-                    <span class="star" data-value="1">★</span>
-                    <span class="star" data-value="2">★</span>
-                    <span class="star" data-value="3">★</span>
-                    <span class="star" data-value="4">★</span>
-                    <span class="star" data-value="5">★</span>
-                </div>
-                <div class="rating-stats" id="ratingStatsDisplay">טוען נתוני הצבעה...</div>
             </div>
         </div>
 
@@ -581,14 +573,11 @@
         function togglePartyMode() {
             const body = document.body;
             const btn = document.querySelector('.party-toggle-btn');
-            
             body.classList.toggle('party-mode');
-            
             if(body.classList.contains('party-mode')) {
                 btn.innerHTML = "🥳 מצב מסיבה: פעיל!!";
                 btn.style.background = "#ffff00";
                 btn.style.color = "black";
-                // יריית קונפטי רציפה קטנה בשביל האפקט
                 shootConfetti();
                 setTimeout(shootConfetti, 300);
             } else {
@@ -598,34 +587,26 @@
             }
         }
 
-        // אפקט פיצוץ קונפטי
         function shootConfetti() {
-            confetti({
-                particleCount: 120,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
+            confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
         }
 
-        // הפעלת קונפטי בלחיצה על הכפתורים הרגילים
         document.querySelectorAll('.btn, .random-btn').forEach(button => {
             button.addEventListener('click', shootConfetti);
         });
 
-
-        // --- 2. קוד מערכת החיפוש החכמה ---
+        // --- 2. מנוע חיפוש ---
         document.getElementById('countrySearch').addEventListener('input', function() {
             let filter = this.value.trim().toLowerCase();
             let rows = document.querySelectorAll('#countriesList .country-rule');
             let anyFound = false;
 
             rows.forEach(function(row) {
-                let text = row.textContent.toLowerCase();
-                
+                let titleText = row.querySelector('.country-title').textContent.toLowerCase();
                 if (filter === "") {
                     row.style.display = 'block';
                     row.classList.remove('country-highlight');
-                } else if (text.includes(filter)) {
+                } else if (titleText.includes(filter)) {
                     row.style.display = 'block';
                     row.classList.add('country-highlight');
                     anyFound = true;
@@ -635,22 +616,14 @@
                 }
             });
 
-            let errorMessage = document.getElementById('noResultsMessage');
-            if (!anyFound && filter !== "") {
-                errorMessage.style.display = 'block';
-            } else {
-                errorMessage.style.display = 'none';
-            }
+            document.getElementById('noResultsMessage').style.display = (!anyFound && filter !== "") ? 'block' : 'none';
         });
 
-
-        // --- 3. כפתור "תפתיע אותי" ---
+        // --- 3. כפתור תפתיע אותי ---
         function triggerRandomCountry() {
             let rows = document.querySelectorAll('#countriesList .country-rule');
             let randomIndex = Math.floor(Math.random() * rows.length);
-            
             document.getElementById('countrySearch').value = "";
-            
             rows.forEach((row, index) => {
                 if(index === randomIndex) {
                     row.style.display = 'block';
@@ -664,83 +637,90 @@
             document.getElementById('noResultsMessage').style.display = 'none';
         }
 
-
-        // --- 4. קוד הטיימר החי ל-10 ביולי 2026 ---
+        // --- 4. טיימר ל-10 ביולי 2026 ---
         const targetDate = new Date("July 10, 2026 00:00:00").getTime();
-
-        const timerInterval = setInterval(function() {
-            const now = new Date().getTime();
-            const difference = targetDate - now;
-
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
+        setInterval(function() {
+            const difference = targetDate - new Date().getTime();
             if (difference > 0) {
-                document.getElementById("timer").innerHTML = 
-                    days + "ד' " + hours + "ש' " + minutes + "מ' " + seconds + "ש'";
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+                document.getElementById("timer").innerHTML = days + "ד' " + hours + "ש' " + minutes + "מ' " + seconds + "ש'";
             } else {
-                clearInterval(timerInterval);
-                document.getElementById("timer").innerHTML = "🎉 הגיע ה-10 ביולי! המועד הגיע! 🎉";
+                document.getElementById("timer").innerHTML = "🎉 הגיע ה-10 ביולי! 🎉";
             }
         }, 1000);
 
-
-        // --- 5. רכיב מיקום חכם ---
         setTimeout(() => {
             document.getElementById('geoBadge').innerHTML = "📍 מזוהה חיבור מישראל 🇮🇱 | מרחק ממוקד האירוע: 3,120 ק\"מ";
         }, 1500);
 
 
-        // --- 6. מערכת ממוצע דירוג חכמה באתר ---
-        // נתוני בסיס קבועים (כאילו גולשים אחרים כבר הצביעו)
-        const baseVotesCount = 142;
-        const baseVotesSum = 612; // ממוצע התחלתי של בערך 4.3
-
-        const stars = document.querySelectorAll('.star');
-        const avgDisplay = document.getElementById('ratingAverageDisplay');
-        const statsDisplay = document.getElementById('ratingStatsDisplay');
-
-        // פונקציה שמחשבת ומציגה את הממוצע הנוכחי
-        function updateRatingUI() {
-            const userRating = parseInt(localStorage.getItem('myUserRating')) || 0;
+        // --- 5. מנוע דירוג ממוצעים אוטומטי מרובה פריטים (לכל מדינה בנפרד!) ---
+        
+        // יצירה אוטומטית של אלמנט הדירוג לכל פריט שיש לו data-country
+        document.querySelectorAll('[data-country]').forEach(item => {
+            const countryId = item.getAttribute('data-country');
             
-            // חישוב הממוצע הכולל (בסיס הגולשים + הצבעת המשתמש אם קיימת)
-            const totalVotes = userRating > 0 ? baseVotesCount + 1 : baseVotesCount;
-            const totalSum = userRating > 0 ? baseVotesSum + userRating : baseVotesSum;
-            const average = (totalSum / totalVotes).toFixed(1);
+            // יצירת מבנה ה-HTML של הכוכבים
+            const container = document.createElement('div');
+            container.className = 'rating-container';
+            container.innerHTML = `
+                <div class="rating-text" id="avg-${countryId}">טוען ממוצע...</div>
+                <div class="stars">
+                    <span class="star" data-val="1">★</span>
+                    <span class="star" data-val="2">★</span>
+                    <span class="star" data-val="3">★</span>
+                    <span class="star" data-val="4">★</span>
+                    <span class="star" data-val="5">★</span>
+                </div>
+                <div class="rating-stats" id="stats-${countryId}"></div>
+            `;
+            item.appendChild(container);
 
-            avgDisplay.innerHTML = `⭐ ממוצע דירוג הגולשים: ${average} / 5`;
-            statsDisplay.innerHTML = `על סמך ${totalVotes} הצבעות באתר ${userRating > 0 ? '(כולל אותך!)' : ''}`;
+            // יצירת בסיס נתונים רנדומלי קבוע לכל מדינה (כדי שלכל מדינה יהיה ממוצע הגיוני שונה)
+            // השתמשנו באורך השם כדי לשמור על מספרים קבועים ברענון דף
+            const baseVotes = 40 + (countryId.charCodeAt(0) % 30);
+            const baseSum = Math.round(baseVotes * (3.8 + (countryId.charCodeAt(1) % 13) / 10));
 
-            // צביעת הכוכבים לפי הממוצע הכללי
-            stars.forEach(star => {
-                const val = parseInt(star.getAttribute('data-value'));
-                star.classList.remove('selected', 'user-selected');
+            // פונקציית עדכון תצוגה ספציפית למדינה זו
+            function updateSpecificUI() {
+                const userRating = parseInt(localStorage.getItem('vote_' + countryId)) || 0;
+                const totalVotes = userRating > 0 ? baseVotes + 1 : baseVotes;
+                const totalSum = userRating > 0 ? baseSum + userRating : baseSum;
+                const average = (totalSum / totalVotes).toFixed(1);
 
-                if (userRating > 0 && val <= userRating) {
-                    // צבע מיוחד להצבעה הספציפית שלך (ורוד ניאון)
-                    star.classList.add('user-selected');
-                } else if (val <= Math.round(average)) {
-                    // צבע צהוב לממוצע הכללי
-                    star.classList.add('selected');
-                }
+                document.getElementById(`avg-${countryId}`).innerHTML = `⭐ ממוצע דירוג: ${average} / 5`;
+                document.getElementById(`stats-${countryId}`).innerHTML = `הצביעו: ${totalVotes} גולשים ${userRating > 0 ? '(כולל אותך)' : ''}`;
+
+                // צביעת הכוכבים
+                container.querySelectorAll('.star').forEach(star => {
+                    const val = parseInt(star.getAttribute('data-val'));
+                    star.classList.remove('selected', 'user-selected');
+
+                    if (userRating > 0 && val <= userRating) {
+                        star.classList.add('user-selected'); // צבע ורוד להצבעה שלך
+                    } else if (val <= Math.round(average)) {
+                        star.classList.add('selected'); // צבע צהוב לממוצע הכללי
+                    }
+                });
+            }
+
+            // האזנה לאירועי לחיצה על הכוכבים של המדינה הזו
+            container.querySelectorAll('.star').forEach(star => {
+                star.addEventListener('click', function(e) {
+                    e.stopPropagation(); // מונע בעיות לחיצה בתוך רשימות
+                    const clickedVal = parseInt(this.getAttribute('data-val'));
+                    localStorage.setItem('vote_' + countryId, clickedVal);
+                    updateSpecificUI();
+                    shootConfetti();
+                });
             });
-        }
 
-        // האזנה ללחיצות על כוכבים
-        stars.forEach(star => {
-            star.addEventListener('click', function() {
-                const clickedValue = parseInt(this.getAttribute('data-value'));
-                localStorage.setItem('myUserRating', clickedValue);
-                updateRatingUI();
-                shootConfetti();
-            });
+            // הפעלה ראשונית
+            updateSpecificUI();
         });
-
-        // הפעלה ראשונית של הממוצע בטעינת הדף
-        updateRatingUI();
     </script>
 
 </body>
