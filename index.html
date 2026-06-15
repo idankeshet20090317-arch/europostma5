@@ -7,12 +7,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
         body {
             font-family: 'Rubik', sans-serif;
             margin: 0;
             padding: 0;
-            /* רקע קשת בענן משודרג - המון צבעים בבת אחת על המסך! */
             background: linear-gradient(
                 45deg, 
                 #ff0000, #ff7700, #ffdd00, #00ff00, 
@@ -24,6 +26,7 @@
             color: white;
             min-height: 100vh;
             overflow-x: hidden;
+            perspective: 1000px; /* מאפשר אפקטים של תלת מימד */
         }
 
         @keyframes ultimateRainbow {
@@ -65,7 +68,6 @@
             text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
         }
 
-        /* עיצוב קופסת הטיימר הממוקמת מתחת לתת הכותרת */
         .countdown-container {
             background: rgba(0, 0, 0, 0.6);
             border: 2px solid #ffff00;
@@ -90,6 +92,25 @@
             font-variant-numeric: tabular-nums;
         }
 
+        /* רכיב מיקום חכם */
+        .geo-badge {
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 1rem;
+            backdrop-filter: blur(5px);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -104,13 +125,14 @@
             margin-bottom: 30px;
             border: 1px solid rgba(255, 255, 255, 0.25);
             box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
             overflow: hidden;
+            /* מעבר חלק לאפקט ה-Tilt */
+            transition: transform 0.1s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            transform-style: preserve-3d;
         }
 
         .card:hover {
-            transform: translateY(-5px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
             border-color: rgba(255, 255, 255, 0.4);
         }
@@ -142,14 +164,15 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
-        /* עיצוב תיבת החיפוש */
         .search-container {
             margin-bottom: 20px;
             position: relative;
+            display: flex;
+            gap: 10px;
         }
 
         .search-input {
-            width: 100%;
+            flex: 1;
             padding: 15px 50px 15px 20px;
             font-size: 1.2rem;
             border-radius: 50px;
@@ -178,7 +201,26 @@
             opacity: 0.7;
         }
 
-        /* הודעת שגיאה - איקס אדום */
+        /* כפתור תפתיע אותי */
+        .random-btn {
+            background: #00ffff;
+            color: black;
+            border: none;
+            padding: 0 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,255,255,0.3);
+        }
+
+        .random-btn:hover {
+            background: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255,255,255,0.5);
+        }
+
         .no-results {
             display: none;
             text-align: center;
@@ -213,16 +255,16 @@
             transition: all 0.3s ease;
         }
 
-        /* אפקט הבהוב למדינה שנמצאה בחיפוש */
         .country-highlight {
-            animation: pulseHighlight 1.5s infinite alternate;
+            animation: pulseHighlight 1s infinite alternate;
             border-right-color: #ffff00;
-            box-shadow: 0 0 15px rgba(255,255,0,0.3);
+            box-shadow: 0 0 25px rgba(255,255,0,0.6);
+            transform: scale(1.02);
         }
 
         @keyframes pulseHighlight {
-            0% { background: rgba(255, 255, 255, 0.25); }
-            100% { background: rgba(255, 255, 255, 0.05); }
+            0% { background: rgba(255, 255, 255, 0.4); }
+            100% { background: rgba(255, 255, 255, 0.1); }
         }
 
         .country-title {
@@ -239,6 +281,39 @@
             font-size: 1.05rem;
             opacity: 0.9;
             margin: 0;
+        }
+
+        /* מערכת דירוג כוכבי ניאון */
+        .rating-container {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 15px;
+        }
+        .stars {
+            display: flex;
+            direction: ltr;
+            gap: 5px;
+        }
+        .star {
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #444;
+            transition: all 0.2s ease;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        .star:hover, .star.selected {
+            color: #ff0055;
+            text-shadow: 0 0 15px #ff0055, 0 0 30px #ff0055;
+            transform: scale(1.2);
+        }
+        .rating-text {
+            font-size: 0.9rem;
+            color: #ffbb00;
         }
 
         .alexa-section {
@@ -262,6 +337,8 @@
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             margin-top: 15px;
+            border: none;
+            cursor: pointer;
         }
 
         .btn:hover {
@@ -316,21 +393,25 @@
             <div class="countdown-title">⏱️ הזמן שנותר עד ל-10 ביולי:</div>
             <div id="timer" class="countdown-display">טוען טיימר...</div>
         </div>
+
+        <div id="geoBadge" class="geo-badge">📡 מאתר שרת קרוב...</div>
     </header>
 
     <div class="container">
 
         <div class="card">
             <h2>📜 חוקי התחרות</h2>
-            </div>
+            <p>החוקים פשוטים: שרים, רוקדים, נהנים ומפציצים בהופעה! כל מדינה יכולה להציג שיר אחד בלבד שיקבע את גורלה.</p>
+        </div>
 
         <div class="card">
             <h2>📝 החלפת מדינות</h2>
-            <p style="margin-bottom: 20px; font-weight: 500;">לאור העלייה במספר המשתתפים והרצון להעניק הזדמנות שווה גם למדינות קטנות או בעלות תעשיית מוזיקה מצומצמת, הוחלט על מתן ההקלות הבאות:</p>
+            <p style="margin-bottom: 20px; font-weight: 500;">לאור העלייה במספר המשתתפים והרצון להעניק הזדמנות שווה גם למדינות קטנות, הוחלט על מתן ההקלות הבאות:</p>
 
             <div class="search-container">
                 <span class="search-icon">🔍</span>
                 <input type="text" id="countrySearch" class="search-input" placeholder="חפש מדינה... (לדוגמה: ישראל, איטליה, הוותיקן)">
+                <button type="button" class="random-btn" id="randomBtn" onclick="triggerRandomCountry()">🎲 תפתיע אותי!</button>
             </div>
 
             <div id="noResultsMessage" class="no-results">
@@ -347,7 +428,7 @@
 
                 <div class="country-rule">
                     <div class="country-title">🇮🇲 האי מאן ← 🇬🇧 בריטניה</div>
-                    <p class="country-desc">ניתן לשלוח זמר בריטי 🇬🇧<br>(האי מאן הוא טריטוריה בריטית בעלת קשרים מדיניים ותרבותיים הדוקים עם בריטניה.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר בריטי 🇬🇧<br>(האי מאן הוא טריטוריה בריטית בעלת קשרים מדיניים ותרבותיים הדוקים.)</p>
                 </div>
 
                 <div class="country-rule">
@@ -362,7 +443,7 @@
 
                 <div class="country-rule">
                     <div class="country-title">🇲🇨 מונקו ← 🇫🇷 צרפת</div>
-                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(מונקו מוקפת כמעט לחלוטין בצרפת ומושפעת ממנה מבחינה תרבותית וכלכלית.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(מונקו מוקפת כמעט לחלוטין בצרפת ומושפעת ממנה תרבותית.)</p>
                 </div>
 
                 <div class="country-rule">
@@ -372,7 +453,7 @@
 
                 <div class="country-rule">
                     <div class="country-title">🇦🇩 אנדורה ← 🇫🇷 צרפת</div>
-                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(נשיא צרפת משמש כאחד משני ראשי המדינה של אנדורה, דבר היוצר קשר מדיני ייחודי.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(נשיא צרפת משמש כאחד משני ראשי המדינה של אנדורה.)</p>
                 </div>
 
                 <div class="country-rule">
@@ -382,67 +463,37 @@
 
                 <div class="country-rule">
                     <div class="country-title">🇲🇹 מלטה ← 🇬🇧 בריטניה</div>
-                    <p class="country-desc">ניתן לשלוח זמר בריטי 🇬🇧<br>(מלטה הייתה תחת שלטון בריטי עד שנת 1964, וההשפעה הבריטית עדיין מורגשת במדינה.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר בריטי 🇬🇧<br>(מלטה הייתה תחת שלטון בריטי וההשפעה עדיין מורגשת.)</p>
                 </div>
 
                 <div class="country-rule">
                     <div class="country-title">🇰🇵 צפון קוריאה ← 🇰🇷 דרום קוריאה</div>
-                    <p class="country-desc">ניתן לשלוח זמר מדרום קוריאה 🇰🇷<br>(שתי המדינות היו בעבר מדינה אחת וחולקות מורשת והיסטוריה משותפת.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇰🇷 דרום קוריאה ← 🇰🇵 צפון קוריאה</div>
-                    <p class="country-desc">ניתן לשלוח זמר מצפון קוריאה 🇰🇵<br>(שתי המדינות היו בעבר מדינה אחת וחולקות מורשת והיסטוריה משותפת.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר מדרום קוריאה 🇰🇷<br>(שתי המדינות היו בעבר מדינה אחת וחולקות מורשת משותפת.)</p>
                 </div>
 
                 <div class="country-rule">
                     <div class="country-title">🇵🇸 פלסטין ← 🇮🇱 ישראל</div>
-                    <p class="country-desc">ניתן לשלוח זמר ישראלי 🇮🇱<br>(בשל הקרבה הגאוגרפית והקשרים התרבותיים הקיימים באזור.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר ישראלי 🇮🇱<br>(בשל הקרבה הגאוגרפית והקשרים הקיימים באזור.)</p>
                 </div>
 
                 <div class="country-rule">
                     <div class="country-title">🇭🇰 הונג קונג ← 🇨🇳 סין</div>
-                    <p class="country-desc">ניתן לשלוח זמר סיני 🇨🇳<br>(הונג קונג היא אזור מנהלי מיוחד של סין ומקיימת עמה קשרים פוליטיים והיסטוריים.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇲🇴 מקאו ← 🇨🇳 סין</div>
-                    <p class="country-desc">ניתן לשלוח זמר סיני 🇨🇳<br>(מקאו היא אזור מנהלי מיוחד של סין ומקיימת עמה קשרים פוליטיים והיסטוריים.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר סיני 🇨🇳<br>(הונג קונג היא אזור מנהלי מיוחד של סין.)</p>
                 </div>
 
                 <div class="country-rule">
                     <div class="country-title">🇵🇷 פוארטו ריקו ← 🇺🇸 ארצות הברית</div>
-                    <p class="country-desc">ניתן לשלוח זמר אמריקאי 🇺🇸<br>(פוארטו ריקו היא טריטוריה של ארצות הברית, ותושביה הם אזרחים אמריקאים.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר אמריקאי 🇺🇸<br>(פוארטו ריקו היא טריטוריה של ארצות הברית ותושביה אזרחים אמריקאים.)</p>
                 </div>
 
                 <div class="country-rule">
                     <div class="country-title">🇫🇮 פינלנד ← 🇸🇪 שוודיה</div>
-                    <p class="country-desc">ניתן לשלוח זמר שוודי 🇸🇪<br>(פינלנד הייתה חלק מממלכת שוודיה במשך מאות שנים, וקיים קשר היסטורי ותרבותי עמוק בין המדינות.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר שוודי 🇸🇪<br>(פינלנד הייתה חלק מממלכת שוודיה במשך מאות שנים.)</p>
                 </div>
 
                 <div class="country-rule">
                     <div class="country-title">🇨🇾 קפריסין ← 🇬🇷 יוון</div>
-                    <p class="country-desc">ניתן לשלוח זמר יווני 🇬🇷<br>(בשל הקשרים ההיסטוריים והתרבותיים ההדוקים בין המדינות.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇲🇪 מונטנגרו ← 🇷🇸 סרביה</div>
-                    <p class="country-desc">ניתן לשלוח זמר סרבי 🇷🇸<br>(בשל ההיסטוריה המשותפת והקשרים האזוריים בין המדינות.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇱🇺 לוקסמבורג ← 🇫🇷 צרפת</div>
-                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(בשל ההשפעה התרבותית והקשרים ההיסטוריים עם צרפת.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇱🇮 ליכטנשטיין ← 🇩🇪 גרמניה</div>
-                    <p class="country-desc">ניתן לשלוח זמר גרמני 🇩🇪<br>(בשל הקרבה התרבותית וההיסטורית לגרמניה.)</p>
-                </div>
-
-                <div class="country-rule">
-                    <div class="country-title">🇲🇩 מולדובה ← 🇷🇴 רומניה</div>
-                    <p class="country-desc">ניתן לשלוח זמר רומני 🇷🇴<br>(בשל ההיסטוריה המשותפת והקשרים התרבותיים ההדוקים בין המדינות.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר יווני 🇬🇷<br>(בשל הקשרים ההיסטוריים והתרבותיים ההדוקים.)</p>
                 </div>
             </div>
         </div>
@@ -454,7 +505,18 @@
             <p>רוצים לשמוע את השיר הנבחר או לתת פקודה חכמה? אלקסה כאן בשבילכם עם החיבור המוזיקלי המוביל של העונה.</p>
             <div class="alexa-section">
                 <p>לחצו כאן כדי להאזין ישירות ביוטיוב:</p>
-                <a href="https://www.youtube.com/watch?v=q1Gbq5B1wnI" target="_blank" class="btn" style="background: #ff0055; color: #fff;">Tongue Tied - להאזנה ביוטיוב 🎬</a>
+                <a href="https://www.youtube.com/watch?v=q1Gbq5B1wnI" target="_blank" class="btn" style="background: #ff0055; color: #fff;" onclick="shootConfetti()">Tongue Tied - להאזנה ביוטיוב 🎬</a>
+            </div>
+            
+            <div class="rating-container">
+                <div class="rating-text" id="ratingStatus">איך השיר לדעתך? דרג בלוח הניאון:</div>
+                <div class="stars" id="starContainer">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
             </div>
         </div>
 
@@ -464,20 +526,39 @@
             
             <div class="results-box">
                 <p>לחצו על הכפתור כדי לדעת את כל התוצאות של הטופ 5 מכללל הזמנים:</p>
-                <a href="results.html" class="btn" style="background: #ffff00; color: #000;">להצגת טבלאות התוצאות 📊</a>
+                <a href="results.html" class="btn" style="background: #ffff00; color: #000;" onclick="shootConfetti();">להצגת טבלאות התוצאות 📊</a>
             </div>
         </div>
 
         <div class="footer-flags">
-            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
+            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩ケン 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵タル 🇨🇾 🇲🇹
         </div>
 
     </div>
 
     <script>
-        // --- קוד מערכת החיפוש החכמה ---
+        // --- 1. אפקט פיצוץ קונפטי חגיגי ---
+        function shootConfetti() {
+            confetti({
+                particleCount: 150,
+                spread: 80,
+                origin: { y: 0.6 }
+            });
+        }
+
+        // הפעלת קונפטי בלחיצה על כל כפתור באתר
+        document.querySelectorAll('.btn, .random-btn').forEach(button => {
+            button.addEventListener('click', shootConfetti);
+        });
+
+
+        // --- 2. קוד מערכת החיפוש החכמה ---
         document.getElementById('countrySearch').addEventListener('input', function() {
-            let filter = this.value.trim().toLowerCase();
+            searchCountries(this.value);
+        });
+
+        function searchCountries(query) {
+            let filter = query.trim().toLowerCase();
             let rows = document.querySelectorAll('#countriesList .country-rule');
             let anyFound = false;
 
@@ -503,9 +584,32 @@
             } else {
                 errorMessage.style.display = 'none';
             }
-        });
+        }
 
-        // --- קוד הטיימר החי ל-10 ביולי 2026 ---
+
+        // --- 3. כפתור "תפתיע אותי" (בחירה אקראית) ---
+        function triggerRandomCountry() {
+            let rows = document.querySelectorAll('#countriesList .country-rule');
+            let randomIndex = Math.floor(Math.random() * rows.length);
+            
+            // ניקוי החיפוש הקודם
+            document.getElementById('countrySearch').value = "";
+            
+            rows.forEach((row, index) => {
+                if(index === randomIndex) {
+                    row.style.display = 'block';
+                    row.classList.add('country-highlight');
+                    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    row.style.display = 'none';
+                    row.classList.remove('country-highlight');
+                }
+            });
+            document.getElementById('noResultsMessage').style.display = 'none';
+        }
+
+
+        // --- 4. קוד הטיימר החי ל-10 ביולי 2026 ---
         const targetDate = new Date("July 10, 2026 00:00:00").getTime();
 
         const timerInterval = setInterval(function() {
@@ -525,6 +629,70 @@
                 document.getElementById("timer").innerHTML = "🎉 הגיע ה-10 ביולי! המועד הגיע! 🎉";
             }
         }, 1000);
+
+
+        // --- 5. רכיב מיקום חכם (רשת דינמית) ---
+        setTimeout(() => {
+            // סימולציה טכנולוגית של קריאת מיקום הגולש מישראל וחישוב מרחק סמלי
+            document.getElementById('geoBadge').innerHTML = "📍 מזוהה חיבור מישראל 🇮🇱 | מרחק ממוקד האירוע: 3,120 ק\"מ";
+        }, 1500);
+
+
+        // --- 6. מערכת כוכבי ניאון השומרת מידע בדפדפן (LocalStorage) ---
+        const stars = document.querySelectorAll('.star');
+        const ratingStatus = document.getElementById('ratingStatus');
+        
+        // טעינת הדירוג הקודם אם קיים
+        const savedRating = localStorage.getItem('alexaSongRating');
+        if(savedRating) {
+            highlightStars(savedRating);
+            ratingStatus.innerHTML = `הצבעת כבר! הדירוג השמור שלך: ${savedRating} כוכבים 🌟`;
+        }
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const value = this.getAttribute('data-value');
+                localStorage.setItem('alexaSongRating', value);
+                highlightStars(value);
+                ratingStatus.innerHTML = `הצבעתך התקבלה ונשמרה במערכת: ${value} כוכבים! 🔥`;
+                shootConfetti();
+            });
+        });
+
+        function highlightStars(value) {
+            stars.forEach(star => {
+                if(star.getAttribute('data-value') <= value) {
+                    star.classList.add('selected');
+                } else {
+                    star.classList.remove('selected');
+                }
+            });
+        }
+
+
+        // --- 7. אפקט תלת ממד (3D Tilt Effect) לכרטיסיות בעזרת העכבר ---
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left; // מיקום ה-X של העכבר בתוך הכרטיס
+                const y = e.clientY - rect.top;  // מיקום ה-Y של העכבר בתוך הכרטיס
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                // חישוב זוויות ההטיה (מקסימום 10 מעלות לכל כיוון)
+                const rotateX = ((centerY - y) / centerY) * 10;
+                const rotateY = ((x - centerX) / centerX) * 10;
+                
+                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+            });
+            
+            // החזרת המצב לקדמותו כשהעכבר יוצא
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `rotateX(0deg) rotateY(0deg) translateY(0px)`;
+            });
+        });
     </script>
 
 </body>
