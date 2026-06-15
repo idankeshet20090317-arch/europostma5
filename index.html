@@ -45,6 +45,17 @@
         body.tv-mode {
             filter: grayscale(100%) contrast(120%);
         }
+
+        /* הפיכת כל הצלליות באתר לאפור/שחור/לבן במצב טלוויזיה */
+        body.tv-mode .card,
+        body.tv-mode .party-toggle-btn,
+        body.tv-mode .tv-toggle-btn,
+        body.tv-mode .countdown-container,
+        body.tv-mode .btn,
+        body.tv-mode .random-btn {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7) !important;
+            border-color: #888888 !important;
+        }
         
         /* אפקט ה"שלג" של הטלוויזיה הישנה */
         body.tv-mode::after {
@@ -81,7 +92,7 @@
         }
 
         header {
-            padding: 60px 20px;
+            padding: 140px 20px 40px 20px;
             text-align: center;
             background: rgba(0, 0, 0, 0.55);
             backdrop-filter: blur(12px);
@@ -90,40 +101,44 @@
             position: relative;
         }
 
-        /* לחצן מסיבה מוגדל משמעותית */
-        .party-toggle-btn {
+        .controls-container {
             position: absolute;
             top: 25px;
             left: 25px;
+            right: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            z-index: 1002;
+        }
+
+        .party-toggle-btn {
             background: #ff0055;
             color: white;
             border: 3px solid white;
-            padding: 18px 35px; /* הגדלת הריפוד */
+            padding: 15px 30px;
             border-radius: 40px;
-            font-size: 1.4rem; /* הגדלת הפונט */
+            font-size: 1.3rem;
             font-weight: 900;
             cursor: pointer;
             box-shadow: 0 8px 25px rgba(255,0,85,0.5);
             transition: all 0.3s ease;
             font-family: 'Rubik', sans-serif;
-            z-index: 1002;
+            white-space: nowrap;
         }
         .party-toggle-btn:hover {
-            transform: scale(1.1) rotate(-2deg);
+            transform: scale(1.05) rotate(-2deg);
             background: #ffff00;
             color: black;
             box-shadow: 0 10px 30px rgba(255,255,0,0.7);
         }
 
-        /* לחצן טלוויזיה של פעם (אפור-שחור-לבן) */
         .tv-toggle-btn {
-            position: absolute;
-            top: 25px;
-            right: 25px;
             background: #333333;
             color: #eeeeee;
             border: 3px solid #777777;
-            padding: 15px 25px;
+            padding: 14px 25px;
             border-radius: 10px;
             font-size: 1.1rem;
             font-weight: bold;
@@ -131,10 +146,7 @@
             box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 5px 15px rgba(0,0,0,0.5);
             transition: all 0.3s ease;
             font-family: 'Rubik', sans-serif;
-            z-index: 1002;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            white-space: nowrap;
         }
         .tv-toggle-btn:hover {
             background: #111111;
@@ -145,7 +157,7 @@
         }
 
         header h1 {
-            font-size: 3.5rem;
+            font-size: 3rem;
             margin: 0;
             font-weight: 900;
             text-shadow: 3px 3px 10px rgba(0,0,0,0.6);
@@ -153,7 +165,7 @@
         }
 
         header p {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             margin: 10px 0 0;
             opacity: 0.95;
             text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
@@ -301,6 +313,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0,255,255,0.3);
+            white-space: nowrap;
         }
 
         .random-btn:hover {
@@ -423,6 +436,47 @@
             opacity: 0.95;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
         }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 150px 15px 30px 15px;
+            }
+
+            .controls-container {
+                flex-direction: column;
+                gap: 12px;
+                top: 15px;
+                left: 15px;
+                right: 15px;
+            }
+
+            .party-toggle-btn, .tv-toggle-btn {
+                width: 100%;
+                box-sizing: border-box;
+                text-align: center;
+                font-size: 1.1rem;
+                padding: 12px 20px;
+            }
+
+            header h1 {
+                font-size: 2.2rem;
+            }
+
+            .search-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .random-btn {
+                width: 100%;
+                padding: 15px;
+                border-radius: 50px;
+            }
+
+            .search-input {
+                padding: 15px 45px 15px 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -430,9 +484,10 @@
     <div class="pride-bar"></div>
 
     <header>
-        <button class="party-toggle-btn" onclick="togglePartyMode()">🥳 מסיבה: כבוי</button>
-
-        <button class="tv-toggle-btn" onclick="toggleTvMode()">📺 טלוויזיה של פעם</button>
+        <div class="controls-container">
+            <button class="party-toggle-btn" onclick="togglePartyMode()">🥳 מסיבה: כבוי</button>
+            <button class="tv-toggle-btn" onclick="toggleTvMode()">📺 טלוויזיה של פעם</button>
+        </div>
 
         <h1>🎵 יורופוסטמה 🇪🇺</h1>
         <p>ברוכים הבאים לאתר הרשמי של תחרות השירים הגדולה</p>
@@ -574,27 +629,117 @@
     </div>
 
     <script>
-        // --- 1. מתג מצב מסיבה ---
+        // יצירת מערכת סאונד מובנית בדפדפן (Web Audio API)
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+        let partyInterval = null;
+        let tvInterval = null;
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new AudioContext();
+        }
+
+        // פונקציה לייצור צליל סינתטי קצר
+        function playTone(freq, type, duration, volume) {
+            try {
+                initAudio();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
+
+        // קצב מוזיקת מסיבה שמחה (לופ)
+        function startPartyMusic() {
+            const notes = [261.63, 329.63, 392.00, 523.25, 392.00, 493.88, 587.33, 659.25];
+            let step = 0;
+            partyInterval = setInterval(() => {
+                // מנגן ביט שמח ומהיר
+                playTone(notes[step % notes.length], 'sawtooth', 0.2, 0.1);
+                playTone(60, 'triangle', 0.1, 0.3); // קיק בס מלווה
+                step++;
+            }, 200);
+        }
+
+        function stopPartyMusic() {
+            clearInterval(partyInterval);
+        }
+
+        // נעימת כינור רטרו עצובה/ישנה (לופ)
+        function startTvMusic() {
+            const tvNotes = [440.00, 493.88, 523.25, 587.33, 659.25, 587.33, 523.25, 493.88];
+            let step = 0;
+            tvInterval = setInterval(() => {
+                // צליל רך שמזכיר כלי מיתר ישן עם ויברטו עדין
+                playTone(tvNotes[step % tvNotes.length] + Math.sin(step)*5, 'triangle', 0.5, 0.15);
+                step++;
+            }, 400);
+        }
+
+        function stopTvMusic() {
+            clearInterval(tvInterval);
+        }
+
+        // --- 1. מתג מצב מסיבה + קונפטי אינסופי ---
+        let confettiLoop = null;
+
         function togglePartyMode() {
             const body = document.body;
             const btn = document.querySelector('.party-toggle-btn');
             body.classList.toggle('party-mode');
+            
+            // אם מצב טלוויזיה דלוק - נכבה אותו
+            if(body.classList.contains('tv-mode')) {
+                toggleTvMode();
+            }
+
             if(body.classList.contains('party-mode')) {
                 btn.innerHTML = "🥳 מסיבה: פעיל!!";
                 btn.style.background = "#ffff00";
                 btn.style.color = "black";
-                shootConfetti();
-                setTimeout(shootConfetti, 300);
+                
+                // הפעלת מוזיקת מסיבה
+                startPartyMusic();
+
+                // לופ קונפטי שלא עוצר כל 500 מילישניות
+                confettiLoop = setInterval(() => {
+                    confetti({ particleCount: 30, angle: 60, spread: 55, origin: { x: 0 } });
+                    confetti({ particleCount: 30, angle: 120, spread: 55, origin: { x: 1 } });
+                }, 500);
+
             } else {
                 btn.innerHTML = "🥳 מסיבה: כבוי";
                 btn.style.background = "#ff0055";
                 btn.style.color = "white";
+                
+                // עצירת מוזיקה וקונפטי
+                stopPartyMusic();
+                clearInterval(confettiLoop);
             }
         }
 
-        // --- 2. מתג מצב טלוויזיה ישנה ---
+        // --- 2. מתג מצב טלוויזיה ישנה + מוזיקת כינור ---
         function toggleTvMode() {
-            document.body.classList.toggle('tv-mode');
+            const body = document.body;
+            body.classList.toggle('tv-mode');
+
+            // אם מצב מסיבה דלוק - נכבה אותו
+            if(body.classList.contains('party-mode') && body.classList.contains('tv-mode')) {
+                togglePartyMode();
+            }
+
+            if(body.classList.contains('tv-mode')) {
+                startTvMusic();
+            } else {
+                stopTvMusic();
+            }
         }
 
         function shootConfetti() {
