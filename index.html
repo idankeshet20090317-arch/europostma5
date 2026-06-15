@@ -26,7 +26,18 @@
             color: white;
             min-height: 100vh;
             overflow-x: hidden;
-            perspective: 1000px; /* מאפשר אפקטים של תלת מימד */
+            transition: background 0.5s ease;
+        }
+
+        /* מצב מסיבה משוגע */
+        body.party-mode {
+            animation: ultimateRainbow 2s linear infinite !important; /* רקע זז במהירות מטורפת */
+        }
+
+        body.party-mode .card {
+            background: rgba(255, 255, 255, 0.15) !important;
+            border-color: #ffff00 !important;
+            box-shadow: 0 0 30px rgba(255, 255, 0, 0.4) !important;
         }
 
         @keyframes ultimateRainbow {
@@ -51,6 +62,31 @@
             backdrop-filter: blur(12px);
             margin-bottom: 30px;
             border-bottom: 3px solid rgba(255,255,255,0.2);
+            position: relative;
+        }
+
+        /* כפתור מתג מסיבה */
+        .party-toggle-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #ff0055;
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255,0,85,0.4);
+            transition: all 0.3s ease;
+            font-family: 'Rubik', sans-serif;
+            z-index: 1001;
+        }
+        .party-toggle-btn:hover {
+            transform: scale(1.1);
+            background: #ffff00;
+            color: black;
+            box-shadow: 0 5px 20px rgba(255,255,0,0.6);
         }
 
         header h1 {
@@ -92,7 +128,6 @@
             font-variant-numeric: tabular-nums;
         }
 
-        /* רכיב מיקום חכם */
         .geo-badge {
             background: rgba(0, 255, 255, 0.2);
             border: 1px solid #00ffff;
@@ -127,12 +162,12 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.4);
             position: relative;
             overflow: hidden;
-            /* מעבר חלק לאפקט ה-Tilt */
-            transition: transform 0.1s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-            transform-style: preserve-3d;
+            /* החזרנו מעבר פשוט ויציב ללא תלת-ממד */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
 
         .card:hover {
+            transform: translateY(-5px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
             border-color: rgba(255, 255, 255, 0.4);
         }
@@ -201,7 +236,6 @@
             opacity: 0.7;
         }
 
-        /* כפתור תפתיע אותי */
         .random-btn {
             background: #00ffff;
             color: black;
@@ -230,12 +264,6 @@
             border-radius: 15px;
             margin-top: 15px;
             animation: fadeIn 0.3s ease;
-        }
-
-        .no-results .error-icon {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            display: block;
         }
 
         @keyframes fadeIn {
@@ -283,7 +311,7 @@
             margin: 0;
         }
 
-        /* מערכת דירוג כוכבי ניאון */
+        /* עיצוב מערכת דירוג ממוצעת חכמה */
         .rating-container {
             margin-top: 15px;
             display: flex;
@@ -291,7 +319,7 @@
             align-items: center;
             gap: 5px;
             background: rgba(255, 255, 255, 0.05);
-            padding: 10px;
+            padding: 15px;
             border-radius: 15px;
         }
         .stars {
@@ -307,13 +335,22 @@
             text-shadow: 0 0 5px rgba(0,0,0,0.5);
         }
         .star:hover, .star.selected {
-            color: #ff0055;
-            text-shadow: 0 0 15px #ff0055, 0 0 30px #ff0055;
-            transform: scale(1.2);
+            color: #ffbb00;
+            text-shadow: 0 0 15px #ffbb00;
+        }
+        .star.user-selected {
+            color: #ff0055 !important;
+            text-shadow: 0 0 15px #ff0055, 0 0 30px #ff0055 !important;
         }
         .rating-text {
+            font-size: 1.05rem;
+            color: #ffff00;
+            font-weight: bold;
+        }
+        .rating-stats {
             font-size: 0.9rem;
-            color: #ffbb00;
+            color: #a0ffff;
+            margin-top: 4px;
         }
 
         .alexa-section {
@@ -386,6 +423,8 @@
     <div class="pride-bar"></div>
 
     <header>
+        <button class="party-toggle-btn" onclick="togglePartyMode()">🥳 מצב מסיבה: כבוי</button>
+
         <h1>🎵 יורופוסטמה 🇪🇺</h1>
         <p>ברוכים הבאים לאתר הרשמי של תחרות השירים הגדולה</p>
         
@@ -505,11 +544,11 @@
             <p>רוצים לשמוע את השיר הנבחר או לתת פקודה חכמה? אלקסה כאן בשבילכם עם החיבור המוזיקלי המוביל של העונה.</p>
             <div class="alexa-section">
                 <p>לחצו כאן כדי להאזין ישירות ביוטיוב:</p>
-                <a href="https://www.youtube.com/watch?v=q1Gbq5B1wnI" target="_blank" class="btn" style="background: #ff0055; color: #fff;" onclick="shootConfetti()">Tongue Tied - להאזנה ביוטיוב 🎬</a>
+                <a href="https://www.youtube.com/watch?v=q1Gbq5B1wnI" target="_blank" class="btn" style="background: #ff0055; color: #fff;">Tongue Tied - להאזנה ביוטיוב 🎬</a>
             </div>
             
             <div class="rating-container">
-                <div class="rating-text" id="ratingStatus">איך השיר לדעתך? דרג בלוח הניאון:</div>
+                <div class="rating-text" id="ratingAverageDisplay">ציון ממוצע באתר: ללא הצבעות</div>
                 <div class="stars" id="starContainer">
                     <span class="star" data-value="1">★</span>
                     <span class="star" data-value="2">★</span>
@@ -517,6 +556,7 @@
                     <span class="star" data-value="4">★</span>
                     <span class="star" data-value="5">★</span>
                 </div>
+                <div class="rating-stats" id="ratingStatsDisplay">טוען נתוני הצבעה...</div>
             </div>
         </div>
 
@@ -526,27 +566,48 @@
             
             <div class="results-box">
                 <p>לחצו על הכפתור כדי לדעת את כל התוצאות של הטופ 5 מכללל הזמנים:</p>
-                <a href="results.html" class="btn" style="background: #ffff00; color: #000;" onclick="shootConfetti();">להצגת טבלאות התוצאות 📊</a>
+                <a href="results.html" class="btn" style="background: #ffff00; color: #000;">להצגת טבלאות התוצאות 📊</a>
             </div>
         </div>
 
         <div class="footer-flags">
-            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩ケン 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵タル 🇨🇾 🇲🇹
+            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
         </div>
 
     </div>
 
     <script>
-        // --- 1. אפקט פיצוץ קונפטי חגיגי ---
+        // --- 1. מתג מצב מסיבה ---
+        function togglePartyMode() {
+            const body = document.body;
+            const btn = document.querySelector('.party-toggle-btn');
+            
+            body.classList.toggle('party-mode');
+            
+            if(body.classList.contains('party-mode')) {
+                btn.innerHTML = "🥳 מצב מסיבה: פעיל!!";
+                btn.style.background = "#ffff00";
+                btn.style.color = "black";
+                // יריית קונפטי רציפה קטנה בשביל האפקט
+                shootConfetti();
+                setTimeout(shootConfetti, 300);
+            } else {
+                btn.innerHTML = "🥳 מצב מסיבה: כבוי";
+                btn.style.background = "#ff0055";
+                btn.style.color = "white";
+            }
+        }
+
+        // אפקט פיצוץ קונפטי
         function shootConfetti() {
             confetti({
-                particleCount: 150,
-                spread: 80,
+                particleCount: 120,
+                spread: 70,
                 origin: { y: 0.6 }
             });
         }
 
-        // הפעלת קונפטי בלחיצה על כל כפתור באתר
+        // הפעלת קונפטי בלחיצה על הכפתורים הרגילים
         document.querySelectorAll('.btn, .random-btn').forEach(button => {
             button.addEventListener('click', shootConfetti);
         });
@@ -554,11 +615,7 @@
 
         // --- 2. קוד מערכת החיפוש החכמה ---
         document.getElementById('countrySearch').addEventListener('input', function() {
-            searchCountries(this.value);
-        });
-
-        function searchCountries(query) {
-            let filter = query.trim().toLowerCase();
+            let filter = this.value.trim().toLowerCase();
             let rows = document.querySelectorAll('#countriesList .country-rule');
             let anyFound = false;
 
@@ -584,15 +641,14 @@
             } else {
                 errorMessage.style.display = 'none';
             }
-        }
+        });
 
 
-        // --- 3. כפתור "תפתיע אותי" (בחירה אקראית) ---
+        // --- 3. כפתור "תפתיע אותי" ---
         function triggerRandomCountry() {
             let rows = document.querySelectorAll('#countriesList .country-rule');
             let randomIndex = Math.floor(Math.random() * rows.length);
             
-            // ניקוי החיפוש הקודם
             document.getElementById('countrySearch').value = "";
             
             rows.forEach((row, index) => {
@@ -631,68 +687,60 @@
         }, 1000);
 
 
-        // --- 5. רכיב מיקום חכם (רשת דינמית) ---
+        // --- 5. רכיב מיקום חכם ---
         setTimeout(() => {
-            // סימולציה טכנולוגית של קריאת מיקום הגולש מישראל וחישוב מרחק סמלי
             document.getElementById('geoBadge').innerHTML = "📍 מזוהה חיבור מישראל 🇮🇱 | מרחק ממוקד האירוע: 3,120 ק\"מ";
         }, 1500);
 
 
-        // --- 6. מערכת כוכבי ניאון השומרת מידע בדפדפן (LocalStorage) ---
+        // --- 6. מערכת ממוצע דירוג חכמה באתר ---
+        // נתוני בסיס קבועים (כאילו גולשים אחרים כבר הצביעו)
+        const baseVotesCount = 142;
+        const baseVotesSum = 612; // ממוצע התחלתי של בערך 4.3
+
         const stars = document.querySelectorAll('.star');
-        const ratingStatus = document.getElementById('ratingStatus');
-        
-        // טעינת הדירוג הקודם אם קיים
-        const savedRating = localStorage.getItem('alexaSongRating');
-        if(savedRating) {
-            highlightStars(savedRating);
-            ratingStatus.innerHTML = `הצבעת כבר! הדירוג השמור שלך: ${savedRating} כוכבים 🌟`;
-        }
+        const avgDisplay = document.getElementById('ratingAverageDisplay');
+        const statsDisplay = document.getElementById('ratingStatsDisplay');
 
-        stars.forEach(star => {
-            star.addEventListener('click', function() {
-                const value = this.getAttribute('data-value');
-                localStorage.setItem('alexaSongRating', value);
-                highlightStars(value);
-                ratingStatus.innerHTML = `הצבעתך התקבלה ונשמרה במערכת: ${value} כוכבים! 🔥`;
-                shootConfetti();
-            });
-        });
+        // פונקציה שמחשבת ומציגה את הממוצע הנוכחי
+        function updateRatingUI() {
+            const userRating = parseInt(localStorage.getItem('myUserRating')) || 0;
+            
+            // חישוב הממוצע הכולל (בסיס הגולשים + הצבעת המשתמש אם קיימת)
+            const totalVotes = userRating > 0 ? baseVotesCount + 1 : baseVotesCount;
+            const totalSum = userRating > 0 ? baseVotesSum + userRating : baseVotesSum;
+            const average = (totalSum / totalVotes).toFixed(1);
 
-        function highlightStars(value) {
+            avgDisplay.innerHTML = `⭐ ממוצע דירוג הגולשים: ${average} / 5`;
+            statsDisplay.innerHTML = `על סמך ${totalVotes} הצבעות באתר ${userRating > 0 ? '(כולל אותך!)' : ''}`;
+
+            // צביעת הכוכבים לפי הממוצע הכללי
             stars.forEach(star => {
-                if(star.getAttribute('data-value') <= value) {
+                const val = parseInt(star.getAttribute('data-value'));
+                star.classList.remove('selected', 'user-selected');
+
+                if (userRating > 0 && val <= userRating) {
+                    // צבע מיוחד להצבעה הספציפית שלך (ורוד ניאון)
+                    star.classList.add('user-selected');
+                } else if (val <= Math.round(average)) {
+                    // צבע צהוב לממוצע הכללי
                     star.classList.add('selected');
-                } else {
-                    star.classList.remove('selected');
                 }
             });
         }
 
-
-        // --- 7. אפקט תלת ממד (3D Tilt Effect) לכרטיסיות בעזרת העכבר ---
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left; // מיקום ה-X של העכבר בתוך הכרטיס
-                const y = e.clientY - rect.top;  // מיקום ה-Y של העכבר בתוך הכרטיס
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                // חישוב זוויות ההטיה (מקסימום 10 מעלות לכל כיוון)
-                const rotateX = ((centerY - y) / centerY) * 10;
-                const rotateY = ((x - centerX) / centerX) * 10;
-                
-                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
-            });
-            
-            // החזרת המצב לקדמותו כשהעכבר יוצא
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = `rotateX(0deg) rotateY(0deg) translateY(0px)`;
+        // האזנה ללחיצות על כוכבים
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const clickedValue = parseInt(this.getAttribute('data-value'));
+                localStorage.setItem('myUserRating', clickedValue);
+                updateRatingUI();
+                shootConfetti();
             });
         });
+
+        // הפעלה ראשונית של הממוצע בטעינת הדף
+        updateRatingUI();
     </script>
 
 </body>
