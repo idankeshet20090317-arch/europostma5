@@ -250,8 +250,8 @@
                         <td>
                             <div class="participant-cell">
                                 <span><span class="flag">👑</span> גילי (מקום 1 בחצי גמר 2)</span>
-                                <button class="mic-play-btn" onclick="toggleSong()" title="נגן/עצור שיר">
-                                    <span id="micIcon">🎙️</span>
+                                <button class="mic-play-btn" onclick="toggleSong('cUfDOS2SINM', 'XG - HYPNOTIZE', this)" title="נגן/עצור שיר">
+                                    <span class="mic-icon">🎙️</span>
                                 </button>
                             </div>
                         </td>
@@ -259,22 +259,50 @@
                     </tr>
                     <tr>
                         <td>🥈 מקום 2</td>
-                        <td><span class="flag">🔥</span> חשאבה (מקום 4 בחצי גמר 2)</td>
-                       <td>122</td>
+                        <td>
+                            <div class="participant-cell">
+                                <span><span class="flag">🔥</span> חשאבה (מקום 4 בחצי גמר 2)</span>
+                                <button class="mic-play-btn" onclick="toggleSong('L1Snj1Pt-Hs', 'Cream Soda & Хлеб - Плачу на техно', this)" title="נגן/עצור שיר">
+                                    <span class="mic-icon">🎙️</span>
+                                </button>
+                            </div>
+                        </td>
+                        <td>122</td>
                     </tr>
                     <tr>
                         <td>🥉 מקום 3</td>
-                        <td>ניצן (מקום 2 בחצי גמר 2)</td>
+                        <td>
+                            <div class="participant-cell">
+                                <span>ניצן (מקום 2 בחצי גמר 2)</span>
+                                <button class="mic-play-btn" onclick="toggleSong('_t5yfyHJOgE', 'Blanca Paloma - EaEa', this)" title="נגן/עצור שיר">
+                                    <span class="mic-icon">🎙️</span>
+                                </button>
+                            </div>
+                        </td>
                         <td>119</td>
                     </tr>
                     <tr>
                         <td>4</td>
-                        <td>איילת (מקום 2 בחצי גמר 1)</td>
+                        <td>
+                            <div class="participant-cell">
+                                <span>איילת (מקום 2 בחצי גמר 1)</span>
+                                <button class="mic-play-btn" onclick="toggleSong('4tkCGxSW0LE', 'Zoe Ko - EAT', this)" title="נגן/עצור שיר">
+                                    <span class="mic-icon">🎙️</span>
+                                </button>
+                            </div>
+                        </td>
                         <td>100</td>
                     </tr>
                     <tr>
                         <td>5</td>
-                       <td>אלונה (מקום 1 בחצי גמר 1)</td>
+                        <td>
+                            <div class="participant-cell">
+                                <span>אלונה (מקום 1 בחצי גמר 1)</span>
+                                <button class="mic-play-btn" onclick="toggleSong('SdnJH72Ltus', 'Nina Chuba - RAGE GIRL', this)" title="נגן/עצור שיר">
+                                    <span class="mic-icon">🎙️</span>
+                                </button>
+                            </div>
+                        </td>
                         <td>98</td>
                     </tr>
                 </tbody>
@@ -320,10 +348,10 @@
                     </tr>
                 </tbody>
             </table>
-      </div>
+        </div>
 
         <div class="youtube-hidden-box">
-            <iframe id="youtubeAudioBridge" width="560" height="315" src="https://www.youtube.com/embed/cUfDOS2SINM?enablejsapi=1&si=VyVzOsEO9NdGyYPw" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media;"></iframe>
+            <div id="playerContainer"></div>
         </div>
 
         <div class="footer-flags">
@@ -335,28 +363,85 @@
     </div>
 
     <script>
-        let musicPlaying = false;
-        const ytIframe = document.getElementById('youtubeAudioBridge');
-        const micIcon = document.getElementById('micIcon');
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        let player;
+        let currentVideoId = '';
+        let currentBtn = null;
         const noticeArea = document.getElementById('statusNotice');
 
-        function toggleSong() {
-            if (!ytIframe || !ytIframe.contentWindow) {
-                console.error("שגיאה: הנגן לא נמצא");
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('playerContainer', {
+                height: '0',
+                width: '0',
+                videoId: '',
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'disablekb': 1,
+                    'fs': 0,
+                    'rel': 0,
+                    'modestbranding': 1
+                },
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function toggleSong(videoId, songTitle, btnElement) {
+            if (!player || typeof player.loadVideoById !== 'function') {
+                console.error("הנגן עדיין נטען, אנא נסה שנית בעוד רגע.");
                 return;
             }
-            
-            if (!musicPlaying) {
-                ytIframe.contentWindow.postMessage(JSON.stringify({"event":"command","func":"playVideo","args":""}), '*');
-                musicPlaying = true;
-                micIcon.innerHTML = "⏸️";
-                noticeArea.innerHTML = "🎵 כרגע מנגן: XG - HYPNOTIZE 🎶";
-            } else {
-                ytIframe.contentWindow.postMessage(JSON.stringify({"event":"command","func":"pauseVideo","args":""}), '*');
-                musicPlaying = false;
-                micIcon.innerHTML = "🎙️";
-                noticeArea.innerHTML = "⏸️ השיר נעצר";
+
+            const iconSpan = btnElement.querySelector('.mic-icon');
+
+            if (currentVideoId === videoId) {
+                const playerState = player.getPlayerState();
+                if (playerState === YT.PlayerState.PLAYING) {
+                    player.pauseVideo();
+                } else {
+                    player.playVideo();
+                }
+                return;
             }
+
+            resetAllButtons();
+            currentVideoId = videoId;
+            currentBtn = btnElement;
+
+            player.loadVideoById(videoId);
+            player.playVideo();
+            iconSpan.innerHTML = "⏸️";
+            noticeArea.innerHTML = `🎵 כרגע מנגן: ${songTitle} 🎶`;
+        }
+
+        function onPlayerStateChange(event) {
+            if (!currentBtn) return;
+            const iconSpan = currentBtn.querySelector('.mic-icon');
+            
+            if (event.data === YT.PlayerState.PLAYING) {
+                iconSpan.innerHTML = "⏸️";
+            } else if (event.data === YT.PlayerState.PAUSED) {
+                iconSpan.innerHTML = "🎙️";
+                noticeArea.innerHTML = "⏸️ השיר נעצר";
+            } else if (event.data === YT.PlayerState.ENDED) {
+                iconSpan.innerHTML = "🎙️";
+                noticeArea.innerHTML = "";
+                currentVideoId = '';
+                currentBtn = null;
+            }
+        }
+
+        function resetAllButtons() {
+            const allButtons = document.querySelectorAll('.mic-play-btn .mic-icon');
+            allButtons.forEach(btnIcon => {
+                btnIcon.innerHTML = "🎙️";
+            });
         }
     </script>
 
