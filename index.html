@@ -35,7 +35,7 @@
             animation: ultimateRainbow 2s linear infinite !important;
         }
 
-        body.party-mode .card {
+        body.party-mode .card, body.party-mode .schedule-block {
             background: rgba(255, 255, 255, 0.15) !important;
             border-color: #ffff00 !important;
             box-shadow: 0 0 30px rgba(255, 255, 0, 0.4) !important;
@@ -51,9 +51,9 @@
 
         /* הפיכת כל הצלליות והגבולות באתר לאפור/שחור/לבן במצב טלוויזיה */
         body.tv-mode .card,
+        body.tv-mode .schedule-block,
         body.tv-mode .party-toggle-btn,
         body.tv-mode .tv-toggle-btn,
-        body.tv-mode .countdown-container,
         body.tv-mode .btn,
         body.tv-mode .random-btn,
         body.tv-mode .country-highlight {
@@ -192,30 +192,6 @@
             text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
         }
 
-        .countdown-container {
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid #ffff00;
-            border-radius: 15px;
-            padding: 15px;
-            max-width: 500px;
-            margin: 25px auto 0 auto;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
-        }
-
-        .countdown-title {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            font-weight: bold;
-            color: #ffff00;
-        }
-
-        .countdown-display {
-            font-size: 1.8rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            font-variant-numeric: tabular-nums;
-        }
-
         .geo-badge {
             background: rgba(0, 255, 255, 0.2);
             border: 1px solid #00ffff;
@@ -266,6 +242,46 @@
             left: 20px;
             opacity: 0.25;
             font-size: 1.5rem;
+        }
+
+        /* עיצוב הבלוק העצמאי החדש של לוח הזמנים */
+        .schedule-block {
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 35px 20px;
+            margin-bottom: 30px;
+            border: 2px dashed rgba(255, 255, 255, 0.35);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .schedule-block:hover {
+            transform: scale(1.02);
+            border-color: #ff007f;
+            box-shadow: 0 20px 45px rgba(255, 0, 127, 0.3);
+        }
+
+        .btn-schedule-main {
+            display: inline-block;
+            padding: 16px 36px;
+            background: linear-gradient(90deg, #ff007f, #7f00ff);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            box-shadow: 0 6px 20px rgba(255,0,127,0.5);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+
+        .btn-schedule-main:hover {
+            transform: scale(1.08);
+            box-shadow: 0 10px 30px rgba(255,0,127,0.8);
+            background: linear-gradient(90deg, #7f00ff, #ff007f);
         }
 
         h2 {
@@ -534,6 +550,13 @@
             .search-input {
                 padding: 15px 45px 15px 15px;
             }
+            
+            .btn-schedule-main {
+                font-size: 1.1rem;
+                padding: 14px 25px;
+                width: 100%;
+                box-sizing: border-box;
+            }
         }
     </style>
 </head>
@@ -552,15 +575,14 @@
         <h1>🎵 יורופוסטמה 🇪🇺</h1>
         <p>ברוכים הבאים לאתר הרשמי של תחרות השירים הגדולה</p>
         
-        <div class="countdown-container">
-            <div class="countdown-title">⏱️ הזמן שנותר עד ל-10 ביולי:</div>
-            <div id="timer" class="countdown-display">טוען טיימר...</div>
-        </div>
-
         <div id="geoBadge" class="geo-badge">📡 מאתר שרת קרוב...</div>
     </header>
 
     <div class="container">
+
+        <div class="schedule-block">
+            <a href="schedule.html" class="btn-schedule-main">📅 לוח זמנים ושליחת שירים רשמי</a>
+        </div>
 
         <div class="card">
             <h2>📜 חוקי התחרות</h2>
@@ -690,15 +712,13 @@
             <p>ההיסטוריה נכתבת כאן! כל המנצחים הגדולים, המיקומים המפתיעים וטבלאות הניקוד המלאות מחכים לכם בלחיצת כפתור אחת.</p>
             
             <div class="results-box">
-                <a href="schedule.html" style="display: inline-block; padding: 12px 24px; background: linear-gradient(90deg, #ff007f, #7f00ff); color: white; text-decoration: none; border-radius: 25px; font-weight: bold; box-shadow: 0 4px 15px rgba(255,0,127,0.4); margin: 10px;">📅 לוח זמנים ושליחת שירים</a>
-                
-                <p style="margin-top: 15px;">לחצו על הכפתור כדי לדעת את כל התוצאות של הטופ 5 מכללל הזמנים:</p>
+                <p>לחצו על הכפתור כדי לדעת את כל התוצאות של הטופ 5 מכללל הזמנים:</p>
                 <a href="results.html" class="btn" style="background: #ffff00; color: #000;">להצגת טבלאות התוצאות 📊</a>
             </div>
         </div>
 
         <div class="footer-flags">
-            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
+            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩👑 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
         </div>
 
     </div>
@@ -742,7 +762,6 @@
             clearInterval(tvInterval);
         }
 
-        // --- 1. מתג מצב מסיבה + מעקף פרסומות מובנה ---
         function togglePartyMode() {
             const body = document.body;
             const btn = document.querySelector('.party-toggle-btn');
@@ -758,7 +777,6 @@
                 btn.style.background = "#ffff00";
                 btn.style.color = "black";
                 
-                // שימוש בשרת youtube-nocookie וביטול בקורות (controls=0) למניעת פרסומות וחוויה חלקה יותר
                 videoContainer.innerHTML = `<iframe id="youtubeVideo" src="https://www.youtube-nocookie.com/embed/-hu6R3ZnOdY?start=79&autoplay=1&controls=0&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
 
                 confettiLoop = setInterval(() => {
@@ -776,7 +794,6 @@
             }
         }
 
-        // --- 2. מתג מצב טלוויזיה ישנה ---
         function toggleTvMode() {
             const body = document.body;
             body.classList.toggle('tv-mode');
@@ -796,11 +813,10 @@
             confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
         }
 
-        document.querySelectorAll('.btn, .random-btn').forEach(button => {
+        document.querySelectorAll('.btn, .random-btn, .btn-schedule-main').forEach(button => {
             button.addEventListener('click', shootConfetti);
         });
 
-        // --- 3. מנוע חיפוש ---
         document.getElementById('countrySearch').addEventListener('input', function() {
             let filter = this.value.trim().toLowerCase();
             let rows = document.querySelectorAll('#countriesList .country-rule');
@@ -824,7 +840,6 @@
             document.getElementById('noResultsMessage').style.display = (!anyFound && filter !== "") ? 'block' : 'none';
         });
 
-        // --- 4. כפתור תפתיע אותי ---
         function triggerRandomCountry() {
             let rows = document.querySelectorAll('#countriesList .country-rule');
             let randomIndex = Math.floor(Math.random() * rows.length);
@@ -841,21 +856,6 @@
             });
             document.getElementById('noResultsMessage').style.display = 'none';
         }
-
-        // --- 5. טיימר ל-10 ביולי 2026 ---
-        const targetDate = new Date("July 10, 2026 00:00:00").getTime();
-        setInterval(function() {
-            const difference = targetDate - new Date().getTime();
-            if (difference > 0) {
-                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-                document.getElementById("timer").innerHTML = days + "ד' " + hours + "ש' " + minutes + "מ' " + seconds + "ש'";
-            } else {
-                document.getElementById("timer").innerHTML = "🎉 הגיע ה-10 ביולי! 🎉";
-            }
-        }, 1000);
 
         setTimeout(() => {
             document.getElementById('geoBadge').innerHTML = "📍 מזוהה חיבור מישראל 🇮🇱 | מרחק ממוקד האירוע: 3,120 ק\"מ";
