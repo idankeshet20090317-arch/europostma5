@@ -13,191 +13,203 @@
             font-family: 'Rubik', sans-serif;
             margin: 0;
             padding: 0;
-            background: radial-gradient(circle at center, #0a192f 0%, #020c1b 100%);
+            /* רקע חלל עמוק וריאליסטי עם אפקט ערפילית (Nebula) */
+            background: radial-gradient(circle at 20% 30%, rgba(20, 10, 45, 0.9) 0%, #020617 70%),
+                        radial-gradient(circle at 80% 70%, rgba(10, 25, 50, 0.8) 0%, #020617 80%);
+            background-color: #020617;
             color: white;
-            min-height: 200vh; /* מאפשר גלילה ארוכה למטה כדי לראות את החלל העצום */
+            min-height: 250vh; /* מרחב גלילה עצום לחקר החלל */
             overflow-x: hidden;
             position: relative;
         }
 
-        /* תמונת הכותרת החדשה - גבוהה, מלאה ונקייה לחלוטין מכיתוב */
+        /* תמונת הכותרת החשובה - גבוהה, דומיננטית ונקייה לחלוטין מכיתוב */
         .hero-image {
             width: 100%;
-            height: 70vh; /* גובה ענק ומרשים */
+            height: 75vh; 
             object-fit: cover;
             display: block;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.9);
-            border-bottom: 4px solid #ffff00;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.95);
+            border-bottom: 4px solid #ffcc00;
             position: relative;
-            z-index: 2;
+            z-index: 5;
         }
 
-        /* שכבת החלל הדינמית - נפרסת על פני כל גובה העמוד */
+        /* שכבת החלל האינסופית */
         #starfield {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0;
+            z-index: 1;
             pointer-events: none;
         }
 
-        /* כוכבים ענקיים בצורת כוכב אמיתי */
+        /* כוכבים אמיתיים בריצוד קוסמי */
         .star {
             position: absolute;
-            color: #fff;
+            color: #ffffff;
             font-family: serif;
             line-height: 1;
-            animation: twinkle 4s infinite ease-in-out;
+            animation: twinkle 5s infinite ease-in-out;
             opacity: 0;
             user-select: none;
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0; transform: scale(0.4) rotate(0deg); color: #ffffff; }
-            50% { opacity: 1; transform: scale(1.4) rotate(15deg); color: #ffff00; text-shadow: 0 0 20px #ffff00, 0 0 35px #ffff00; }
+            0%, 100% { opacity: 0; transform: scale(0.4); }
+            50% { opacity: 0.9; transform: scale(1.2); text-shadow: 0 0 15px #fff, 0 0 30px #fff; }
         }
 
-        /* כוכבי לכת עצומים ומנצנצים (עם הילה משתנה) */
+        /* כוכבי לכת (ילדים) עצומים וריאליסטיים */
         .planet {
             position: absolute;
             border-radius: 50%;
             pointer-events: none;
-            z-index: 0;
-            animation: planetGlow 6s infinite ease-in-out;
+            z-index: 2;
+            animation: planetAtmosphere 8s infinite ease-in-out;
         }
 
-        @keyframes planetGlow {
-            0%, 100% { filter: drop-shadow(0 0 15px rgba(255,255,255,0.2)); transform: scale(1); }
-            50% { filter: drop-shadow(0 0 40px rgba(255,255,255,0.6)); transform: scale(1.03); }
+        @keyframes planetAtmosphere {
+            0%, 100% { filter: drop-shadow(0 0 30px rgba(255,255,255,0.15)); }
+            50% { filter: drop-shadow(0 0 60px rgba(255,255,255,0.4)); }
         }
 
+        /* ענק גז עצום - חלק עליון שמאל */
         .planet-1 {
-            width: 220px; /* מוגדל משמעותית */
-            height: 220px;
-            background: radial-gradient(circle at 30% 30%, #ff5e62, #ff9966, #3a1c1c);
-            top: 15%;
-            left: 5%;
+            width: 450px; 
+            height: 450px;
+            /* טקסטורת אטמוספירה ריאליסטית עם צל עמוק בצד */
+            background: radial-gradient(circle at 30% 30%, #e056fd 0%, #686de0 40%, #130f40 80%);
+            box-shadow: inset -40px -40px 80px rgba(0,0,0,0.95), 0 0 40px rgba(104, 109, 224, 0.3);
+            top: 10%;
+            left: -5%;
         }
 
+        /* כוכב לכת קרח ענק - מרכז ימין */
         .planet-2 {
-            width: 180px; /* מוגדל משמעותית */
-            height: 180px;
-            background: radial-gradient(circle at 30% 30%, #00b4db, #0083b0, #051937);
-            top: 45%;
-            right: 5%;
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle at 30% 30%, #4cd137 0%, #00a8ff 50%, #000000 90%);
+            box-shadow: inset -30px -30px 60px rgba(0,0,0,0.95), 0 0 50px rgba(0, 168, 255, 0.4);
+            top: 55%;
+            right: -2%;
         }
 
-        /* כוכבי לכת נוספים שנמצאים למטה בהמשך הגלילה */
+        /* כוכב לכת וולקני עצום - נמצא בהמשך הגלילה למטה */
         .planet-3 {
-            width: 250px; /* כוכב לכת ענקי למטה */
-            height: 250px;
-            background: radial-gradient(circle at 30% 30%, #a8ff78, #78ffd6, #113322);
-            top: 110%;
-            left: 8%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle at 35% 35%, #ff9f43 0%, #ee5253 40%, #571112 85%, #000000 100%);
+            box-shadow: inset -50px -50px 100px rgba(0,0,0,0.98), 0 0 60px rgba(238, 82, 83, 0.3);
+            top: 120%;
+            left: -8%;
         }
 
+        /* כוכב לכת מסתורי - סוף הגלילה */
         .planet-4 {
-            width: 140px;
-            height: 140px;
-            background: radial-gradient(circle at 30% 30%, #f4c4f3, #fc67fa, #4a0e4e);
-            top: 150%;
-            right: 12%;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle at 25% 25%, #ffeaa7 0%, #d2dae2 50%, #2f3640 90%);
+            box-shadow: inset -25px -25px 50px rgba(0,0,0,0.95), 0 0 30px rgba(210, 218, 226, 0.2);
+            top: 180%;
+            right: 8%;
         }
 
-        /* חללית ענקית ומגניבה שחוצה את המסך */
+        /* חללית ענקית ומאיימת שחוצה את החלל העמוק */
         .spaceship {
             position: absolute;
-            font-size: 5rem; /* הוגדלה פי 2 למראה עצום */
-            z-index: 1;
+            font-size: 8rem; /* גודל מפלצתי ומגניב */
+            z-index: 3;
             pointer-events: none;
-            animation: flyBy 30s infinite linear;
-            opacity: 0.85;
-            filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5));
+            animation: deepSpaceFly 40s infinite linear;
+            opacity: 0.9;
+            filter: drop-shadow(0 0 30px rgba(0, 255, 200, 0.4)) blur(0.5px);
         }
 
-        @keyframes flyBy {
-            0% { top: 80%; left: -15%; transform: rotate(15deg) scale(0.8); }
-            50% { top: 120%; left: 50%; transform: rotate(25deg) scale(1.2); } /* יורדת גם לחלק התחתון של הגלילה */
-            100% { top: 160%; left: 115%; transform: rotate(15deg) scale(0.8); }
+        @keyframes deepSpaceFly {
+            0% { top: 35%; left: -20%; transform: rotate(12deg) scale(0.7); }
+            50% { top: 100%; left: 45%; transform: rotate(20deg) scale(1.1); }
+            100% { top: 170%; left: 115%; transform: rotate(8deg) scale(0.7); }
         }
 
-        /* תוכן הכתבה */
+        /* תוכן האתר והכרטיסייה */
         .content-container {
             position: relative;
-            z-index: 3;
+            z-index: 10;
             max-width: 850px;
-            margin: 50px auto;
+            margin: 60px auto;
             padding: 20px;
         }
 
         .news-header {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 40px;
         }
 
         .news-title {
-            font-size: 3rem;
+            font-size: 3.2rem;
             font-weight: 900;
-            background: linear-gradient(135deg, #ffff00 0%, #ffea00 50%, #ffffff 100%);
+            background: linear-gradient(135deg, #fff200 0%, #ffc400 50%, #ffffff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin: 0;
-            text-shadow: 3px 3px 20px rgba(0,0,0,0.7);
+            text-shadow: 0 4px 25px rgba(0,0,0,0.9);
             display: inline-block;
             letter-spacing: 1px;
         }
 
         .card {
-            background: rgba(2, 12, 27, 0.8);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 40px;
-            border: 1px solid rgba(0, 85, 255, 0.4);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.6), inset 0 0 30px rgba(0, 85, 255, 0.15);
+            background: rgba(4, 12, 32, 0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 24px;
+            padding: 45px;
+            border: 1px solid rgba(0, 132, 255, 0.25);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 40px rgba(0, 102, 255, 0.1);
             line-height: 1.9;
             font-size: 1.25rem;
         }
 
         .card h2 {
-            color: #ffff00;
-            font-size: 1.9rem;
+            color: #ffea00;
+            font-size: 2rem;
             margin-top: 0;
-            border-bottom: 2px solid rgba(0, 85, 255, 0.4);
-            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(0, 132, 255, 0.3);
+            padding-bottom: 15px;
         }
 
         .card p {
-            color: #e2e8f0;
+            color: #cbd5e1;
         }
 
-        /* כפתור חזרה לדף הראשי */
+        /* כפתור הניווט */
         .back-btn-container {
             text-align: center;
-            margin-top: 50px;
-            margin-bottom: 100px; /* רווח מהתחתית כדי לתת מקום לחלל להמשיך */
+            margin-top: 60px;
+            margin-bottom: 150px;
         }
 
         .back-btn {
             display: inline-block;
-            padding: 15px 40px;
-            background: linear-gradient(90deg, #ff0055, #9900ff);
+            padding: 16px 45px;
+            background: linear-gradient(90deg, #ff0055, #8800ff);
             color: white;
             text-decoration: none;
             border-radius: 50px;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: bold;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(255,0,85,0.5);
-            border: 2px solid white;
+            box-shadow: 0 8px 25px rgba(255,0,85,0.4);
+            border: 2px solid rgba(255, 255, 255, 0.8);
             cursor: pointer;
         }
 
         .back-btn:hover {
-            transform: scale(1.08);
-            box-shadow: 0 8px 30px rgba(255,0,85,0.8);
-            background: linear-gradient(90deg, #9900ff, #ff0055);
+            transform: scale(1.06);
+            box-shadow: 0 12px 35px rgba(255,0,85,0.7);
+            background: linear-gradient(90deg, #8800ff, #ff0055);
         }
     </style>
 </head>
@@ -232,41 +244,41 @@
     </div>
 
     <script>
-        // יצירת כוכבים גדולים (✦) שמפוזרים לאורך כל גובה העמוד (כולל הגלילה)
+        // יצירת מערכת כוכבים משובצים בגדלים שונים לאורך כל הגלילה
         function createStars() {
             const starfield = document.getElementById('starfield');
-            const numberOfStars = 90; // הגדלנו את הכמות כדי למלא גם את החלק התחתון
+            const numberOfStars = 120; // מילוי עשיר ומאוזן
 
             for (let i = 0; i < numberOfStars; i++) {
                 let star = document.createElement('div');
                 star.className = 'star';
                 star.innerHTML = '✦';
                 
-                // גדלים ענקיים ומגוונים
-                let size = Math.random() * 18 + 16;
+                // גדלים מגוונים (חלק קטנים ורחוקים וחלק קרובים וגדולים)
+                let size = Math.random() * 16 + 12;
                 star.style.fontSize = size + 'px';
                 
-                // פיזור רנדומלי על פני כל ה-200vh של הדף
-                star.style.top = Math.random() * 200 + 'vh';
+                // פיזור על פני כל ה-250vh של הדף הריאליסטי
+                star.style.top = Math.random() * 250 + 'vh';
                 star.style.left = Math.random() * 100 + 'vw';
                 
                 star.style.animationDelay = Math.random() * 5 + 's';
-                star.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                star.style.animationDuration = (Math.random() * 4 + 3) + 's';
 
                 starfield.appendChild(star);
             }
         }
 
-        // עדכון מיקומי כוכבים שנעלמו זמנית
+        // עדכון דינמי של כוכבים עמומים כדי לתת תחושת עומק זזה
         setInterval(() => {
             const stars = document.querySelectorAll('.star');
             stars.forEach(star => {
-                if (window.getComputedStyle(star).opacity < 0.1) {
-                    star.style.top = Math.random() * 200 + 'vh';
+                if (window.getComputedStyle(star).opacity < 0.05) {
+                    star.style.top = Math.random() * 250 + 'vh';
                     star.style.left = Math.random() * 100 + 'vw';
                 }
             });
-        }, 6000);
+        }, 7000);
 
         window.onload = createStars;
     </script>
