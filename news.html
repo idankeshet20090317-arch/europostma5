@@ -23,7 +23,7 @@
             position: relative;
         }
 
-        /* תמונת הכותרת החשובה - גבוהה, דומיננטית ונקייה לחלוטין מכיתוב */
+        /* תמונת הכותרת המקורית והנכונה - גבוהה, דומיננטית ונקייה לחלוטין מכיתוב */
         .hero-image {
             width: 100%;
             height: 75vh; 
@@ -62,7 +62,7 @@
             50% { opacity: 0.9; transform: scale(1.2); text-shadow: 0 0 15px #fff, 0 0 30px #fff; }
         }
 
-        /* כוכבי לכת (ילדים) עצומים וריאליסטיים */
+        /* כוכבי לכת עצומים וריאליסטיים */
         .planet {
             position: absolute;
             border-radius: 50%;
@@ -80,7 +80,6 @@
         .planet-1 {
             width: 450px; 
             height: 450px;
-            /* טקסטורת אטמוספירה ריאליסטית עם צל עמוק בצד */
             background: radial-gradient(circle at 30% 30%, #e056fd 0%, #686de0 40%, #130f40 80%);
             box-shadow: inset -40px -40px 80px rgba(0,0,0,0.95), 0 0 40px rgba(104, 109, 224, 0.3);
             top: 10%;
@@ -117,10 +116,10 @@
             right: 8%;
         }
 
-        /* חללית ענקית ומאיימת שחוצה את החלל העמוק */
+        /* חללית ענקית שחוצה את החלל העמוק */
         .spaceship {
             position: absolute;
-            font-size: 8rem; /* גודל מפלצתי ומגניב */
+            font-size: 8rem; 
             z-index: 3;
             pointer-events: none;
             animation: deepSpaceFly 40s infinite linear;
@@ -223,7 +222,7 @@
         <div class="spaceship">🛸</div>
     </div>
 
-    <img src="image_ad0282.jpg" alt="Pustema News" class="hero-image">
+    <img src="image_ac09de.jpg" alt="Pustema News" class="hero-image">
 
     <div class="content-container">
         
@@ -247,18 +246,16 @@
         // יצירת מערכת כוכבים משובצים בגדלים שונים לאורך כל הגלילה
         function createStars() {
             const starfield = document.getElementById('starfield');
-            const numberOfStars = 120; // מילוי עשיר ומאוזן
+            const numberOfStars = 120; 
 
             for (let i = 0; i < numberOfStars; i++) {
                 let star = document.createElement('div');
                 star.className = 'star';
                 star.innerHTML = '✦';
                 
-                // גדלים מגוונים (חלק קטנים ורחוקים וחלק קרובים וגדולים)
                 let size = Math.random() * 16 + 12;
                 star.style.fontSize = size + 'px';
                 
-                // פיזור על פני כל ה-250vh של הדף הריאליסטי
                 star.style.top = Math.random() * 250 + 'vh';
                 star.style.left = Math.random() * 100 + 'vw';
                 
@@ -269,7 +266,6 @@
             }
         }
 
-        // עדכון דינמי של כוכבים עמומים כדי לתת תחושת עומק זזה
         setInterval(() => {
             const stars = document.querySelectorAll('.star');
             stars.forEach(star => {
