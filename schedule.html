@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>לוח זמנים ושליחת שירים</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f0c20, #150050, #3f0071, #000000);
+            --rainbow-glow: linear-gradient(90deg, #ff007f, #ff00ff, #7f00ff, #00ffff, #ff007f);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: var(--rainbow-glow);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 3s linear infinite;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* תפריט ניווט מהיר */
+        .quick-nav {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 15px;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .quick-nav h3 {
+            margin-top: 0;
+            color: #00ffff;
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: var(--rainbow-glow);
+            border-color: transparent;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+        }
+
+        /* רשימת החוקים והאירועים */
+        .timeline {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .event-card {
+            background: rgba(20, 20, 40, 0.75);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: right;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--rainbow-glow);
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(127, 0, 255, 0.3);
+            border-color: rgba(255, 0, 255, 0.4);
+        }
+
+        /* אפקט הבהוב לניווט מהיר */
+        @keyframes flashEffect {
+            0% { background: rgba(255, 255, 255, 0.7); transform: scale(1.02); }
+            50% { background: rgba(255, 0, 255, 0.4); }
+            100% { background: rgba(20, 20, 40, 0.75); transform: scale(1); }
+        }
+
+        .flash-active {
+            animation: flashEffect 1.5s ease-out 2;
+        }
+
+        .date-badge {
+            display: inline-block;
+            background: #7f00ff;
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            box-shadow: 0 0 10px rgba(127, 0, 255, 0.5);
+        }
+
+        .event-text {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .important-note {
+            color: #ff3366;
+            font-weight: bold;
+        }
+
+        /* עיצוב הטיימר */
+        .timer-container {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            font-family: monospace;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .timer-segment {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+        }
+
+        .timer-val {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .timer-lbl {
+            font-size: 0.75rem;
+            color: #aaa;
+            margin-top: 2px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 12px 30px;
+            background: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #fff;
+            color: #000;
+            box-shadow: 0 0 20px #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🏆 לוח זמנים ושליחת שירים 🏳️‍🌈</h1>
+
+    <div class="quick-nav">
+        <h3>קפיצה מהירה לתאריך:</h3>
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="scrollToEvent('event1')">22 ביולי - חשיפת סדר שליחה</button>
+            <button class="nav-btn" onclick="scrollToEvent('event2')">23-29 ביולי - שליחת שירים</button>
+            <button class="nav-btn" onclick="scrollToEvent('event3')">28 ביולי - חשיפת השירים</button>
+            <button class="nav-btn" onclick="scrollToEvent('event4')">30 ביולי - חשיפת סמיז</button>
+            <button class="nav-btn" onclick="scrollToEvent('event5')">31 ביולי - חשיפת הריקאפ</button>
+        </div>
+    </div>
+
+    <div class="timeline">
+
+        <div class="event-card" id="event1">
+            <span class="date-badge">22 ביולי 2026</span>
+            <div class="event-text">
+                חשיפת סדר שליחת שירים (לדוגמה: מעין שולחת שיר ראשונה, ניצן שולח שיר שני...) 🎼❤️
+            </div>
+            <div class="timer-container" data-date="2026-07-22T18:00:00">
+                <div class="timer-segment"><span class="timer-val days">00</span><span class="timer-lbl">ימים</span></div>
+                <div class="timer-segment"><span class="timer-val hours">00</span><span class="timer-lbl">שעות</span></div>
+                <div class="timer-segment"><span class="timer-val minutes">00</span><span class="timer-lbl">דקות</span></div>
+                <div class="timer-segment"><span class="timer-val seconds">00</span><span class="timer-lbl">שניות</span></div>
+            </div>
+        </div>
+
+        <div class="event-card" id="event2">
+            <span class="date-badge">23 ביולי - 29 ביולי 2026</span>
+            <div class="event-text">
+                שליחת השירים לקשת (יש הרבה זמן בשביל להוריד את הלחץ). 
+                <br><br>
+                <strong>בבקשה תשלחו מהר ואל תעכבו את כולם יש לכם מספיק זמן לחפש שירים!</strong> 🙏
+                <br><br>
+                כל אחד בנוסף שולח לי תאריכים בהם הוא בחו"ל או שיש לו דברים חשובים כאלה ואחרים בשביל שנדע למצוא את התאריכים הכי נוחים לכולם לבצע את התוצאות של החצי גמר והגמר❤️ 
+                <br><br>
+                <span class="important-note">שימו ❤️: אנחנו לא מבטיחים לכם שהתאריכים שביקשתם שבהם לא יהיו תוצאות נעמוד בהם. אבל אנחנו מבטיחים לנסות להתחשב בכולם!!!</span>
+            </div>
+            <div class="timer-container" data-date="2026-07-23T00:00:00">
+                <div class="timer-segment"><span class="timer-val days">00</span><span class="timer-lbl">ימים</span></div>
+                <div class="timer-segment"><span class="timer-val hours">00</span><span class="timer-lbl">שעות</span></div>
+                <div class="timer-segment"><span class="timer-val minutes">00</span><span class="timer-lbl">דקות</span></div>
+                <div class="timer-segment"><span class="timer-val seconds">00</span><span class="timer-lbl">שניות</span></div>
+            </div>
+        </div>
+
+        <div class="event-card" id="event3">
+            <span class="date-badge">28 ביולי 2026</span>
+            <div class="event-text">
+                חשיפת השירים המשתתפים! 🎤
+            </div>
+            <div class="timer-container" data-date="2026-07-28T18:00:00">
+                <div class="timer-segment"><span class="timer-val days">00</span><span class="timer-lbl">ימים</span></div>
+                <div class="timer-segment"><span class="timer-val hours">00</span><span class="timer-lbl">שעות</span></div>
+                <div class="timer-segment"><span class="timer-val minutes">00</span><span class="timer-lbl">דקות</span></div>
+                <div class="timer-segment"><span class="timer-val seconds">00</span><span class="timer-lbl">שניות</span></div>
+            </div>
+        </div>
+
+        <div class="event-card" id="event4">
+            <span class="date-badge">30 ביולי 2026</span>
+            <div class="event-text">
+                חשיפת סמיז (באיזה סמי כל מדינה נמצאת והאם היא חלק 1 או חלק 2) 📊
+            </div>
+            <div class="timer-container" data-date="2026-07-30T18:00:00">
+                <div class="timer-segment"><span class="timer-val days">00</span><span class="timer-lbl">ימים</span></div>
+                <div class="timer-segment"><span class="timer-val hours">00</span><span class="timer-lbl">שעות</span></div>
+                <div class="timer-segment"><span class="timer-val minutes">00</span><span class="timer-lbl">דקות</span></div>
+                <div class="timer-segment"><span class="timer-val seconds">00</span><span class="timer-lbl">שניות</span></div>
+            </div>
+        </div>
+
+        <div class="event-card" id="event5">
+            <span class="date-badge">31 ביולי 2026</span>
+            <div class="event-text">
+                <strong>חשיפת הריקאפ!!!</strong> 🎬
+                <br>
+                שימו ❤️: תגלו את חשיפת סדר השירים בזכות הריקאפ!!!
+                <br><br>
+                חצי שעה לאחר מכן נשלח לכם את התמונה שתעשה סדר באיזה מספר שיר כל מדינה, ומייד לאחר מכן... 
+                <br>
+                <span style="color: #00ffff; font-weight: bold; font-size: 1.3rem;">פתיחת ההצבעות‼️‼️‼️❤️❤️❤️</span>
+            </div>
+            <div class="timer-container" data-date="2026-07-31T18:00:00">
+                <div class="timer-segment"><span class="timer-val days">00</span><span class="timer-lbl">ימים</span></div>
+                <div class="timer-segment"><span class="timer-val hours">00</span><span class="timer-lbl">שעות</span></div>
+                <div class="timer-segment"><span class="timer-val minutes">00</span><span class="timer-lbl">דקות</span></div>
+                <div class="timer-segment"><span class="timer-val seconds">00</span><span class="timer-lbl">שניות</span></div>
+            </div>
+        </div>
+
+    </div>
+
+    <a href="index.html" class="back-btn">חזרה לעמוד הראשי</a>
+
+    <script>
+        // פונקציית הניווט המהיר + אפקט הבהוב קופץ
+        function scrollToEvent(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // הוספת קלאס ההבהוב
+                element.classList.add('flash-active');
+                
+                // הסרתו לאחר סיום האנימציה כדי שיהיה אפשר להפעיל שוב
+                setTimeout(() => {
+                    element.classList.remove('flash-active');
+                }, 3000);
+            }
+        }
+
+        // מערכת הטיימרים
+        function updateTimers() {
+            const containers = document.querySelectorAll('.timer-container');
+            
+            containers.forEach(container => {
+                const targetDate = new Date(container.getAttribute('data-date')).getTime();
+                const now = new Date().getTime();
+                const difference = targetDate - now;
+
+                if (difference < 0) {
+                    container.innerHTML = "<span style='color:#ff3366; font-weight:bold;'>האירוע התחיל או הסתיים! 🎉</span>";
+                    return;
+                }
+
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                container.querySelector('.days').innerText = days.toString().padStart(2, '0');
+                container.querySelector('.hours').innerText = hours.toString().padStart(2, '0');
+                container.querySelector('.minutes').innerText = minutes.toString().padStart(2, '0');
+                container.querySelector('.seconds').innerText = seconds.toString().padStart(2, '0');
+            });
+        }
+
+        // הפעלה ראשונית ועדכון כל שנייה
+        updateTimers();
+        setInterval(updateTimers, 1000);
+    </script>
+</body>
+</html>
