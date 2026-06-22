@@ -20,18 +20,19 @@
             position: relative;
         }
 
-        /* תמונת הכותרת - ממלאת את כל הרוחב, גובה מותאם */
+        /* תמונת הכותרת - ממלאת את החלק העליון גבוה, נקייה לחלוטין */
         .hero-image {
             width: 100%;
-            height: auto;
-            max-height: 500px;
+            height: 60vh; /* גובה משמעותי ומלא */
             object-fit: cover;
             display: block;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
             border-bottom: 3px solid #ffff00;
+            position: relative;
+            z-index: 2;
         }
 
-        /* שכבת הכוכבים הדינמיים ברקע */
+        /* שכבת החלל הדינמית ברקע */
         #starfield {
             position: fixed;
             top: 0;
@@ -42,23 +43,69 @@
             pointer-events: none;
         }
 
+        /* עיצוב כוכב אמיתי באמצעות תווים ומנצנץ */
         .star {
             position: absolute;
-            background-color: #fff;
-            border-radius: 50%;
+            color: #fff;
+            font-family: serif;
+            line-height: 1;
             animation: twinkle 4s infinite ease-in-out;
             opacity: 0;
+            user-select: none;
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0; transform: scale(0.5); background-color: #ffffff; }
-            50% { opacity: 1; transform: scale(1.2); background-color: #ffff00; box-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00; }
+            0%, 100% { opacity: 0; transform: scale(0.4) rotate(0deg); color: #ffffff; }
+            50% { opacity: 1; transform: scale(1.3) rotate(15deg); color: #ffff00; text-shadow: 0 0 15px #ffff00, 0 0 25px #ffff00; }
+        }
+
+        /* כוכבי לכת ברקע */
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.6;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .planet-1 {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle at 30% 30%, #ff5e62, #ff9966, #3a1c1c);
+            top: 20%;
+            left: 10%;
+            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.8), 0 0 30px rgba(255, 94, 98, 0.2);
+        }
+
+        .planet-2 {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 30% 30%, #00b4db, #0083b0, #051937);
+            bottom: 15%;
+            right: 8%;
+            box-shadow: inset -8px -8px 15px rgba(0,0,0,0.8), 0 0 25px rgba(0, 180, 219, 0.2);
+        }
+
+        /* חללית שטה בחלל העצום */
+        .spaceship {
+            position: absolute;
+            font-size: 2.5rem;
+            z-index: 1;
+            pointer-events: none;
+            animation: flyBy 25s infinite linear;
+            opacity: 0.8;
+        }
+
+        @keyframes flyBy {
+            0% { top: 75%; left: -10%; transform: rotate(15deg) scale(0.7); }
+            50% { top: 60%; left: 50%; transform: rotate(10deg) scale(1); }
+            100% { top: 45%; left: 110%; transform: rotate(5deg) scale(0.7); }
         }
 
         /* תוכן הכתבה */
         .content-container {
             position: relative;
-            z-index: 1;
+            z-index: 3;
             max-width: 850px;
             margin: 40px auto;
             padding: 20px;
@@ -69,7 +116,6 @@
             margin-bottom: 35px;
         }
 
-        /* עיצוב כותרת "חדשות גדולות:" בגודל מרשים ומקצועי */
         .news-title {
             font-size: 2.8rem;
             font-weight: 900;
@@ -83,7 +129,7 @@
         }
 
         .card {
-            background: rgba(2, 12, 27, 0.65);
+            background: rgba(2, 12, 27, 0.75);
             backdrop-filter: blur(15px);
             border-radius: 20px;
             padding: 35px;
@@ -135,9 +181,13 @@
 </head>
 <body>
 
-    <div id="starfield"></div>
+    <div id="starfield">
+        <div class="planet planet-1"></div>
+        <div class="planet planet-2"></div>
+        <div class="spaceship">🛸</div>
+    </div>
 
-    <img src="image_ac09de.jpg" alt="Pustema News" class="hero-image">
+    <img src="image_aca028.jpg" alt="Pustema News" class="hero-image">
 
     <div class="content-container">
         
@@ -158,37 +208,38 @@
     </div>
 
     <script>
-        // יצירת מערכת כוכבים מנצנצים מקצועית שמשנים מיקומים וצבעים
+        // יצירת מערכת כוכבים בצורת כוכב (✦) גדולים ומנצנצים
         function createStars() {
             const starfield = document.getElementById('starfield');
-            const numberOfStars = 60; // כמות כוכבים מאוזנת למראה נקי
+            const numberOfStars = 50; // כמות מאוזנת של כוכבים גדולים ומרשימים
 
             for (let i = 0; i < numberOfStars; i++) {
                 let star = document.createElement('div');
                 star.className = 'star';
                 
-                // גדלים משתנים (חלק קטנים מאוד וחלק גדולים יותר)
-                let size = Math.random() * 4 + 1;
-                star.style.width = size + 'px';
-                star.style.height = size + 'px';
+                // שימוש בתו כוכב אמיתי במקום עיגול
+                star.innerHTML = '✦';
                 
-                // מיקומים רנדומליים על המסך
+                // גדלים משתנים גדולים בהרבה (בין 14 פיקסלים ל-28 פיקסלים)
+                let size = Math.random() * 14 + 14;
+                star.style.fontSize = size + 'px';
+                
+                // מיקומים רנדומליים על כל מרחב החלל
                 star.style.top = Math.random() * 100 + 'vh';
                 star.style.left = Math.random() * 100 + 'vw';
                 
-                // זמני אנימציה מגוונים כדי שלא כולם יהבהבו יחד
+                // זמני אנימציה משתנים למניעת סינכרון בהבהוב
                 star.style.animationDelay = Math.random() * 4 + 's';
-                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                star.style.animationDuration = (Math.random() * 3 + 3) + 's';
 
                 starfield.appendChild(star);
             }
         }
 
-        // שינוי מיקום הכוכבים מדי פעם כדי לייצר תחושה שהם נעלמים וחוזרים במקום אחר
+        // שינוי מיקומי כוכבים בצורה חלקה כשהם נעלמים
         setInterval(() => {
             const stars = document.querySelectorAll('.star');
             stars.forEach(star => {
-                // רק כוכבים שכרגע באופסיטי נמוך משנים מיקום כדי למנוע קפיצות בעין
                 if (window.getComputedStyle(star).opacity < 0.1) {
                     star.style.top = Math.random() * 100 + 'vh';
                     star.style.left = Math.random() * 100 + 'vw';
