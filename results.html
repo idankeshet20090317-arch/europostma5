@@ -8,24 +8,128 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
+        /* --- עולם קסום וגיהנום של אגדות ברקע --- */
         body {
             font-family: 'Rubik', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab, #ff00ff, #7000ff);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
+            /* שמיים קסומים בזריחה/שקיעה של גן עדן */
+            background: linear-gradient(180deg, #ff9a9e 0%, #fecfef 30%, #a1c4fd 70%, #c2e9fb 100%);
             color: white;
             min-height: 100vh;
+            position: relative;
             overflow-x: hidden;
+            transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* מעבר חלק להיפוך העולם */
         }
 
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* אפקט היפוך וסיבוב לעולם */
+        body.flipped {
+            transform: rotate(360deg) scaleX(-1) scaleY(-1);
         }
 
+        /* אלמנטים של הטבע הקסום ברקע */
+        body::before {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 250px;
+            /* דשא ירוק בוהק בשילוב אגם זוהר במרכז */
+            background: 
+                radial-gradient(circle at 50% 120%, #00ffff 0%, rgba(0, 255, 255, 0) 60%), /* אגם בוהק */
+                linear-gradient(0deg, #107a3b 0%, #10b981 100%); /* דשא ירוק חזק */
+            z-index: -1;
+            box-shadow: inset 0 50px 50px rgba(255, 255, 255, 0.4);
+        }
+
+        /* עצים צבעוניים בוהקים ברקע */
+        .magic-tree {
+            position: fixed;
+            bottom: 180px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            filter: blur(10px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: pulseGlow 4s ease-in-out infinite alternate;
+        }
+        .tree-pink { left: 5%; background: #ff007f; }
+        .tree-purple { left: 15%; background: #7f00ff; bottom: 200px; }
+        .tree-cyan { right: 8%; background: #00ffff; }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); filter: blur(10px) brightness(1); }
+            100% { transform: scale(1.2); filter: blur(15px) brightness(1.4); }
+        }
+
+        /* שמש מהממת וזוהרת */
+        .magic-sun {
+            position: fixed;
+            top: 80px;
+            right: 10%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, #fff700 0%, #ff8800 70%, transparent 100%);
+            border-radius: 50%;
+            z-index: -2;
+            filter: drop-shadow(0 0 40px #ffaa00);
+            animation: sunFloat 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes sunFloat {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-20px); }
+        }
+
+        /* ארנב קסום עם כנפיים מעופף ברקע */
+        .magic-rabbit {
+            position: fixed;
+            bottom: 220px;
+            left: -100px;
+            font-size: 2.5rem;
+            z-index: -1;
+            animation: rabbitFly 15s linear infinite;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        @keyframes rabbitFly {
+            0% { left: -100px; transform: translateY(0) scaleX(1); }
+            45% { transform: translateY(-50px) scaleX(1); }
+            50% { left: 110%; transform: translateY(0) scaleX(1); }
+            51% { transform: scaleX(-1); }
+            95% { transform: translateY(-30px) scaleX(-1); }
+            100% { left: -100px; transform: translateY(0) scaleX(-1); }
+        }
+
+        /* כפתור היפוך העולם הבולט */
+        .flip-world-btn {
+            position: fixed;
+            top: 25px;
+            left: 20px;
+            z-index: 2000;
+            background: linear-gradient(135deg, #ff007f, #7f00ff);
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-family: 'Rubik', sans-serif;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 0, 127, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .flip-world-btn:hover {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, #7f00ff, #ff007f);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 255, 255, 0.8);
+        }
+
+        /* --- המשך עיצוב מקורי של האתר (ללא שינוי במבנה) --- */
         .pride-bar {
             height: 10px;
             width: 100%;
@@ -38,7 +142,7 @@
         header {
             padding: 60px 20px 40px;
             text-align: center;
-            background: rgba(0, 0, 0, 0.35);
+            background: rgba(0, 0, 0, 0.45); /* הכהה קלה בשביל קריאות מעולה על הרקע הבהיר */
             backdrop-filter: blur(10px);
             margin-bottom: 30px;
             border-bottom: 3px solid rgba(255,255,255,0.2);
@@ -58,12 +162,12 @@
         }
 
         .results-card {
-            background: rgba(255, 255, 255, 0.13);
+            background: rgba(0, 0, 0, 0.5); /* שונה מלבן שקוף לשחור שקוף כדי שהטקסט הלבן יבלוט מושלם */
             backdrop-filter: blur(15px);
             border-radius: 25px;
             padding: 25px;
             border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
             margin-bottom: 35px;
         }
 
@@ -187,6 +291,14 @@
 
     <div class="pride-bar"></div>
 
+    <button class="flip-world-btn" onclick="flipWorld()">הפוך את העולם! 🌀</button>
+
+    <div class="magic-sun"></div>
+    <div class="magic-tree tree-pink"></div>
+    <div class="magic-tree tree-purple"></div>
+    <div class="magic-tree tree-cyan"></div>
+    <div class="magic-rabbit">🐇✨</div>
+
     <header>
         <h1>🏆 תוצאות מכל הזמנים 🏳️‍🌈</h1>
         <p>ארכיון המנצחים והניקוד הרשמי של יורופוסטמה</p>
@@ -262,7 +374,7 @@
                         <td>
                             <div class="participant-cell">
                                 <span><span class="flag">🔥</span> חשאבה (מקום 4 בחצי גמר 2)</span>
-                                <button class="mic-play-btn" onclick="toggleSong('L1Snj1Pt-Hs', 'Cream Soda & Хлеб - Плачу на техно', this, 0)" title="נגן/עצור שיר">
+                                <button class="mic-play-btn" onclick="toggleSong('L1Snj1Pt-Hs', 'Cream Soda & Хлеב - Плачу на техно', this, 0)" title="נגן/עצור שיר">
                                     <span class="mic-icon">🎙️</span>
                                 </button>
                             </div>
@@ -355,7 +467,7 @@
         </div>
 
         <div class="footer-flags">
-            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫睿 🇳🇴 👑
+            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 👑
         </div>
 
         <a href="index.html" class="back-home">✨ חזרה לעמוד הבית</a>
@@ -363,6 +475,12 @@
     </div>
 
     <script>
+        // פונקציית היפוך וסיבוב העולם
+        function flipWorld() {
+            document.body.classList.toggle('flipped');
+        }
+
+        // --- המשך קוד הנגן המקורי ---
         const tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         const firstScriptTag = document.getElementsByTagName('script')[0];
