@@ -8,133 +8,153 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
-        /* --- עולם האגדות הציורי והדינמי --- */
+        /* --- רקע נוף קסום מדויק (כמו בתמונה) --- */
         body {
             font-family: 'Rubik', sans-serif;
             margin: 0;
             padding: 0;
-            /* שמיים ציוריים ופסטליים כמו בתמונה */
-            background: linear-gradient(180deg, #ffb3ba 0%, #ffdfba 30%, #baffc9 70%, #bae1ff 100%);
-            background-size: 100% 300%;
-            animation: skyGlow 15s ease infinite alternate;
-            color: white;
+            /* שמיים וגבעות עננים פסטליים בזריחה קסומה */
+            background: 
+                radial-gradient(circle at 70% 30%, #fffbeb 0%, #ffedd5 20%, #fbcfe8 40%, #c7d2fe 70%, #a5b4fc 100%);
+            background-size: 150% 150%;
+            animation: ambientLight 12s ease-in-out infinite alternate;
+            color: #1e1b4b;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
             transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
-        @keyframes skyGlow {
-            0% { background-position: 50% 0%; }
-            100% { background-position: 50% 100%; }
+        @keyframes ambientLight {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
 
-        /* כפתור היפוך העולם */
         body.flipped {
             transform: rotate(360deg) scaleX(-1) scaleY(-1);
         }
 
-        /* גבעות, דשא ואגם זוהר בתחתית */
-        body::before {
-            content: '';
+        /* --- שכבת הקרקע: האגם המנצנץ, הדשא והפרחים --- */
+        .landscape-floor {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 320px;
-            /* בניית שכבות: אגם קסום במרכז, גשר עץ מדומיין ודשא ירוק בוהק */
+            height: 42vh;
             background: 
-                /* האגם הזוהר */
-                radial-gradient(ellipse at 70% 80%, #00ffff 0%, rgba(35, 213, 171, 0.6) 30%, transparent 70%),
-                /* הדשא הבוהק */
-                linear-gradient(135deg, #059669 0%, #10b981 50%, #047857 100%);
+                /* בריכת מים טורקיז מנצנצת */
+                radial-gradient(ellipse at 65% 60%, #22d3ee 0%, #06b6d4 25%, rgba(6, 182, 212, 0) 65%),
+                /* מדשאה ירוקה רכה וחיונית */
+                linear-gradient(0deg, #059669 0%, #10b981 40%, #34d399 100%);
+            z-index: -2;
+            box-shadow: inset 0 30px 50px rgba(255, 255, 255, 0.5);
+        }
+
+        /* בריכת המים הזוהרת (אנימציית ניצנוץ אקטיבית) */
+        .magic-lake {
+            position: fixed;
+            bottom: 2vh;
+            right: 15%;
+            width: 50%;
+            height: 25vh;
+            background: radial-gradient(ellipse at 50% 50%, #99f6e4 0%, #2dd4bf 40%, rgba(45, 212, 191, 0) 70%);
+            border-radius: 50%;
+            filter: blur(5px);
             z-index: -1;
-            border-top: 15px solid #34d399;
-            box-shadow: inset 0 30px 40px rgba(255, 255, 255, 0.4), 0 -10px 30px rgba(0, 0, 0, 0.15);
-            animation: lakeSparkle 4s ease-in-out infinite alternate;
+            animation: lakeSparkle 3s ease-in-out infinite alternate;
+            opacity: 0.85;
         }
 
         @keyframes lakeSparkle {
-            0% { filter: brightness(1) contrast(1); }
-            100% { filter: brightness(1.2) contrast(1.1); }
+            0% { transform: scale(1) rotate(0deg); filter: brightness(1) blur(5px); }
+            100% { transform: scale(1.06) rotate(3deg); filter: brightness(1.3) blur(3px); }
         }
 
-        /* גשר העץ הקסום מעל האגם */
-        .magic-bridge {
+        /* גשר העץ הציורי מעל האגם */
+        .scenic-bridge {
             position: fixed;
-            bottom: 60px;
-            right: 15%;
-            width: 160px;
-            height: 70px;
-            border: 6px solid #78350f;
+            bottom: 12vh;
+            right: 35%;
+            width: 200px;
+            height: 80px;
+            border: 8px solid #7c2d12;
             border-bottom: none;
-            border-radius: 100px 100px 0 0;
+            border-radius: 120px 120px 0 0;
             z-index: -1;
-            box-shadow: 0 -5px 15px rgba(255, 255, 255, 0.3);
-            background: rgba(120, 53, 15, 0.1);
+            background: linear-gradient(180deg, rgba(124, 45, 18, 0.1), rgba(0,0,0,0));
+            box-shadow: 0 -5px 15px rgba(255, 255, 255, 0.4);
         }
-        .magic-bridge::after {
-            content: '||||||||';
+        .scenic-bridge::after {
+            content: '|||||||||||';
             position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            color: #78350f;
-            font-size: 1.2rem;
-            letter-spacing: 8px;
+            top: 15px;
+            left: 5px;
+            right: 5px;
+            color: #7c2d12;
+            font-size: 1.3rem;
+            letter-spacing: 10px;
             text-align: center;
         }
 
-        /* שמש קסומה מנצנצת ושולחת קרניים */
-        .magic-sun {
+        /* --- העצים הזוהרים והמוארים בצדדים (כמו בתמונה) --- */
+        .scenic-tree {
             position: fixed;
-            top: 70px;
-            right: 12%;
-            width: 180px;
-            height: 180px;
-            background: radial-gradient(circle, #ffffff 0%, #fef08a 40%, #facc15 80%, transparent 100%);
+            bottom: 25vh;
+            width: 250px;
+            height: 250px;
             border-radius: 50%;
             z-index: -2;
-            filter: drop-shadow(0 0 50px #eab308);
-            animation: sunPulse 6s ease-in-out infinite alternate;
+            filter: blur(15px);
+            opacity: 0.75;
+            animation: treeBreath 6s ease-in-out infinite alternate;
         }
-
-        @keyframes sunPulse {
-            0% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 40px #eab308); }
-            100% { transform: translateY(-15px) scale(1.1); filter: drop-shadow(0 0 70px #facc15); }
-        }
-
-        /* הרים סגולים רחוקים באופק */
-        .magic-mountain {
-            position: fixed;
-            bottom: 240px;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            z-index: -2;
-            opacity: 0.4;
-        }
-        .mountain-left {
+        /* עץ שמאלי כחול-מג'נטה זוהר */
+        .tree-left-magic {
             left: -50px;
-            border-width: 0 200px 200px 200px;
-            border-color: transparent transparent #c084fc transparent;
+            background: radial-gradient(circle, #38bdf8 0%, #a855f7 50%, #db2777 100%);
         }
-        .mountain-right {
-            right: 5px;
-            border-width: 0 250px 230px 250px;
-            border-color: transparent transparent #a855f7 transparent;
+        /* עץ ימני זהוב-כתום מואר */
+        .tree-right-magic {
+            right: -60px;
+            bottom: 22vh;
+            background: radial-gradient(circle, #fde047 0%, #f97316 60%, #ea580c 100%);
+            animation-delay: 2s;
         }
 
-        /* ארנב מעופף עם כנפיים */
+        @keyframes treeBreath {
+            0% { transform: scale(1) translateY(0); filter: blur(15px) brightness(1); }
+            100% { transform: scale(1.15) translateY(-10px); filter: blur(20px) brightness(1.3); }
+        }
+
+        /* שמש זורחת ושולחת אור רך */
+        .scenic-sun {
+            position: fixed;
+            top: 10%;
+            right: 25%;
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, #ffffff 0%, #fef08a 30%, rgba(254, 240, 138, 0) 70%);
+            border-radius: 50%;
+            z-index: -3;
+            animation: sunFloat 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes sunFloat {
+            0% { transform: translateY(0) scale(1); opacity: 0.8; }
+            100% { transform: translateY(-15px) scale(1.1); opacity: 1; }
+        }
+
+        /* --- חיות אגדה וחלקיקים בתנועה --- */
         .magic-rabbit {
             position: fixed;
-            bottom: 120px;
+            bottom: 15vh;
             left: -100px;
-            font-size: 2.8rem;
-            z-index: -1;
-            animation: rabbitFly 16s linear infinite;
+            font-size: 3rem;
+            z-index: 10;
+            animation: rabbitFly 18s linear infinite;
             user-select: none;
             pointer-events: none;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.15));
         }
 
         @keyframes rabbitFly {
@@ -146,64 +166,47 @@
             100% { left: -100px; transform: translateY(0) scaleX(-1); }
         }
 
-        /* יצורים קסומים נוספים: פרפרים מרחפים */
-        .magic-butterfly {
+        /* פרפרים וציפורים צבעוניים */
+        .magic-creature {
             position: fixed;
-            font-size: 1.5rem;
-            z-index: -1;
-            animation: butterflyFloat 8s ease-in-out infinite alternate;
+            z-index: 1;
+            font-size: 1.6rem;
+            animation: floatCreature 6s ease-in-out infinite alternate;
         }
-        .bf1 { top: 30%; left: 8%; animation-delay: 0s; }
-        .bf2 { top: 55%; right: 5%; animation-delay: 2.5s; }
+        .butterfly-1 { top: 40%; left: 15%; animation-delay: 0s; }
+        .butterfly-2 { top: 65%; right: 18%; animation-delay: 3s; }
+        .fairy-dust { top: 25%; left: 45%; font-size: 1.2rem; animation: floatCreature 9s ease-in-out infinite; }
 
-        @keyframes butterflyFloat {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(30px, -40px) rotate(15deg); }
-            100% { transform: translate(-10px, -70px) rotate(-10deg); }
-        }
-
-        /* ציפורים בשמיים */
-        .magic-birds {
-            position: fixed;
-            top: 150px;
-            left: 20%;
-            font-size: 2rem;
-            z-index: -2;
-            opacity: 0.5;
-            animation: birdsMove 25s linear infinite;
+        @keyframes floatCreature {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(25px, -35px) scale(1.1); }
         }
 
-        @keyframes birdsMove {
-            0% { left: -100px; top: 120px; }
-            100% { left: 110%; top: 180px; }
-        }
-
-        /* כפתור היפוך העולם הבולט */
+        /* --- כפתור היפוך העולם (מצד שמאל למעלה) --- */
         .flip-world-btn {
             position: fixed;
             top: 25px;
-            left: 20px;
+            left: 25px;
             z-index: 2000;
             background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             color: white;
             border: 2px solid white;
-            padding: 12px 24px;
+            padding: 12px 26px;
             border-radius: 50px;
             font-family: 'Rubik', sans-serif;
-            font-weight: bold;
+            font-weight: 700;
             font-size: 1.05rem;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), 0 0 20px rgba(139, 92, 246, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15), 0 0 20px rgba(139, 92, 246, 0.3);
             transition: all 0.3s ease;
         }
 
         .flip-world-btn:hover {
             transform: scale(1.1);
-            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 35px rgba(0, 255, 255, 0.8);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2), 0 0 35px rgba(34, 211, 238, 0.8);
         }
 
-        /* --- עיצוב כרטיסיות זכוכית יוקרתיות (Glassmorphism) כמו בתמונה --- */
+        /* --- כרטיסיות זכוכית מעוגלות (Glassmorphism מושלם כמו בתמונה) --- */
         .pride-bar {
             height: 10px;
             width: 100%;
@@ -214,94 +217,101 @@
         }
 
         header {
-            padding: 60px 20px 40px;
+            padding: 50px 20px 35px;
             text-align: center;
-            background: rgba(255, 255, 255, 0.2); 
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            margin-bottom: 30px;
-            border-bottom: 2px solid rgba(255,255,255,0.4);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            background: rgba(255, 255, 255, 0.35); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            margin: 40px auto 30px;
+            max-width: 750px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
         }
 
         header h1 {
-            font-size: 3.2rem;
+            font-size: 2.8rem;
             margin: 0;
             font-weight: 900;
-            color: #1e1b4b; /* צבע כהה יוקרתי לקריאות מושלמת */
-            text-shadow: 1px 1px 4px rgba(255,255,255,0.8);
+            color: #1e1b4b;
         }
 
         header p {
             color: #312e81;
             font-weight: 500;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
+            margin-top: 10px;
         }
 
+        /* גריד להצגת כרטיסיות התוצאות */
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
         }
 
         .results-card {
-            background: rgba(255, 255, 255, 0.28); /* זכוכית שקופה לבנה ונקייה */
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 30px;
-            padding: 30px;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            margin-bottom: 40px;
-            color: #1e1b4b; /* טקסט כהה וברור */
+            background: rgba(255, 255, 255, 0.4); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease;
+        }
+
+        .results-card:hover {
+            transform: translateY(-5px);
         }
 
         .edition-title {
             background: #1e1b4b;
             color: #ffffff;
             display: inline-block;
-            padding: 8px 26px;
+            padding: 6px 20px;
             border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.3rem;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            font-weight: 700;
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 1.25rem;
         }
 
         th {
             text-align: right;
-            padding: 14px;
-            border-bottom: 3px solid rgba(30, 27, 75, 0.3);
-            font-size: 1.35rem;
+            padding: 10px;
+            border-bottom: 2px solid rgba(30, 27, 75, 0.2);
+            font-size: 1.15rem;
             color: #1e1b4b;
             font-weight: 900;
         }
 
         td {
-            padding: 16px 14px;
-            border-bottom: 1px solid rgba(30, 27, 75, 0.1);
+            padding: 14px 10px;
+            border-bottom: 1px solid rgba(30, 27, 75, 0.08);
             vertical-align: middle;
-            color: #2e2a72;
+            color: #1e1b4b;
+            font-size: 1.1rem;
         }
 
         tr:last-child td { border-bottom: none; }
 
         .winner-row {
-            background: rgba(255, 255, 255, 0.45);
-            font-weight: bold;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            background: rgba(255, 255, 255, 0.4);
+            font-weight: 700;
         }
 
         .flag {
-            font-size: 1.6rem;
-            margin-left: 8px;
+            font-size: 1.4rem;
+            margin-left: 6px;
             vertical-align: middle;
         }
 
@@ -309,35 +319,38 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 15px;
+            gap: 10px;
         }
 
+        /* כפתורי הנגן העגולים והזכוכיתיים כמו בתמונה */
         .mic-play-btn {
-            background: rgba(30, 27, 75, 0.1);
-            border: 1px solid rgba(30, 27, 75, 0.2);
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.8);
             border-radius: 50%;
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             cursor: pointer;
-            transition: transform 0.2s ease, background 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
         }
 
         .mic-play-btn:hover {
-            transform: scale(1.15);
-            background: rgba(30, 27, 75, 0.2);
+            transform: scale(1.1);
+            background: #ffffff;
         }
 
         .music-status-notice {
+            grid-column: 1 / -1;
             text-align: center;
-            margin-top: 20px;
             font-size: 1.2rem;
-            font-weight: bold;
+            font-weight: 700;
             color: #1e1b4b;
-            min-height: 24px;
+            margin-top: 10px;
+            min-height: 28px;
         }
 
         .youtube-hidden-box {
@@ -354,30 +367,33 @@
         .back-home {
             display: block;
             width: fit-content;
-            margin: 40px auto;
+            margin: 30px auto;
             background: #1e1b4b;
             color: #ffffff;
-            padding: 15px 40px;
+            padding: 14px 38px;
             border-radius: 50px;
             text-decoration: none;
-            font-weight: bold;
-            font-size: 1.25rem;
+            font-weight: 700;
+            font-size: 1.15rem;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
         .back-home:hover {
-            transform: translateY(-5px) scale(1.05);
+            transform: translateY(-4px);
             background: #8b5cf6;
-            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.4);
+            box-shadow: 0 12px 25px rgba(139, 92, 246, 0.3);
+        }
+
+        .footer-container {
+            grid-column: 1 / -1;
+            text-align: center;
         }
 
         .footer-flags {
-            text-align: center;
-            font-size: 2.5rem;
-            margin: 50px 0;
-            letter-spacing: 8px;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            font-size: 2.2rem;
+            margin: 30px 0 10px;
+            letter-spacing: 6px;
         }
     </style>
 </head>
@@ -387,14 +403,17 @@
 
     <button class="flip-world-btn" onclick="flipWorld()">הפוך את העולם! 🌀</button>
 
-    <div class="magic-sun"></div>
-    <div class="magic-mountain mountain-left"></div>
-    <div class="magic-mountain mountain-right"></div>
-    <div class="magic-bridge"></div>
+    <div class="scenic-sun"></div>
+    <div class="landscape-floor"></div>
+    <div class="magic-lake"></div>
+    <div class="scenic-bridge"></div>
+    <div class="scenic-tree tree-left-magic"></div>
+    <div class="scenic-tree tree-right-magic"></div>
+    
     <div class="magic-rabbit">🐇✨</div>
-    <div class="magic-butterfly bf1">🦋</div>
-    <div class="magic-butterfly bf2">🦋</div>
-    <div class="magic-birds">🦅 🦅</div>
+    <div class="magic-creature butterfly-1">🦋</div>
+    <div class="magic-creature butterfly-2">🦋</div>
+    <div class="magic-creature fairy-dust">✨🧚</div>
 
     <header>
         <h1>🏆 תוצאות מכל הזמנים 🏳️‍🌈</h1>
@@ -416,27 +435,27 @@
                 <tbody>
                     <tr class="winner-row">
                         <td>🥇 מקום 1</td>
-                        <td><span class="flag">👑</span> אלונה (מקום 1 בחצי גמר 1)</td>
+                        <td><span class="flag">👑</span> אלונה (חצי 1)</td>
                         <td>149</td>
                     </tr>
                     <tr>
                         <td>🥈 מקום 2</td>
-                        <td>ניצן (מקום 2 בחצי גמר 1)</td>
+                        <td>ניצן (חצי 1)</td>
                         <td>122</td>
                     </tr>
                     <tr>
                         <td>🥉 מקום 3</td>
-                        <td><span class="flag">🎵</span> נעם (מקום 1 בחצי גמר 2)</td>
+                        <td><span class="flag">🎵</span> נעם (חצי 2)</td>
                         <td>116</td>
                     </tr>
                     <tr>
                         <td>4</td>
-                        <td>עידן (מקום 2 בחצי גמר 2)</td>
+                        <td>עידן (חצי 2)</td>
                         <td>113</td>
                     </tr>
                     <tr>
                         <td>5</td>
-                        <td>עדיאל (מקום 3 בחצי גמר 2)</td>
+                        <td>עדיאל (חצי 2)</td>
                         <td>111</td>
                     </tr>
                 </tbody>
@@ -458,7 +477,7 @@
                         <td>🥇 מקום 1</td>
                         <td>
                             <div class="participant-cell">
-                                <span><span class="flag">👑</span> גילי (מקום 1 בחצי גמר 2)</span>
+                                <span><span class="flag">👑</span> גילי (חצי 2)</span>
                                 <button class="mic-play-btn" onclick="toggleSong('cUfDOS2SINM', 'XG - HYPNOTIZE', this, 1)" title="נגן/עצור שיר">
                                     <span class="mic-icon">🎙️</span>
                                 </button>
@@ -470,8 +489,8 @@
                         <td>🥈 מקום 2</td>
                         <td>
                             <div class="participant-cell">
-                                <span><span class="flag">🔥</span> חשאבה (מקום 4 בחצי גמר 2)</span>
-                                <button class="mic-play-btn" onclick="toggleSong('L1Snj1Pt-Hs', 'Cream Soda & Хлеב - Плачу на techno', this, 0)" title="נגן/עצור שיר">
+                                <span><span class="flag">🔥</span> חשאבה (חצי 2)</span>
+                                <button class="mic-play-btn" onclick="toggleSong('L1Snj1Pt-Hs', 'Cream Soda - Плачу на техно', this, 0)" title="נגן/עצור שיר">
                                     <span class="mic-icon">🎙️</span>
                                 </button>
                             </div>
@@ -482,7 +501,7 @@
                         <td>🥉 מקום 3</td>
                         <td>
                             <div class="participant-cell">
-                                <span>ניצן (מקום 2 בחצי גמר 2)</span>
+                                <span>ניצן (חצי 2)</span>
                                 <button class="mic-play-btn" onclick="toggleSong('_t5yfyHJOgE', 'Blanca Paloma - EaEa', this, 1)" title="נגן/עצור שיר">
                                     <span class="mic-icon">🎙️</span>
                                 </button>
@@ -494,7 +513,7 @@
                         <td>4</td>
                         <td>
                             <div class="participant-cell">
-                                <span>איילת (מקום 2 בחצי גמר 1)</span>
+                                <span>איילת (חצי 1)</span>
                                 <button class="mic-play-btn" onclick="toggleSong('4tkCGxSW0LE', 'Zoe Ko - EAT', this, 0)" title="נגן/עצור שיר">
                                     <span class="mic-icon">🎙️</span>
                                 </button>
@@ -506,7 +525,7 @@
                         <td>5</td>
                         <td>
                             <div class="participant-cell">
-                                <span>אלונה (מקום 1 בחצי גמר 1)</span>
+                                <span>אלונה (חצי 1)</span>
                                 <button class="mic-play-btn" onclick="toggleSong('SdnJH72Ltus', 'Nina Chuba - RAGE GIRL', this, 2)" title="נגן/עצור שיר">
                                     <span class="mic-icon">🎙️</span>
                                 </button>
@@ -516,7 +535,6 @@
                     </tr>
                 </tbody>
             </table>
-            <div id="statusNotice" class="music-status-notice"></div>
         </div>
 
         <div class="results-card">
@@ -532,52 +550,55 @@
                 <tbody>
                     <tr class="winner-row">
                         <td>🥇 מקום 1</td>
-                        <td><span class="flag">👑</span> אלונה (מקום 1 בחצי גמר 2)</td>
+                        <td><span class="flag">👑</span> אלונה (חצי 2)</td>
                         <td>128</td>
                     </tr>
                     <tr>
                         <td>🥈 מקום 2</td>
-                        <td>גילי (מקום 1 בחצי גמר 1)</td>
+                        <td>גילי (חצי 1)</td>
                         <td>115</td>
                     </tr>
                     <tr>
                         <td>🥉 מקום 3</td>
-                        <td>עידן קשת (מקום 3 בחצי גמר 1)</td>
+                        <td>עידן קשת (חצי 1)</td>
                         <td>107</td>
                     </tr>
                     <tr>
                         <td>4</td>
-                        <td>עידו (מקום 4 בחצי גמר 1)</td>
+                        <td>עידו (חצי 1)</td>
                         <td>105</td>
                     </tr>
                     <tr>
                         <td>5</td>
-                        <td>הילה (מקום 2 בחצי גמר 1)</td>
+                        <td>הילה (חצי 1)</td>
                         <td>103</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
+        <div id="statusNotice" class="music-status-notice"></div>
+
         <div class="youtube-hidden-box">
             <div id="playerContainer"></div>
         </div>
 
-        <div class="footer-flags">
-            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 👑
+        <div class="footer-container">
+            <div class="footer-flags">
+                🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 👑
+            </div>
+            <a href="index.html" class="back-home">✨ חזרה לעמוד הבית</a>
         </div>
-
-        <a href="index.html" class="back-home">✨ חזרה לעמוד הבית</a>
 
     </div>
 
     <script>
-        // פונקציית היפוך וסיבוב העולם
+        // פונקציית היפוך וסיבוב האתר
         function flipWorld() {
             document.body.classList.toggle('flipped');
         }
 
-        // --- קוד הנגן המקורי ללא שינויים ---
+        // טעינת ה-API הרשמי של נגן יוטיוב ברקע
         const tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         const firstScriptTag = document.getElementsByTagName('script')[0];
@@ -609,7 +630,7 @@
 
         function toggleSong(videoId, songTitle, btnElement, startSeconds) {
             if (!player || typeof player.loadVideoById !== 'function') {
-                console.error("הנגן עדיין נטען, אנא נסה שנית בעוד רגע.");
+                console.error("הנגן עדיין נטען, נסה שוב בעוד מספר שניות.");
                 return;
             }
 
