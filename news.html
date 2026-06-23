@@ -11,18 +11,19 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            background-color: #020617;
+            background-color: #020410;
             font-family: 'Rubik', sans-serif;
             color: white;
             overflow-x: hidden;
         }
 
-        /* חצי עליון: תמונה שתופסת בדיוק 50% מגובה המסך */
+        /* חצי עליון: שילוב התמונה עם אפקט מסיסה (Fade) ומעבר חלק לחלל */
         .image-container {
             width: 100vw;
             height: 50vh; 
             overflow: hidden;
             position: relative;
+            background: #020410;
         }
 
         .full-screen-image {
@@ -30,23 +31,26 @@
             height: 100%; 
             object-fit: cover; 
             display: block;
-            pointer-events: none; /* מונע לחיצות או גרירה של התמונה */
+            pointer-events: none;
+            /* יוצר אפקט דהייה הדרגתי לחלק התחתון כדי שלא יראה קטוע */
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
         }
 
-        /* חצי תחתון: אזור החלל העמוק */
+        /* חצי תחתון: אזור החלל המורחב */
         .space-section {
             width: 100vw;
-            min-height: 120vh; /* מוגדל בכוונה כדי שתוכל לגלול למטה ולראות את החלל */
+            min-height: 130vh; /* מוגדל במיוחד כדי לגלול וליהנות מהחלל */
             position: relative;
-            background: radial-gradient(circle at center, #090d22 0%, #020410 100%);
+            background: radial-gradient(circle at center, #060a1f 0%, #01020a 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 40px;
+            padding-top: 50px;
             box-sizing: border-box;
         }
 
-        /* קנבס הרקע של הכוכבים והפיצוצים */
+        /* קנבס החלל */
         #spaceCanvas {
             position: absolute;
             top: 0;
@@ -65,48 +69,48 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 30px;
+            gap: 35px;
             width: 100%;
             max-width: 800px;
         }
 
-        /* כותרת PUSTEMA NEWS זוהרת ואפלה */
+        /* כותרת PUSTEMA NEWS הזוהרת */
         .news-title {
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: 900;
             margin: 0;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             color: #fff;
-            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #ff00ff, 0 0 80px #ff00ff;
+            text-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff, 0 0 50px #ff00ff, 0 0 90px #ff00ff;
             animation: titlePulse 3s ease-in-out infinite alternate;
         }
 
         @keyframes titlePulse {
             0% { transform: scale(1); filter: hue-rotate(0deg); }
-            100% { transform: scale(1.03); filter: hue-rotate(45deg); }
+            100% { transform: scale(1.04); filter: hue-rotate(30deg); }
         }
 
-        /* כפתור החזרה לעמוד הראשי */
+        /* כפתור חזרה משודרג */
         .back-btn {
             background: linear-gradient(135deg, #7f00ff, #ff007f);
             color: white;
             border: 3px solid white;
-            padding: 16px 40px;
+            padding: 18px 45px;
             border-radius: 50px;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 900;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 0, 127, 0.6);
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.7);
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .back-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 35px rgba(0, 255, 255, 0.9);
+            transform: scale(1.08);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.9);
             background: linear-gradient(135deg, #00ffff, #7f00ff);
         }
 
@@ -124,15 +128,14 @@
             align-items: center;
         }
 
-        /* עיצוב החייזר הגדול */
         .alien-scare {
-            font-size: 25rem; /* גודל ענק */
-            animation: shakeAndGrow 0.4s infinite alternate;
+            font-size: 28rem;
+            animation: shakeAndGrow 0.35s infinite alternate;
         }
 
         @keyframes shakeAndGrow {
-            0% { transform: scale(0.8) translate(5px, 5px) rotate(-5deg); }
-            100% { transform: scale(1.2) translate(-5px, -5px) rotate(5deg); }
+            0% { transform: scale(0.85) translate(8px, 8px) rotate(-6deg); }
+            100% { transform: scale(1.25) translate(-8px, -8px) rotate(6deg); }
         }
     </style>
 </head>
@@ -146,8 +149,7 @@
         <canvas id="spaceCanvas"></canvas>
 
         <div class="space-content">
-            <h1 class="news-title">PUSTEMEMA NEWS</h1>
-            
+            <h1 class="news-title">PUSTEMA NEWS</h1>
             <button class="back-btn" onclick="triggerAlienScare()">🛸 חזרה לעמוד הראשי</button>
         </div>
     </div>
@@ -157,7 +159,6 @@
     </div>
 
     <script>
-        // הגדרות הקנבס והחלל
         const canvas = document.getElementById('spaceCanvas');
         const ctx = canvas.getContext('2d');
 
@@ -169,77 +170,138 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        // מערכים לכוכבים, כוכבי לכת וחלקיקי פיצוץ
         const stars = [];
         const planets = [];
         const particles = [];
+        const shockwaves = []; // מערך עבור גלי הפיצוץ הלוהטים
 
-        // צבעים זוהרים לכוכבי הלכת
-        const neonColors = ['#ff0055', '#00ffff', '#ffff00', '#ff00ff', '#00ffaa', '#ff7700'];
-
-        // יצירת כוכבים רגילים (צהובים ולבנים, גדולים ומנצנצים)
-        for (let i = 0; i < 80; i++) {
+        // יצירת רקע כוכבים מנצנצים (צהובים עדינים ולבנים זוהרים)
+        for (let i = 0; i < 90; i++) {
             stars.push({
                 x: Math.random(),
                 y: Math.random(),
-                size: Math.random() * 4 + 2, // כוכבים די גדולים
-                color: Math.random() > 0.5 ? '#ffff00' : '#ffffff', // חצי צהוב חצי לבן
+                size: Math.random() * 3.5 + 1.5,
+                color: Math.random() > 0.4 ? '#ffffff' : '#fef08a',
                 alpha: Math.random(),
-                speed: Math.random() * 0.02 + 0.01
+                speed: Math.random() * 0.02 + 0.008
             });
         }
 
-        // יצירת 4 כוכבי לכת דינמיים שמועדים לפיצוץ
-        const planetNames = ['מרקוריוס', 'ונוס', 'פוסטמה-X', 'נפטון'];
-        for (let i = 0; i < 4; i++) {
+        // הגדרת מאפיינים לכוכבי לכת אמיתיים ומוכרים
+        const planetTemplates = [
+            { name: 'מאדים', type: 'mars', color: '#e74c3c', secondaryColor: '#c0392b', radius: 22 },
+            { name: 'שבתאי', type: 'saturn', color: '#f39c12', secondaryColor: '#f1c40f', radius: 26, hasRing: true },
+            { name: 'צדק', type: 'jupiter', color: '#d35400', secondaryColor: '#e67e22', radius: 34, hasStripes: true },
+            { name: 'נפטון', type: 'neptune', color: '#2980b9', secondaryColor: '#3498db', radius: 25 }
+        ];
+
+        // בניית כוכבי הלכת במסך
+        planetTemplates.forEach((template, index) => {
             planets.push({
-                x: Math.random() * 0.8 + 0.1,
-                y: Math.random() * 0.7 + 0.1,
-                radius: Math.random() * 20 + 20, // גודל כוכב לכת
-                color: neonColors[i % neonColors.length],
+                ...template,
+                x: 0.15 + (index * 0.23) + Math.random() * 0.05, // חלוקה אופקית יפה
+                y: 0.2 + Math.random() * 0.4,
                 isDead: false,
                 respawnTimer: 0
             });
-        }
+        });
 
-        // פונקציית יצירת פיצוץ ל-100 חלקיקים
+        // פונקציית פיצוץ ריאליסטי - חלקיקים + הבזק אש מתרחב
         function explodePlanet(planet) {
             planet.isDead = true;
-            planet.respawnTimer = 200; // הזמן עד שהוא חוזר (בערך 3-4 שניות)
+            planet.respawnTimer = 240; // חוזר אחרי כ-4 שניות
 
             const actualX = planet.x * canvas.width;
             const actualY = planet.y * canvas.height;
 
+            // 1. יצירת גל הדף לוהט (Shockwave) של אש
+            shockwaves.push({
+                x: actualX,
+                y: actualY,
+                radius: planet.radius,
+                maxRadius: planet.radius * 3.5,
+                alpha: 1,
+                color: '#ff4500' // כתום אש עמוק
+            });
+
+            // 2. יצירת 100 חלקיקי פיצוץ
             for (let i = 0; i < 100; i++) {
                 const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 6 + 2;
+                const speed = Math.random() * 7 + 1.5;
+                // ערבוב צבעים של אש ופיח יחד עם צבע כוכב הלכת המקורי
+                const colorPool = [planet.color, '#ff3300', '#ffcc00', '#333333'];
+                const particleColor = colorPool[Math.floor(Math.random() * colorPool.length)];
+
                 particles.push({
                     x: actualX,
                     y: actualY,
                     vx: Math.cos(angle) * speed,
                     vy: Math.sin(angle) * speed,
-                    size: Math.random() * 4 + 1,
-                    color: planet.color,
+                    size: Math.random() * 4.5 + 1.5,
+                    color: particleColor,
                     alpha: 1,
-                    decay: Math.random() * 0.015 + 0.01
+                    decay: Math.random() * 0.015 + 0.008
                 });
             }
         }
 
-        // לולאת האנימציה המרכזית (Render Loop)
+        // פונקציה לציור גרפיקה ריאליסטית של כוכב לכת על ה-Canvas
+        function drawRealisticPlanet(ctx, p, x, y) {
+            ctx.save();
+            
+            // צל וזוהר חיצוני אטמוספרי
+            ctx.shadowBlur = 25;
+            ctx.shadowColor = p.color;
+
+            // בסיס כדור הלכת (מפלס צבעים תלת-ממדי)
+            const gradient = ctx.createRadialGradient(x - p.radius/3, y - p.radius/3, p.radius/5, x, y, p.radius);
+            gradient.addColorStop(0, '#ffffff');
+            gradient.addColorStop(0.3, p.color);
+            gradient.addColorStop(1, p.secondaryColor);
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(x, y, p.radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0; // איפוס צל להמשך הציור הפנימי
+
+            // הוספת פסים אופקיים ייחודיים לצדק (Jupiter)
+            if (p.hasStripes) {
+                ctx.globalAlpha = 0.25;
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(x - p.radius, y - p.radius/3, p.radius * 2, 4);
+                ctx.fillRect(x - p.radius, y + p.radius/4, p.radius * 2, 5);
+                ctx.fillStyle = '#4a2306';
+                ctx.fillRect(x - p.radius, y - p.radius/1.5, p.radius * 2, 3);
+            }
+
+            // הוספת טבעת מרשימה מסביב לשבתאי (Saturn)
+            if (p.hasRing) {
+                ctx.globalAlpha = 0.6;
+                ctx.strokeStyle = p.color;
+                ctx.lineWidth = 6;
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.scale(2, 0.4); // הפיכת המעגל לאליפסה של טבעת חלל
+                ctx.beginPath();
+                ctx.arc(0, 0, p.radius + 3, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.restore();
+            }
+
+            ctx.restore();
+        }
+
+        // לולאת האנימציה הראשית
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 1. ציור ואנימציה של כוכבים מנצנצים ונעלמים
+            // 1. כוכבים מנצנצים ברקע
             stars.forEach(star => {
                 star.alpha += star.speed;
-                if (star.alpha > 1 || star.alpha < 0) {
-                    star.speed = -star.speed; // הופך כיוון ניצנוץ
-                }
+                if (star.alpha > 1 || star.alpha < 0) star.speed = -star.speed;
                 ctx.save();
                 ctx.globalAlpha = Math.max(0.1, star.alpha);
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = star.color;
                 ctx.fillStyle = star.color;
                 ctx.beginPath();
                 ctx.arc(star.x * canvas.width, star.y * canvas.height, star.size, 0, Math.PI * 2);
@@ -247,47 +309,50 @@
                 ctx.restore();
             });
 
-            // 2. ציור כוכבי הלכת הבוהקים
+            // 2. עדכון וציור גלי ההדף (Shockwaves) של האש מהפיצוצים
+            for (let i = shockwaves.length - 1; i >= 0; i--) {
+                const wave = shockwaves[i];
+                wave.radius += 2.5; // מהירות התרחבות הפיצוץ
+                wave.alpha -= 0.015; // דעיכת האור
+
+                if (wave.alpha <= 0) {
+                    shockwaves.splice(i, 1);
+                } else {
+                    ctx.save();
+                    ctx.globalAlpha = wave.alpha;
+                    ctx.strokeStyle = wave.color;
+                    ctx.lineWidth = 5;
+                    ctx.shadowBlur = 20;
+                    ctx.shadowColor = wave.color;
+                    ctx.beginPath();
+                    ctx.arc(wave.x, wave.y, wave.radius, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.restore();
+                }
+            }
+
+            // 3. כוכבי הלכת הריאליסטיים
             planets.forEach(planet => {
                 if (!planet.isDead) {
-                    // סיכוי אקראי קטן מאוד להתפוצץ בכל פריים
-                    if (Math.random() < 0.003) {
+                    // סיכוי אקראי מבוקר לפיצוץ פתאומי
+                    if (Math.random() < 0.002) {
                         explodePlanet(planet);
                         return;
                     }
-
                     const actualX = planet.x * canvas.width;
                     const actualY = planet.y * canvas.height;
-
-                    ctx.save();
-                    ctx.shadowBlur = 30;
-                    ctx.shadowColor = planet.color;
-                    ctx.fillStyle = planet.color;
-                    ctx.beginPath();
-                    ctx.arc(actualX, actualY, planet.radius, 0, Math.PI * 2);
-                    ctx.fill();
-                    
-                    // הוספת טבעת או אפקט זוהר פנימי
-                    ctx.strokeStyle = '#ffffff';
-                    ctx.lineWidth = 2;
-                    ctx.globalAlpha = 0.4;
-                    ctx.beginPath();
-                    ctx.arc(actualX, actualY, planet.radius + 8, 0, Math.PI * 2);
-                    ctx.stroke();
-                    ctx.restore();
+                    drawRealisticPlanet(ctx, planet, actualX, actualY);
                 } else {
-                    // ספירה לאחור לחזרת כוכב הלכת
                     planet.respawnTimer--;
                     if (planet.respawnTimer <= 0) {
                         planet.isDead = false;
-                        // מיקום מחדש אקראי כדי שזה יראה דינמי
-                        planet.x = Math.random() * 0.8 + 0.1;
-                        planet.y = Math.random() * 0.7 + 0.1;
+                        planet.x = 0.1 + Math.random() * 0.8;
+                        planet.y = 0.2 + Math.random() * 0.5;
                     }
                 }
             });
 
-            // 3. עדכון וציור חלקיקי הפיצוץ
+            // 4. חלקיקי הפיצוץ (אש, גיצים ורסיסים)
             for (let i = particles.length - 1; i >= 0; i--) {
                 const p = particles[i];
                 p.x += p.vx;
@@ -312,30 +377,27 @@
             requestAnimationFrame(animate);
         }
 
-        // הפעלת האנימציה
         animate();
 
-        // פונקציית הג'אמפסקר של החייזר
+        // ג'אמפסקר מעבר חזרה לעמוד הראשי
         function triggerAlienScare() {
             const overlay = document.getElementById('jumpscareOverlay');
-            overlay.style.display = 'flex'; // מציג את החייזר
+            overlay.style.display = 'flex';
 
-            // ייצור צליל ביפ גבוה ומלחיץ דרך ה-Web Audio API של הדפדפן
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
-                osc.type = 'sawtooth'; // צליל מחוספס ומפחיד
-                osc.frequency.setValueAtTime(130, audioCtx.currentTime); // תדר נמוך ומלחיץ
-                osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.6);
-                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(120, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(850, audioCtx.currentTime + 0.6);
+                gain.gain.setValueAtTime(0.35, audioCtx.currentTime);
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
                 osc.start();
-                osc.stop(audioCtx.currentTime + 0.8);
+                osc.stop(audioCtx.currentTime + 0.75);
             } catch(e) {}
 
-            // מעבר אוטומטי לעמוד הראשי index.html אחרי שנייה אחת של פחד
             setTimeout(() => {
                 window.location.href = 'index.html';
             }, 1000);
