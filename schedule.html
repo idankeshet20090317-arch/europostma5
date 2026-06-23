@@ -19,7 +19,89 @@
             margin: 0;
             padding: 20px;
             text-align: center;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
+
+        /* --- שעון הרקע הענק --- */
+        .background-clock {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            z-index: -1; /* מאחורי הכל */
+            opacity: 0.15; /* שקיפות עדינה */
+            pointer-events: none;
+        }
+
+        .clock-face {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ספרות רומיות מסודרות במעגל */
+        .roman-numeral {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+            font-family: 'Times New Roman', serif;
+            color: #ffffff;
+        }
+
+        /* מיקום כל ספרה במעגל */
+        .n1  { transform: rotate(30deg); }
+        .n2  { transform: rotate(60deg); }
+        .n3  { transform: rotate(90deg); }
+        .n4  { transform: rotate(120deg); }
+        .n5  { transform: rotate(150deg); }
+        .n6  { transform: rotate(180deg); }
+        .n7  { transform: rotate(210deg); }
+        .n8  { transform: rotate(240deg); }
+        .n9  { transform: rotate(270deg); }
+        .n10 { transform: rotate(300deg); }
+        .n11 { transform: rotate(330deg); }
+        .n12 { transform: rotate(0deg); }
+
+        /* מחוגים */
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        /* מחוג דקות - מהיר מאוד */
+        .hand.minute {
+            width: 6px;
+            height: 250px;
+            margin-left: -3px;
+            animation: rotateHand 4s linear infinite;
+        }
+
+        /* מחוג שעות - מהיר */
+        .hand.hour {
+            width: 10px;
+            height: 180px;
+            margin-left: -5px;
+            animation: rotateHand 20s linear infinite;
+        }
+
+        @keyframes rotateHand {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- המשך העיצוב המקורי שלך --- */
 
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
@@ -42,7 +124,6 @@
             to { background-position: 200% center; }
         }
 
-        /* תפריט ניווט מהיר */
         .quick-nav {
             background: rgba(255, 255, 255, 0.05);
             padding: 15px;
@@ -82,17 +163,18 @@
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
         }
 
-        /* רשימת החוקים והאירועים */
         .timeline {
             max-width: 800px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
             gap: 25px;
+            position: relative;
+            z-index: 1; /* מעל השעון */
         }
 
         .event-card {
-            background: rgba(20, 20, 40, 0.75);
+            background: rgba(20, 20, 40, 0.85); /* רקע מעט כהה יותר בשביל השעון */
             border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 25px;
@@ -100,6 +182,7 @@
             transition: transform 0.3s, box-shadow 0.3s;
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(5px);
         }
 
         .event-card::before {
@@ -115,7 +198,6 @@
             border-color: rgba(255, 0, 255, 0.4);
         }
 
-        /* אפקט הבהוב לניווט מהיר */
         @keyframes flashEffect {
             0% { background: rgba(255, 255, 255, 0.7); transform: scale(1.02); }
             50% { background: rgba(255, 0, 255, 0.4); }
@@ -149,7 +231,6 @@
             font-weight: bold;
         }
 
-        /* עיצוב הטיימר */
         .timer-container {
             background: rgba(0, 0, 0, 0.4);
             border-radius: 12px;
@@ -192,6 +273,8 @@
             text-decoration: none;
             font-weight: bold;
             transition: all 0.3s;
+            position: relative;
+            z-index: 10;
         }
 
         .back-btn:hover {
@@ -202,6 +285,26 @@
     </style>
 </head>
 <body>
+
+    <div class="background-clock">
+        <div class="clock-face">
+            <div class="roman-numeral n12">XII</div>
+            <div class="roman-numeral n1">I</div>
+            <div class="roman-numeral n2">II</div>
+            <div class="roman-numeral n3">III</div>
+            <div class="roman-numeral n4">IV</div>
+            <div class="roman-numeral n5">V</div>
+            <div class="roman-numeral n6">VI</div>
+            <div class="roman-numeral n7">VII</div>
+            <div class="roman-numeral n8">VIII</div>
+            <div class="roman-numeral n9">IX</div>
+            <div class="roman-numeral n10">X</div>
+            <div class="roman-numeral n11">XI</div>
+            
+            <div class="hand hour"></div>
+            <div class="hand minute"></div>
+        </div>
+    </div>
 
     <h1>🏆 לוח זמנים ושליחת שירים 🏳️‍🌈</h1>
 
@@ -300,26 +403,19 @@
     <a href="index.html" class="back-btn">חזרה לעמוד הראשי</a>
 
     <script>
-        // פונקציית הניווט המהיר + אפקט הבהוב קופץ
         function scrollToEvent(id) {
             const element = document.getElementById(id);
             if (element) {
                 element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                
-                // הוספת קלאס ההבהוב
                 element.classList.add('flash-active');
-                
-                // הסרתו לאחר סיום האנימציה כדי שיהיה אפשר להפעיל שוב
                 setTimeout(() => {
                     element.classList.remove('flash-active');
                 }, 3000);
             }
         }
 
-        // מערכת הטיימרים
         function updateTimers() {
             const containers = document.querySelectorAll('.timer-container');
-            
             containers.forEach(container => {
                 const targetDate = new Date(container.getAttribute('data-date')).getTime();
                 const now = new Date().getTime();
@@ -342,7 +438,6 @@
             });
         }
 
-        // הפעלה ראשונית ועדכון כל שנייה
         updateTimers();
         setInterval(updateTimers, 1000);
     </script>
