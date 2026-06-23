@@ -13,40 +13,41 @@
             font-family: 'Rubik', sans-serif;
             margin: 0;
             padding: 0;
-            /* רקע חלל עמוק וריאליסטי עם אפקט ערפילית (Nebula) */
+            /* רקע חלל עמוק מקובע למסך שלא נגמר בגלילה */
             background: radial-gradient(circle at 20% 30%, rgba(20, 10, 45, 0.9) 0%, #020617 70%),
                         radial-gradient(circle at 80% 70%, rgba(10, 25, 50, 0.8) 0%, #020617 80%);
             background-color: #020617;
+            background-attachment: fixed;
             color: white;
             min-height: 250vh; /* מרחב גלילה עצום לחקר החלל */
             overflow-x: hidden;
             position: relative;
         }
 
-        /* תמונת הכותרת המקורית והנכונה - גבוהה, דומיננטית ונקייה לחלוטין מכיתוב */
+        /* תמונת הכותרת ששלחת - מותאמת בדיוק עד הפס הצהוב */
         .hero-image {
             width: 100%;
-            height: 75vh; 
+            height: auto; 
+            max-height: 75vh;
             object-fit: cover;
             display: block;
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.95);
-            border-bottom: 4px solid #ffcc00;
             position: relative;
             z-index: 5;
         }
 
-        /* שכבת החלל האינסופית */
+        /* שכבת החלל מקובעת למסך - פותר את בעיית הגלילה למטה */
         #starfield {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             z-index: 1;
             pointer-events: none;
         }
 
-        /* כוכבים אמיתיים בריצוד קוסמי */
+        /* כוכבים בריצוד קוסמי */
         .star {
             position: absolute;
             color: #ffffff;
@@ -62,75 +63,131 @@
             50% { opacity: 0.9; transform: scale(1.2); text-shadow: 0 0 15px #fff, 0 0 30px #fff; }
         }
 
-        /* כוכבי לכת עצומים וריאליסטיים */
+        /* כוכבי לכת */
         .planet {
             position: absolute;
             border-radius: 50%;
             pointer-events: none;
             z-index: 2;
-            animation: planetAtmosphere 8s infinite ease-in-out;
+            transition: all 0.5s ease;
         }
 
-        @keyframes planetAtmosphere {
-            0%, 100% { filter: drop-shadow(0 0 30px rgba(255,255,255,0.15)); }
-            50% { filter: drop-shadow(0 0 60px rgba(255,255,255,0.4)); }
+        /* אפקט רעידה מוגבר בזמן פגיעת לייזר */
+        .planet.shake {
+            animation: planetShake 0.1s infinite alternate !important;
         }
 
-        /* ענק גז עצום - חלק עליון שמאל */
+        /* אפקט התפוצצות והעלמות */
+        .planet.exploded {
+            transform: scale(0) !important;
+            opacity: 0 !important;
+            filter: blur(20px) !important;
+        }
+
+        @keyframes planetShake {
+            0% { transform: translate(5px, 5px) rotate(0deg); }
+            100% { transform: translate(-5px, -5px) rotate(3deg); }
+        }
+
+        /* ענק גז עצום - שמאל למעלה */
         .planet-1 {
-            width: 450px; 
-            height: 450px;
+            width: 180px; 
+            height: 180px;
             background: radial-gradient(circle at 30% 30%, #e056fd 0%, #686de0 40%, #130f40 80%);
-            box-shadow: inset -40px -40px 80px rgba(0,0,0,0.95), 0 0 40px rgba(104, 109, 224, 0.3);
-            top: 10%;
-            left: -5%;
+            box-shadow: inset -15px -15px 30px rgba(0,0,0,0.95), 0 0 40px rgba(104, 109, 224, 0.3);
+            top: 15%;
+            left: 5%;
         }
 
-        /* כוכב לכת קרח ענק - מרכז ימין */
+        /* כוכב לכת קרח ענק - ימין מרכז */
         .planet-2 {
-            width: 320px;
-            height: 320px;
+            width: 150px;
+            height: 150px;
             background: radial-gradient(circle at 30% 30%, #4cd137 0%, #00a8ff 50%, #000000 90%);
-            box-shadow: inset -30px -30px 60px rgba(0,0,0,0.95), 0 0 50px rgba(0, 168, 255, 0.4);
-            top: 55%;
-            right: -2%;
-        }
-
-        /* כוכב לכת וולקני עצום - נמצא בהמשך הגלילה למטה */
-        .planet-3 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle at 35% 35%, #ff9f43 0%, #ee5253 40%, #571112 85%, #000000 100%);
-            box-shadow: inset -50px -50px 100px rgba(0,0,0,0.98), 0 0 60px rgba(238, 82, 83, 0.3);
-            top: 120%;
-            left: -8%;
-        }
-
-        /* כוכב לכת מסתורי - סוף הגלילה */
-        .planet-4 {
-            width: 280px;
-            height: 280px;
-            background: radial-gradient(circle at 25% 25%, #ffeaa7 0%, #d2dae2 50%, #2f3640 90%);
-            box-shadow: inset -25px -25px 50px rgba(0,0,0,0.95), 0 0 30px rgba(210, 218, 226, 0.2);
-            top: 180%;
+            box-shadow: inset -15px -15px 30px rgba(0,0,0,0.95), 0 0 50px rgba(0, 168, 255, 0.4);
+            top: 45%;
             right: 8%;
         }
 
-        /* חללית ענקית שחוצה את החלל העמוק */
+        /* כוכב לכת וולקני */
+        .planet-3 {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle at 35% 35%, #ff9f43 0%, #ee5253 40%, #571112 85%, #000000 100%);
+            box-shadow: inset -20px -20px 40px rgba(0,0,0,0.98), 0 0 60px rgba(238, 82, 83, 0.3);
+            top: 70%;
+            left: 10%;
+        }
+
+        /* חללית קרב עצומה ומפחידה */
         .spaceship {
             position: absolute;
-            font-size: 8rem; 
-            z-index: 3;
+            font-size: 11rem; /* גודל עצום */
+            z-index: 4;
             pointer-events: none;
-            animation: deepSpaceFly 40s infinite linear;
-            opacity: 0.9;
-            filter: drop-shadow(0 0 30px rgba(0, 255, 200, 0.4)) blur(0.5px);
+            /* תנועה חלקה מצד לצד */
+            animation: deepSpaceFly 25s infinite linear;
+            opacity: 0.95;
+            filter: drop-shadow(0 0 40px rgba(0, 255, 200, 0.6));
+            transform-origin: center;
         }
 
         @keyframes deepSpaceFly {
-            0% { top: 35%; left: -20%; transform: rotate(12deg) scale(0.7); }
-            50% { top: 100%; left: 45%; transform: rotate(20deg) scale(1.1); }
-            100% { top: 170%; left: 115%; transform: rotate(8deg) scale(0.7); }
+            0% { top: 10%; left: -25%; transform: rotate(15deg) scale(0.8); }
+            45% { top: 40%; left: 40%; transform: rotate(25deg) scale(1.2); }
+            55% { top: 45%; left: 45%; transform: rotate(20deg) scale(1.2); }
+            100% { top: 85%; left: 120%; transform: rotate(10deg) scale(0.8); }
+        }
+
+        /* אלמנט הפיצוץ הוויזואלי */
+        .explosion-effect {
+            position: absolute;
+            font-size: 8rem;
+            z-index: 3;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            animation: explodeAnim 0.8s ease-out forwards;
+        }
+
+        @keyframes explodeAnim {
+            0% { transform: translate(-50%, -50%) scale(0.3); opacity: 1; filter: drop-shadow(0 0 10px #ff0055); }
+            50% { transform: translate(-50%, -50%) scale(1.8); opacity: 1; filter: drop-shadow(0 0 40px #ff9f43); }
+            100% { transform: translate(-50%, -50%) scale(2.2); opacity: 0; filter: blur(10px); }
+        }
+
+        /* קו הלייזר שנורה מהחללית */
+        .laser-beam {
+            position: absolute;
+            z-index: 3;
+            height: 6px;
+            background: linear-gradient(90deg, #39ff14, #fff);
+            box-shadow: 0 0 20px #39ff14, 0 0 40px #39ff14;
+            transform-origin: left center;
+            pointer-events: none;
+            border-radius: 4px;
+            animation: laserFade 0.4s ease-out forwards;
+        }
+
+        @keyframes laserFade {
+            0% { opacity: 0; transform: scaleY(0.3); }
+            30% { opacity: 1; transform: scaleY(1.5); }
+            100% { opacity: 0; transform: scaleY(0.1); }
+        }
+
+        /* חייזר קטן ומתעופף ברקע */
+        .alien {
+            position: absolute;
+            font-size: 3.5rem;
+            z-index: 2;
+            pointer-events: none;
+            animation: alienFloat 15s infinite ease-in-out;
+            filter: drop-shadow(0 0 15px #a8ff78);
+        }
+
+        @keyframes alienFloat {
+            0% { top: 80%; right: -10%; transform: scale(1) rotate(0deg); }
+            50% { top: 30%; right: 50%; transform: scale(1.3) rotate(180deg); }
+            100% { top: 10%; right: 110%; transform: scale(1) rotate(360deg); }
         }
 
         /* תוכן האתר והכרטיסייה */
@@ -215,14 +272,14 @@
 <body>
 
     <div id="starfield">
-        <div class="planet planet-1"></div>
-        <div class="planet planet-2"></div>
-        <div class="planet planet-3"></div>
-        <div class="planet planet-4"></div>
-        <div class="spaceship">🛸</div>
+        <div id="p1" class="planet planet-1"></div>
+        <div id="p2" class="planet planet-2"></div>
+        <div id="p3" class="planet planet-3"></div>
+        <div id="mySpaceship" class="spaceship">🛸💥</div>
+        <div class="alien">👽</div>
     </div>
 
-    <img src="image_ac09de.jpg" alt="Pustema News" class="hero-image">
+    <img src="image_d65f8d.jpg" alt="Pustema News" class="hero-image">
 
     <div class="content-container">
         
@@ -243,20 +300,20 @@
     </div>
 
     <script>
-        // יצירת מערכת כוכבים משובצים בגדלים שונים לאורך כל הגלילה
+        // יצירת מערכת כוכבים משובצים
         function createStars() {
             const starfield = document.getElementById('starfield');
-            const numberOfStars = 120; 
+            const numberOfStars = 100; 
 
             for (let i = 0; i < numberOfStars; i++) {
                 let star = document.createElement('div');
                 star.className = 'star';
                 star.innerHTML = '✦';
                 
-                let size = Math.random() * 16 + 12;
+                let size = Math.random() * 12 + 8;
                 star.style.fontSize = size + 'px';
                 
-                star.style.top = Math.random() * 250 + 'vh';
+                star.style.top = Math.random() * 100 + 'vh';
                 star.style.left = Math.random() * 100 + 'vw';
                 
                 star.style.animationDelay = Math.random() * 5 + 's';
@@ -266,17 +323,79 @@
             }
         }
 
-        setInterval(() => {
-            const stars = document.querySelectorAll('.star');
-            stars.forEach(star => {
-                if (window.getComputedStyle(star).opacity < 0.05) {
-                    star.style.top = Math.random() * 250 + 'vh';
-                    star.style.left = Math.random() * 100 + 'vw';
-                }
-            });
-        }, 7000);
+        // מערכת ירי לייזרים ופיצוץ כוכבים בזמן אמת
+        function setupLaserSystem() {
+            const spaceship = document.getElementById('mySpaceship');
+            const planets = [document.getElementById('p1'), document.getElementById('p2'), document.getElementById('p3')];
+            const starfield = document.getElementById('starfield');
 
-        window.onload = createStars;
+            setInterval(() => {
+                // בדיקת מיקום החללית על המסך
+                const shipRect = spaceship.getBoundingClientRect();
+                const shipCenterX = shipRect.left + shipRect.width / 2;
+                const shipCenterY = shipRect.top + shipRect.height / 2;
+
+                // מוצא כוכב לכת קרוב שאינו מפוצץ כרגע כדי לירות עליו
+                const targetPlanet = planets.find(p => {
+                    if (p.classList.contains('exploded')) return false;
+                    const pRect = p.getBoundingClientRect();
+                    // יורה רק אם כוכב הלכת נמצא בטווח הגיוני מהחללית
+                    return pRect.left > 0 && pRect.left < window.innerWidth;
+                });
+
+                if (targetPlanet) {
+                    const pRect = targetPlanet.getBoundingClientRect();
+                    const pCenterX = pRect.left + pRect.width / 2;
+                    const pCenterY = pRect.top + pRect.height / 2;
+
+                    // חישוב מרחק וזווית עבור קו הלייזר
+                    const distance = Math.hypot(pCenterX - shipCenterX, pCenterY - shipCenterY);
+                    const angle = Math.atan2(pCenterY - shipCenterY, pCenterX - shipCenterX) * (180 / Math.PI);
+
+                    // יצירת אלמנט הלייזר בדינמיות
+                    const laser = document.createElement('div');
+                    laser.className = 'laser-beam';
+                    laser.style.width = distance + 'px';
+                    laser.style.left = shipCenterX + 'px';
+                    laser.style.top = shipCenterY + 'px';
+                    laser.style.transform = `rotate(${angle}deg)`;
+                    starfield.appendChild(laser);
+
+                    // כוכב הלכת מתחיל לרעוד מיד עם פגיעת הלייזר
+                    targetPlanet.classList.add('shake');
+
+                    // מחיקת הלייזר בסיום האנימציה
+                    setTimeout(() => laser.remove(), 400);
+
+                    // פיצוץ כוכב הלכת לאחר חצי שנייה
+                    setTimeout(() => {
+                        targetPlanet.classList.remove('shake');
+                        targetPlanet.classList.add('exploded');
+
+                        // יצירת אפקט הפיצוץ (אמוג'י פיצוץ ענק)
+                        const explosion = document.createElement('div');
+                        explosion.className = 'explosion-effect';
+                        explosion.innerHTML = '💥';
+                        explosion.style.left = pCenterX + 'px';
+                        explosion.style.top = pCenterY + 'px';
+                        starfield.appendChild(explosion);
+
+                        setTimeout(() => explosion.remove(), 800);
+
+                        // החזרת כוכב הלכת לחיים לאחר 3 שניות מהפיצוץ
+                        setTimeout(() => {
+                            targetPlanet.classList.remove('exploded');
+                        }, 3000);
+
+                    }, 450);
+                }
+            }, 4000); // החללית מנסה לירות בכל 4 שניות
+        }
+
+        window.onload = () => {
+            createStars();
+            setupLaserSystem();
+        };
     </script>
 
 </body>
