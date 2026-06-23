@@ -32,7 +32,6 @@
             object-fit: cover; 
             display: block;
             pointer-events: none;
-            /* יוצר אפקט דהייה הדרגתי לחלק התחתון כדי שלא יראה קטוע */
             -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
             mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
         }
@@ -40,7 +39,7 @@
         /* חצי תחתון: אזור החלל המורחב */
         .space-section {
             width: 100vw;
-            min-height: 130vh; /* מוגדל במיוחד כדי לגלול וליהנות מהחלל */
+            min-height: 140vh; /* מוגדל כדי לתת מקום לכוכבי הענק */
             position: relative;
             background: radial-gradient(circle at center, #060a1f 0%, #01020a 100%);
             display: flex;
@@ -173,9 +172,9 @@
         const stars = [];
         const planets = [];
         const particles = [];
-        const shockwaves = []; // מערך עבור גלי הפיצוץ הלוהטים
+        const shockwaves = [];
 
-        // יצירת רקע כוכבים מנצנצים (צהובים עדינים ולבנים זוהרים)
+        // יצירת רקע כוכבים מנצנצים
         for (let i = 0; i < 90; i++) {
             stars.push({
                 x: Math.random(),
@@ -187,26 +186,26 @@
             });
         }
 
-        // הגדרת מאפיינים לכוכבי לכת אמיתיים ומוכרים
+        // הגדרת מאפיינים לכוכבי לכת אמיתיים - הגודל (radius) הוגדל פי 5!
         const planetTemplates = [
-            { name: 'מאדים', type: 'mars', color: '#e74c3c', secondaryColor: '#c0392b', radius: 22 },
-            { name: 'שבתאי', type: 'saturn', color: '#f39c12', secondaryColor: '#f1c40f', radius: 26, hasRing: true },
-            { name: 'צדק', type: 'jupiter', color: '#d35400', secondaryColor: '#e67e22', radius: 34, hasStripes: true },
-            { name: 'נפטון', type: 'neptune', color: '#2980b9', secondaryColor: '#3498db', radius: 25 }
+            { name: 'מאדים', type: 'mars', color: '#e74c3c', secondaryColor: '#c0392b', radius: 110 }, // היה 22, עכשיו 110!
+            { name: 'שבתאי', type: 'saturn', color: '#f39c12', secondaryColor: '#f1c40f', radius: 130, hasRing: true }, // היה 26, עכשיו 130!
+            { name: 'צדק', type: 'jupiter', color: '#d35400', secondaryColor: '#e67e22', radius: 170, hasStripes: true }, // היה 34, עכשיו 170!
+            { name: 'נפטון', type: 'neptune', color: '#2980b9', secondaryColor: '#3498db', radius: 125 } // היה 25, עכשיו 125!
         ];
 
-        // בניית כוכבי הלכת במסך
+        // בניית כוכבי הלכת במסך עם מרווחים מותאמים לגודל החדש
         planetTemplates.forEach((template, index) => {
             planets.push({
                 ...template,
-                x: 0.15 + (index * 0.23) + Math.random() * 0.05, // חלוקה אופקית יפה
-                y: 0.2 + Math.random() * 0.4,
+                x: 0.15 + (index * 0.24), // חלוקה אופקית יפה שלא יתנגשו
+                y: 0.35 + Math.random() * 0.3,
                 isDead: false,
                 respawnTimer: 0
             });
         });
 
-        // פונקציית פיצוץ ריאליסטי - חלקיקים + הבזק אש מתרחב
+        // פונקציית פיצוץ ריאליסטי - מותאם לכוכבי הענק
         function explodePlanet(planet) {
             planet.isDead = true;
             planet.respawnTimer = 240; // חוזר אחרי כ-4 שניות
@@ -214,22 +213,21 @@
             const actualX = planet.x * canvas.width;
             const actualY = planet.y * canvas.height;
 
-            // 1. יצירת גל הדף לוהט (Shockwave) של אש
+            // גל הדף לוהט ענק בהתאם לגודל החדש
             shockwaves.push({
                 x: actualX,
                 y: actualY,
                 radius: planet.radius,
-                maxRadius: planet.radius * 3.5,
+                maxRadius: planet.radius * 2.5,
                 alpha: 1,
-                color: '#ff4500' // כתום אש עמוק
+                color: '#ff4500'
             });
 
-            // 2. יצירת 100 חלקיקי פיצוץ
-            for (let i = 0; i < 100; i++) {
+            // יצירת חלקיקי פיצוץ רבים וגדולים יותר
+            for (let i = 0; i < 120; i++) {
                 const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 7 + 1.5;
-                // ערבוב צבעים של אש ופיח יחד עם צבע כוכב הלכת המקורי
-                const colorPool = [planet.color, '#ff3300', '#ffcc00', '#333333'];
+                const speed = Math.random() * 9 + 2;
+                const colorPool = [planet.color, '#ff3300', '#ffcc00', '#ff7700', '#333333'];
                 const particleColor = colorPool[Math.floor(Math.random() * colorPool.length)];
 
                 particles.push({
@@ -237,54 +235,57 @@
                     y: actualY,
                     vx: Math.cos(angle) * speed,
                     vy: Math.sin(angle) * speed,
-                    size: Math.random() * 4.5 + 1.5,
+                    size: Math.random() * 7 + 2, // חלקיקים גדולים יותר לפיצוץ מסיבי
                     color: particleColor,
                     alpha: 1,
-                    decay: Math.random() * 0.015 + 0.008
+                    decay: Math.random() * 0.012 + 0.006
                 });
             }
         }
 
-        // פונקציה לציור גרפיקה ריאליסטית של כוכב לכת על ה-Canvas
+        // פונקציה לציור גרפיקה ריאליסטית של כוכב לכת ענק
         function drawRealisticPlanet(ctx, p, x, y) {
             ctx.save();
             
-            // צל וזוהר חיצוני אטמוספרי
-            ctx.shadowBlur = 25;
+            // צל וזוהר חיצוני אטמוספרי מוגבר לענק
+            ctx.shadowBlur = 45;
             ctx.shadowColor = p.color;
 
             // בסיס כדור הלכת (מפלס צבעים תלת-ממדי)
-            const gradient = ctx.createRadialGradient(x - p.radius/3, y - p.radius/3, p.radius/5, x, y, p.radius);
+            const gradient = ctx.createRadialGradient(x - p.radius/3, y - p.radius/3, p.radius/6, x, y, p.radius);
             gradient.addColorStop(0, '#ffffff');
-            gradient.addColorStop(0.3, p.color);
-            gradient.addColorStop(1, p.secondaryColor);
+            gradient.addColorStop(0.2, p.color);
+            gradient.addColorStop(0.8, p.secondaryColor);
+            gradient.addColorStop(1, '#000000'); // הוספת צד אפל ריאליסטי
             
             ctx.fillStyle = gradient;
             ctx.beginPath();
             ctx.arc(x, y, p.radius, 0, Math.PI * 2);
             ctx.fill();
-            ctx.shadowBlur = 0; // איפוס צל להמשך הציור הפנימי
+            ctx.shadowBlur = 0;
 
-            // הוספת פסים אופקיים ייחודיים לצדק (Jupiter)
+            // פסים אופקיים מפורטים לצדק (Jupiter)
             if (p.hasStripes) {
-                ctx.globalAlpha = 0.25;
+                ctx.globalAlpha = 0.2;
                 ctx.fillStyle = '#ffffff';
-                ctx.fillRect(x - p.radius, y - p.radius/3, p.radius * 2, 4);
-                ctx.fillRect(x - p.radius, y + p.radius/4, p.radius * 2, 5);
+                ctx.fillRect(x - p.radius, y - p.radius/3, p.radius * 2, 12);
+                ctx.fillRect(x - p.radius, y + p.radius/4, p.radius * 2, 15);
                 ctx.fillStyle = '#4a2306';
-                ctx.fillRect(x - p.radius, y - p.radius/1.5, p.radius * 2, 3);
+                ctx.fillRect(x - p.radius, y - p.radius/1.6, p.radius * 2, 8);
+                ctx.fillRect(x - p.radius, y + p.radius/1.8, p.radius * 2, 10);
             }
 
-            // הוספת טבעת מרשימה מסביב לשבתאי (Saturn)
+            // טבעת ענקית לשבתאי (Saturn)
             if (p.hasRing) {
-                ctx.globalAlpha = 0.6;
+                ctx.globalAlpha = 0.65;
                 ctx.strokeStyle = p.color;
-                ctx.lineWidth = 6;
+                ctx.lineWidth = 14; // עבה יותר
                 ctx.save();
                 ctx.translate(x, y);
-                ctx.scale(2, 0.4); // הפיכת המעגל לאליפסה של טבעת חלל
+                ctx.rotate(-0.2); // זווית נטייה קלה לטבעת למראה ריאליסטי
+                ctx.scale(2.2, 0.35);
                 ctx.beginPath();
-                ctx.arc(0, 0, p.radius + 3, 0, Math.PI * 2);
+                ctx.arc(0, 0, p.radius + 15, 0, Math.PI * 2);
                 ctx.stroke();
                 ctx.restore();
             }
@@ -309,11 +310,11 @@
                 ctx.restore();
             });
 
-            // 2. עדכון וציור גלי ההדף (Shockwaves) של האש מהפיצוצים
+            // 2. עדכון וציור גלי ההדף (Shockwaves)
             for (let i = shockwaves.length - 1; i >= 0; i--) {
                 const wave = shockwaves[i];
-                wave.radius += 2.5; // מהירות התרחבות הפיצוץ
-                wave.alpha -= 0.015; // דעיכת האור
+                wave.radius += 4.5; // פיצוץ מהיר ועוצמתי יותר
+                wave.alpha -= 0.012;
 
                 if (wave.alpha <= 0) {
                     shockwaves.splice(i, 1);
@@ -321,8 +322,8 @@
                     ctx.save();
                     ctx.globalAlpha = wave.alpha;
                     ctx.strokeStyle = wave.color;
-                    ctx.lineWidth = 5;
-                    ctx.shadowBlur = 20;
+                    ctx.lineWidth = 8;
+                    ctx.shadowBlur = 35;
                     ctx.shadowColor = wave.color;
                     ctx.beginPath();
                     ctx.arc(wave.x, wave.y, wave.radius, 0, Math.PI * 2);
@@ -331,11 +332,10 @@
                 }
             }
 
-            // 3. כוכבי הלכת הריאליסטיים
+            // 3. כוכבי הלכת הריאליסטיים הענקיים
             planets.forEach(planet => {
                 if (!planet.isDead) {
-                    // סיכוי אקראי מבוקר לפיצוץ פתאומי
-                    if (Math.random() < 0.002) {
+                    if (Math.random() < 0.0015) { // הסתברות מותאמת
                         explodePlanet(planet);
                         return;
                     }
@@ -346,13 +346,11 @@
                     planet.respawnTimer--;
                     if (planet.respawnTimer <= 0) {
                         planet.isDead = false;
-                        planet.x = 0.1 + Math.random() * 0.8;
-                        planet.y = 0.2 + Math.random() * 0.5;
                     }
                 }
             });
 
-            // 4. חלקיקי הפיצוץ (אש, גיצים ורסיסים)
+            // 4. חלקיקי הפיצוץ המסיביים
             for (let i = particles.length - 1; i >= 0; i--) {
                 const p = particles[i];
                 p.x += p.vx;
@@ -364,7 +362,7 @@
                 } else {
                     ctx.save();
                     ctx.globalAlpha = p.alpha;
-                    ctx.shadowBlur = 8;
+                    ctx.shadowBlur = 10;
                     ctx.shadowColor = p.color;
                     ctx.fillStyle = p.color;
                     ctx.beginPath();
