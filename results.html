@@ -8,100 +8,174 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
-        /* --- עולם קסום וגיהנום של אגדות ברקע --- */
+        /* --- עולם האגדות הציורי והדינמי --- */
         body {
             font-family: 'Rubik', sans-serif;
             margin: 0;
             padding: 0;
-            /* שמיים קסומים בזריחה/שקיעה של גן עדן */
-            background: linear-gradient(180deg, #ff9a9e 0%, #fecfef 30%, #a1c4fd 70%, #c2e9fb 100%);
+            /* שמיים ציוריים ופסטליים כמו בתמונה */
+            background: linear-gradient(180deg, #ffb3ba 0%, #ffdfba 30%, #baffc9 70%, #bae1ff 100%);
+            background-size: 100% 300%;
+            animation: skyGlow 15s ease infinite alternate;
             color: white;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
-            transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* מעבר חלק להיפוך העולם */
+            transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
-        /* אפקט היפוך וסיבוב לעולם */
+        @keyframes skyGlow {
+            0% { background-position: 50% 0%; }
+            100% { background-position: 50% 100%; }
+        }
+
+        /* כפתור היפוך העולם */
         body.flipped {
             transform: rotate(360deg) scaleX(-1) scaleY(-1);
         }
 
-        /* אלמנטים של הטבע הקסום ברקע */
+        /* גבעות, דשא ואגם זוהר בתחתית */
         body::before {
             content: '';
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 250px;
-            /* דשא ירוק בוהק בשילוב אגם זוהר במרכז */
+            height: 320px;
+            /* בניית שכבות: אגם קסום במרכז, גשר עץ מדומיין ודשא ירוק בוהק */
             background: 
-                radial-gradient(circle at 50% 120%, #00ffff 0%, rgba(0, 255, 255, 0) 60%), /* אגם בוהק */
-                linear-gradient(0deg, #107a3b 0%, #10b981 100%); /* דשא ירוק חזק */
+                /* האגם הזוהר */
+                radial-gradient(ellipse at 70% 80%, #00ffff 0%, rgba(35, 213, 171, 0.6) 30%, transparent 70%),
+                /* הדשא הבוהק */
+                linear-gradient(135deg, #059669 0%, #10b981 50%, #047857 100%);
             z-index: -1;
-            box-shadow: inset 0 50px 50px rgba(255, 255, 255, 0.4);
+            border-top: 15px solid #34d399;
+            box-shadow: inset 0 30px 40px rgba(255, 255, 255, 0.4), 0 -10px 30px rgba(0, 0, 0, 0.15);
+            animation: lakeSparkle 4s ease-in-out infinite alternate;
         }
 
-        /* עצים צבעוניים בוהקים ברקע */
-        .magic-tree {
+        @keyframes lakeSparkle {
+            0% { filter: brightness(1) contrast(1); }
+            100% { filter: brightness(1.2) contrast(1.1); }
+        }
+
+        /* גשר העץ הקסום מעל האגם */
+        .magic-bridge {
             position: fixed;
-            bottom: 180px;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            filter: blur(10px);
+            bottom: 60px;
+            right: 15%;
+            width: 160px;
+            height: 70px;
+            border: 6px solid #78350f;
+            border-bottom: none;
+            border-radius: 100px 100px 0 0;
             z-index: -1;
-            opacity: 0.6;
-            animation: pulseGlow 4s ease-in-out infinite alternate;
+            box-shadow: 0 -5px 15px rgba(255, 255, 255, 0.3);
+            background: rgba(120, 53, 15, 0.1);
         }
-        .tree-pink { left: 5%; background: #ff007f; }
-        .tree-purple { left: 15%; background: #7f00ff; bottom: 200px; }
-        .tree-cyan { right: 8%; background: #00ffff; }
-
-        @keyframes pulseGlow {
-            0% { transform: scale(1); filter: blur(10px) brightness(1); }
-            100% { transform: scale(1.2); filter: blur(15px) brightness(1.4); }
+        .magic-bridge::after {
+            content: '||||||||';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            color: #78350f;
+            font-size: 1.2rem;
+            letter-spacing: 8px;
+            text-align: center;
         }
 
-        /* שמש מהממת וזוהרת */
+        /* שמש קסומה מנצנצת ושולחת קרניים */
         .magic-sun {
             position: fixed;
-            top: 80px;
-            right: 10%;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, #fff700 0%, #ff8800 70%, transparent 100%);
+            top: 70px;
+            right: 12%;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, #ffffff 0%, #fef08a 40%, #facc15 80%, transparent 100%);
             border-radius: 50%;
             z-index: -2;
-            filter: drop-shadow(0 0 40px #ffaa00);
-            animation: sunFloat 8s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 50px #eab308);
+            animation: sunPulse 6s ease-in-out infinite alternate;
         }
 
-        @keyframes sunFloat {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-20px); }
+        @keyframes sunPulse {
+            0% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 40px #eab308); }
+            100% { transform: translateY(-15px) scale(1.1); filter: drop-shadow(0 0 70px #facc15); }
         }
 
-        /* ארנב קסום עם כנפיים מעופף ברקע */
+        /* הרים סגולים רחוקים באופק */
+        .magic-mountain {
+            position: fixed;
+            bottom: 240px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            z-index: -2;
+            opacity: 0.4;
+        }
+        .mountain-left {
+            left: -50px;
+            border-width: 0 200px 200px 200px;
+            border-color: transparent transparent #c084fc transparent;
+        }
+        .mountain-right {
+            right: 5px;
+            border-width: 0 250px 230px 250px;
+            border-color: transparent transparent #a855f7 transparent;
+        }
+
+        /* ארנב מעופף עם כנפיים */
         .magic-rabbit {
             position: fixed;
-            bottom: 220px;
+            bottom: 120px;
             left: -100px;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             z-index: -1;
-            animation: rabbitFly 15s linear infinite;
+            animation: rabbitFly 16s linear infinite;
             user-select: none;
             pointer-events: none;
         }
 
         @keyframes rabbitFly {
             0% { left: -100px; transform: translateY(0) scaleX(1); }
-            45% { transform: translateY(-50px) scaleX(1); }
+            45% { transform: translateY(-40px) scaleX(1); }
             50% { left: 110%; transform: translateY(0) scaleX(1); }
             51% { transform: scaleX(-1); }
-            95% { transform: translateY(-30px) scaleX(-1); }
+            95% { transform: translateY(-20px) scaleX(-1); }
             100% { left: -100px; transform: translateY(0) scaleX(-1); }
+        }
+
+        /* יצורים קסומים נוספים: פרפרים מרחפים */
+        .magic-butterfly {
+            position: fixed;
+            font-size: 1.5rem;
+            z-index: -1;
+            animation: butterflyFloat 8s ease-in-out infinite alternate;
+        }
+        .bf1 { top: 30%; left: 8%; animation-delay: 0s; }
+        .bf2 { top: 55%; right: 5%; animation-delay: 2.5s; }
+
+        @keyframes butterflyFloat {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(30px, -40px) rotate(15deg); }
+            100% { transform: translate(-10px, -70px) rotate(-10deg); }
+        }
+
+        /* ציפורים בשמיים */
+        .magic-birds {
+            position: fixed;
+            top: 150px;
+            left: 20%;
+            font-size: 2rem;
+            z-index: -2;
+            opacity: 0.5;
+            animation: birdsMove 25s linear infinite;
+        }
+
+        @keyframes birdsMove {
+            0% { left: -100px; top: 120px; }
+            100% { left: 110%; top: 180px; }
         }
 
         /* כפתור היפוך העולם הבולט */
@@ -110,26 +184,26 @@
             top: 25px;
             left: 20px;
             z-index: 2000;
-            background: linear-gradient(135deg, #ff007f, #7f00ff);
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             color: white;
             border: 2px solid white;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 50px;
             font-family: 'Rubik', sans-serif;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 1.05rem;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 0, 127, 0.5);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), 0 0 20px rgba(139, 92, 246, 0.4);
             transition: all 0.3s ease;
         }
 
         .flip-world-btn:hover {
             transform: scale(1.1);
-            background: linear-gradient(135deg, #7f00ff, #ff007f);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 255, 255, 0.8);
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 35px rgba(0, 255, 255, 0.8);
         }
 
-        /* --- המשך עיצוב מקורי של האתר (ללא שינוי במבנה) --- */
+        /* --- עיצוב כרטיסיות זכוכית יוקרתיות (Glassmorphism) כמו בתמונה --- */
         .pride-bar {
             height: 10px;
             width: 100%;
@@ -142,17 +216,26 @@
         header {
             padding: 60px 20px 40px;
             text-align: center;
-            background: rgba(0, 0, 0, 0.45); /* הכהה קלה בשביל קריאות מעולה על הרקע הבהיר */
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.2); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             margin-bottom: 30px;
-            border-bottom: 3px solid rgba(255,255,255,0.2);
+            border-bottom: 2px solid rgba(255,255,255,0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
         header h1 {
             font-size: 3.2rem;
             margin: 0;
             font-weight: 900;
-            text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+            color: #1e1b4b; /* צבע כהה יוקרתי לקריאות מושלמת */
+            text-shadow: 1px 1px 4px rgba(255,255,255,0.8);
+        }
+
+        header p {
+            color: #312e81;
+            font-weight: 500;
+            font-size: 1.2rem;
         }
 
         .container {
@@ -162,53 +245,58 @@
         }
 
         .results-card {
-            background: rgba(0, 0, 0, 0.5); /* שונה מלבן שקוף לשחור שקוף כדי שהטקסט הלבן יבלוט מושלם */
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            margin-bottom: 35px;
+            background: rgba(255, 255, 255, 0.28); /* זכוכית שקופה לבנה ונקייה */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 30px;
+            padding: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+            color: #1e1b4b; /* טקסט כהה וברור */
         }
 
         .edition-title {
-            background: #fff;
-            color: #000;
+            background: #1e1b4b;
+            color: #ffffff;
             display: inline-block;
-            padding: 6px 22px;
+            padding: 8px 26px;
             border-radius: 50px;
             font-weight: bold;
             font-size: 1.3rem;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
         }
 
         th {
             text-align: right;
-            padding: 12px;
-            border-bottom: 2px solid rgba(255,255,255,0.4);
-            font-size: 1.3rem;
-            color: #ffff00;
+            padding: 14px;
+            border-bottom: 3px solid rgba(30, 27, 75, 0.3);
+            font-size: 1.35rem;
+            color: #1e1b4b;
+            font-weight: 900;
         }
 
         td {
-            padding: 14px 12px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 16px 14px;
+            border-bottom: 1px solid rgba(30, 27, 75, 0.1);
             vertical-align: middle;
+            color: #2e2a72;
         }
 
         tr:last-child td { border-bottom: none; }
 
         .winner-row {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.45);
             font-weight: bold;
-            border-radius: 10px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
         }
 
         .flag {
@@ -225,25 +313,30 @@
         }
 
         .mic-play-btn {
-            background: none;
-            border: none;
-            font-size: 1.6rem;
+            background: rgba(30, 27, 75, 0.1);
+            border: 1px solid rgba(30, 27, 75, 0.2);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
             cursor: pointer;
-            padding: 0 5px;
-            transition: transform 0.2s ease;
-            user-select: none;
+            transition: transform 0.2s ease, background 0.2s;
         }
 
         .mic-play-btn:hover {
-            transform: scale(1.2);
+            transform: scale(1.15);
+            background: rgba(30, 27, 75, 0.2);
         }
 
         .music-status-notice {
             text-align: center;
-            margin-top: 15px;
-            font-size: 1.1rem;
+            margin-top: 20px;
+            font-size: 1.2rem;
             font-weight: bold;
-            color: #ffff00;
+            color: #1e1b4b;
             min-height: 24px;
         }
 
@@ -262,28 +355,29 @@
             display: block;
             width: fit-content;
             margin: 40px auto;
-            background: #fff;
-            color: #6a00ff;
-            padding: 15px 35px;
+            background: #1e1b4b;
+            color: #ffffff;
+            padding: 15px 40px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
 
         .back-home:hover {
             transform: translateY(-5px) scale(1.05);
-            background: #ffff00;
-            color: #000;
+            background: #8b5cf6;
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.4);
         }
 
         .footer-flags {
             text-align: center;
             font-size: 2.5rem;
-            margin: 40px 0;
-            letter-spacing: 5px;
+            margin: 50px 0;
+            letter-spacing: 8px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
         }
     </style>
 </head>
@@ -294,10 +388,13 @@
     <button class="flip-world-btn" onclick="flipWorld()">הפוך את העולם! 🌀</button>
 
     <div class="magic-sun"></div>
-    <div class="magic-tree tree-pink"></div>
-    <div class="magic-tree tree-purple"></div>
-    <div class="magic-tree tree-cyan"></div>
+    <div class="magic-mountain mountain-left"></div>
+    <div class="magic-mountain mountain-right"></div>
+    <div class="magic-bridge"></div>
     <div class="magic-rabbit">🐇✨</div>
+    <div class="magic-butterfly bf1">🦋</div>
+    <div class="magic-butterfly bf2">🦋</div>
+    <div class="magic-birds">🦅 🦅</div>
 
     <header>
         <h1>🏆 תוצאות מכל הזמנים 🏳️‍🌈</h1>
@@ -374,7 +471,7 @@
                         <td>
                             <div class="participant-cell">
                                 <span><span class="flag">🔥</span> חשאבה (מקום 4 בחצי גמר 2)</span>
-                                <button class="mic-play-btn" onclick="toggleSong('L1Snj1Pt-Hs', 'Cream Soda & Хлеב - Плачу на техно', this, 0)" title="נגן/עצור שיר">
+                                <button class="mic-play-btn" onclick="toggleSong('L1Snj1Pt-Hs', 'Cream Soda & Хлеב - Плачу на techno', this, 0)" title="נגן/עצור שיר">
                                     <span class="mic-icon">🎙️</span>
                                 </button>
                             </div>
@@ -480,7 +577,7 @@
             document.body.classList.toggle('flipped');
         }
 
-        // --- המשך קוד הנגן המקורי ---
+        // --- קוד הנגן המקורי ללא שינויים ---
         const tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         const firstScriptTag = document.getElementsByTagName('script')[0];
@@ -566,6 +663,5 @@
             });
         }
     </script>
-
 </body>
 </html>
