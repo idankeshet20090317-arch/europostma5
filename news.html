@@ -2,78 +2,43 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>יורופוסטמה - PUSTEMA NEWS</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700;900&display=swap" rel="stylesheet">
-    
     <style>
-        body {
-            font-family: 'Rubik', sans-serif;
+        body, html {
             margin: 0;
             padding: 0;
+            width: 100%;
+            height: 100%;
             background-color: #020617;
-            color: white;
-            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* אזור התמונה - תופס את כל רוחב המסך ומגיע לגובה מקסימלי יפה */
-        .hero-container {
+        /* כאן הגדרנו את התמונה שתהיה ענקית וגבוהה על כל המסך */
+        .full-screen-image {
             width: 100%;
-            max-height: 75vh; /* גובה גבוה ומרשים במסך */
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-        }
-
-        .hero-image {
-            width: 100%;
-            height: auto;
+            height: 85vh; /* תופס כמעט את כל גובה המסך ישר על ההתחלה */
+            object-fit: cover; /* דואג שהתמונה תימתח ותמלא את כל האזור בצורה מושלמת */
             display: block;
-            object-fit: cover;
         }
 
-        /* תוכן הכתבה מתחת לתמונה */
+        /* התוכן של האתר יופיע רק למטה, מתחת לתמונה */
         .content {
             max-width: 800px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .card {
-            background: #0f172a;
-            border: 1px solid #1e293b;
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-
-        h1 {
-            color: #ffea00;
-            font-size: 2.5rem;
-            margin-top: 0;
-            margin-bottom: 20px;
-        }
-
-        p {
-            color: #94a3b8;
-            font-size: 1.25rem;
-            line-height: 1.7;
+            margin: 50px auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
-    <div class="hero-container">
-        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAKAA8ADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQXRefX11VldXWFlaW1hdXW1leXl5eVmZmanq6ntKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi44eX19k4eX1dX14eX0lYGVlhYW5vd3R1d34eXFXVxZGVlWWhobJnccd3d3h5fX56hbWLl5iVmqGlaW1hd3h5eoOFi4Wlqaqp619nd3uFi4fX59nk6anq8vP09fb39PX56f/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi44eX19k4eX1dX14eX0lYGVlhYW5vd3R1d34eXFXVxZGVlWWhobJnccd3d3h5fX56hbWLl5iVmqGlaW1hd3h5eoSFh5edfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX153d6ef99e69ebcae.jpg" alt="Pustema News" class="hero-image">
-    </div>
+    <img src="image_d65f8d.jpg" class="full-screen-image">
 
     <div class="content">
-        <div class="card">
-            <h1>עונת יורופוסטמה 5 יוצאת לדרך! 🎵</h1>
-            <p>חברי הועדה הרשמית התכנסו הלילה והחליטו על פתיחת השערים הרשמית של העונה החדשה עם חוקים מרעננים, אפשרויות החלפת מדינות מורחבות וחוויה מוזיקלית שלא נראתה כמותה.</p>
-            <p>פרטים נוספים לגבי הליך שליחת השירים וההרשמה המלאה יפורסמו בהמשך ישירות בלוח הזמנים. הכינו את השירים שלכם ועמדו בדרישות הספוטיפי והיוטיוב הקפדניות!</p>
-        </div>
+        <h1>עונת יורופוסטמה 5 יוצאת לדרך! 🎵</h1>
+        <p>חברי הועדה הרשמית התכנסו הלילה והחליטו על פתיחת השערים הרשמית...</p>
     </div>
 
 </body>
