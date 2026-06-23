@@ -13,18 +13,17 @@
             font-family: 'Rubik', sans-serif;
             margin: 0;
             padding: 0;
-            /* רקע חלל עמוק מקובע למסך שלא נגמר בגלילה */
             background: radial-gradient(circle at 20% 30%, rgba(20, 10, 45, 0.9) 0%, #020617 70%),
                         radial-gradient(circle at 80% 70%, rgba(10, 25, 50, 0.8) 0%, #020617 80%);
             background-color: #020617;
             background-attachment: fixed;
             color: white;
-            min-height: 250vh; /* מרחב גלילה עצום */
+            min-height: 250vh; 
             overflow-x: hidden;
             position: relative;
         }
 
-        /* תמונת הכותרת ששלחת - מותאמת בדיוק עד הפס הצהוב */
+        /* תמונת הכותרת ששלחת - נטענת עכשיו ישירות מהרשת ומגיעה בול עד הפס הצהוב */
         .hero-image {
             width: 100%;
             height: auto; 
@@ -36,7 +35,6 @@
             z-index: 5;
         }
 
-        /* שכבת החלל מקובעת למסך */
         #starfield {
             position: fixed;
             top: 0;
@@ -47,7 +45,6 @@
             pointer-events: none;
         }
 
-        /* כוכבים בריצוד קוסמי ברקע */
         .star {
             position: absolute;
             color: #ffffff;
@@ -63,7 +60,6 @@
             50% { opacity: 0.9; transform: scale(1.2); text-shadow: 0 0 15px #fff, 0 0 30px #fff; }
         }
 
-        /* כוכבי לכת בסיסי */
         .planet {
             position: absolute;
             border-radius: 50%;
@@ -72,12 +68,10 @@
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease;
         }
 
-        /* אפקט רעידה מוגבר בזמן פגיעת לייזר */
         .planet.shake {
             animation: planetShake 0.08s infinite alternate !important;
         }
 
-        /* אפקט התפוצצות והעלמות מוחלטת */
         .planet.exploded {
             transform: scale(0) !important;
             opacity: 0 !important;
@@ -89,7 +83,6 @@
             100% { transform: translate(-6px, -6px) rotate(4deg); }
         }
 
-        /* ענק גז סגול-כחול - שמאל למעלה */
         .planet-1 {
             width: 180px; 
             height: 180px;
@@ -99,7 +92,6 @@
             left: 5%;
         }
 
-        /* כוכב לכת ירוק-תכלת - ימין מרכז */
         .planet-2 {
             width: 150px;
             height: 150px;
@@ -109,7 +101,6 @@
             right: 8%;
         }
 
-        /* כוכב לכת כתום-אדום וולקני - שמאל למטה */
         .planet-3 {
             width: 200px;
             height: 200px;
@@ -119,7 +110,7 @@
             left: 10%;
         }
 
-        /* חללית קרב נקייה (רק האמוג'י של החללית, הפיצוץ הוסר) */
+        /* החללית נקייה - ללא אמוג'י הפיצוץ המקובע */
         .spaceship {
             position: absolute;
             font-size: 11rem; 
@@ -138,7 +129,6 @@
             100% { top: 85%; left: 120%; transform: rotate(10deg) scale(0.8); }
         }
 
-        /* קו הלייזר שנורה מהחללית */
         .laser-beam {
             position: absolute;
             z-index: 3;
@@ -157,7 +147,7 @@
             100% { opacity: 0; transform: scaleY(0.1); }
         }
 
-        /* חלקיקי הפיצוץ המפרקים החדשים */
+        /* 100 חלקיקי הפיצוץ המפרקים החדשים */
         .debris {
             position: absolute;
             border-radius: 50%;
@@ -171,7 +161,6 @@
             100% { transform: translate(var(--mx), var(--my)) scale(0); opacity: 0; }
         }
 
-        /* חייזר קטן ומתעופף ברקע */
         .alien {
             position: absolute;
             font-size: 3.5rem;
@@ -187,7 +176,6 @@
             100% { top: 10%; right: 110%; transform: scale(1) rotate(360deg); }
         }
 
-        /* תוכן האתר והכרטיסייה */
         .content-container {
             position: relative;
             z-index: 10;
@@ -237,7 +225,6 @@
             color: #cbd5e1;
         }
 
-        /* כפתור הניווט לחזרה */
         .back-btn-container {
             text-align: center;
             margin-top: 60px;
@@ -276,7 +263,7 @@
         <div class="alien">👽</div>
     </div>
 
-    <img src="image_d65f8d.jpg" alt="Pustema News" class="hero-image">
+    <img src="https://images2.imgbox.com/39/fa/vj08Y0A8_o.jpg" alt="Pustema News" class="hero-image">
 
     <div class="content-container">
         
@@ -297,7 +284,6 @@
     </div>
 
     <script>
-        // יצירת מערכת כוכבי רקע קטנים ומנצנצים
         function createStars() {
             const starfield = document.getElementById('starfield');
             const numberOfStars = 100; 
@@ -320,7 +306,7 @@
             }
         }
 
-        // פונקציית פיצוץ מורחבת - יוצרת בדיוק 100 חלקיקים בצבע של כוכב הלכת שנפגע
+        // פונקציית פיצוץ - מייצרת בדיוק 100 חלקיקים זוהרים בצבע של הכוכב
         function createParticleExplosion(x, y, color) {
             const starfield = document.getElementById('starfield');
             const particleCount = 100;
@@ -329,21 +315,17 @@
                 const particle = document.createElement('div');
                 particle.className = 'debris';
                 
-                // הגדרת גודל רנדומלי לכל חלקיק קטן שמתפרק
                 const size = Math.random() * 6 + 3;
                 particle.style.width = size + 'px';
                 particle.style.height = size + 'px';
                 particle.style.backgroundColor = color;
-                
-                // הוספת אפקט זוהר קוסמי מותאם לצבע החלקיק
                 particle.style.boxShadow = `0 0 10px ${color}, 0 0 20px ${color}`;
                 
                 particle.style.left = x + 'px';
                 particle.style.top = y + 'px';
 
-                // חישוב פיזור פיצוץ רנדומלי ב-360 מעלות
                 const angle = Math.random() * Math.PI * 2;
-                const velocity = Math.random() * 280 + 60; // טווח המרחק שהחלקיק יעוף
+                const velocity = Math.random() * 280 + 60; 
                 const mx = Math.cos(angle) * velocity;
                 const my = Math.sin(angle) * velocity;
 
@@ -352,43 +334,35 @@
 
                 starfield.appendChild(particle);
 
-                // הסרת החלקיק הבודד מהדפדפן מיד בסיום התנועה שלו
                 setTimeout(() => particle.remove(), 1500);
             }
         }
 
-        // מנגנון ירי לייזרים חכם - בחירת כוכב אקראי לחלוטין בכל 10 שניות בדיוק
         function setupLaserSystem() {
             const spaceship = document.getElementById('mySpaceship');
             const planets = [document.getElementById('p1'), document.getElementById('p2'), document.getElementById('p3')];
             const starfield = document.getElementById('starfield');
 
             setInterval(() => {
-                // מסנן רק כוכבי לכת שכרגע קיימים ולא הושמדו
                 const availablePlanets = planets.filter(p => !p.classList.contains('exploded'));
                 
-                // אם כל כוכבי הלכת פוצצו זמנית, המערכת ממתינה למחזור הבא
                 if (availablePlanets.length === 0) return; 
 
-                // בחירה מגוונת ואקראית לחלוטין - בכל פעם כוכב לכת אחר נפגע
+                // גיוון מטרות אקראי לחלוטין בכל 10 שניות
                 const randomIndex = Math.floor(Math.random() * availablePlanets.length);
                 const targetPlanet = availablePlanets[randomIndex];
 
-                // חישוב מיקום מרכז החללית על המסך
                 const shipRect = spaceship.getBoundingClientRect();
                 const shipCenterX = shipRect.left + shipRect.width / 2;
                 const shipCenterY = shipRect.top + shipRect.height / 2;
 
-                // חישוב מיקום מרכז כוכב הלכת שנבחר כמטרה
                 const pRect = targetPlanet.getBoundingClientRect();
                 const pCenterX = pRect.left + pRect.width / 2;
                 const pCenterY = pRect.top + pRect.height / 2;
 
-                // חישוב מרחק וזווית מדויקים לצורך ציור קו הלייזר מהחרטום למטרה
                 const distance = Math.hypot(pCenterX - shipCenterX, pCenterY - shipCenterY);
                 const angle = Math.atan2(pCenterY - shipCenterY, pCenterX - shipCenterX) * (180 / Math.PI);
 
-                // יצירת אלמנט הלייזר הירוק הדינמי
                 const laser = document.createElement('div');
                 laser.className = 'laser-beam';
                 laser.style.width = distance + 'px';
@@ -397,32 +371,26 @@
                 laser.style.transform = `rotate(${angle}deg)`;
                 starfield.appendChild(laser);
 
-                // הפעלת אפקט הרעידה בכוכב הלכת מיד עם הפגיעה
                 targetPlanet.classList.add('shake');
 
-                // מחיקת קו הלייזר לאחר חצי שנייה
                 setTimeout(() => laser.remove(), 400);
 
-                // תזמון הפיצוץ וההתפרקות לחלקיקים
                 setTimeout(() => {
                     targetPlanet.classList.remove('shake');
                     targetPlanet.classList.add('exploded');
 
-                    // שליפת צבע הרקע הייחודי של הכוכב כדי להעביר אותו לחלקיקים
                     const planetColor = targetPlanet.getAttribute('data-color');
                     createParticleExplosion(pCenterX, pCenterY, planetColor);
 
-                    // החזרת כוכב הלכת לחלל בצורה חלקה לאחר 4 שניות מהשמדתו
                     setTimeout(() => {
                         targetPlanet.classList.remove('exploded');
                     }, 4000);
 
                 }, 450);
 
-            }, 10000); // מחזוריות קבועה של 10 שניות בין ירי לירי
+            }, 10000); 
         }
 
-        // הפעלה מסודרת של כל המערכות בטעינת הדף
         window.onload = () => {
             createStars();
             setupLaserSystem();
