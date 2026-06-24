@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>יורופוסטמה - האתר הרשמי</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(
+                45deg, 
+                #ff0000, #ff7700, #ffdd00, #00ff00, 
+                #00ffff, #0055ff, #9900ff, #ff00ff,
+                #ff0055, #00ffaa, #ffbb00, #ff0000
+            );
+            background-size: 400% 400%;
+            animation: ultimateRainbow 10s linear infinite;
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 0.5s ease, filter 0.3s ease;
+            position: relative;
+        }
+
+        body.party-mode {
+            animation: ultimateRainbow 2s linear infinite !important;
+        }
+
+        body.party-mode .card, body.party-mode .schedule-block {
+            background: rgba(255, 255, 255, 0.15) !important;
+            border-color: #ffff00 !important;
+            box-shadow: 0 0 30px rgba(255, 255, 0, 0.4) !important;
+        }
+
+        body.tv-mode {
+            background: linear-gradient(45deg, #111, #222, #333, #444, #555, #444, #333, #222, #111) !important;
+            background-size: 400% 400% !important;
+            animation: ultimateRainbow 15s linear infinite !important;
+            filter: grayscale(100%) contrast(120%);
+        }
+
+        body.tv-mode .card,
+        body.tv-mode .schedule-block,
+        body.tv-mode .party-toggle-btn,
+        body.tv-mode .tv-toggle-btn,
+        body.tv-mode .btn,
+        body.tv-mode .random-btn,
+        body.tv-mode .country-highlight,
+        body.tv-mode .btn-news-main,
+        body.tv-mode .btn-songs-main {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8) !important;
+            border-color: #888888 !important;
+            background: rgba(40, 40, 40, 0.6) !important;
+        }
+
+        body.tv-mode .pride-bar {
+            background: linear-gradient(to right, #333, #bbb, #555, #fff, #222, #999) !important;
+        }
+        
+        body.tv-mode::after {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 9999;
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            opacity: 0.4;
+            animation: tvLines 0.2s infinite;
+        }
+
+        #youtubeVideo {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        @keyframes tvLines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(2px); }
+        }
+
+        @keyframes ultimateRainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .pride-bar {
+            height: 10px;
+            width: 100%;
+            background: linear-gradient(to right, #ff0000, #ff8000, #ffff00, #008000, #0000ff, #a000c0);
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header {
+            padding: 140px 20px 40px 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(12px);
+            margin-bottom: 30px;
+            border-bottom: 3px solid rgba(255,255,255,0.2);
+            position: relative;
+        }
+
+        .controls-container {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            right: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            z-index: 1002;
+        }
+
+        .party-toggle-btn {
+            background: #ff0055;
+            color: white;
+            border: 3px solid white;
+            padding: 15px 30px;
+            border-radius: 40px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(255,0,85,0.5);
+            transition: all 0.3s ease;
+            font-family: 'Rubik', sans-serif;
+            white-space: nowrap;
+        }
+        .party-toggle-btn:hover {
+            transform: scale(1.05) rotate(-2deg);
+            background: #ffff00;
+            color: black;
+            box-shadow: 0 10px 30px rgba(255,255,0,0.7);
+        }
+
+        .tv-toggle-btn {
+            background: #333333;
+            color: #eeeeee;
+            border: 3px solid #777777;
+            padding: 14px 25px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 5px 15px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+            font-family: 'Rubik', sans-serif;
+            white-space: nowrap;
+        }
+        .tv-toggle-btn:hover {
+            background: #111111;
+            color: #ffffff;
+            border-color: #ffffff;
+            box-shadow: inset 0 0 15px rgba(255,255,255,0.2), 0 8px 20px rgba(0,0,0,0.7);
+            transform: scale(1.05);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin: 0;
+            font-weight: 900;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.6);
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin: 10px 0 0;
+            opacity: 0.95;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+        }
+
+        .geo-badge {
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 1rem;
+            backdrop-filter: blur(5px);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .card::before {
+            content: "🇪🇺 🏳️‍🌈";
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            opacity: 0.25;
+            font-size: 1.5rem;
+        }
+
+        .schedule-block {
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 35px 20px;
+            margin-bottom: 30px;
+            border: 2px dashed rgba(255, 255, 255, 0.35);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .schedule-block:hover {
+            transform: scale(1.02);
+            border-color: #ff007f;
+            box-shadow: 0 20px 45px rgba(255, 0, 127, 0.3);
+        }
+
+        .btn-schedule-main {
+            display: inline-block;
+            padding: 16px 36px;
+            background: linear-gradient(90deg, #ff007f, #7f00ff);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            box-shadow: 0 6px 20px rgba(255,0,127,0.5);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid white;
+            width: 80%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        .btn-schedule-main:hover {
+            transform: scale(1.06);
+            box-shadow: 0 10px 30px rgba(255,0,127,0.8);
+            background: linear-gradient(90deg, #7f00ff, #ff007f);
+        }
+
+        .btn-news-main {
+            display: inline-block;
+            padding: 16px 36px;
+            background: linear-gradient(90deg, #00ffff, #0055ff);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            box-shadow: 0 6px 20px rgba(0,255,255,0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid white;
+            width: 80%;
+            max-width: 500px;
+            box-sizing: border-box;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-news-main:hover {
+            transform: scale(1.06);
+            box-shadow: 0 10px 30px rgba(0,255,255,0.7);
+            background: linear-gradient(90deg, #0055ff, #00ffff);
+            text-shadow: 0 0 8px rgba(255,255,255,0.6);
+        }
+
+        /* כפתור הכתבה החדשה שמוביל לעולם המוזיקה */
+        .btn-songs-main {
+            display: inline-block;
+            padding: 16px 36px;
+            background: linear-gradient(90deg, #ff00aa, #00ffff);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            box-shadow: 0 6px 20px rgba(255, 0, 170, 0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid white;
+            width: 80%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        .btn-songs-main:hover {
+            transform: scale(1.06);
+            box-shadow: 0 10px 30px rgba(255, 0, 170, 0.7);
+            background: linear-gradient(90deg, #00ffff, #ff00aa);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-top: 0;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+            color: #ffff00;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+        }
+
+        p, li {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .rules-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .rule-item {
+            margin-bottom: 18px;
+            padding-bottom: 5px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .rule-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .rule-important {
+            color: #ff0055;
+            font-weight: bold;
+            background: rgba(255, 0, 85, 0.15);
+            padding: 5px 12px;
+            border-radius: 8px;
+            border-right: 4px solid #ff0055;
+        }
+
+        .rule-allowed {
+            color: #00ffff;
+            font-weight: bold;
+            background: rgba(0, 255, 255, 0.1);
+            padding: 5px 12px;
+            border-radius: 8px;
+            border-right: 4px solid #00ffff;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+            position: relative;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 50px 15px 20px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            border: 2px solid rgba(255,255,255,0.4);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            box-sizing: border-box;
+            font-family: 'Rubik', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #ffff00;
+            box-shadow: 0 0 15px rgba(255,255,0,0.4);
+            background: rgba(0, 0, 0, 0.85);
+        }
+
+        .search-icon {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            font-size: 1.4rem;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .random-btn {
+            background: #00ffff;
+            color: black;
+            border: none;
+            padding: 0 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,255,255,0.3);
+            white-space: nowrap;
+        }
+
+        .random-btn:hover {
+            background: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255,255,255,0.5);
+        }
+
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 0, 0, 0.3);
+            border: 2px solid #ff0000;
+            border-radius: 15px;
+            margin-top: 15px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .country-rule {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border-right: 5px solid #23d5ab;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .country-highlight {
+            animation: pulseHighlight 1s infinite alternate;
+            border-right-color: #ffff00;
+            box-shadow: 0 0 25px rgba(255,255,0,0.6);
+            transform: scale(1.02);
+        }
+
+        @keyframes pulseHighlight {
+            0% { background: rgba(255, 255, 255, 0.4); }
+            100% { background: rgba(255, 255, 255, 0.1); }
+        }
+
+        .country-title {
+            font-weight: bold;
+            font-size: 1.25rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+        }
+
+        .country-desc {
+            font-size: 1.05rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .alexa-section {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .btn {
+            display: inline-block;
+            background: #fff;
+            color: #000;
+            padding: 14px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.15rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            margin-top: 15px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #ffff00;
+            color: #000;
+            transform: scale(1.08);
+            box-shadow: 0 8px 20px rgba(255,255,0,0.4);
+        }
+
+        .results-box {
+            text-align: center;
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 15px;
+            border: 2px dashed rgba(255,255,255,0.3);
+        }
+
+        .results-box p {
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .mid-flags {
+            text-align: center;
+            font-size: 2rem;
+            margin: 35px 0;
+            opacity: 0.7;
+            letter-spacing: 10px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .footer-flags {
+            text-align: center;
+            font-size: 2.5rem;
+            margin: 40px 0;
+            letter-spacing: 6px;
+            opacity: 0.95;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 150px 15px 30px 15px;
+            }
+
+            .controls-container {
+                flex-direction: column;
+                gap: 12px;
+                top: 15px;
+                left: 15px;
+                right: 15px;
+            }
+
+            .party-toggle-btn, .tv-toggle-btn {
+                width: 100%;
+                box-sizing: border-box;
+                text-align: center;
+                font-size: 1.1rem;
+                padding: 12px 20px;
+            }
+
+            header h1 {
+                font-size: 2.2rem;
+            }
+
+            .search-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .random-btn {
+                width: 100%;
+                padding: 15px;
+                border-radius: 50px;
+            }
+
+            .search-input {
+                padding: 15px 45px 15px 15px;
+            }
+            
+            .btn-schedule-main, .btn-news-main, .btn-songs-main {
+                font-size: 1.1rem;
+                padding: 14px 25px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="pride-bar"></div>
+
+    <div id="videoContainer"></div>
+
+    <header>
+        <div class="controls-container">
+            <button class="party-toggle-btn" onclick="togglePartyMode()">🥳 מסיבה: כבוי</button>
+            <button class="tv-toggle-btn" onclick="toggleTvMode()">📺 טלוויזיה של פעם</button>
+        </div>
+
+        <h1>🎵 יורופוסטמה 🇪🇺</h1>
+        <p>ברוכים הבאים לאתר הרשמי של תחרות השירים הגדולה</p>
+        
+        <div id="geoBadge" class="geo-badge">📡 מאתר שרת קרוב...</div>
+    </header>
+
+    <div class="container">
+
+        <div class="schedule-block">
+            <a href="songs.html" class="btn-songs-main">🎵 השירים ליורופוסטמה 5</a>
+            <a href="news.html" class="btn-news-main">📰 PUSTEMA NEWS</a>
+            <a href="schedule.html" class="btn-schedule-main">📅 לוח זמנים ושליחת שירים רשמי</a>
+        </div>
+
+        <div class="card">
+            <h2>📜 חוקי התחרות</h2>
+            <ul class="rules-list">
+                <li class="rule-item">📅 מותרים שירים משנת <strong>2012 בלבד</strong></li>
+                <li class="rule-item">❌ <strong>אסור</strong> שירי אירוויזיון</li>
+                <li class="rule-item">❌ <strong>אסור</strong> זמרי אירוויזיון</li>
+                <li class="rule-item">❌ <strong>אסור</strong> שירי קדמים</li>
+                <li class="rule-item">❌ <strong>אסור</strong> זמרי קדמים</li>
+                <li class="rule-item">❌ <strong>אסור</strong> שירי יורופאנס</li>
+                <li class="rule-item"><div class="rule-allowed">שימו ❤️ מותר זמרי יורופאנס!!!</div></li>
+                <li class="rule-item">❌ <strong>אסור</strong> לשלוח זמרים ישנים מהיורופוסטמה</li>
+                <li class="rule-item">⏱️ שירים יכולים להיות <strong>עד 4 דקות</strong></li>
+                <li class="rule-item"><div class="rule-important">שימו ❤️ מותר שיהיו מעל 4 דק' רק אם לוקח זמן לקליפ עצמו (לדוגמה שיר שהוא 3:51 שניות אבל עם הקליפ 4:24)</div></li>
+                <li class="rule-item">📈 מותר שירים <strong>עד 50M צפיות</strong> ביוטיוב</li>
+                <li class="rule-item">🎵 מותר שירים <strong>עד 50M השמעות</strong> בספוטיפי</li>
+                <li class="rule-item">❌ <strong>אסור</strong> שלזמר יהיה ממוצע חודשי בספוטיפי <strong>מעל 10M</strong></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>📝 החלפת מדינות</h2>
+            <p style="margin-bottom: 20px; font-weight: 500;">לאור העלייה במספר המשתתפים והרצון להעניק הזדמנות שווה גם למדינות קטנות, הוחלט על מתן ההקלות הבאות:</p>
+
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="countrySearch" class="search-input" placeholder="חפש מדינה... (לדוגמה: ישראל, איטליה, הוותיקן)">
+                <button type="button" class="random-btn" id="randomBtn" onclick="triggerRandomCountry()">🎲 תפתיע אותי!</button>
+            </div>
+
+            <div id="noResultsMessage" class="no-results">
+                <span class="error-icon">❌</span>
+                <strong>המדינה שחיפשת לא נמצאה ברשימה!</strong>
+                <p style="margin: 5px 0 0; font-size: 1rem; opacity: 0.8;">נסה לבדוק שוב את האיות או לחפש מדינה אחרת.</p>
+            </div>
+
+            <div id="countriesList">
+                <div class="country-rule">
+                    <div class="country-title">🇻🇦 הוותיקן ← 🇮🇹 איטליה</div>
+                    <p class="country-desc">ניתן לשלוח זמר איטלקי 🇮🇹<br>(הוותיקן ממוקם בתוך איטליה, ורוב תושביו ועובדיו קשורים אליה באופן ישיר.)</p>
+                </div>
+                <div class="country-rule">
+                    <div class="country-title">🇲🇩 מולדובה ← 🇷🇴 רומניה</div>
+                    <p class="country-desc">ניתן לשלוח זמר רומני 🇷🇴<br>(בשל הקשרים התרבותיים, ההיסטוריים והשפה המשותפת בין המדינות.)</p>
+                </div>
+                <div class="country-rule">
+                    <div class="country-title">🇱🇮 ליכטנשטיין ← 🇨🇭 שווייץ</div>
+                    <p class="country-desc">ניתן לשלוח זמר שווייצרי 🇨🇭<br>(ליכטנשטיין מקיימת קשרים פוליטיים וכלכליים הדוקים ביותר עם שווייץ ומשתמשת במטבע שלה.)</p>
+                </div>
+                <div class="country-rule">
+                    <div class="country-title">🇮🇲 האי מאן ← 🇬🇧 בריטניה</div>
+                    <p class="country-desc">ניתן לשלוח זמר בריטי 🇬🇧<br>(האי מאן הוא טריטוריה בריטית בעלת קשרים מדיניים ותרבותיים הדוקים.)</p>
+                </div>
+                <div class="country-rule">
+                    <div class="country-title">🇫🇴 איי פארו ← 🇩🇰 דנמרק</div>
+                    <p class="country-desc">ניתן לשלוח זמר דני 🇩🇰<br>(איי פארו הם טריטוריה אוטונומית בתוך ממלכת דנמרק.)</p>
+                </div>
+                <div class="country-rule">
+                    <div class="country-title">🇬🇱 גרינלנד ← 🇩🇰 דנמרק</div>
+                    <p class="country-desc">ניתן לשלוח זמר דני 🇩🇰<br>(גרינלנד היא טריטוריה אוטונומית בתוך ממלכת דנמרק.)</p>
+                </div>
+                <div class="country-rule">
+                    <div class="country-title">🇲🇨 מונקו ← 🇫🇷 צרפת</div>
+                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(מונקו מוקפת כמעט לחלוטין בצרפת ומושפעת ממנה תרבותית.)</p>
+                </div>
+                <div class="country-rule">
+                    <div class="country-title">🇸🇲 סן מרינו ← 🇮🇹 איטליה</div>
+                    <p class="country-desc">ניתן לשלוח זמר איטלקי 🇮🇹<br>(סן מרינו מוקפת לחלוטין באיטליה ומקיימת עמה קשרים הדוקים.)</p>
+                </div>
+                <div class="country-rule">
+                    <div class="country-title">🇦🇩 אנדורה ← 🇫🇷 צרפת</div>
+                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(נשיא צרפת משמש כאחד משני ראשי המדינה של אנדורה.)</p>
+                </div>
+                <div class="country-rule">
+                    <div class="country-title">🇦🇩 אנדורה ← 🇪🇸 ספרד</div>
+                    <p class="country-desc">ניתן לשלוח זמר ספרדי 🇪🇸<br>(בשל הקרבה הגאוגרפית והקשרים התרבותיים ההדוקים עם ספרד.)</p>
+                </div>
+                <div class="country-rule">
+                    <div class="country-title">🇲🇹 מלטה ← 🇬🇧 בריטניה</div>
+                    <p class="country-desc">ניתן לשלוח זמר בריטי 🇬🇧<br>(מלטה הייתה תחת שלטון בריטי וההשפעה עדיין מורגשת.)</p>
+                </div>
+                <div class="country-rule">
+                    <div class="country-title">🇰🇵 צפון קוריאה ← 🇰🇷 דרום קוריאה</div>
+                    <p class="country-desc">ניתן לשלוח זמר מדרום קוריאה 🇰🇷<br>(שתי המדינות היו בעבר מדינה אחת וחולקות מורשת משותפת.)</p>
+                </div>
+                <div class="country-rule">
+                    <div class="country-title">🇵🇸 פלסטין ← 🇮🇱 ישראל</div>
+                    <p class="country-desc">ניתן לשלוח זמר ישראלי 🇮🇱<br>(בשל הקרבה הגאוגרפית והקשרים הקיימים באזור.)</p>
+                </div>
+                <div class="country-rule">
+                    <div class="country-title">🇲🇭 הונג קונג ← 🇨🇳 סין</div>
+                    <p class="country-desc">ניתן לשלוח זמר סיני 🇨🇳<br>(הונג קונג היא אזור מנהלי מיוחד של סין.)</p>
+                </div>
+                <div class="country-rule">
+                    <div class="country-title">🇵🇷 פוארטו ריקו ← 🇺🇸 ארצות הברית</div>
+                    <p class="country-desc">ניתן לשלוח זמר אמריקאי 🇺🇸<br>(פוארטו ריקו היא טריטוריה של ארצות הברית ותושביה אזרחים אמריקאים.)</p>
+                </div>
+                <div class="country-rule">
+                    <div class="country-title">🇫🇮 פינלנד ← 🇸🇪 שוודיה</div>
+                    <p class="country-desc">ניתן לשלוח זמר שוודי 🇸🇪<br>(פינלנד הייתה חלק מממלכת שוודיה במשך מאות שנים.)</p>
+                </div>
+                <div class="country-rule">
+                    <div class="country-title">🇨🇾 קפריסין ← 🇬🇷 יוון</div>
+                    <p class="country-desc">ניתן לשלוח זמר יווני 🇬🇷<br>(בשל הקשרים ההיסטוריים והתרבותיים ההדוקים.)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mid-flags">🇪🇺 🇮🇱 🇺🇦 🇬🇷 🇨🇭 🇪🇸 🇮🇹 🇫🇷 🇬🇧</div>
+
+        <div class="card">
+            <h2>🤖 השיר של אלקסה 🗺️</h2>
+            <p> טהטהטה טאנג טייד .</p>
+            <div class="alexa-section">
+                <p>לחצו כאן כדי להאזין ישירות ביוטיוב:</p>
+                <a href="https://www.youtube.com/watch?v=q1Gbq5B1wnI" target="_blank" class="btn" style="background: #ff0055; color: #fff;">Tongue Tied - להאזנה ביוטיוב 🎬</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🏆 ארכיון התוצאות הרשמי 🏳️‍🌈</h2>
+            <p>ההיסטוריה נכתבת כאן! כל המנצחים הגדולים, המיקומים המפתיעים וטבלאות הניקוד המלאות מחכים לכם בלחיצת כפתור אחת.</p>
+            <div class="results-box">
+                <p>לחצו על הכפתור כדי לדעת את כל התוצאות של הטופ 5 מכללל הזמנים:</p>
+                <a href="results.html" class="btn" style="background: #ffff00; color: #000;">להצגת טבלאות התוצאות 📊</a>
+            </div>
+        </div>
+
+        <div class="footer-flags">
+            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
+        </div>
+    </div>
+
+    <script>
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+        let tvInterval = null;
+        let confettiLoop = null;
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new AudioContext();
+        }
+
+        function playTone(freq, type, duration, volume) {
+            try {
+                initAudio();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
+
+        function startTvMusic() {
+            const tvNotes = [440.00, 493.88, 523.25, 587.33, 659.25, 587.33, 523.25, 493.88];
+            let step = 0;
+            tvInterval = setInterval(() => {
+                playTone(tvNotes[step % tvNotes.length] + Math.sin(step)*5, 'triangle', 0.5, 0.15);
+                step++;
+            }, 400);
+        }
+
+        function stopTvMusic() {
+            clearInterval(tvInterval);
+        }
+
+        function togglePartyMode() {
+            const body = document.body;
+            const btn = document.querySelector('.party-toggle-btn');
+            const videoContainer = document.getElementById('videoContainer');
+            body.classList.toggle('party-mode');
+            
+            if(body.classList.contains('tv-mode')) {
+                toggleTvMode();
+            }
+
+            if(body.classList.contains('party-mode')) {
+                btn.innerHTML = "🥳 מסיבה: פעיל!!";
+                btn.style.background = "#ffff00";
+                btn.style.color = "black";
+                videoContainer.innerHTML = `<iframe id="youtubeVideo" src="https://www.youtube-nocookie.com/embed/-hu6R3ZnOdY?start=79&autoplay=1&controls=0&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                confettiLoop = setInterval(() => {
+                    confetti({ particleCount: 30, angle: 60, spread: 55, origin: { x: 0 } });
+                    confetti({ particleCount: 30, angle: 120, spread: 55, origin: { x: 1 } });
+                }, 500);
+            } else {
+                btn.innerHTML = "🥳 מסיבה: כבוי";
+                btn.style.background = "#ff0055";
+                btn.style.color = "white";
+                videoContainer.innerHTML = "";
+                clearInterval(confettiLoop);
+            }
+        }
+
+        function toggleTvMode() {
+            const body = document.body;
+            body.classList.toggle('tv-mode');
+            if(body.classList.contains('party-mode') && body.classList.contains('tv-mode')) {
+                togglePartyMode();
+            }
+            if(body.classList.contains('tv-mode')) {
+                startTvMusic();
+            } else {
+                stopTvMusic();
+            }
+        }
+
+        function shootConfetti() {
+            confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+        }
+
+        document.querySelectorAll('.btn, .random-btn, .btn-schedule-main, .btn-news-main, .btn-songs-main').forEach(button => {
+            button.addEventListener('click', shootConfetti);
+        });
+
+        document.getElementById('countrySearch').addEventListener('input', function() {
+            let filter = this.value.trim().toLowerCase();
+            let rows = document.querySelectorAll('#countriesList .country-rule');
+            let anyFound = false;
+
+            rows.forEach(function(row) {
+                let titleText = row.querySelector('.country-title').textContent.toLowerCase();
+                if (filter === "") {
+                    row.style.display = 'block';
+                    row.classList.remove('country-highlight');
+                } else if (titleText.includes(filter)) {
+                    row.style.display = 'block';
+                    anyFound = true;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            document.getElementById('noResultsMessage').style.display = (filter !== "" && !anyFound) ? 'block' : 'none';
+        });
+
+        function triggerRandomCountry() {
+            let rows = Array.from(document.querySelectorAll('#countriesList .country-rule'));
+            rows.forEach(r => r.classList.remove('country-highlight'));
+            let randomRow = rows[Math.floor(Math.random() * rows.length)];
+            randomRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            randomRow.classList.add('country-highlight');
+        }
+
+        setTimeout(() => {
+            document.getElementById('geoBadge').innerText = "📡 מחובר לשרת ראשי: פתח תקווה, ישראל";
+        }, 1500);
+    </script>
+</body>
+</html>
