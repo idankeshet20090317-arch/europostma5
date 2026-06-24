@@ -661,13 +661,13 @@
                 </div>
 
                 <div class="country-rule">
-                    <div class="country-title">🇷🇴 רומניה ← 🇲🇩 מולדובה</div>
-                    <p class="country-desc">ניתן לשלוח זמר מולדובני 🇲🇩<br>(בשל הקשרים התרבותיים, ההיסטוריים והשפה המשותפת בין המדינות.)</p>
+                    <div class="country-title">🇲🇩 מולדובה ← 🇷🇴 רומניה</div>
+                    <p class="country-desc">ניתן לשלוח זמר רומני 🇷🇴<br>(בשל הקשרים התרבותיים, ההיסטוריים והשפה המשותפת בין המדינות.)</p>
                 </div>
 
                 <div class="country-rule">
-                    <div class="country-title">🇨🇭 שווייץ ← 🇱🇮 ליכטנשטיין</div>
-                    <p class="country-desc">ניתן לשלוח זמר מליכטנשטיין 🇱🇮<br>(ליכטנשטיין מקיימת קשרים פוליטיים וכלכליים הדוקים ביותר עם שווייץ ומשתמשת במטבע שלה.)</p>
+                    <div class="country-title">🇱🇮 ליכטנשטיין ← 🇨🇭 שווייץ</div>
+                    <p class="country-desc">ניתן לשלוח זמר שווייצרי 🇨🇭<br>(ליכטנשטיין מקיימת קשרים פוליטיים וכלכליים הדוקים ביותר עם שווייץ ומשתמשת במטבע שלה.)</p>
                 </div>
 
                 <div class="country-rule">
@@ -676,7 +676,7 @@
                 </div>
 
                 <div class="country-rule">
-                    <div class="country-title">🇫🇴 איי פארו ← 🇩ケンマーク דנמרק</div>
+                    <div class="country-title">🇫🇴 איי פארו ← 🇩🇰 דנמרק</div>
                     <p class="country-desc">ניתן לשלוח זמר דני 🇩🇰<br>(איי פארו הם טריטוריה אוטונומית בתוך ממלכת דנמרק.)</p>
                 </div>
 
@@ -746,7 +746,7 @@
 
         <div class="card">
             <h2>🤖 השיר של אלקסה 🗺️</h2>
-            <p>רוצים לשמוע את השיר הנבחר או לתת פקודה חכמה? אלקסה כאן בשבילכם עם החיבור המוזיקלי המוביל של העונה.</p>
+            <p> טהטהטה טאנג טייד .</p>
             <div class="alexa-section">
                 <p>לחצו כאן כדי להאזין ישירות ביוטיוב:</p>
                 <a href="https://www.youtube.com/watch?v=q1Gbq5B1wnI" target="_blank" class="btn" style="background: #ff0055; color: #fff;">Tongue Tied - להאזנה ביוטיוב 🎬</a>
@@ -764,7 +764,7 @@
         </div>
 
         <div class="footer-flags">
-            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩👑 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
+            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
         </div>
 
     </div>
@@ -888,18 +888,23 @@
         });
 
         function triggerRandomCountry() {
-            let rows = document.querySelectorAll('#countriesList .country-rule');
-            let randomIndex = Math.floor(Math.random() * rows.length);
-            document.getElementById('countrySearch').value = "";
-            rows.forEach((row, index) => {
-                if(index === randomIndex) {
-                    row.style.display = 'block';
-                    row.classList.add('country-highlight');
-                    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                } else {
-                    row.style.display = 'none'; 
-                }
+            let rows = Array.from(document.querySelectorAll('#countriesList .country-rule'));
+            if(rows.length === 0) return;
+            
+            // איפוס הדגשות קודמות ונראות
+            rows.forEach(r => {
+                r.style.display = 'block';
+                r.classList.remove('country-highlight');
             });
+            document.getElementById('noResultsMessage').style.display = 'none';
+            document.getElementById('countrySearch').value = "";
+
+            let randomIndex = Math.floor(Math.random() * rows.length);
+            let selectedRow = rows[randomIndex];
+            
+            // גלילה והדגשה של המדינה שנבחרה
+            selectedRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            selectedRow.classList.add('country-highlight');
         }
     </script>
 </body>
