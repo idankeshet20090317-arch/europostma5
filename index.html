@@ -661,12 +661,22 @@
                 </div>
 
                 <div class="country-rule">
+                    <div class="country-title">🇷🇴 רומניה ← 🇲🇩 מולדובה</div>
+                    <p class="country-desc">ניתן לשלוח זמר מולדובני 🇲🇩<br>(בשל הקשרים התרבותיים, ההיסטוריים והשפה המשותפת בין המדינות.)</p>
+                </div>
+
+                <div class="country-rule">
+                    <div class="country-title">🇨🇭 שווייץ ← 🇱🇮 ליכטנשטיין</div>
+                    <p class="country-desc">ניתן לשלוח זמר מליכטנשטיין 🇱🇮<br>(ליכטנשטיין מקיימת קשרים פוליטיים וכלכליים הדוקים ביותר עם שווייץ ומשתמשת במטבע שלה.)</p>
+                </div>
+
+                <div class="country-rule">
                     <div class="country-title">🇮🇲 האי מאן ← 🇬🇧 בריטניה</div>
                     <p class="country-desc">ניתן לשלוח זמר בריטי 🇬🇧<br>(האי מאן הוא טריטוריה בריטית בעלת קשרים מדיניים ותרבותיים הדוקים.)</p>
                 </div>
 
                 <div class="country-rule">
-                    <div class="country-title">🇫🇴 איי פארו ← 🇩🇰 דנמרק</div>
+                    <div class="country-title">🇫🇴 איי פארו ← 🇩ケンマーク דנמרק</div>
                     <p class="country-desc">ניתן לשלוח זמר דני 🇩🇰<br>(איי פארו הם טריטוריה אוטונומית בתוך ממלכת דנמרק.)</p>
                 </div>
 
@@ -711,7 +721,7 @@
                 </div>
 
                 <div class="country-rule">
-                    <div class="country-title">🇭🇰 הונג קונג ← 🇨🇳 סין</div>
+                    <div class="country-title">🇲🇭 הונג קונג ← 🇨🇳 סין</div>
                     <p class="country-desc">ניתן לשלוח זמר סיני 🇨🇳<br>(הונג קונג היא אזור מנהלי מיוחד של סין.)</p>
                 </div>
 
@@ -887,17 +897,10 @@
                     row.classList.add('country-highlight');
                     row.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 } else {
-                    row.style.display = 'none';
-                    row.classList.remove('country-highlight');
+                    row.style.display = 'none'; 
                 }
             });
-            document.getElementById('noResultsMessage').style.display = 'none';
         }
-
-        setTimeout(() => {
-            document.getElementById('geoBadge').innerHTML = "📍 מזוהה חיבור מישראל 🇮🇱 | מרחק ממוקד האירוע: 3,120 ק\"מ";
-        }, 1500);
     </script>
-
 </body>
 </html>
