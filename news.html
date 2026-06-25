@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body, html {
-            
             margin: 0;
             padding: 0;
             width: 100%;
@@ -91,6 +90,24 @@
             100% { transform: scale(1.04); filter: hue-rotate(30deg); }
         }
 
+        /* סגנון להודעה */
+        .message-container {
+            background-color: rgba(0, 0, 0, 0.6); /* רקע כהה שקוף */
+            border: 2px solid #ff00ff; /* גבול ורוד זוהר */
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); /* צל זוהר */
+            text-align: right;
+            direction: rtl;
+        }
+
+        .message-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin: 0;
+            white-space: pre-wrap; /* שומר על ירידות שורה */
+        }
+
         /* כפתור חזרה משודרג */
         .back-btn {
             background: linear-gradient(135deg, #7f00ff, #ff007f);
@@ -150,6 +167,13 @@
 
         <div class="space-content">
             <h1 class="news-title">PUSTEMA NEWS</h1>
+            
+            <div class="message-container">
+                <p class="message-text">שלום לכולםםםם וברוכים הבאים ליורופוסטמה 5🥳❤️ התחרות עם המנחים עידנים!!! קשת🌈 ורשת3️⃣1️⃣
+כן כן הגיע הרגע והנה מי היה מאמין אני ועידני מנחים (מבטיחים שתהיה תחרות טובה השקענו בזה חחחח)
+אנחנו ממש מקווים שאתם תהנו מהאתר שלנוווו ומכל התחרות ושיהיה לכולכם בהצלחהחחהחהחה❤️❤️❤️❤️❤️</p>
+            </div>
+
             <button class="back-btn" onclick="triggerAlienScare()">🛸 חזרה לעמוד הראשי</button>
         </div>
     </div>
