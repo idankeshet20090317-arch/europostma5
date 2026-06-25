@@ -11,22 +11,32 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
+        /* 1. העיצוב של הכפתור */
+        .nav-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px;
+            font-weight: bold;
+            z-index: 9999;
+            position: relative;
+        }
+
+        .nav-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* הנה ה-BODY כאן! ממש פה הוא מתחיל: */
         body {
-            .nav-button {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        margin: 20px;
-    }
             font-family: 'Rubik', sans-serif;
             margin: 0;
             padding: 0;
             background: linear-gradient(
-                45deg, 
-                #ff0000, #ff7700, #ffdd00, #00ff00, 
+                45deg,
+                #ff0000, #ff7700, #ffdd00, #00ff00,
                 #00ffff, #0055ff, #9900ff, #ff00ff,
                 #ff0055, #00ffaa, #ffbb00, #ff0000
             );
@@ -35,7 +45,6 @@
             color: white;
             min-height: 100vh;
             overflow-x: hidden;
-            transition: background 0.5s ease, filter 0.3s ease;
             position: relative;
         }
 
@@ -906,10 +915,14 @@
             rows.forEach(r => {
                 r.style.display = 'block';
                 r.classList.remove('country-highlight');
-            });
-            document.getElementById('noResultsMessage').style.display = 'none';
+            </script>
 
-            let randomIndex = Math.floor(Math.random() * rows.length);
+<div style="text-align: center;">
+    <a href="songs.html" class="nav-button">🎵 לעמוד השירים</a>
+</div>
+
+</body>
+</html>
             let selectedRow = rows[randomIndex];
 
             selectedRow.classList.add('country-highlight');
