@@ -2,56 +2,27 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>יורופוסטמה - PUSTEMA NEWS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>השירים ליורופוסטמה 5 - עולם המוזיקה</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
     <style>
-        body, html {
+        body {
+            font-family: 'Rubik', sans-serif;
             margin: 0;
             padding: 0;
-            width: 100%;
-            background-color: #020410;
-            font-family: 'Rubik', sans-serif;
+            background: linear-gradient(180deg, #1a0033 0%, #3b0066 40%, #660080 70%, #ff00aa 100%);
             color: white;
+            min-height: 100vh;
             overflow-x: hidden;
-        }
-
-        /* חצי עליון: שילוב התמונה עם אפקט מסיסה (Fade) ומעבר חלק לחלל */
-        .image-container {
-            width: 100vw;
-            height: 50vh; 
-            overflow: hidden;
             position: relative;
-            background: #020410;
         }
 
-        .full-screen-image {
-            width: 100%;
-            height: 100%; 
-            object-fit: cover; 
-            display: block;
-            pointer-events: none;
-            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
-            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
-        }
-
-        /* חצי תחתון: אזור החלל המורחב */
-        .space-section {
-            width: 100vw;
-            min-height: 140vh; /* מוגדל כדי לתת מקום לכוכבי הענק */
-            position: relative;
-            background: radial-gradient(circle at center, #060a1f 0%, #01020a 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 50px;
-            box-sizing: border-box;
-        }
-
-        /* קנבס החלל */
-        #spaceCanvas {
-            position: absolute;
+        /* ענני CSS אמיתיים ובולטים שזזים ברקע */
+        .cloud-container {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -60,371 +31,250 @@
             pointer-events: none;
         }
 
-        /* תוכן מעל הקנבס */
-        .space-content {
-            position: relative;
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 100px;
+            filter: blur(20px);
+            animation: moveClouds linear infinite;
+        }
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+        }
+        .cloud-1 { width: 300px; height: 100px; top: 10%; left: -350px; animation-duration: 35s; }
+        .cloud-2 { width: 450px; height: 140px; top: 40%; left: -500px; animation-duration: 50s; animation-delay: 5s; }
+        .cloud-3 { width: 250px; height: 80px; top: 70%; left: -300px; animation-duration: 28s; animation-delay: 12s; }
+
+        @keyframes moveClouds {
+            0% { left: -500px; }
+            100% { left: 105vw; }
+        }
+
+        /* כלי נגינה ענקיים (פי 5!) */
+        .floating-instrument {
+            position: absolute;
+            font-size: 15rem; /* גודל ענק */
+            opacity: 0.6;
+            filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.8));
+            animation: floatAnimation 6s ease-in-out infinite;
             z-index: 2;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 35px;
-            width: 100%;
-            max-width: 800px;
-        }
-
-        /* כותרת PUSTEMA NEWS הזוהרת */
-        .news-title {
-            font-size: 4.5rem;
-            font-weight: 900;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #fff;
-            text-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff, 0 0 50px #ff00ff, 0 0 90px #ff00ff;
-            animation: titlePulse 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes titlePulse {
-            0% { transform: scale(1); filter: hue-rotate(0deg); }
-            100% { transform: scale(1.04); filter: hue-rotate(30deg); }
-        }
-
-        /* סגנון להודעה */
-        .message-container {
-            background-color: rgba(0, 0, 0, 0.6); /* רקע כהה שקוף */
-            border: 2px solid #ff00ff; /* גבול ורוד זוהר */
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); /* צל זוהר */
-            text-align: right;
-            direction: rtl;
-        }
-
-        .message-text {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin: 0;
-            white-space: pre-wrap; /* שומר על ירידות שורה */
-        }
-
-        /* כפתור חזרה משודרג */
-        .back-btn {
-            background: linear-gradient(135deg, #7f00ff, #ff007f);
-            color: white;
-            border: 3px solid white;
-            padding: 18px 45px;
-            border-radius: 50px;
-            font-size: 1.5rem;
-            font-weight: 900;
             cursor: pointer;
-            box-shadow: 0 0 25px rgba(255, 0, 127, 0.7);
             transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 10px;
+            user-select: none;
         }
 
-        .back-btn:hover {
-            transform: scale(1.08);
-            box-shadow: 0 0 40px rgba(0, 255, 255, 0.9);
-            background: linear-gradient(135deg, #00ffff, #7f00ff);
+        .floating-instrument:hover {
+            opacity: 1;
+            transform: scale(1.1);
         }
 
-        /* מסך אלמנט החייזר הקופץ (Jumpscare) */
-        #jumpscareOverlay {
+        @keyframes floatAnimation {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(8deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        /* מיקום הכלים על המסך */
+        .ins-1 { top: 15%; left: 5%; animation-delay: 0s; }
+        .ins-2 { top: 20%; right: 5%; animation-delay: 1.5s; }
+        .ins-3 { top: 55%; left: 8%; animation-delay: 3s; }
+        .ins-4 { top: 70%; right: 8%; animation-delay: 0.5s; }
+
+        /* אפקט הריקוד של הדמויות */
+        .dancing {
+            animation: dance 0.5s linear infinite !important;
+            opacity: 1 !important;
+            filter: drop-shadow(0 0 35px #00ffff) !important;
+        }
+
+        @keyframes dance {
+            0% { transform: scale(1) translateY(0) rotate(5deg); }
+            50% { transform: scale(1.1) translateY(-15px) rotate(-5deg); }
+            100% { transform: scale(1) translateY(0) rotate(5deg); }
+        }
+
+        .pride-bar {
+            height: 10px;
+            width: 100%;
+            background: linear-gradient(to right, #ff0000, #ff8000, #ffff00, #008000, #0000ff, #a000c0);
             position: fixed;
             top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: black;
-            z-index: 99999;
-            display: none;
-            justify-content: center;
-            align-items: center;
+            z-index: 1000;
         }
 
-        .alien-scare {
-            font-size: 28rem;
-            animation: shakeAndGrow 0.35s infinite alternate;
+        header {
+            padding: 130px 20px 40px 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(12px);
+            margin-bottom: 30px;
+            border-bottom: 3px solid rgba(255,255,255,0.15);
+            position: relative;
+            z-index: 5;
         }
 
-        @keyframes shakeAndGrow {
-            0% { transform: scale(0.85) translate(8px, 8px) rotate(-6deg); }
-            100% { transform: scale(1.25) translate(-8px, -8px) rotate(6deg); }
+        header h1 {
+            font-size: 3.3rem;
+            margin: 0;
+            font-weight: 900;
+            text-shadow: 0 0 25px #ff00aa, 3px 3px 10px rgba(0,0,0,0.8);
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .article-card {
+            background: rgba(25, 10, 40, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 45px 35px;
+            margin-bottom: 40px;
+            border: 2px solid rgba(255, 0, 170, 0.4);
+            box-shadow: 0 25px 55px rgba(0,0,0,0.65), inset 0 0 25px rgba(255, 0, 170, 0.25);
+            text-align: center;
+        }
+
+        .playlist-btn {
+            display: inline-block;
+            padding: 22px 50px;
+            background: linear-gradient(45deg, #ff00aa, #00ffff);
+            color: white;
+            text-decoration: none;
+            border-radius: 60px;
+            font-size: 1.7rem;
+            font-weight: 900;
+            border: 3px solid white;
+            box-shadow: 0 12px 35px rgba(255, 0, 170, 0.5), 0 0 20px rgba(0, 255, 255, 0.4);
+            transition: all 0.3s ease;
+            margin: 30px 0;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+        }
+
+        .playlist-btn:hover {
+            transform: scale(1.08) rotate(-1deg);
+            box-shadow: 0 18px 45px rgba(255, 0, 170, 0.8), 0 0 30px rgba(0, 255, 255, 0.7);
+            background: linear-gradient(45deg, #00ffff, #ff00aa);
+        }
+
+        .back-nav-container {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .btn-back-home {
+            display: inline-block;
+            padding: 22px 60px;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 1.6rem;
+            border: 3px solid rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-back-home:hover {
+            background: white;
+            color: #1a0033;
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(255,255,255,0.5);
+        }
+
+        p {
+            font-size: 1.35rem;
+            line-height: 1.8;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
         }
     </style>
 </head>
 <body>
 
-    <div class="image-container">
-        <img src="54948c6c-01ab-4459-9d88-e804a82093db.jfif" class="full-screen-image" alt="News Image">
+    <div class="pride-bar"></div>
+    
+    <div class="cloud-container">
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
     </div>
 
-    <div class="space-section">
-        <canvas id="spaceCanvas"></canvas>
+    <div class="floating-instrument ins-1" onclick="playInstrument(this, 'guitar', '🎸🕺')">🎸</div>
+    <div class="floating-instrument ins-2" onclick="playInstrument(this, 'trumpet', '🎺💃')">🎺</div>
+    <div class="floating-instrument ins-3">🎶</div>
+    <div class="floating-instrument ins-4" onclick="playInstrument(this, 'piano', '🎹🕺')">🎹</div>
 
-        <div class="space-content">
-            <h1 class="news-title">PUSTEMA NEWS</h1>
+    <header>
+        <h1>☁️ עולם המוזיקה של התחרות ☁️</h1>
+    </header>
+
+    <div class="container">
+        <div class="article-card">
+            <h2>השירים ליורופוסטמה 5 ❤️</h2>
+            <p>ברוכים הבאים לעולם המוזיקה השמימי שלנו! העננים זזים, כלי הנגינה מרחפים סביבכם באוויר, וכל רשימת השירים הרשמית של המהדורה החמישית מוכנה להאזנה.</p>
             
-            <div class="message-container">
-                <p class="message-text">שלום לכולםםםם וברוכים הבאים ליורופוסטמה 5🥳❤️ התחרות עם המנחים עידנים!!! קשת🌈 ורשת3️⃣1️⃣
-כן כן הגיע הרגע והנה מי היה מאמין אני ועידני מנחים (מבטיחים שתהיה תחרות טובה השקענו בזה חחחח)
-אנחנו ממש מקווים שאתם תהנו מהאתר שלנוווו ומכל התחרות ושיהיה לכולכם בהצלחהחחהחהחה❤️❤️❤️❤️❤️</p>
-            </div>
+            <a href="https://youtube.com/playlist?list=PLlXZWYkathlhaWEpGklmLarMr0JIDuNaX&si=YK5slWSf-k6FEXHr" target="_blank" class="playlist-btn">
+                השירים ליורופוסטמה 5 ❤️
+            </a>
+            
+            <p>לחצו על כפתור השנדליר למעלה כדי לפתוח את רשימת ההשמעה ישירות ביוטיוב!</p>
+        </div>
 
-            <button class="back-btn" onclick="triggerAlienScare()">🛸 חזרה לעמוד הראשי</button>
+        <div class="back-nav-container">
+            <a href="index.html" class="btn-back-home">⬅️ חזרה לעמוד הראשי</a>
         </div>
     </div>
 
-    <div id="jumpscareOverlay">
-        <div class="alien-scare">👽</div>
-    </div>
-
     <script>
-        const canvas = document.getElementById('spaceCanvas');
-        const ctx = canvas.getContext('2d');
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-        function resizeCanvas() {
-            const section = document.querySelector('.space-section');
-            canvas.width = section.clientWidth;
-            canvas.height = section.clientHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        function playInstrument(element, type, danceEmoji) {
+            // הפיכה לבן אדם רוקד
+            const originalEmoji = element.innerHTML;
+            element.innerHTML = danceEmoji;
+            element.classList.add('dancing');
 
-        const stars = [];
-        const planets = [];
-        const particles = [];
-        const shockwaves = [];
+            // יצירת צליל סינתטי לפי סוג הכלי
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
 
-        // יצירת רקע כוכבים מנצנצים
-        for (let i = 0; i < 90; i++) {
-            stars.push({
-                x: Math.random(),
-                y: Math.random(),
-                size: Math.random() * 3.5 + 1.5,
-                color: Math.random() > 0.4 ? '#ffffff' : '#fef08a',
-                alpha: Math.random(),
-                speed: Math.random() * 0.02 + 0.008
-            });
-        }
-
-        // הגדרת מאפיינים לכוכבי לכת אמיתיים - הגודל (radius) הוגדל פי 5!
-        const planetTemplates = [
-            { name: 'מאדים', type: 'mars', color: '#e74c3c', secondaryColor: '#c0392b', radius: 110 }, // היה 22, עכשיו 110!
-            { name: 'שבתאי', type: 'saturn', color: '#f39c12', secondaryColor: '#f1c40f', radius: 130, hasRing: true }, // היה 26, עכשיו 130!
-            { name: 'צדק', type: 'jupiter', color: '#d35400', secondaryColor: '#e67e22', radius: 170, hasStripes: true }, // היה 34, עכשיו 170!
-            { name: 'נפטון', type: 'neptune', color: '#2980b9', secondaryColor: '#3498db', radius: 125 } // היה 25, עכשיו 125!
-        ];
-
-        // בניית כוכבי הלכת במסך עם מרווחים מותאמים לגודל החדש
-        planetTemplates.forEach((template, index) => {
-            planets.push({
-                ...template,
-                x: 0.15 + (index * 0.24), // חלוקה אופקית יפה שלא יתנגשו
-                y: 0.35 + Math.random() * 0.3,
-                isDead: false,
-                respawnTimer: 0
-            });
-        });
-
-        // פונקציית פיצוץ ריאליסטי - מותאם לכוכבי הענק
-        function explodePlanet(planet) {
-            planet.isDead = true;
-            planet.respawnTimer = 240; // חוזר אחרי כ-4 שניות
-
-            const actualX = planet.x * canvas.width;
-            const actualY = planet.y * canvas.height;
-
-            // גל הדף לוהט ענק בהתאם לגודל החדש
-            shockwaves.push({
-                x: actualX,
-                y: actualY,
-                radius: planet.radius,
-                maxRadius: planet.radius * 2.5,
-                alpha: 1,
-                color: '#ff4500'
-            });
-
-            // יצירת חלקיקי פיצוץ רבים וגדולים יותר
-            for (let i = 0; i < 120; i++) {
-                const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 9 + 2;
-                const colorPool = [planet.color, '#ff3300', '#ffcc00', '#ff7700', '#333333'];
-                const particleColor = colorPool[Math.floor(Math.random() * colorPool.length)];
-
-                particles.push({
-                    x: actualX,
-                    y: actualY,
-                    vx: Math.cos(angle) * speed,
-                    vy: Math.sin(angle) * speed,
-                    size: Math.random() * 7 + 2, // חלקיקים גדולים יותר לפיצוץ מסיבי
-                    color: particleColor,
-                    alpha: 1,
-                    decay: Math.random() * 0.012 + 0.006
-                });
-            }
-        }
-
-        // פונקציה לציור גרפיקה ריאליסטית של כוכב לכת ענק
-        function drawRealisticPlanet(ctx, p, x, y) {
-            ctx.save();
-            
-            // צל וזוהר חיצוני אטמוספרי מוגבר לענק
-            ctx.shadowBlur = 45;
-            ctx.shadowColor = p.color;
-
-            // בסיס כדור הלכת (מפלס צבעים תלת-ממדי)
-            const gradient = ctx.createRadialGradient(x - p.radius/3, y - p.radius/3, p.radius/6, x, y, p.radius);
-            gradient.addColorStop(0, '#ffffff');
-            gradient.addColorStop(0.2, p.color);
-            gradient.addColorStop(0.8, p.secondaryColor);
-            gradient.addColorStop(1, '#000000'); // הוספת צד אפל ריאליסטי
-            
-            ctx.fillStyle = gradient;
-            ctx.beginPath();
-            ctx.arc(x, y, p.radius, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.shadowBlur = 0;
-
-            // פסים אופקיים מפורטים לצדק (Jupiter)
-            if (p.hasStripes) {
-                ctx.globalAlpha = 0.2;
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(x - p.radius, y - p.radius/3, p.radius * 2, 12);
-                ctx.fillRect(x - p.radius, y + p.radius/4, p.radius * 2, 15);
-                ctx.fillStyle = '#4a2306';
-                ctx.fillRect(x - p.radius, y - p.radius/1.6, p.radius * 2, 8);
-                ctx.fillRect(x - p.radius, y + p.radius/1.8, p.radius * 2, 10);
-            }
-
-            // טבעת ענקית לשבתאי (Saturn)
-            if (p.hasRing) {
-                ctx.globalAlpha = 0.65;
-                ctx.strokeStyle = p.color;
-                ctx.lineWidth = 14; // עבה יותר
-                ctx.save();
-                ctx.translate(x, y);
-                ctx.rotate(-0.2); // זווית נטייה קלה לטבעת למראה ריאליסטי
-                ctx.scale(2.2, 0.35);
-                ctx.beginPath();
-                ctx.arc(0, 0, p.radius + 15, 0, Math.PI * 2);
-                ctx.stroke();
-                ctx.restore();
-            }
-
-            ctx.restore();
-        }
-
-        // לולאת האנימציה הראשית
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // 1. כוכבים מנצנצים ברקע
-            stars.forEach(star => {
-                star.alpha += star.speed;
-                if (star.alpha > 1 || star.alpha < 0) star.speed = -star.speed;
-                ctx.save();
-                ctx.globalAlpha = Math.max(0.1, star.alpha);
-                ctx.fillStyle = star.color;
-                ctx.beginPath();
-                ctx.arc(star.x * canvas.width, star.y * canvas.height, star.size, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
-            });
-
-            // 2. עדכון וציור גלי ההדף (Shockwaves)
-            for (let i = shockwaves.length - 1; i >= 0; i--) {
-                const wave = shockwaves[i];
-                wave.radius += 4.5; // פיצוץ מהיר ועוצמתי יותר
-                wave.alpha -= 0.012;
-
-                if (wave.alpha <= 0) {
-                    shockwaves.splice(i, 1);
-                } else {
-                    ctx.save();
-                    ctx.globalAlpha = wave.alpha;
-                    ctx.strokeStyle = wave.color;
-                    ctx.lineWidth = 8;
-                    ctx.shadowBlur = 35;
-                    ctx.shadowColor = wave.color;
-                    ctx.beginPath();
-                    ctx.arc(wave.x, wave.y, wave.radius, 0, Math.PI * 2);
-                    ctx.stroke();
-                    ctx.restore();
-                }
-            }
-
-            // 3. כוכבי הלכת הריאליסטיים הענקיים
-            planets.forEach(planet => {
-                if (!planet.isDead) {
-                    if (Math.random() < 0.0015) { // הסתברות מותאמת
-                        explodePlanet(planet);
-                        return;
-                    }
-                    const actualX = planet.x * canvas.width;
-                    const actualY = planet.y * canvas.height;
-                    drawRealisticPlanet(ctx, planet, actualX, actualY);
-                } else {
-                    planet.respawnTimer--;
-                    if (planet.respawnTimer <= 0) {
-                        planet.isDead = false;
-                    }
-                }
-            });
-
-            // 4. חלקיקי הפיצוץ המסיביים
-            for (let i = particles.length - 1; i >= 0; i--) {
-                const p = particles[i];
-                p.x += p.vx;
-                p.y += p.vy;
-                p.alpha -= p.decay;
-
-                if (p.alpha <= 0) {
-                    particles.splice(i, 1);
-                } else {
-                    ctx.save();
-                    ctx.globalAlpha = p.alpha;
-                    ctx.shadowBlur = 10;
-                    ctx.shadowColor = p.color;
-                    ctx.fillStyle = p.color;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.restore();
-                }
-            }
-
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-
-        // ג'אמפסקר מעבר חזרה לעמוד הראשי
-        function triggerAlienScare() {
-            const overlay = document.getElementById('jumpscareOverlay');
-            overlay.style.display = 'flex';
-
-            try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
+            if (type === 'guitar') {
                 osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(120, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(850, audioCtx.currentTime + 0.6);
-                gain.gain.setValueAtTime(0.35, audioCtx.currentTime);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.75);
-            } catch(e) {}
+                osc.frequency.setValueAtTime(196.00, audioCtx.currentTime); // G3
+                osc.frequency.exponentialRampToValueAtTime(392.00, audioCtx.currentTime + 0.4);
+            } else if (type === 'trumpet') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(440.00, audioCtx.currentTime); // A4
+            } else if (type === 'piano') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(261.63, audioCtx.currentTime); // C4
+            }
 
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.8);
+            
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.8);
+
+            // החזרה למצב רגיל אחרי שהסאונד נגמר
             setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1000);
+                element.innerHTML = originalEmoji;
+                element.classList.remove('dancing');
+            }, 800);
         }
     </script>
+
 </body>
 </html>
