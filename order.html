@@ -131,7 +131,6 @@
             text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
         }
 
-        /* תיבת החיפוש */
         .search-box-card {
             background: rgba(30, 5, 15, 0.8);
             border: 2px solid #ff0055;
@@ -225,21 +224,40 @@
             text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
         }
 
+        .btn-link-custom {
+            display: inline-block;
+            padding: 12px 35px;
+            background: linear-gradient(45deg, #ff00aa, #00ffff);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 0, 170, 0.3);
+        }
+
+        .btn-link-custom:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 255, 255, 0.5);
+        }
+
         .btn-back-home {
-            display: block;
+            display: inline-block;
             width: fit-content;
-            margin: 40px auto;
             background: linear-gradient(90deg, #334155, #1e293b);
             color: white;
-            padding: 15px 40px;
+            padding: 12px 40px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             border: 2px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             text-align: center;
+            margin: 10px;
         }
 
         .btn-back-home:hover {
@@ -289,7 +307,11 @@
             </ul>
         </div>
 
-        <a href="index.html" class="btn-back-home">🏠 עמוד חזקה</a>
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="music.html" class="btn-link-custom">☁️ לעמוד עולם המוזיקה</a>
+            <br>
+            <a href="index.html" class="btn-back-home">🏠 חזרה לעמוד הראשי</a>
+        </div>
 
     </div>
 
