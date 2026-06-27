@@ -11,24 +11,6 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
-        /* 1. העיצוב של הכפתור */
-        .nav-button {
-            display: inline-block;
-            padding: 12px 25px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin: 20px;
-            font-weight: bold;
-            z-index: 9999;
-            position: relative;
-        }
-
-        .nav-button:hover {
-            background-color: #0056b3;
-        }
-
         /* הנה ה-BODY כאן! ממש פה הוא מתחיל: */
         body {
             font-family: 'Rubik', sans-serif;
@@ -48,24 +30,6 @@
             position: relative;
         }
 
-    
-        /* אלמנט ה-iframe הנסתר של יוטיוב */
-        #youtubeVideo {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            border: 0;
-        }
-
-        @keyframes tvLines {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(2px); }
-        }
-
         @keyframes ultimateRainbow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -82,68 +46,13 @@
         }
 
         header {
-            padding: 140px 20px 40px 20px;
+            padding: 60px 20px 40px 20px;
             text-align: center;
             background: rgba(0, 0, 0, 0.55);
             backdrop-filter: blur(12px);
             margin-bottom: 30px;
             border-bottom: 3px solid rgba(255,255,255,0.2);
             position: relative;
-        }
-
-        .controls-container {
-            position: absolute;
-            top: 25px;
-            left: 25px;
-            right: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            z-index: 1002;
-        }
-
-        .party-toggle-btn {
-            background: #ff0055;
-            color: white;
-            border: 3px solid white;
-            padding: 15px 30px;
-            border-radius: 40px;
-            font-size: 1.3rem;
-            font-weight: 900;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(255,0,85,0.5);
-            transition: all 0.3s ease;
-            font-family: 'Rubik', sans-serif;
-            white-space: nowrap;
-        }
-        .party-toggle-btn:hover {
-            transform: scale(1.05) rotate(-2deg);
-            background: #ffff00;
-            color: black;
-            box-shadow: 0 10px 30px rgba(255,255,0,0.7);
-        }
-
-        .tv-toggle-btn {
-            background: #333333;
-            color: #eeeeee;
-            border: 3px solid #777777;
-            padding: 14px 25px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 5px 15px rgba(0,0,0,0.5);
-            transition: all 0.3s ease;
-            font-family: 'Rubik', sans-serif;
-            white-space: nowrap;
-        }
-        .tv-toggle-btn:hover {
-            background: #111111;
-            color: #ffffff;
-            border-color: #ffffff;
-            box-shadow: inset 0 0 15px rgba(255,255,255,0.2), 0 8px 20px rgba(0,0,0,0.7);
-            transform: scale(1.05);
         }
 
         header h1 {
@@ -213,7 +122,7 @@
             font-size: 1.5rem;
         }
 
-        /* עיצוב הבלוק העצמאי החדש של לוח הזמנים והחדשות */
+        /* עיצוב הבלוק העצמאי של לוח הזמנים והחדשות */
         .schedule-block {
             background: rgba(0, 0, 0, 0.55);
             backdrop-filter: blur(15px);
@@ -234,6 +143,31 @@
             transform: scale(1.02);
             border-color: #ff007f;
             box-shadow: 0 20px 45px rgba(255, 0, 127, 0.3);
+        }
+
+        /* עיצוב כפתור השירים המשודרג */
+        .btn-songs-main {
+            display: inline-block;
+            padding: 16px 36px;
+            background: linear-gradient(90deg, #00ffcc, #0055ff);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            box-shadow: 0 6px 20px rgba(0,255,204,0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid white;
+            width: 80%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        .btn-songs-main:hover {
+            transform: scale(1.06);
+            box-shadow: 0 10px 30px rgba(0,255,204,0.7);
+            background: linear-gradient(90deg, #0055ff, #00ffcc);
         }
 
         .btn-schedule-main {
@@ -260,7 +194,7 @@
             background: linear-gradient(90deg, #7f00ff, #ff007f);
         }
 
-        /* עיצוב כפתור החדשות החדש */
+        /* עיצוב כפתור החדשות */
         .btn-news-main {
             display: inline-block;
             padding: 16px 36px;
@@ -305,7 +239,6 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
-        /* עיצוב ייחודי לרשימת החוקים המרוווחת */
         .rules-list {
             margin: 0;
             padding: 0;
@@ -313,7 +246,7 @@
         }
 
         .rule-item {
-            margin-bottom: 18px; /* הרווח בין חוק לחוק */
+            margin-bottom: 18px;
             padding-bottom: 5px;
             display: flex;
             align-items: flex-start;
@@ -450,15 +383,6 @@
             margin: 0;
         }
 
-        .alexa-section {
-            text-align: center;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            margin-top: 20px;
-            border: 1px solid rgba(255,255,255,0.15);
-        }
-
         .btn {
             display: inline-block;
             background: #fff;
@@ -516,23 +440,7 @@
 
         @media (max-width: 600px) {
             header {
-                padding: 150px 15px 30px 15px;
-            }
-
-            .controls-container {
-                flex-direction: column;
-                gap: 12px;
-                top: 15px;
-                left: 15px;
-                right: 15px;
-            }
-
-            .party-toggle-btn, .tv-toggle-btn {
-                width: 100%;
-                box-sizing: border-box;
-                text-align: center;
-                font-size: 1.1rem;
-                padding: 12px 20px;
+                padding: 40px 15px 30px 15px;
             }
 
             header h1 {
@@ -554,7 +462,7 @@
                 padding: 15px 45px 15px 15px;
             }
             
-            .btn-schedule-main, .btn-news-main {
+            .btn-schedule-main, .btn-news-main, .btn-songs-main {
                 font-size: 1.1rem;
                 padding: 14px 25px;
                 width: 100%;
@@ -567,14 +475,7 @@
 
     <div class="pride-bar"></div>
 
-    <div id="videoContainer"></div>
-
     <header>
-        <div class="controls-container">
-            <button class="party-toggle-btn" onclick="togglePartyMode()">🥳 מסיבה: כבוי</button>
-            <button class="tv-toggle-btn" onclick="toggleTvMode()">📺 טלוויזיה של פעם</button>
-        </div>
-
         <h1>🎵 יורופוסטמה 🇪🇺</h1>
         <p>ברוכים הבאים לאתר הרשמי של תחרות השירים הגדולה</p>
         
@@ -584,6 +485,7 @@
     <div class="container">
 
         <div class="schedule-block">
+            <a href="songs.html" class="btn-songs-main">🎵 לעמוד השירים</a>
             <a href="news.html" class="btn-news-main">📰 PUSTEMA NEWS</a>
             <a href="schedule.html" class="btn-schedule-main">📅 לוח זמנים ושליחת שירים רשמי</a>
         </div>
@@ -724,103 +626,18 @@
         </div>
 
         <div class="footer-flags">
-            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
+            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵タル 🇨🇾 🇲🇹
         </div>
 
     </div>
 
     <script>
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        let audioCtx = null;
-        let tvInterval = null;
-        let confettiLoop = null;
-
-        function initAudio() {
-            if (!audioCtx) audioCtx = new AudioContext();
-        }
-
-        function playTone(freq, type, duration, volume) {
-            try {
-                initAudio();
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = type;
-                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                gain.gain.setValueAtTime(volume, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + duration);
-            } catch(e) {}
-        }
-
-        function startTvMusic() {
-            const tvNotes = [440.00, 493.88, 523.25, 587.33, 659.25, 587.33, 523.25, 493.88];
-            let step = 0;
-            tvInterval = setInterval(() => {
-                playTone(tvNotes[step % tvNotes.length] + Math.sin(step)*5, 'triangle', 0.5, 0.15);
-                step++;
-            }, 400);
-        }
-
-        function stopTvMusic() {
-            clearInterval(tvInterval);
-        }
-
-        function togglePartyMode() {
-            const body = document.body;
-            const btn = document.querySelector('.party-toggle-btn');
-            const videoContainer = document.getElementById('videoContainer');
-            body.classList.toggle('party-mode');
-            
-            if(body.classList.contains('tv-mode')) {
-                toggleTvMode();
-            }
-
-            if(body.classList.contains('party-mode')) {
-                btn.innerHTML = "🥳 מסיבה: פעיל!!";
-                btn.style.background = "#ffff00";
-                btn.style.color = "black";
-                
-                videoContainer.innerHTML = `<iframe id="youtubeVideo" src="https://www.youtube-nocookie.com/embed/-hu6R3ZnOdY?start=79&autoplay=1&controls=0&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-
-                confettiLoop = setInterval(() => {
-                    confetti({ particleCount: 30, angle: 60, spread: 55, origin: { x: 0 } });
-                    confetti({ particleCount: 30, angle: 120, spread: 55, origin: { x: 1 } });
-                }, 500);
-
-            } else {
-                btn.innerHTML = "🥳 מסיבה: כבוי";
-                btn.style.background = "#ff0055";
-                btn.style.color = "white";
-                
-                videoContainer.innerHTML = "";
-                clearInterval(confettiLoop);
-            }
-        }
-
-        function toggleTvMode() {
-            const body = document.body;
-            body.classList.toggle('tv-mode');
-
-            if(body.classList.contains('party-mode') && body.classList.contains('tv-mode')) {
-                togglePartyMode();
-            }
-
-            if(body.classList.contains('tv-mode')) {
-                startTvMusic();
-            } else {
-                stopTvMusic();
-            }
-        }
-
         function shootConfetti() {
             confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
         }
 
-        /* הפעלת אפקט הקונפטי גם עבור כפתור החדשות החדש בלחיצה */
-        document.querySelectorAll('.btn, .random-btn, .btn-schedule-main, .btn-news-main').forEach(button => {
+        /* הפעלת אפקט הקונפטי עבור כל הכפתורים הגדולים */
+        document.querySelectorAll('.btn, .random-btn, .btn-schedule-main, .btn-news-main, .btn-songs-main').forEach(button => {
             button.addEventListener('click', shootConfetti);
         });
 
@@ -851,20 +668,17 @@
             let rows = Array.from(document.querySelectorAll('#countriesList .country-rule'));
             if(rows.length === 0) return;
             
-            // איפוס חיפוש קודם
             document.getElementById('countrySearch').value = "";
             rows.forEach(r => {
                 r.style.display = 'block';
                 r.classList.remove('country-highlight');
-            </script>
-
-<div style="text-align: center;">
-    <a href="songs.html" class="nav-button">🎵 לעמוד השירים</a>
-</div>
-
-</body>
-</html>
-           
+            });
+            
+            let randomIndex = Math.floor(Math.random() * rows.length);
+            let selectedRow = rows[randomIndex];
+            
+            selectedRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            selectedRow.classList.add('country-highlight');
         }
     </script>
 </body>
