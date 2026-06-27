@@ -90,7 +90,6 @@
 
         .container {
             max-width: 900px;
-            margin: 0 design auto;
             margin: 0 auto;
             padding: 20px;
         }
@@ -133,7 +132,6 @@
             border: 2px dashed rgba(255, 255, 255, 0.35);
             box-shadow: 0 15px 35px rgba(0,0,0,0.4);
             text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -169,31 +167,6 @@
             transform: scale(1.06);
             box-shadow: 0 10px 30px rgba(0,255,204,0.7);
             background: linear-gradient(90deg, #0055ff, #00ffcc);
-        }
-
-        /* עיצוב כפתור סדר השירים החדש */
-        .btn-order-main {
-            display: inline-block;
-            padding: 16px 36px;
-            background: linear-gradient(90deg, #ff00ea, #9400d3);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 1.3rem;
-            font-weight: bold;
-            box-shadow: 0 6px 20px rgba(255, 0, 234, 0.4);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 2px solid white;
-            width: 80%;
-            max-width: 500px;
-            box-sizing: border-box;
-        }
-
-        .btn-order-main:hover {
-            transform: scale(1.06);
-            box-shadow: 0 10px 30px rgba(255, 0, 234, 0.7);
-            background: linear-gradient(90deg, #9400d3, #ff00ea);
         }
 
         .btn-schedule-main {
@@ -245,6 +218,31 @@
             box-shadow: 0 10px 30px rgba(0,255,255,0.7);
             background: linear-gradient(90deg, #0055ff, #00ffff);
             text-shadow: 0 0 8px rgba(255,255,255,0.6);
+        }
+
+        /* עיצוב כפתור סדר אנשים החדש */
+        .btn-order-main {
+            display: inline-block;
+            padding: 16px 36px;
+            background: linear-gradient(90deg, #ff0055, #ff5500);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            box-shadow: 0 6px 20px rgba(255,0,85,0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid white;
+            width: 80%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        .btn-order-main:hover {
+            transform: scale(1.06);
+            box-shadow: 0 10px 30px rgba(255,0,85,0.7);
+            background: linear-gradient(90deg, #ff5500, #ff0055);
         }
 
         h2 {
@@ -512,9 +510,9 @@
 
         <div class="schedule-block">
             <a href="songs.html" class="btn-songs-main">🎵 לעמוד השירים</a>
-            <a href="song-order.html" class="btn-order-main">🎶 מעבר לעמוד סדר השירים</a>
             <a href="news.html" class="btn-news-main">📰 PUSTEMA NEWS</a>
             <a href="schedule.html" class="btn-schedule-main">📅 לוח זמנים ושליחת שירים רשמי</a>
+            <a href="order.html" class="btn-order-main">👥 סדר אנשים בשליחת שירים</a>
         </div>
 
         <div class="card">
@@ -530,8 +528,8 @@
                 <li class="rule-item">❌ <strong>אסור</strong> לשלוח זמרים ישנים מהיורופוסטמה</li>
                 <li class="rule-item">⏱️ שירים יכולים להיות <strong>עד 4 דקות</strong></li>
                 <li class="rule-item"><div class="rule-important">שימו ❤️ מותר שיהיו מעל 4 דק' רק אם לוקח זמן לקליפ עצמו (לדוגמה שיר שהוא 3:51 שניות אבל עם הקליפ 4:24)</div></li>
-                <li class="rule-item">📈 מותר שירים <strong>עד designM צפיות</strong> ביוטיוב</li>
-                <li class="rule-item">🎵 מותר שירים <strong>עד designM השמעות</strong> בספוטיפי</li>
+                <li class="rule-item">📈 מותר שירים <strong>עד 50M צפיות</strong> ביוטיוב</li>
+                <li class="rule-item">🎵 מותר שירים <strong>עד 50M השמעות</strong> בספוטיפי</li>
                 <li class="rule-item">❌ <strong>אסור</strong> שלזמר יהיה ממוצע חודשי בספוטיפי <strong>מעל 10M</strong></li>
             </ul>
         </div>
@@ -584,7 +582,7 @@
                 </div>
 
                 <div class="country-rule">
-                    <div class="country-title">🇲🇨 מונקו ← 🇫ורי צרפת</div>
+                    <div class="country-title">🇲🇨 מונקו ← 🇫🇷 צרפת</div>
                     <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(מונקו מוקפת כמעט לחלוטין בצרפת ומושפעת ממנה תרבותית.)</p>
                 </div>
 
@@ -640,7 +638,7 @@
             </div>
         </div>
 
-        <div class="mid-flags">🇪🇺 🇮🇱 🇺🇦 🇬🇷 🇨️⃣ 🇪🇸 🇮🇹 🇫🇷 🇬🇧</div>
+        <div class="mid-flags">🇪🇺 🇮🇱 🇺🇦 🇬🇷 🇨🇭 🇪🇸 🇮🇹 🇫🇷 🇬🇧</div>
 
         <div class="card">
             <h2>🏆 ארכיון התוצאות הרשמי 🏳️‍🌈</h2>
@@ -653,7 +651,7 @@
         </div>
 
         <div class="footer-flags">
-            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵タル 🇨🇾 🇲🇹
+            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩👑 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵タル 🇨🇾 🇲🇹
         </div>
 
     </div>
@@ -663,7 +661,7 @@
             confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
         }
 
-        /* הפעלת אפקט הקונפטי עבור כל הכפתורים הגדולים כולל הכפתור החדש */
+        /* הפעלת אפקט הקונפטי עבור כל הכפתורים הגדולים כולל החדש */
         document.querySelectorAll('.btn, .random-btn, .btn-schedule-main, .btn-news-main, .btn-songs-main, .btn-order-main').forEach(button => {
             button.addEventListener('click', shootConfetti);
         });
@@ -708,5 +706,5 @@
             selectedRow.classList.add('country-highlight');
         }
     </script>
-Design</body>
+</body>
 </html>
