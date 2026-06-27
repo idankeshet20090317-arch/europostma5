@@ -221,6 +221,31 @@
             text-shadow: 0 0 8px rgba(255,255,255,0.6);
         }
 
+        /* כפתור סדר שליחת השירים החדש בגמר */
+        .btn-order-main {
+            display: inline-block;
+            padding: 16px 36px;
+            background: linear-gradient(90deg, #ff0055, #ffbb00);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            box-shadow: 0 6px 20px rgba(255, 0, 85, 0.5);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid white;
+            width: 80%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        .btn-order-main:hover {
+            transform: scale(1.06);
+            box-shadow: 0 10px 30px rgba(255, 0, 85, 0.8);
+            background: linear-gradient(90deg, #ffbb00, #ff0055);
+        }
+
         h2 {
             font-size: 1.8rem;
             margin-top: 0;
@@ -462,7 +487,7 @@
                 padding: 15px 45px 15px 15px;
             }
             
-            .btn-schedule-main, .btn-news-main, .btn-songs-main {
+            .btn-schedule-main, .btn-news-main, .btn-songs-main, .btn-order-main {
                 font-size: 1.1rem;
                 padding: 14px 25px;
                 width: 100%;
@@ -488,6 +513,7 @@
             <a href="songs.html" class="btn-songs-main">🎵 לעמוד השירים</a>
             <a href="news.html" class="btn-news-main">📰 PUSTEMA NEWS</a>
             <a href="schedule.html" class="btn-schedule-main">📅 לוח זמנים ושליחת שירים רשמי</a>
+            <a href="order.html" class="btn-order-main">📅 סדר שליחת השירים בגמר</a>
         </div>
 
         <div class="card">
@@ -626,7 +652,7 @@
         </div>
 
         <div class="footer-flags">
-            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵タル 🇨🇾 🇲🇹
+            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩่าน 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
         </div>
 
     </div>
@@ -637,7 +663,7 @@
         }
 
         /* הפעלת אפקט הקונפטי עבור כל הכפתורים הגדולים */
-        document.querySelectorAll('.btn, .random-btn, .btn-schedule-main, .btn-news-main, .btn-songs-main').forEach(button => {
+        document.querySelectorAll('.btn, .random-btn, .btn-schedule-main, .btn-news-main, .btn-songs-main, .btn-order-main').forEach(button => {
             button.addEventListener('click', shootConfetti);
         });
 
