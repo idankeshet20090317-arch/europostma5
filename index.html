@@ -166,56 +166,6 @@
             background: linear-gradient(90deg, #0055ff, #00ffcc);
         }
 
-        .btn-schedule-main {
-            display: inline-block;
-            padding: 16px 36px;
-            background: linear-gradient(90deg, #ff007f, #7f00ff);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 1.3rem;
-            font-weight: bold;
-            box-shadow: 0 6px 20px rgba(255,0,127,0.5);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 2px solid white;
-            width: 80%;
-            max-width: 500px;
-            box-sizing: border-box;
-        }
-
-        .btn-schedule-main:hover {
-            transform: scale(1.06);
-            box-shadow: 0 10px 30px rgba(255,0,127,0.8);
-            background: linear-gradient(90deg, #7f00ff, #ff007f);
-        }
-
-        .btn-news-main {
-            display: inline-block;
-            padding: 16px 36px;
-            background: linear-gradient(90deg, #00ffff, #0055ff);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 1.3rem;
-            font-weight: 900;
-            box-shadow: 0 6px 20px rgba(0,255,255,0.4);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 2px solid white;
-            width: 80%;
-            max-width: 500px;
-            box-sizing: border-box;
-            letter-spacing: 0.5px;
-        }
-
-        .btn-news-main:hover {
-            transform: scale(1.06);
-            box-shadow: 0 10px 30px rgba(0,255,255,0.7);
-            background: linear-gradient(90deg, #0055ff, #00ffff);
-            text-shadow: 0 0 8px rgba(255,255,255,0.6);
-        }
-
         .btn-order-main {
             display: inline-block;
             padding: 16px 36px;
@@ -402,43 +352,6 @@
             margin: 0;
         }
 
-        .btn {
-            display: inline-block;
-            background: #fff;
-            color: #000;
-            padding: 14px 35px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.15rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            margin-top: 15px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background: #ffff00;
-            color: #000;
-            transform: scale(1.08);
-            box-shadow: 0 8px 20px rgba(255,255,0,0.4);
-        }
-
-        .results-box {
-            text-align: center;
-            margin-top: 25px;
-            padding: 20px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 15px;
-            border: 2px dashed rgba(255,255,255,0.3);
-        }
-
-        .results-box p {
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
         .mid-flags {
             text-align: center;
             font-size: 2rem;
@@ -481,7 +394,7 @@
                 padding: 15px 45px 15px 15px;
             }
             
-            .btn-schedule-main, .btn-news-main, .btn-songs-main, .btn-order-main {
+            .btn-songs-main, .btn-order-main {
                 font-size: 1.1rem;
                 padding: 14px 25px;
                 width: 100%;
@@ -496,7 +409,7 @@
 
     <header>
         <h1>🎵 יורופוסטמה 🇪🇺</h1>
-        <p>ברוכים הבאים לאתר הרשמי של תחרות השירים הגדולה</p>
+        <p>ברוכים הבאים לאתר הרשמי של תחרות השירים הגดולה</p>
         
         <div id="geoBadge" class="geo-badge">📡 מאתר שרת קרוב...</div>
     </header>
@@ -504,10 +417,8 @@
     <div class="container">
 
         <div class="schedule-block">
-            <a href="songs.html" class="btn-songs-main">🎵 לעמוד השירים</a>
-            <a href="news.html" class="btn-news-main">📰 PUSTEMA NEWS</a>
-            <a href="schedule.html" class="btn-schedule-main">📅 לוח זמנים ושליחת שירים רשמי</a>
-            <a href="song-order.html" class="btn-order-main">👥 סדר אנשים בשליחת שירים</a>
+            <a href="music.html" class="btn-songs-main">☁️ עולם המוזיקה של התחרות</a>
+            <a href="order.html" class="btn-order-main">🎤 סדר שליחת השירים לגמר</a>
         </div>
 
         <div class="card">
@@ -578,7 +489,7 @@
 
                 <div class="country-rule">
                     <div class="country-title">🇲🇨 מונקו ← 🇫🇷 צרפת</div>
-                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(מונקו מוקפת כמעט לחלוטין בצרפת ומושפעת ממנה תרבותית.)</p>
+                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(מונקו ממוקפת כמעט לחלוטין בצרפת ומושפעת ממנה תרבותית.)</p>
                 </div>
 
                 <div class="country-rule">
@@ -635,20 +546,6 @@
 
         <div class="mid-flags">🇪🇺 🇮🇱 🇺🇦 🇬🇷 🇨🇭 🇪🇸 🇮🇹 🇫🇷 🇬🇧</div>
 
-        <div class="card">
-            <h2>🏆 ארכיון התוצאות הרשמי 🏳️‍🌈</h2>
-            <p>ההיסטוריה נכתבת כאן! כל המנצחים הגדולים, המיקומים המפתיעים וטבלאות הניקוד המלאות מחכים לכם בלחיצת כפתור אחת.</p>
-            
-            <div class="results-box">
-                <p>לחצו על הכפתור כדי לדעת את כל התוצאות של הטופ 5 מכללל הזמנים:</p>
-                <a href="results.html" class="btn" style="background: #ffff00; color: #000;">להצגת טבלאות התוצאות 📊</a>
-            </div>
-        </div>
-
-        <div class="footer-flags">
-            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩👑 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵タル 🇨🇾 🇲🇹
-        </div>
-
     </div>
 
     <script>
@@ -656,7 +553,7 @@
             confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
         }
 
-        document.querySelectorAll('.btn, .random-btn, .btn-schedule-main, .btn-news-main, .btn-songs-main, .btn-order-main').forEach(button => {
+        document.querySelectorAll('.btn-songs-main, .btn-order-main, .random-btn').forEach(button => {
             button.addEventListener('click', shootConfetti);
         });
 
