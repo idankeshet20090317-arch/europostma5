@@ -48,57 +48,7 @@
             position: relative;
         }
 
-        /* מצב מסיבה משוגע */
-        body.party-mode {
-            animation: ultimateRainbow 2s linear infinite !important;
-        }
-
-        body.party-mode .card, body.party-mode .schedule-block {
-            background: rgba(255, 255, 255, 0.15) !important;
-            border-color: #ffff00 !important;
-            box-shadow: 0 0 30px rgba(255, 255, 0, 0.4) !important;
-        }
-
-        /* מצב טלוויזיה של פעם - שינוי הרקע הצבעוני לשחור לבן אפור לחלוטין */
-        body.tv-mode {
-            background: linear-gradient(45deg, #111, #222, #333, #444, #555, #444, #333, #222, #111) !important;
-            background-size: 400% 400% !important;
-            animation: ultimateRainbow 15s linear infinite !important;
-            filter: grayscale(100%) contrast(120%);
-        }
-
-        /* הפיכת כל הצלליות והגבולות באתר לאפור/שחור/לבן במצב טלוויזיה */
-        body.tv-mode .card,
-        body.tv-mode .schedule-block,
-        body.tv-mode .party-toggle-btn,
-        body.tv-mode .tv-toggle-btn,
-        body.tv-mode .btn,
-        body.tv-mode .random-btn,
-        body.tv-mode .country-highlight,
-        body.tv-mode .btn-news-main {
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8) !important;
-            border-color: #888888 !important;
-            background: rgba(40, 40, 40, 0.6) !important;
-        }
-
-        body.tv-mode .pride-bar {
-            background: linear-gradient(to right, #333, #bbb, #555, #fff, #222, #999) !important;
-        }
-        
-        /* אפקט ה"שלג" של הטלוויזיה הישנה */
-        body.tv-mode::after {
-            content: " ";
-            display: block;
-            position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 9999;
-            background-size: 100% 4px, 3px 100%;
-            pointer-events: none;
-            opacity: 0.4;
-            animation: tvLines 0.2s infinite;
-        }
-
+    
         /* אלמנט ה-iframe הנסתר של יוטיוב */
         #youtubeVideo {
             position: absolute;
