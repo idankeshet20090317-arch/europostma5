@@ -13,14 +13,15 @@
             font-family: 'Rubik', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(180deg, #1a0033 0%, #3b0066 40%, #660080 70%, #ff00aa 100%);
-            color: white;
+            /* רקע תכלת שמיים בהיר ויפה */
+            background: linear-gradient(180deg, #bae6fd 0%, #e0f2fe 30%, #7dd3fc 70%, #38bdf8 100%);
+            color: #1e3a8a; /* שינוי צבע הטקסט הכללי לכחול כהה שיתאים לרקע בהיר */
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* ענני CSS אמיתיים ובולטים שזזים ברקע */
+        /* ענני CSS אמיתיים, חזקים ובולטים במיוחד */
         .cloud-container {
             position: fixed;
             top: 0;
@@ -33,32 +34,33 @@
 
         .cloud {
             position: absolute;
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.9); /* אטימות גבוהה כדי שיראו אותם חזק */
             border-radius: 100px;
-            filter: blur(20px);
+            filter: blur(4px); /* הפחתת הטשטוש לרמה מינימלית בשביל חדות */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
             animation: moveClouds linear infinite;
         }
         .cloud::before, .cloud::after {
             content: '';
             position: absolute;
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 50%;
         }
-        .cloud-1 { width: 300px; height: 100px; top: 10%; left: -350px; animation-duration: 35s; }
-        .cloud-2 { width: 450px; height: 140px; top: 40%; left: -500px; animation-duration: 50s; animation-delay: 5s; }
-        .cloud-3 { width: 250px; height: 80px; top: 70%; left: -300px; animation-duration: 28s; animation-delay: 12s; }
+        .cloud-1 { width: 300px; height: 100px; top: 12%; left: -350px; animation-duration: 35s; }
+        .cloud-2 { width: 450px; height: 140px; top: 35%; left: -500px; animation-duration: 50s; animation-delay: 5s; }
+        .cloud-3 { width: 250px; height: 80px; top: 65%; left: -300px; animation-duration: 28s; animation-delay: 12s; }
 
         @keyframes moveClouds {
             0% { left: -500px; }
             100% { left: 105vw; }
         }
 
-        /* כלי נגינה ענקיים (פי 5!) */
+        /* כלי נגינה מרחפים */
         .floating-instrument {
             position: absolute;
-            font-size: 15rem; /* גודל ענק */
-            opacity: 0.6;
-            filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.8));
+            font-size: 12rem; /* גודל מותאם למסך גדול */
+            opacity: 0.85;
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.15));
             animation: floatAnimation 6s ease-in-out infinite;
             z-index: 2;
             cursor: pointer;
@@ -77,17 +79,17 @@
             100% { transform: translateY(0px) rotate(0deg); }
         }
 
-        /* מיקום הכלים על המסך */
+        /* מיקום הכלים על מסך מחשב */
         .ins-1 { top: 15%; left: 5%; animation-delay: 0s; }
         .ins-2 { top: 20%; right: 5%; animation-delay: 1.5s; }
-        .ins-3 { top: 55%; left: 8%; animation-delay: 3s; }
-        .ins-4 { top: 70%; right: 8%; animation-delay: 0.5s; }
+        .ins-3 { top: 55%; left: 6%; animation-delay: 3s; }
+        .ins-4 { top: 65%; right: 6%; animation-delay: 0.5s; }
 
         /* אפקט הריקוד של הדמויות */
         .dancing {
             animation: dance 0.5s linear infinite !important;
             opacity: 1 !important;
-            filter: drop-shadow(0 0 35px #00ffff) !important;
+            filter: drop-shadow(0 0 25px #38bdf8) !important;
         }
 
         @keyframes dance {
@@ -106,12 +108,12 @@
         }
 
         header {
-            padding: 130px 20px 40px 20px;
+            padding: 100px 20px 40px 20px;
             text-align: center;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(12px);
             margin-bottom: 30px;
-            border-bottom: 3px solid rgba(255,255,255,0.15);
+            border-bottom: 3px solid rgba(255,255,255,0.4);
             position: relative;
             z-index: 5;
         }
@@ -120,7 +122,8 @@
             font-size: 3.3rem;
             margin: 0;
             font-weight: 900;
-            text-shadow: 0 0 25px #ff00aa, 3px 3px 10px rgba(0,0,0,0.8);
+            color: #0369a1;
+            text-shadow: 2px 2px 8px rgba(255,255,255,0.8);
         }
 
         .container {
@@ -132,36 +135,40 @@
         }
 
         .article-card {
-            background: rgba(25, 10, 40, 0.7);
+            background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(20px);
             border-radius: 30px;
             padding: 45px 35px;
             margin-bottom: 40px;
-            border: 2px solid rgba(255, 0, 170, 0.4);
-            box-shadow: 0 25px 55px rgba(0,0,0,0.65), inset 0 0 25px rgba(255, 0, 170, 0.25);
+            border: 2px solid rgba(56, 189, 248, 0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
             text-align: center;
+            color: #0f172a;
+        }
+
+        .article-card h2 {
+            color: #0369a1;
         }
 
         .playlist-btn {
             display: inline-block;
             padding: 22px 50px;
-            background: linear-gradient(45deg, #ff00aa, #00ffff);
+            background: linear-gradient(45deg, #0284c7, #38bdf8);
             color: white;
             text-decoration: none;
             border-radius: 60px;
             font-size: 1.7rem;
             font-weight: 900;
             border: 3px solid white;
-            box-shadow: 0 12px 35px rgba(255, 0, 170, 0.5), 0 0 20px rgba(0, 255, 255, 0.4);
+            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.4);
             transition: all 0.3s ease;
             margin: 30px 0;
-            text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
         }
 
         .playlist-btn:hover {
-            transform: scale(1.08) rotate(-1deg);
-            box-shadow: 0 18px 45px rgba(255, 0, 170, 0.8), 0 0 30px rgba(0, 255, 255, 0.7);
-            background: linear-gradient(45deg, #00ffff, #ff00aa);
+            transform: scale(1.05) rotate(-1deg);
+            box-shadow: 0 15px 35px rgba(2, 132, 199, 0.6);
+            background: linear-gradient(45deg, #38bdf8, #0284c7);
         }
 
         .back-nav-container {
@@ -172,30 +179,72 @@
 
         .btn-back-home {
             display: inline-block;
-            padding: 22px 60px;
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
+            padding: 18px 50px;
+            background: rgba(255, 255, 255, 0.6);
+            color: #0369a1;
             text-decoration: none;
             border-radius: 50px;
             font-weight: 900;
-            font-size: 1.6rem;
-            border: 3px solid rgba(255, 255, 255, 0.6);
+            font-size: 1.4rem;
+            border: 3px solid rgba(3, 105, 161, 0.3);
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .btn-back-home:hover {
-            background: white;
-            color: #1a0033;
-            transform: scale(1.1);
-            box-shadow: 0 15px 40px rgba(255,255,255,0.5);
+            background: #0369a1;
+            color: white;
+            transform: scale(1.05);
         }
 
         p {
             font-size: 1.35rem;
             line-height: 1.8;
-            text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+        }
+
+        /* פתרון בעיית הצפיפות בניידים - סידור מחדש של כלי הנגינה שלא יעלו אחד על השני */
+        @media (max-width: 768px) {
+            header {
+                padding-top: 60px;
+            }
+            header h1 {
+                font-size: 2.2rem;
+            }
+            .article-card {
+                padding: 30px 20px;
+            }
+            .playlist-btn {
+                font-size: 1.3rem;
+                padding: 15px 30px;
+            }
+
+            /* הפיכת הכלים לשורה מסודרת ומרווחת מעל כרטיס התוכן במקום שיצופו בבלאגן */
+            .floating-instrument {
+                position: relative;
+                display: inline-block;
+                font-size: 4rem; /* גודל שפוי והגיוני לטלפון */
+                margin: 10px 15px;
+                top: auto !important;
+                left: auto !important;
+                right: auto !important;
+                bottom: auto !important;
+                animation: floatAnimation 4s ease-in-out infinite;
+            }
+            
+            /* מיכל קטן שיחזיק את הכלים מסודרים במובייל */
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .instruments-wrapper {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+                flex-wrap: wrap;
+                margin-top: 20px;
+                z-index: 10;
+            }
         }
     </style>
 </head>
@@ -209,10 +258,12 @@
         <div class="cloud cloud-3"></div>
     </div>
 
-    <div class="floating-instrument ins-1" onclick="playInstrument(this, 'guitar', '🎸🕺')">🎸</div>
-    <div class="floating-instrument ins-2" onclick="playInstrument(this, 'trumpet', '🎺💃')">🎺</div>
-    <div class="floating-instrument ins-3">🎶</div>
-    <div class="floating-instrument ins-4" onclick="playInstrument(this, 'piano', '🎹🕺')">🎹</div>
+    <div class="instruments-wrapper">
+        <div class="floating-instrument ins-1" onclick="playInstrument(this, 'guitar', '🎸🕺')">🎸</div>
+        <div class="floating-instrument ins-2" onclick="playInstrument(this, 'trumpet', '🎺💃')">🎺</div>
+        <div class="floating-instrument ins-3">🎶</div>
+        <div class="floating-instrument ins-4" onclick="playInstrument(this, 'piano', '🎹🕺')">🎹</div>
+    </div>
 
     <header>
         <h1>☁️ עולם המוזיקה של התחרות ☁️</h1>
@@ -239,12 +290,10 @@
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
         function playInstrument(element, type, danceEmoji) {
-            // הפיכה לבן אדם רוקד
             const originalEmoji = element.innerHTML;
             element.innerHTML = danceEmoji;
             element.classList.add('dancing');
 
-            // יצירת צליל סינתטי לפי סוג הכלי
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.connect(gain);
@@ -254,21 +303,28 @@
                 osc.type = 'sawtooth';
                 osc.frequency.setValueAtTime(196.00, audioCtx.currentTime); // G3
                 osc.frequency.exponentialRampToValueAtTime(392.00, audioCtx.currentTime + 0.4);
-            } else if (type === 'trumpet') {
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(440.00, audioCtx.currentTime); // A4
-            } else if (type === 'piano') {
+            } 
+            else if (type === 'trumpet') {
+                // צליל חצוצרה ריאליסטי יותר: שימוש בגל sawtooth עשיר פלוס אפקט ויברטו של נשיפה
+                osc.type = 'sawtooth'; 
+                const now = audioCtx.currentTime;
+                osc.frequency.setValueAtTime(349.23, now); // F4 - תדר חצוצרה קלאסי
+                
+                // סימולציה של תחילת נשיפה (ויברטו קל בטון)
+                osc.frequency.linearRampToValueAtTime(352.00, now + 0.05);
+                osc.frequency.linearRampToValueAtTime(349.23, now + 0.15);
+            } 
+            else if (type === 'piano') {
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(261.63, audioCtx.currentTime); // C4
             }
 
-            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.8);
             
             osc.start();
             osc.stop(audioCtx.currentTime + 0.8);
 
-            // החזרה למצב רגיל אחרי שהסאונד נגמר
             setTimeout(() => {
                 element.innerHTML = originalEmoji;
                 element.classList.remove('dancing');
