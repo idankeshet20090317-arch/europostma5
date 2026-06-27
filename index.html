@@ -567,12 +567,12 @@
                 </div>
 
                 <div class="country-rule">
-                    <div class="country-title">🇫🇴 איי פארו ← 🇩康 דנמרק</div>
+                    <div class="country-title">🇫🇴 איי פארו ← 🇩🇰 דנמרק</div>
                     <p class="country-desc">ניתן לשלוח זמר דני 🇩🇰<br>(איי פארו הם טריטוריה אוטונומית בתוך ממלכת דנמרק.)</p>
                 </div>
 
                 <div class="country-rule">
-                    <div class="country-title">🇬🇱 גרינלנד ← 🇩🇰 דנמרק</div>
+                    <div class="country-title">🇬🇱 גרינלנד ← 🇩康 דנמרק</div>
                     <p class="country-desc">ניתן לשלוח זמר דני 🇩🇰<br>(גרינלנד היא טריטוריה אוטונומית בתוך ממלכת דנמרק.)</p>
                 </div>
 
@@ -643,12 +643,6 @@
                 <p>לחצו על הכפתור כדי לדעת את כל התוצאות של הטופ 5 מכללל הזמנים:</p>
                 <a href="results.html" class="btn" style="background: #ffff00; color: #000;">להצגת טבלאות התוצאות 📊</a>
             </div>
-
-            <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px; align-items: center;">
-                <a href="article1.html" class="btn" style="background: #ff007f; color: #fff; width: 80%; max-width: 300px;">כתבה ראשונה 📰</a>
-                <a href="article2.html" class="btn" style="background: #00ffcc; color: #000; width: 80%; max-width: 300px;">כתבה שנייה 📰</a>
-                <a href="article3.html" class="btn" style="background: #7f00ff; color: #fff; width: 80%; max-width: 300px;">כתבה שלישית 📰</a>
-            </div>
         </div>
 
         <div class="footer-flags">
@@ -662,7 +656,6 @@
             confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
         }
 
-        // האזנה לאירוע לחיצה לכל הכפתורים כולל כפתורי הכתבות החדשים-ישנים
         document.querySelectorAll('.btn, .random-btn, .btn-schedule-main, .btn-news-main, .btn-songs-main, .btn-order-main').forEach(button => {
             button.addEventListener('click', shootConfetti);
         });
