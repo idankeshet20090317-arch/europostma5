@@ -13,8 +13,9 @@
             font-family: 'Rubik', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(180deg, #1a0033 0%, #3b0066 40%, #660080 70%, #ff00aa 100%);
-            color: white;
+            /* שינוי הרקע לשמים תכלת יפים */
+            background: linear-gradient(180deg, #7ec0ee 0%, #a1dbff 50%, #e0f4ff 100%);
+            color: #1a0033;
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
@@ -27,10 +28,12 @@
             width: 100%;
             height: 100%;
             background: url('https://www.transparenttextures.com/patterns/clouds.png') repeat;
-            opacity: 0.18;
+            /* העננים נראים הרבה הרבה יותר חזק (העלאת האופסיטי מ-0.18 ל-0.85) */
+            opacity: 0.85;
             z-index: 1;
             pointer-events: none;
-            animation: moveClouds 50s linear infinite;
+            animation: moveClouds 40s linear infinite;
+            filter: brightness(1.2);
         }
 
         @keyframes moveClouds {
@@ -38,27 +41,58 @@
             to { background-position: 1000px 500px; }
         }
 
-        .floating-instrument {
+        /* הגדרות כלי הנגינה והאנימציות שלהם */
+        .instrument-wrapper {
             position: absolute;
+            cursor: pointer;
+            z-index: 10;
+            user-select: none;
+            transition: transform 0.2s;
+        }
+
+        .instrument-emoji {
             font-size: 4rem;
-            opacity: 0.3;
-            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.7));
-            animation: floatAnimation 6s ease-in-out infinite;
-            z-index: 2;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
+            position: relative;
+            z-index: 12;
+        }
+
+        /* איברים מוסתרים כברירת מחדל */
+        .character-part {
+            position: absolute;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s;
             pointer-events: none;
+            z-index: 11;
         }
 
-        @keyframes floatAnimation {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-30px) rotate(12deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
+        .face { top: 15px; left: 50%; transform: translateX(-50%); font-size: 1.1rem; }
+        .left-arm { top: 25px; left: -15px; }
+        .right-arm { top: 25px; right: -15px; }
+        .left-leg { bottom: -15px; left: 10px; }
+        .right-leg { bottom: -15px; right: 10px; }
+
+        /* מצב ריקוד אקטיבי */
+        .dancing .character-part {
+            opacity: 1;
         }
 
-        .ins-1 { top: 12%; left: 8%; animation-delay: 0s; }
-        .ins-2 { top: 22%; right: 10%; animation-delay: 1.5s; font-size: 5rem; }
-        .ins-3 { top: 50%; left: 12%; animation-delay: 3s; }
-        .ins-4 { top: 75%; right: 14%; animation-delay: 0.5s; }
-        .ins-5 { top: 38%; left: 45%; animation-delay: 2.2s; font-size: 5.5rem; }
+        .dancing {
+            animation: intenseDance 0.5s ease-in-out infinite alternate !important;
+        }
+
+        @keyframes intenseDance {
+            0% { transform: translateY(0px) scale(1.1) rotate(-15deg); }
+            100% { transform: translateY(-20px) scale(1.1) rotate(15deg); }
+        }
+
+        /* מיקומים התחלתיים כלליים באוויר */
+        .ins-1 { top: 12%; left: 8%; }
+        .ins-2 { top: 22%; right: 10%; }
+        .ins-3 { top: 50%; left: 12%; }
+        .ins-4 { top: 75%; right: 14%; }
+        .ins-5 { top: 38%; left: 45%; }
 
         .pride-bar {
             height: 10px;
@@ -72,10 +106,10 @@
         header {
             padding: 130px 20px 40px 20px;
             text-align: center;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(12px);
             margin-bottom: 30px;
-            border-bottom: 3px solid rgba(255,255,255,0.15);
+            border-bottom: 3px solid rgba(255,255,255,0.5);
             position: relative;
             z-index: 5;
         }
@@ -84,7 +118,8 @@
             font-size: 3.3rem;
             margin: 0;
             font-weight: 900;
-            text-shadow: 0 0 25px #ff00aa, 3px 3px 10px rgba(0,0,0,0.8);
+            color: #150050;
+            text-shadow: 0 0 25px rgba(255, 255, 255, 1), 2px 2px 5px rgba(0,0,0,0.1);
         }
 
         .container {
@@ -96,55 +131,37 @@
         }
 
         .article-card {
-            background: rgba(25, 10, 40, 0.7);
+            background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(20px);
             border-radius: 30px;
             padding: 45px 35px;
             margin-bottom: 40px;
-            border: 2px solid rgba(255, 0, 170, 0.4);
-            box-shadow: 0 25px 55px rgba(0,0,0,0.65), inset 0 0 25px rgba(255, 0, 170, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 25px 55px rgba(0,0,0,0.15), inset 0 0 25px rgba(255, 255, 255, 0.5);
             text-align: center;
         }
 
-        .playlist-btn {
-            display: inline-block;
-            padding: 22px 50px;
-            background: linear-gradient(45deg, #ff00aa, #00ffff);
-            color: white;
-            text-decoration: none;
-            border-radius: 60px;
-            font-size: 1.7rem;
+        /* עיצוב הטקסטים החדשים לבקשתך */
+        .no-songs-title {
+            color: red;
+            font-size: 5rem;
             font-weight: 900;
-            border: 3px solid white;
-            box-shadow: 0 12px 35px rgba(255, 0, 170, 0.5), 0 0 20px rgba(0, 255, 255, 0.4);
-            transition: all 0.3s ease;
-            margin: 30px 0;
-            text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+            margin: 10px 0;
+            text-shadow: 3px 3px 0px #fff, -3px -3px 0px #fff, 3px -3px 0px #fff, -3px 3px 0px #fff;
+            animation: pulseText 1.5s infinite alternate;
         }
 
-        .playlist-btn:hover {
-            transform: scale(1.08) rotate(-1deg);
-            box-shadow: 0 18px 45px rgba(255, 0, 170, 0.8), 0 0 30px rgba(0, 255, 255, 0.7);
-            background: linear-gradient(45deg, #00ffff, #ff00aa);
+        .love-idans {
+            color: #ffcc00;
+            font-size: 3.2rem;
+            font-weight: 700;
+            margin: 10px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 1px 1px 0px #000;
         }
 
-        .btn-link-custom {
-            display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(90deg, #ff0055, #ff5500);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 0, 85, 0.3);
-        }
-
-        .btn-link-custom:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(255, 0, 85, 0.5);
+        @keyframes pulseText {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.04); }
         }
 
         .back-nav-container {
@@ -155,7 +172,7 @@
         .btn-back-home {
             display: inline-block;
             padding: 12px 40px;
-            background: rgba(255, 255, 255, 0.12);
+            background: #150050;
             color: white;
             text-decoration: none;
             border-radius: 50px;
@@ -163,20 +180,13 @@
             font-size: 1.1rem;
             border: 2px solid rgba(255, 255, 255, 0.4);
             transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-            margin: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         .btn-back-home:hover {
             background: white;
             color: #1a0033;
             transform: scale(1.05);
-        }
-
-        p {
-            font-size: 1.35rem;
-            line-height: 1.8;
-            text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
         }
     </style>
 </head>
@@ -185,11 +195,50 @@
     <div class="pride-bar"></div>
     <div class="cloud-bg"></div>
 
-    <div class="floating-instrument ins-1">🎸</div>
-    <div class="floating-instrument ins-2">🎺</div>
-    <div class="floating-instrument ins-3">🎶</div>
-    <div class="floating-instrument ins-4">🎹</div>
-    <div class="floating-instrument ins-5">🎻</div>
+    <div class="instrument-wrapper ins-1" onclick="playAndDance(this, 'guitar')">
+        <div class="character-part face">😊</div>
+        <div class="character-part left-arm">💪</div>
+        <div class="character-part right-arm">👋</div>
+        <div class="character-part left-leg">👟</div>
+        <div class="character-part right-leg">👟</div>
+        <div class="instrument-emoji">🎸</div>
+    </div>
+
+    <div class="instrument-wrapper ins-2" onclick="playAndDance(this, 'trumpet')">
+        <div class="character-part face">😀</div>
+        <div class="character-part left-arm">🙌</div>
+        <div class="character-part right-arm">👍</div>
+        <div class="character-part left-leg">🥾</div>
+        <div class="character-part right-leg">🥾</div>
+        <div class="instrument-emoji">🎺</div>
+    </div>
+
+    <div class="instrument-wrapper ins-3" onclick="playAndDance(this, 'synth')">
+        <div class="character-part face">😎</div>
+        <div class="character-part left-arm">✌️</div>
+        <div class="character-part right-arm">🎈</div>
+        <div class="character-part left-leg">👟</div>
+        <div class="character-part right-leg">👟</div>
+        <div class="instrument-emoji">🎶</div>
+    </div>
+
+    <div class="instrument-wrapper ins-4" onclick="playAndDance(this, 'piano')">
+        <div class="character-part face">😆</div>
+        <div class="character-part left-arm">🤝</div>
+        <div class="character-part right-arm">✨</div>
+        <div class="character-part left-leg">👠</div>
+        <div class="character-part right-leg">👠</div>
+        <div class="instrument-emoji">🎹</div>
+    </div>
+
+    <div class="instrument-wrapper ins-5" onclick="playAndDance(this, 'violin')">
+        <div class="character-part face">😍</div>
+        <div class="character-part left-arm">🎵</div>
+        <div class="character-part right-arm">🎻</div>
+        <div class="character-part left-leg">👞</div>
+        <div class="character-part right-leg">👞</div>
+        <div class="instrument-emoji">🎻</div>
+    </div>
 
     <header>
         <h1>☁️ עולם המוזיקה של התחרות ☁️</h1>
@@ -198,18 +247,8 @@
     <div class="container">
 
         <div class="article-card">
-            <h2>השירים ליורופוסטמה ❤️</h2>
-            <p>ברוכים הבאים לעולם המוזיקה השמימי שלנו! העננים זזים, כלי הנגינה מרחפים סביבכם באוויר, וכל רשימת השירים הרשמית מוכנה להאזנה.</p>
-            
-            <a href="https://youtube.com/playlist?list=PLlXZWYkathlhaWEpGklmLarMr0JIDuNaX&si=YK5slWSf-k6FEXHr" target="_blank" class="playlist-btn">
-                השירים ליורופוסטמה ❤️
-            </a>
-            
-            <p>לחצו על כפתור השנדליר למעלה כדי לפתוח את רשימת ההשמעה ישירות ביוטיוב!</p>
-
-            <div style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px;">
-                <a href="order.html" class="btn-link-custom">🎤 לעמוד סדר השירים</a>
-            </div>
+            <div class="no-songs-title">עוד אין שירים</div>
+            <div class="love-idans">אוהבים עידנים</div>
         </div>
 
         <div class="back-nav-container">
@@ -217,6 +256,89 @@
         </div>
 
     </div>
+
+    <script>
+        // מערכת יצירת סאונד ייחודי לכל כלי נגינה באמצעות Web Audio API
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new AudioContext();
+            }
+        }
+
+        function playAndDance(element, instrumentType) {
+            initAudio();
+            
+            // הפעלת האנימציה והצגת האיברים
+            if (element.classList.contains('dancing')) return;
+            element.classList.add('dancing');
+
+            // יצירת והשמעת הצליל המתאים לכלי
+            try {
+                if (instrumentType === 'guitar') {
+                    // צליל גיטרה אקוסטית/חשמלית (גל משולש חם עם דעיכה מהירה)
+                    playTone(196.00, 'triangle', 0.4, 0.1);
+                    setTimeout(() => playTone(293.66, 'triangle', 0.4, 0.15), 100);
+                    setTimeout(() => playTone(392.00, 'triangle', 0.5, 0.3), 200);
+                } 
+                else if (instrumentType === 'trumpet') {
+                    // צליל חצוצרה (גל שן-מסור חותך וגבוה)
+                    playTone(349.23, 'sawtooth', 0.3, 0.4);
+                    setTimeout(() => playTone(523.25, 'sawtooth', 0.3, 0.5), 150);
+                } 
+                else if (instrumentType === 'synth') {
+                    // צליל אפקטים/סינתיסייזר (שילוב גלי סינוס קופצניים)
+                    playTone(440, 'sine', 0.4, 0.2);
+                    setTimeout(() => playTone(880, 'sine', 0.4, 0.2), 120);
+                } 
+                else if (instrumentType === 'piano') {
+                    // צליל פסנתר (מכת גל סינוס עמוקה בשילוב הרמוניה)
+                    playTone(261.63, 'sine', 0.6, 0.6);
+                    playTone(329.63, 'sine', 0.4, 0.5);
+                    playTone(392.00, 'sine', 0.4, 0.5);
+                } 
+                else if (instrumentType === 'violin') {
+                    // צליל כינור (גל שן-מסור ארוך עם עלייה הדרגתית)
+                    playTone(293.66, 'sawtooth', 0.2, 0.7, true);
+                    setTimeout(() => playTone(440.00, 'sawtooth', 0.2, 0.8, true), 200);
+                }
+            } catch(e) { console.log("Audio error:", e); }
+
+            // הפסקת הריקוד לאחר שנייה וחצי
+            setTimeout(() => {
+                element.classList.remove('dancing');
+            }, 1500);
+        }
+
+        function playTone(freq, type, volume, duration, isViolin = false) {
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            
+            // בניית מעטפת עוצמה (Envelop) כדי לחקות את הכלי במדויק
+            if (isViolin) {
+                // לכינור יש מעבר רך בהתחלה
+                gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+                gainNode.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + 0.15);
+            } else {
+                // לפסנתר וגיטרה יש מכה חזקה מיד על ההתחלה
+                gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+            }
+            
+            // דעיכת הצליל בסוף
+            gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+            
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+    </script>
 
 </body>
 </html>
