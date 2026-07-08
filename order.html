@@ -169,6 +169,7 @@
             font-size: 1.25rem;
             padding: 12px 0;
             font-family: 'Rubik', sans-serif;
+            min-width: 0; /* מונע מהאינפוט לדחוף את המסך החוצה במובייל */
         }
 
         .name-input:focus {
@@ -186,6 +187,7 @@
             cursor: pointer;
             transition: all 0.2s ease;
             font-family: 'Rubik', sans-serif;
+            white-space: nowrap;
         }
 
         .check-btn:hover {
@@ -224,25 +226,6 @@
             text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
         }
 
-        .btn-link-custom {
-            display: inline-block;
-            padding: 12px 35px;
-            background: linear-gradient(45deg, #ff00aa, #00ffff);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 0, 170, 0.3);
-        }
-
-        .btn-link-custom:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(0, 255, 255, 0.5);
-        }
-
         .btn-back-home {
             display: inline-block;
             width: fit-content;
@@ -265,6 +248,32 @@
             border-color: #ff0055;
             box-shadow: 0 8px 25px rgba(255, 0, 85, 0.3);
         }
+
+        /* התאמה מיוחדת לטלפונים ניידים */
+        @media (max-width: 600px) {
+            .search-row {
+                flex-direction: column;
+                border-radius: 20px;
+                padding: 15px;
+                gap: 10px;
+            }
+
+            .name-input {
+                width: 100%;
+                text-align: center;
+                padding: 5px 0;
+            }
+
+            .check-btn {
+                width: 100%;
+                padding: 14px;
+                box-sizing: border-box;
+            }
+
+            .search-icon-span {
+                display: none; /* מסתיר את הזכוכית מגדלת במובייל בשביל לחסוך מקום */
+            }
+        }
     </style>
 </head>
 <body>
@@ -286,7 +295,7 @@
     <div class="container">
 
         <div class="search-box-card">
-            <p style="font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; color: #ffa3c4;">תכתבו את השם שלכם בישביל לדעת איפה אתם:</p>
+            <p style="font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; color: #ffa3c4;">תכתבו את השם שלכם בשביל לדעת איפה אתם:</p>
             
             <div class="search-row">
                 <span class="search-icon-span">🔍</span>
@@ -301,15 +310,11 @@
         <div class="card">
             <h2>📋 סדר השירים הרשמי</h2>
             <ul class="order-list">
-                <li class="order-item"><span>1.</span> איציק 👑</li>
-                <li class="order-item"><span>2.</span> לולי ✨</li>
-                <li class="order-item"><span>3.</span> לולה 🌟</li>
+                <li class="order-item"><span>1.</span> מעין 👑</li>
             </ul>
         </div>
 
         <div style="text-align: center; margin-top: 30px;">
-            <a href="music.html" class="btn-link-custom">☁️ לעמוד עולם המוזיקה</a>
-            <br>
             <a href="index.html" class="btn-back-home">🏠 חזרה לעמוד הראשי</a>
         </div>
 
@@ -330,9 +335,7 @@
             }
 
             const orderDatabase = {
-                "איציק": 1,
-                "לולי": 2,
-                "לולה": 3
+                "מעין": 1
             };
 
             if (orderDatabase[inputName]) {
