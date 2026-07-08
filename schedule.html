@@ -24,7 +24,7 @@
             overflow-x: hidden;
         }
 
-        /* --- שעון הרקע הענק (מודגש וחזק יותר!) --- */
+        /* --- שעון הרקע הענק --- */
         .background-clock {
             position: fixed;
             top: 50%;
@@ -33,9 +33,9 @@
             width: 650px;
             height: 650px;
             z-index: -1; 
-            opacity: 0.45; /* הועלה מ-0.15 ל-0.45 כדי שיראו אותו חזק משמעותית */
+            opacity: 0.45;
             pointer-events: none;
-            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2)); /* אפקט זוהר קל */
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
         }
 
         .clock-face {
@@ -44,20 +44,18 @@
             height: 100%;
         }
 
-        /* ספרות רומיות מסודרות במעגל */
         .roman-numeral {
             position: absolute;
             width: 100%;
             height: 100%;
             text-align: center;
-            font-size: 3.5rem; /* הוגדל מעט */
+            font-size: 3.5rem;
             font-weight: 900;
             font-family: 'Times New Roman', serif;
             color: #ffffff;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
         }
 
-        /* מיקום כל ספרה במעגל */
         .n1  { transform: rotate(30deg); }
         .n2  { transform: rotate(60deg); }
         .n3  { transform: rotate(90deg); }
@@ -71,7 +69,6 @@
         .n11 { transform: rotate(330deg); }
         .n12 { transform: rotate(0deg); }
 
-        /* מחוגים עבים ובולטים יותר */
         .hand {
             position: absolute;
             bottom: 50%;
@@ -82,17 +79,15 @@
             box-shadow: 0 0 15px rgba(255,255,255,0.8);
         }
 
-        /* מחוג דקות - מהיר ובולט */
         .hand.minute {
-            width: 8px; /* הועבה */
+            width: 8px;
             height: 270px;
             margin-left: -4px;
             animation: rotateHand 4s linear infinite;
         }
 
-        /* מחוג שעות - עבה */
         .hand.hour {
-            width: 12px; /* הועבה */
+            width: 12px;
             height: 190px;
             margin-left: -6px;
             animation: rotateHand 20s linear infinite;
@@ -102,8 +97,6 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-
-        /* --- המשך המבנה המקורי --- */
 
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
@@ -176,7 +169,7 @@
         }
 
         .event-card {
-            background: rgba(15, 12, 35, 0.88); /* כהה ומטושטש מעט יותר כדי לשמור על קריאות מושלמת מול השעון */
+            background: rgba(15, 12, 35, 0.88);
             border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 25px;
@@ -313,29 +306,25 @@
     <div class="quick-nav">
         <h3>קפיצה מהירה לתאריך:</h3>
         <div class="nav-buttons">
-            <button class="nav-btn" onclick="scrollToEvent('event1')">21-26 ביולי - שליחת שירים ובדיקה</button>
-            <button class="nav-btn" onclick="scrollToEvent('event2')">27 ביולי - פרסום מדינות ופלייליסטים</button>
-            <button class="nav-btn" onclick="scrollToEvent('event3')">28 ביולי - חלוקה לחצאי גמר</button>
-            <button class="nav-btn" onclick="scrollToEvent('event4')">29-30 ביולי - פרסום הריקאפ</button>
-            <button class="nav-btn" onclick="scrollToEvent('event5')">1-10 באוגוסט - פתיחת ההצבעות</button>
-            <button class="nav-btn" onclick="scrollToEvent('event6')">13 באוגוסט - תוצאות</button>
+            <button class="nav-btn" onclick="scrollToEvent('event1')">24-26 ביולי - שליחת שירים</button>
+            <button class="nav-btn" onclick="scrollToEvent('event2')">27 ביולי - חשיפת מדינות</button>
+            <button class="nav-btn" onclick="scrollToEvent('event3')">28 ביולי - פלייליסטים וחלוקה</button>
+            <button class="nav-btn" onclick="scrollToEvent('event4')">30 ביולי - סדר השירים בסמי</button>
+            <button class="nav-btn" onclick="scrollToEvent('event5')">31 ביולי - 10 באוגוסט - הצבעות</button>
+            <button class="nav-btn" onclick="scrollToEvent('event6')">12 באוגוסט - תוצאות סמיז</button>
         </div>
     </div>
 
     <div class="timeline">
 
         <div class="event-card" id="event1">
-            <span class="date-badge">21 ביולי - 26 ביולי 2026</span>
+            <span class="date-badge">24 ביולי - 26 ביולי 2026</span>
             <div class="event-text">
-                שליחת השירים לפי הסדר! השירים ייבדקו בקפידה האם הם עומדים בחוקים. על כל דבר אנחנו נפסול - צריך להיות ממש על החוקים! 🎼❤️
+                שליחת השירים על פי סדר ההגרלה! השירים ייבדקו בקפידה האם הם עומדים בחוקים. על כל דבר אנחנו נפסול - צריך להיות ממש על החוקים! 🎼❤️
                 <br><br>
                 <strong>בבקשה תשלחו מהר ואל תעכבו את כולם יש לכם מספיק זמן לחפש שירים!</strong> 🙏
-                <br><br>
-                כל אחד בנוסף שולח לי תאריכים בהם הוא בחו"ל או שיש לו דברים חשובים כאלה ואחרים בשביל שנדע למצוא את התאריכים הכי נוחים לכולם לבצע את התוצאות של החצי גמר והגמר❤️ 
-                <br><br>
-                <span class="important-note">שימו ❤️: אנחנו לא מבטיחים לכם שהתאריכים שביקשתם שבהם לא יהיו תוצאות נעמוד בהם. אבל אנחנו מבטיחים לנסות להתחשב בכולם!!!</span>
             </div>
-            <div class="timer-container" data-date="2026-07-21T00:00:00">
+            <div class="timer-container" data-date="2026-07-24T00:00:00">
                 <div class="timer-segment"><span class="timer-val days">00</span><span class="timer-lbl">ימים</span></div>
                 <div class="timer-segment"><span class="timer-val hours">00</span><span class="timer-lbl">שעות</span></div>
                 <div class="timer-segment"><span class="timer-val minutes">00</span><span class="timer-lbl">דקות</span></div>
@@ -346,7 +335,9 @@
         <div class="event-card" id="event2">
             <span class="date-badge">27 ביולי 2026</span>
             <div class="event-text">
-                מפרסמים מדינות לפלייליסטים יוטיוב + ספוטיפיי! 🎤
+                📢 <strong>רק חשיפת מדינות!!!</strong> 📢
+                <br>
+                ביום זה נחשוף את המדינות המשתתפות בלבד (ללא פלייליסטים).
             </div>
             <div class="timer-container" data-date="2026-07-27T18:00:00">
                 <div class="timer-segment"><span class="timer-val days">00</span><span class="timer-lbl">ימים</span></div>
@@ -359,9 +350,9 @@
         <div class="event-card" id="event3">
             <span class="date-badge">28 ביולי 2026</span>
             <div class="event-text">
-                חשיפת מי באיזה חצי גמר! 📊
+                פרסום פלייליסטים לפי סדר ה-ABC של המדינות + חלוקה לסמיז! 📊
                 <br><br>
-                <span class="important-note">שימו ❤️: עוד לא מפרסמים מי איזה שיר בסמי, את זה תגלו בריקאפ!</span>
+                <span class="important-note">שימו ❤️: לכל סמי יהיה פלייליסט נפרד משלו!</span>
             </div>
             <div class="timer-container" data-date="2026-07-28T18:00:00">
                 <div class="timer-segment"><span class="timer-val days">00</span><span class="timer-lbl">ימים</span></div>
@@ -372,15 +363,13 @@
         </div>
 
         <div class="event-card" id="event4">
-            <span class="date-badge">29 ביולי - 30 ביולי 2026</span>
+            <span class="date-badge">30 ביולי 2026</span>
             <div class="event-text">
-                <strong>פרסום הריקאפ הרשמי!!!</strong> 🎬
+                🎬 <strong>פרסום סדר השירים הרשמי בסמי!</strong> 🎬
                 <br>
-                שימו ❤️: תגלו את חשיפת סדר השירים בזכות הריקאפ!!!
-                <br><br>
-                חצי שעה לאחר מכן נשלח לכם את התמונה שתעשה סדר באיזה מספר שיר כל מדינה.
+                היום נדע בדיוק מתי ובאיזה מיקום כל שיר יופיע בחצאי הגמר.
             </div>
-            <div class="timer-container" data-date="2026-07-29T18:00:00">
+            <div class="timer-container" data-date="2026-07-30T18:00:00">
                 <div class="timer-segment"><span class="timer-val days">00</span><span class="timer-lbl">ימים</span></div>
                 <div class="timer-segment"><span class="timer-val hours">00</span><span class="timer-lbl">שעות</span></div>
                 <div class="timer-segment"><span class="timer-val minutes">00</span><span class="timer-lbl">דקות</span></div>
@@ -389,15 +378,15 @@
         </div>
 
         <div class="event-card" id="event5">
-            <span class="date-badge">1 באוגוסט - 10 באוגוסט 2026</span>
+            <span class="date-badge">31 ביולי - 10 באוגוסט 2026</span>
             <div class="event-text">
-                פתיחת ההצבעות לחצאי גמר במוצאי שבת! 🗳️❤️
+                פתיחת ההצבעות הרשמיות לחצאי הגמר! 🗳️❤️
                 <br>
-                ההצבעה תישאר פתוחה עד ה-10 באוגוסט.
+                ההצבעה תיפתח ב-31 ביולי ותישאר פתוחה עד ה-10 באוגוסט בשביל לתת לכולם זמן להשפיע.
                 <br><br>
-                <span style="color: #00ffff; font-weight: bold; font-size: 1.3rem;">פתיחת ההצבעות‼️‼️‼️❤️❤️❤️</span>
+                <span style="color: #00ffff; font-weight: bold; font-size: 1.3rem;">ההצבעות לסמיז יוצאות לדרך‼️‼️‼️❤️❤️❤️</span>
             </div>
-            <div class="timer-container" data-date="2026-08-01T21:00:00">
+            <div class="timer-container" data-date="2026-07-31T21:00:00">
                 <div class="timer-segment"><span class="timer-val days">00</span><span class="timer-lbl">ימים</span></div>
                 <div class="timer-segment"><span class="timer-val hours">00</span><span class="timer-lbl">שעות</span></div>
                 <div class="timer-segment"><span class="timer-val minutes">00</span><span class="timer-lbl">דקות</span></div>
@@ -406,11 +395,13 @@
         </div>
 
         <div class="event-card" id="event6">
-            <span class="date-badge">13 באוגוסט 2026</span>
+            <span class="date-badge">12 באוגוסט 2026</span>
             <div class="event-text">
-                🏆 <strong>חשיפת התוצאות הגדולות!</strong> 🏆
+                🏆 <strong>חשיפת תוצאות חצאי הגמר!</strong> 🏆
+                <br>
+                מי יעלה לגמר הגדול? המתח בשיאו!
             </div>
-            <div class="timer-container" data-date="2026-08-13T18:00:00">
+            <div class="timer-container" data-date="2026-08-12T18:00:00">
                 <div class="timer-segment"><span class="timer-val days">00</span><span class="timer-lbl">ימים</span></div>
                 <div class="timer-segment"><span class="timer-val hours">00</span><span class="timer-lbl">שעות</span></div>
                 <div class="timer-segment"><span class="timer-val minutes">00</span><span class="timer-lbl">דקות</span></div>
