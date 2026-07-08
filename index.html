@@ -89,7 +89,6 @@
 
         .container {
             max-width: 900px;
-            margin: 0;
             margin: 0 auto;
             padding: 20px;
         }
@@ -647,7 +646,7 @@
         </div>
 
         <div class="footer-flags">
-            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
+            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩👑 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
         </div>
 
     </div>
@@ -661,17 +660,25 @@
             button.addEventListener('click', shootConfetti);
         });
 
+        // החיפוש המעודכן - בודק רק את המדינה שאותה מותר לשלוח (אחרי החץ)
         document.getElementById('countrySearch').addEventListener('input', function() {
             let filter = this.value.trim().toLowerCase();
             let rows = document.querySelectorAll('#countriesList .country-rule');
             let anyFound = false;
 
             rows.forEach(function(row) {
-                let titleText = row.querySelector('.country-title').textContent.toLowerCase();
+                let fullTitle = row.querySelector('.country-title').textContent;
+                
+                // לוקח את המדינה שנמצאת *אחרי* החץ (החלק השני, אינדקס 1)
+                let allowedCountry = "";
+                if(fullTitle.includes('←')) {
+                    allowedCountry = fullTitle.split('←')[1].toLowerCase();
+                }
+
                 if (filter === "") {
                     row.style.display = 'block';
                     row.classList.remove('country-highlight');
-                } else if (titleText.includes(filter)) {
+                } else if (allowedCountry.includes(filter)) {
                     row.style.display = 'block';
                     row.classList.add('country-highlight');
                     anyFound = true;
