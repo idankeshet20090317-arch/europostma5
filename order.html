@@ -169,7 +169,7 @@
             font-size: 1.25rem;
             padding: 12px 0;
             font-family: 'Rubik', sans-serif;
-            min-width: 0; /* מונע מהאינפוט לדחוף את המסך החוצה במובייל */
+            min-width: 0;
         }
 
         .name-input:focus {
@@ -249,7 +249,6 @@
             box-shadow: 0 8px 25px rgba(255, 0, 85, 0.3);
         }
 
-        /* התאמה מיוחדת לטלפונים ניידים */
         @media (max-width: 600px) {
             .search-row {
                 flex-direction: column;
@@ -271,7 +270,7 @@
             }
 
             .search-icon-span {
-                display: none; /* מסתיר את הזכוכית מגדלת במובייל בשביל לחסוך מקום */
+                display: none;
             }
         }
     </style>
@@ -311,6 +310,33 @@
             <h2>📋 סדר השירים הרשמי</h2>
             <ul class="order-list">
                 <li class="order-item"><span>1.</span> מעין 👑</li>
+                <li class="order-item"><span>2.</span> אדם</li>
+                <li class="order-item"><span>3.</span> אגם</li>
+                <li class="order-item"><span>4.</span> קרן</li>
+                <li class="order-item"><span>5.</span> איתן</li>
+                <li class="order-item"><span>6.</span> אלונה</li>
+                <li class="order-item"><span>7.</span> עידן רשת</li>
+                <li class="order-item"><span>8.</span> שלו</li>
+                <li class="order-item"><span>9.</span> נוי</li>
+                <li class="order-item"><span>10.</span> אדיר</li>
+                <li class="order-item"><span>11.</span> סהר</li>
+                <li class="order-item"><span>12.</span> גילי</li>
+                <li class="order-item"><span>13.</span> עידן קשת</li>
+                <li class="order-item"><span>14.</span> איילת</li>
+                <li class="order-item"><span>15.</span> טליה</li>
+                <li class="order-item"><span>16.</span> לב</li>
+                <li class="order-item"><span>17.</span> ניצן</li>
+                <li class="order-item"><span>18.</span> הילה</li>
+                <li class="order-item"><span>19.</span> נעם</li>
+                <li class="order-item"><span>20.</span> שי</li>
+                <li class="order-item"><span>21.</span> חשאבה</li>
+                <li class="order-item"><span>22.</span> עידו</li>
+                <li class="order-item"><span>23.</span> נדב</li>
+                <li class="order-item"><span>24.</span> נריה</li>
+                <li class="order-item"><span>25.</span> יוני</li>
+                <li class="order-item"><span>26.</span> גוזף</li>
+                <li class="order-item"><span>27.</span> טל</li>
+                <li class="order-item"><span>28.</span> רוני</li>
             </ul>
         </div>
 
@@ -334,13 +360,41 @@
                 return;
             }
 
+            // בסיס הנתונים המלא ומעודכן לפי הסדר החדש שלך
             const orderDatabase = {
-                "מעין": 1
+                "מעין": 1,
+                "אדם": 2,
+                "אגם": 3,
+                "קרן": 4,
+                "איתן": 5,
+                "אלונה": 6,
+                "עידן רשת": 7,
+                "שלו": 8,
+                "נוי": 9,
+                "אדיר": 10,
+                "סהר": 11,
+                "גילי": 12,
+                "עידן קשת": 13,
+                "איילת": 14,
+                "טליה": 15,
+                "לב": 16,
+                "ניצן": 17,
+                "הילה": 18,
+                "נעם": 19,
+                "שי": 20,
+                "חשאבה": 21,
+                "עידו": 22,
+                "נדב": 23,
+                "נריה": 24,
+                "יוני": 25,
+                "גוזף": 26,
+                "טל": 27,
+                "רוני": 28
             };
 
             if (orderDatabase[inputName]) {
                 const songNumber = orderDatabase[inputName];
-                successBox.innerHTML = `מזל טוב ${inputName} את שיר מספר ${songNumber} שיהיה לך בהצלחההה רבהההה<br><span style="font-size: 1rem; opacity: 0.9; font-weight: normal;">אוהבים עידנים</span>`;
+                successBox.innerHTML = `מזל טוב ${inputName} את/ה שיר מספר ${songNumber} שיהיה לך בהצלחההה רבהההה<br><span style="font-size: 1rem; opacity: 0.9; font-weight: normal;">אוהבים עידנים</span>`;
                 successBox.style.display = "block";
             } else {
                 failBox.innerHTML = `אוףףףףףףףף השם שלך לא נמצא מצטערים<br><span style="font-size: 1rem; opacity: 0.9; font-weight: normal;">אוהבים עידנים</span>`;
