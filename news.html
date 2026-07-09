@@ -71,6 +71,8 @@
             gap: 35px;
             width: 100%;
             max-width: 800px;
+            padding: 0 20px;
+            box-sizing: border-box;
         }
 
         /* כותרת PUSTEMA NEWS הזוהרת */
@@ -99,6 +101,14 @@
             box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); /* צל זוהר */
             text-align: right;
             direction: rtl;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* גבול תכלת זוהר לכתבה השנייה ליצירת גיוון עדין ומראה עתידני */
+        .message-container.drama-news {
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
         }
 
         .message-text {
@@ -187,6 +197,23 @@
 תודה שאתם איתנו, מאחלים לכל המתמודדים המון הצלחה, ולכל הצופים והקוראים גלישה מהנה! ❤️ 5</p>
             </div>
 
+            <div class="message-container drama-news">
+                <p class="message-text">🚨 *דרמה ביורופסטמה 5!*
+
+זמן קצר לאחר שהסתיימה *הגרלת סדר שליחת השירים,* הרשת כבר סוערת. 🌪️
+
+על פי תגובות שמגיעות מהמתמודדים, רבים הופתעו מתוצאות ההגרלה. לא מעט מהשמות שנחשבים לחזקים במיוחד *הוגרלו לחלק האחרון של סדר שליחת השירים,* מה שהוביל לדיונים רבים בקהילה.
+עקב כך גם ראינו שינויים בהחלפת מקום בין גילי ונריה
+ובין מלכת ההימורים מעין לשי
+כל הכבוד לגילי ומעין על המעשה המקסים בהצלחה לשתיכן וכמובן בהצלחה גם לנריה ושי
+כעת נשאלת השאלה הגדולה:
+*האם ההגרלה הזו תשפיע על רמת השירים שיישלחו לתחרות?*🎤
+
+בשלב זה עדיין מוקדם לדעת, אך אין ספק שההגרלה הצליחה לעורר לא מעט סימני שאלה וציפייה לקראת שלב שליחת השירים.
+
+📰 *את התשובה נגלה בהמשך. עד אז, הישארו מעודכנים באתר החדשות הרשמי של Euro Pustema 5.*</p>
+            </div>
+
             <button class="back-btn" onclick="triggerAlienScare()">🛸 חזרה לעמוד הראשי</button>
         </div>
     </div>
@@ -226,17 +253,17 @@
 
         // הגדרת מאפיינים לכוכבי לכת אמיתיים - הגודל (radius) הוגדל פי 5!
         const planetTemplates = [
-            { name: 'מאדים', type: 'mars', color: '#e74c3c', secondaryColor: '#c0392b', radius: 110 }, // היה 22, עכשיו 110!
-            { name: 'שבתאי', type: 'saturn', color: '#f39c12', secondaryColor: '#f1c40f', radius: 130, hasRing: true }, // היה 26, עכשיו 130!
-            { name: 'צדק', type: 'jupiter', color: '#d35400', secondaryColor: '#e67e22', radius: 170, hasStripes: true }, // היה 34, עכשיו 170!
-            { name: 'נפטון', type: 'neptune', color: '#2980b9', secondaryColor: '#3498db', radius: 125 } // היה 25, עכשיו 125!
+            { name: 'מאדים', type: 'mars', color: '#e74c3c', secondaryColor: '#c0392b', radius: 110 }, 
+            { name: 'שבתאי', type: 'saturn', color: '#f39c12', secondaryColor: '#f1c40f', radius: 130, hasRing: true }, 
+            { name: 'צדק', type: 'jupiter', color: '#d35400', secondaryColor: '#e67e22', radius: 170, hasStripes: true }, 
+            { name: 'נפטון', type: 'neptune', color: '#2980b9', secondaryColor: '#3498db', radius: 125 } 
         ];
 
         // בניית כוכבי הלכת במסך עם מרווחים מותאמים לגודל החדש
         planetTemplates.forEach((template, index) => {
             planets.push({
                 ...template,
-                x: 0.15 + (index * 0.24), // חלוקה אופקית יפה שלא יתנגשו
+                x: 0.15 + (index * 0.24), 
                 y: 0.35 + Math.random() * 0.3,
                 isDead: false,
                 respawnTimer: 0
@@ -273,7 +300,7 @@
                     y: actualY,
                     vx: Math.cos(angle) * speed,
                     vy: Math.sin(angle) * speed,
-                    size: Math.random() * 7 + 2, // חלקיקים גדולים יותר לפיצוץ מסיבי
+                    size: Math.random() * 7 + 2, 
                     color: particleColor,
                     alpha: 1,
                     decay: Math.random() * 0.012 + 0.006
@@ -294,7 +321,7 @@
             gradient.addColorStop(0, '#ffffff');
             gradient.addColorStop(0.2, p.color);
             gradient.addColorStop(0.8, p.secondaryColor);
-            gradient.addColorStop(1, '#000000'); // הוספת צד אפל ריאליסטי
+            gradient.addColorStop(1, '#000000'); 
             
             ctx.fillStyle = gradient;
             ctx.beginPath();
@@ -317,10 +344,10 @@
             if (p.hasRing) {
                 ctx.globalAlpha = 0.65;
                 ctx.strokeStyle = p.color;
-                ctx.lineWidth = 14; // עבה יותר
+                ctx.lineWidth = 14; 
                 ctx.save();
                 ctx.translate(x, y);
-                ctx.rotate(-0.2); // זווית נטייה קלה לטבעת למראה ריאליסטי
+                ctx.rotate(-0.2); 
                 ctx.scale(2.2, 0.35);
                 ctx.beginPath();
                 ctx.arc(0, 0, p.radius + 15, 0, Math.PI * 2);
@@ -351,7 +378,7 @@
             // 2. עדכון וציור גלי ההדף (Shockwaves)
             for (let i = shockwaves.length - 1; i >= 0; i--) {
                 const wave = shockwaves[i];
-                wave.radius += 4.5; // פיצוץ מהיר ועוצמתי יותר
+                wave.radius += 4.5; 
                 wave.alpha -= 0.012;
 
                 if (wave.alpha <= 0) {
@@ -373,7 +400,7 @@
             // 3. כוכבי הלכת הריאליסטיים הענקיים
             planets.forEach(planet => {
                 if (!planet.isDead) {
-                    if (Math.random() < 0.0015) { // הסתברות מותאמת
+                    if (Math.random() < 0.0015) { 
                         explodePlanet(planet);
                         return;
                     }
