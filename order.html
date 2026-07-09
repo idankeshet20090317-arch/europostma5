@@ -348,7 +348,7 @@
 
     <script>
         function checkMyOrder() {
-            const inputName = document.getElementById('userNameInput').value.trim();
+            let inputName = document.getElementById('userNameInput').value.trim();
             const successBox = document.getElementById('successNotice');
             const failBox = document.getElementById('failNotice');
             
@@ -360,10 +360,15 @@
                 return;
             }
 
-            // בסיס הנתונים המלא ומעודכן לפי הסדר החדש שלך
+            // הסרת הכתר במידה והמשתמש הקליד אותו, כדי למנוע שגיאות זיהוי
+            if (inputName.includes("מעין")) {
+                inputName = "מעין";
+            }
+
+            // בסיס הנתונים המעודכן שתואם ב-100% לרשימה הרשמית שמופיעה למעלה
             const orderDatabase = {
-                "מעין": 1,
-                "אדם": 2,
+                "שי": 1,
+                "תומר": 2,
                 "אגם": 3,
                 "קרן": 4,
                 "איתן": 5,
@@ -373,7 +378,7 @@
                 "נוי": 9,
                 "אדיר": 10,
                 "סהר": 11,
-                "גילי": 12,
+                "נריה": 12,
                 "עידן קשת": 13,
                 "איילת": 14,
                 "טליה": 15,
@@ -381,11 +386,11 @@
                 "ניצן": 17,
                 "הילה": 18,
                 "נעם": 19,
-                "שי": 20,
+                "מעין": 20,
                 "חשאבה": 21,
                 "עידו": 22,
                 "נדב": 23,
-                "נריה": 24,
+                "גילי": 24,
                 "יוני": 25,
                 "גוזף": 26,
                 "טל": 27,
@@ -394,7 +399,9 @@
 
             if (orderDatabase[inputName]) {
                 const songNumber = orderDatabase[inputName];
-                successBox.innerHTML = `מזל טוב ${inputName} את/ה שיר מספר ${songNumber} שיהיה לך בהצלחההה רבהההה<br><span style="font-size: 1rem; opacity: 0.9; font-weight: normal;">אוהבים עידנים</span>`;
+                // תצוגת השם המקורי עם הכתר למעיין בתוצאה
+                const displayName = inputName === "מעין" ? "מעין 👑" : inputName;
+                successBox.innerHTML = `מזל טוב ${displayName} את/ה שיר מספר ${songNumber} שיהיה לך בהצלחההה רבהההה<br><span style="font-size: 1rem; opacity: 0.9; font-weight: normal;">אוהבים עידנים</span>`;
                 successBox.style.display = "block";
             } else {
                 failBox.innerHTML = `אוףףףףףףףף השם שלך לא נמצא מצטערים<br><span style="font-size: 1rem; opacity: 0.9; font-weight: normal;">אוהבים עידנים</span>`;
