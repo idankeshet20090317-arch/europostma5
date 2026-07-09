@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>יורופוסטמה - היכל התהילה בגן העדן</title>
+    <title>יורופוסטמה - היכל התהילה </title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -220,56 +220,6 @@
             gap: 10px;
         }
 
-        .mic-play-btn {
-            background: #e0f2fe;
-            border: 2px solid #38bdf8;
-            color: #0284c7;
-            border-radius: 50%;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(14, 165, 233, 0.2);
-            transition: all 0.2s ease;
-        }
-
-        .mic-play-btn:hover {
-            transform: scale(1.15);
-            background: #0ea5e9;
-            color: white;
-            border-color: #0ea5e9;
-        }
-
-        .music-status-notice {
-            grid-column: 1 / -1;
-            text-align: center;
-            font-size: 1.4rem;
-            font-weight: 900;
-            color: #0369a1;
-            margin-top: 15px;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            border-radius: 20px;
-            max-width: 500px;
-            margin: 15px auto 0 auto;
-            border: 1px solid #38bdf8;
-            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.2);
-        }
-
-        .youtube-hidden-box {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            border: 0;
-        }
-
         .back-home {
             display: block;
             width: fit-content;
@@ -316,6 +266,46 @@
     </header>
 
     <div class="container">
+
+        <div class="results-card">
+            <div class="edition-title">✨ יורופוסטמה 4</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>מיקום</th>
+                        <th>משתתף</th>
+                        <th>נקודות</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="winner-row">
+                        <td>🥇 מקום 1</td>
+                        <td><span class="flag">👑</span> ניצן (חצי 1)</td>
+                        <td>146</td>
+                    </tr>
+                    <tr>
+                        <td>🥈 מקום 2</td>
+                        <td>מעין (חצי 2)</td>
+                        <td>145</td>
+                    </tr>
+                    <tr>
+                        <td>🥉 מקום 3</td>
+                        <td>שי (חצי 1)</td>
+                        <td>140</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>עידו (חצי 1)</td>
+                        <td>137</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>רון (חצי 2)</td>
+                        <td>107</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <div class="results-card">
             <div class="edition-title">✨ יורופוסטמה 3</div>
@@ -373,9 +363,6 @@
                         <td>
                             <div class="participant-cell">
                                 <span><span class="flag">👑</span> גילי (חצי 2)</span>
-                                <button class="mic-play-btn" onclick="toggleSong('cUfDOS2SINM', 'XG - HYPNOTIZE', this, 1)" title="נגן/עצור שיר">
-                                    <span class="mic-icon">🎙️</span>
-                                </button>
                             </div>
                         </td>
                         <td>156</td>
@@ -385,9 +372,6 @@
                         <td>
                             <div class="participant-cell">
                                 <span><span class="flag">🔥</span> חשאבה (חצי 2)</span>
-                                <button class="mic-play-btn" onclick="toggleSong('L1Snj1Pt-Hs', 'Cream Soda - Плачу на техно', this, 0)" title="נגן/עצור שיר">
-                                    <span class="mic-icon">🎙️</span>
-                                </button>
                             </div>
                         </td>
                         <td>122</td>
@@ -397,9 +381,6 @@
                         <td>
                             <div class="participant-cell">
                                 <span>ניצן (חצי 2)</span>
-                                <button class="mic-play-btn" onclick="toggleSong('_t5yfyHJOgE', 'Blanca Paloma - EaEa', this, 1)" title="נגן/עצור שיר">
-                                    <span class="mic-icon">🎙️</span>
-                                </button>
                             </div>
                         </td>
                         <td>119</td>
@@ -409,9 +390,6 @@
                         <td>
                             <div class="participant-cell">
                                 <span>איילת (חצי 1)</span>
-                                <button class="mic-play-btn" onclick="toggleSong('4tkCGxSW0LE', 'Zoe Ko - EAT', this, 0)" title="נגן/עצור שיר">
-                                    <span class="mic-icon">🎙️</span>
-                                </button>
                             </div>
                         </td>
                         <td>100</td>
@@ -421,9 +399,6 @@
                         <td>
                             <div class="participant-cell">
                                 <span>אלונה (חצי 1)</span>
-                                <button class="mic-play-btn" onclick="toggleSong('SdnJH72Ltus', 'Nina Chuba - RAGE GIRL', this, 2)" title="נגן/עצור שיר">
-                                    <span class="mic-icon">🎙️</span>
-                                </button>
                             </div>
                         </td>
                         <td>98</td>
@@ -472,12 +447,6 @@
             </table>
         </div>
 
-        <div id="statusNotice" class="music-status-notice" style="display: none;"></div>
-
-        <div class="youtube-hidden-box">
-            <div id="playerContainer"></div>
-        </div>
-
         <div class="footer-container">
             <div class="footer-flags">
                 🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 👑
@@ -491,99 +460,6 @@
         // פונקציית היפוך העולם
         function flipWorld() {
             document.body.classList.toggle('flipped');
-        }
-
-        // טעינת ה-API של יוטיוב
-        const tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        const firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        let player;
-        let currentVideoId = '';
-        let currentBtn = null;
-        const noticeArea = document.getElementById('statusNotice');
-
-        // יצירת הנגן כשה-API מוכן
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('playerContainer', {
-                height: '0',
-                width: '0',
-                videoId: '',
-                playerVars: {
-                    'autoplay': 0,
-                    'controls': 0,
-                    'disablekb': 1,
-                    'fs': 0,
-                    'rel': 0,
-                    'modestbranding': 1
-                },
-                events: {
-                    'onStateChange': onPlayerStateChange
-                }
-            });
-        }
-
-        // פונקציית נגן/עצור שיר
-        function toggleSong(videoId, songTitle, btnElement, startSeconds) {
-            if (!player || typeof player.loadVideoById !== 'function') {
-                return; // ה-API טרם נטען
-            }
-
-            const iconSpan = btnElement.querySelector('.mic-icon');
-
-            // אם זה אותו שיר שמנגן עכשיו - שנה מצב (נגן/עצור)
-            if (currentVideoId === videoId) {
-                const playerState = player.getPlayerState();
-                if (playerState === YT.PlayerState.PLAYING) {
-                    player.pauseVideo();
-                } else {
-                    player.playVideo();
-                }
-                return;
-            }
-
-            // אם זה שיר חדש
-            resetAllButtons(); // אפס כפתורים קודמים
-            currentVideoId = videoId;
-            currentBtn = btnElement;
-
-            // טען ונגן את השיר החדש
-            player.loadVideoById({
-                videoId: videoId,
-                startSeconds: startSeconds || 0
-            });
-            
-            player.playVideo();
-            iconSpan.innerHTML = "⏸️"; // שנה אייקון להשהייה
-            noticeArea.style.display = "block";
-            noticeArea.innerHTML = `🎵 כרגע מנגן בגן העדן: ${songTitle} 🎶`;
-        }
-
-        // האזנה לשינויי מצב בנגן
-        function onPlayerStateChange(event) {
-            if (!currentBtn) return;
-            const iconSpan = currentBtn.querySelector('.mic-icon');
-            
-            if (event.data === YT.PlayerState.PLAYING) {
-                iconSpan.innerHTML = "⏸️"; // מנגן
-            } else if (event.data === YT.PlayerState.PAUSED) {
-                iconSpan.innerHTML = "🎙️"; // מושהה
-                noticeArea.innerHTML = "⏸️ השיר נעצר";
-            } else if (event.data === YT.PlayerState.ENDED) {
-                iconSpan.innerHTML = "🎙️"; // הסתיים
-                noticeArea.style.display = "none";
-                currentVideoId = '';
-                currentBtn = null;
-            }
-        }
-
-        // איפוס כל כפתורי המיקרופון למצב ראשוני
-        function resetAllButtons() {
-            const allButtons = document.querySelectorAll('.mic-play-btn .mic-icon');
-            allButtons.forEach(btnIcon => {
-                btnIcon.innerHTML = "🎙️";
-            });
         }
     </script>
 </body>
