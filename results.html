@@ -13,12 +13,7 @@
             font-family: 'Rubik', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #a7f3d0;
-            background-image: 
-                radial-gradient(circle at 10% 10%, rgba(253, 224, 71, 0.8) 0%, rgba(253, 224, 71, 0) 15%),
-                radial-gradient(ellipse at 50% 60%, #38bdf8 0%, #0ea5e9 40%, rgba(14, 165, 233, 0) 70%),
-                linear-gradient(to bottom, #7dd3fc 0%, #a7f3d0 60%, #4ade80 100%);
-            background-attachment: fixed;
+            background-color: #bae6fd;
             color: #1f2937;
             min-height: 100vh;
             position: relative;
@@ -26,35 +21,21 @@
             transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
-        body::before, body::after {
-            content: '';
+        .scene-bg {
             position: fixed;
-            border-radius: 50%;
-            z-index: 1;
-            opacity: 0.9;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
         }
 
-        body::before {
-            width: 300px;
-            height: 300px;
-            background: rgba(244, 114, 182, 0.7);
-            top: 15%;
-            right: -100px;
-            box-shadow: 
-                -100px 50px 0 20px rgba(244, 114, 182, 0.6),
-                -50px 150px 0 10px rgba(251, 168, 201, 0.8),
-                -200px 100px 0 0px rgba(244, 114, 182, 0.5);
-        }
-
-        body::after {
-            width: 200px;
-            height: 200px;
-            background: rgba(251, 168, 201, 0.6);
-            bottom: 10%;
-            left: -50px;
-            box-shadow: 
-                80px -40px 0 15px rgba(244, 114, 182, 0.7),
-                120px 60px 0 5px rgba(251, 168, 201, 0.5);
+        .scene-bg svg {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
 
         body.flipped {
@@ -656,6 +637,196 @@
 </head>
 <body>
 
+    <div class="scene-bg" aria-hidden="true">
+        <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#5eb8f5"/>
+                    <stop offset="35%" stop-color="#8dd7f7"/>
+                    <stop offset="62%" stop-color="#c7ecfb"/>
+                    <stop offset="80%" stop-color="#fef3c7"/>
+                    <stop offset="100%" stop-color="#fde68a"/>
+                </linearGradient>
+                <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#fff9c4" stop-opacity="0.95"/>
+                    <stop offset="45%" stop-color="#fde047" stop-opacity="0.5"/>
+                    <stop offset="100%" stop-color="#fde047" stop-opacity="0"/>
+                </radialGradient>
+                <linearGradient id="farHillGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#c4b5fd" stop-opacity="0.55"/>
+                    <stop offset="100%" stop-color="#a5b4fc" stop-opacity="0.55"/>
+                </linearGradient>
+                <linearGradient id="backHillGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#86efac"/>
+                    <stop offset="100%" stop-color="#4ade80"/>
+                </linearGradient>
+                <linearGradient id="frontHillGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#4ade80"/>
+                    <stop offset="100%" stop-color="#16a34a"/>
+                </linearGradient>
+                <linearGradient id="lakeGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#7dd3fc"/>
+                    <stop offset="55%" stop-color="#38bdf8"/>
+                    <stop offset="100%" stop-color="#0284c7"/>
+                </linearGradient>
+                <radialGradient id="wingGrad" cx="30%" cy="30%" r="80%">
+                    <stop offset="0%" stop-color="#fce7f3"/>
+                    <stop offset="45%" stop-color="#e9d5ff"/>
+                    <stop offset="100%" stop-color="#93c5fd"/>
+                </radialGradient>
+            </defs>
+
+            <!-- שמיים -->
+            <rect x="0" y="0" width="1600" height="900" fill="url(#skyGrad)"/>
+
+            <!-- שמש זוהרת -->
+            <circle cx="230" cy="150" r="230" fill="url(#sunGlow)"/>
+            <circle cx="230" cy="150" r="70" fill="#fef08a"/>
+
+            <!-- עננים -->
+            <g fill="#ffffff" opacity="0.9">
+                <ellipse cx="480" cy="130" rx="70" ry="28"/>
+                <ellipse cx="540" cy="115" rx="55" ry="24"/>
+                <ellipse cx="420" cy="120" rx="50" ry="22"/>
+
+                <ellipse cx="1000" cy="95" rx="80" ry="30"/>
+                <ellipse cx="1070" cy="80" rx="60" ry="26"/>
+                <ellipse cx="930" cy="90" rx="55" ry="24"/>
+
+                <ellipse cx="1330" cy="210" rx="65" ry="26"/>
+                <ellipse cx="1390" cy="195" rx="45" ry="20"/>
+
+                <ellipse cx="120" cy="320" rx="55" ry="22"/>
+                <ellipse cx="175" cy="305" rx="40" ry="18"/>
+            </g>
+
+            <!-- הרים רחוקים -->
+            <path d="M0,560 L0,480 Q120,400 240,460 Q380,380 520,470 Q650,390 800,465 Q950,385 1100,470 Q1250,400 1400,465 Q1520,410 1600,460 L1600,560 Z" fill="url(#farHillGrad)"/>
+
+            <!-- גבעה אחורית -->
+            <path d="M0,640 Q220,540 460,610 Q700,545 950,615 Q1200,550 1600,615 L1600,900 L0,900 Z" fill="url(#backHillGrad)"/>
+
+            <!-- אגם מהמם -->
+            <ellipse cx="800" cy="742" rx="330" ry="82" fill="url(#lakeGrad)"/>
+            <ellipse cx="705" cy="715" rx="110" ry="30" fill="#ffffff" opacity="0.28"/>
+            <path d="M540,745 Q650,735 760,745 Q870,755 980,745" stroke="#ffffff" stroke-width="4" fill="none" opacity="0.35" stroke-linecap="round"/>
+            <path d="M560,765 Q660,758 760,765 Q870,772 1000,762" stroke="#ffffff" stroke-width="3" fill="none" opacity="0.3" stroke-linecap="round"/>
+            <!-- שיקוף עצים באגם -->
+            <ellipse cx="620" cy="790" rx="26" ry="52" fill="#16a34a" opacity="0.18"/>
+            <ellipse cx="980" cy="795" rx="30" ry="55" fill="#15803d" opacity="0.18"/>
+
+            <!-- עצים גדולים -->
+            <g>
+                <rect x="95" y="600" width="22" height="110" rx="6" fill="#92400e"/>
+                <circle cx="106" cy="560" r="60" fill="#22c55e"/>
+                <circle cx="60" cy="590" r="45" fill="#16a34a"/>
+                <circle cx="155" cy="590" r="48" fill="#15803d"/>
+                <circle cx="106" cy="605" r="50" fill="#4ade80"/>
+            </g>
+
+            <g>
+                <rect x="1465" y="560" width="26" height="130" rx="6" fill="#78350f"/>
+                <circle cx="1478" cy="510" r="70" fill="#16a34a"/>
+                <circle cx="1420" cy="545" r="52" fill="#22c55e"/>
+                <circle cx="1540" cy="545" r="55" fill="#15803d"/>
+                <circle cx="1478" cy="565" r="58" fill="#4ade80"/>
+            </g>
+
+            <g>
+                <rect x="1330" y="655" width="16" height="75" rx="5" fill="#92400e"/>
+                <circle cx="1338" cy="630" r="42" fill="#4ade80"/>
+                <circle cx="1310" cy="650" r="30" fill="#22c55e"/>
+                <circle cx="1365" cy="648" r="32" fill="#16a34a"/>
+            </g>
+
+            <g>
+                <rect x="255" y="670" width="14" height="65" rx="5" fill="#92400e"/>
+                <circle cx="262" cy="648" r="38" fill="#4ade80"/>
+                <circle cx="238" cy="665" r="26" fill="#22c55e"/>
+                <circle cx="288" cy="663" r="28" fill="#15803d"/>
+            </g>
+
+            <!-- גבעת דשא קדמית -->
+            <path d="M0,780 Q250,720 500,770 Q800,715 1100,775 Q1350,725 1600,770 L1600,900 L0,900 Z" fill="url(#frontHillGrad)"/>
+
+            <!-- פרפרים -->
+            <g opacity="0.9">
+                <g transform="translate(430,800)">
+                    <ellipse cx="-8" cy="-4" rx="9" ry="6" fill="#f472b6"/>
+                    <ellipse cx="8" cy="-4" rx="9" ry="6" fill="#fb923c"/>
+                    <line x1="0" y1="-8" x2="0" y2="4" stroke="#78350f" stroke-width="1.5"/>
+                </g>
+                <g transform="translate(1180,845) scale(0.85)">
+                    <ellipse cx="-8" cy="-4" rx="9" ry="6" fill="#c4b5fd"/>
+                    <ellipse cx="8" cy="-4" rx="9" ry="6" fill="#93c5fd"/>
+                    <line x1="0" y1="-8" x2="0" y2="4" stroke="#78350f" stroke-width="1.5"/>
+                </g>
+            </g>
+
+            <!-- פרחים על הדשא -->
+            <g>
+                <g transform="translate(140,830)"><line x1="0" y1="0" x2="0" y2="26" stroke="#166534" stroke-width="3"/><circle cx="0" cy="-3" r="4" fill="#fde047"/><circle cx="-6" cy="0" r="4" fill="#f9a8d4"/><circle cx="6" cy="0" r="4" fill="#f9a8d4"/><circle cx="0" cy="4" r="4" fill="#f9a8d4"/><circle cx="0" cy="0" r="3" fill="#fbbf24"/></g>
+                <g transform="translate(340,860) scale(0.8)"><line x1="0" y1="0" x2="0" y2="26" stroke="#166534" stroke-width="3"/><circle cx="0" cy="-3" r="4" fill="#ffffff"/><circle cx="-6" cy="0" r="4" fill="#ffffff"/><circle cx="6" cy="0" r="4" fill="#ffffff"/><circle cx="0" cy="4" r="4" fill="#ffffff"/><circle cx="0" cy="0" r="3" fill="#fde047"/></g>
+                <g transform="translate(700,845)"><line x1="0" y1="0" x2="0" y2="26" stroke="#166534" stroke-width="3"/><circle cx="0" cy="-3" r="4" fill="#c4b5fd"/><circle cx="-6" cy="0" r="4" fill="#c4b5fd"/><circle cx="6" cy="0" r="4" fill="#c4b5fd"/><circle cx="0" cy="4" r="4" fill="#c4b5fd"/><circle cx="0" cy="0" r="3" fill="#fde047"/></g>
+                <g transform="translate(980,870) scale(0.9)"><line x1="0" y1="0" x2="0" y2="26" stroke="#166534" stroke-width="3"/><circle cx="0" cy="-3" r="4" fill="#fda4af"/><circle cx="-6" cy="0" r="4" fill="#fda4af"/><circle cx="6" cy="0" r="4" fill="#fda4af"/><circle cx="0" cy="4" r="4" fill="#fda4af"/><circle cx="0" cy="0" r="3" fill="#fbbf24"/></g>
+                <g transform="translate(1240,835)"><line x1="0" y1="0" x2="0" y2="26" stroke="#166534" stroke-width="3"/><circle cx="0" cy="-3" r="4" fill="#fde047"/><circle cx="-6" cy="0" r="4" fill="#fde047"/><circle cx="6" cy="0" r="4" fill="#fde047"/><circle cx="0" cy="4" r="4" fill="#fde047"/><circle cx="0" cy="0" r="3" fill="#f97316"/></g>
+                <g transform="translate(80,875) scale(0.85)"><line x1="0" y1="0" x2="0" y2="26" stroke="#166534" stroke-width="3"/><circle cx="0" cy="-3" r="4" fill="#f9a8d4"/><circle cx="-6" cy="0" r="4" fill="#f9a8d4"/><circle cx="6" cy="0" r="4" fill="#f9a8d4"/><circle cx="0" cy="4" r="4" fill="#f9a8d4"/><circle cx="0" cy="0" r="3" fill="#fde047"/></g>
+                <g transform="translate(1470,865)"><line x1="0" y1="0" x2="0" y2="26" stroke="#166534" stroke-width="3"/><circle cx="0" cy="-3" r="4" fill="#ffffff"/><circle cx="-6" cy="0" r="4" fill="#ffffff"/><circle cx="6" cy="0" r="4" fill="#ffffff"/><circle cx="0" cy="4" r="4" fill="#ffffff"/><circle cx="0" cy="0" r="3" fill="#fbbf24"/></g>
+            </g>
+
+            <!-- ציפורים -->
+            <g stroke="#475569" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.7">
+                <path d="M300,220 q10,-14 20,0 q10,-14 20,0"/>
+                <path d="M360,260 q8,-11 16,0 q8,-11 16,0"/>
+                <path d="M1230,300 q9,-13 18,0 q9,-13 18,0"/>
+            </g>
+
+            <!-- ארנב מעופף עם כנפיים -->
+            <g transform="translate(1160,260) rotate(-8)">
+                <!-- שביל נצנצים -->
+                <g opacity="0.85">
+                    <circle cx="-160" cy="70" r="4" fill="#fde047"/>
+                    <circle cx="-190" cy="55" r="3" fill="#f9a8d4"/>
+                    <circle cx="-215" cy="80" r="5" fill="#93c5fd"/>
+                    <path d="M-140,60 l4,-9 4,9 9,4 -9,4 -4,9 -4,-9 -9,-4 z" fill="#fef08a"/>
+                    <path d="M-185,95 l3,-6 3,6 6,3 -6,3 -3,6 -3,-6 -6,-3 z" fill="#fbcfe8"/>
+                </g>
+
+                <!-- כנף אחורית ימין -->
+                <path d="M10,-10 Q90,-70 130,-20 Q150,10 100,25 Q130,45 90,60 Q60,50 30,20 Z" fill="url(#wingGrad)" opacity="0.9" stroke="#c4b5fd" stroke-width="2"/>
+                <!-- כנף אחורית שמאל -->
+                <path d="M-10,-10 Q-90,-70 -130,-20 Q-150,10 -100,25 Q-130,45 -90,60 Q-60,50 -30,20 Z" fill="url(#wingGrad)" opacity="0.9" stroke="#c4b5fd" stroke-width="2"/>
+
+                <!-- זנב פונפון -->
+                <circle cx="-4" cy="55" r="12" fill="#fdf2f8"/>
+
+                <!-- גוף -->
+                <ellipse cx="0" cy="30" rx="34" ry="42" fill="#fffaf0"/>
+                <ellipse cx="0" cy="48" rx="24" ry="16" fill="#ffe4ec"/>
+
+                <!-- ידיים/כפות קדמיות -->
+                <ellipse cx="-22" cy="45" rx="9" ry="13" fill="#fffaf0"/>
+                <ellipse cx="22" cy="45" rx="9" ry="13" fill="#fffaf0"/>
+
+                <!-- ראש -->
+                <circle cx="0" cy="-15" r="28" fill="#fffaf0"/>
+
+                <!-- אוזניים -->
+                <path d="M-16,-38 Q-30,-95 -8,-90 Q-8,-55 -4,-35 Z" fill="#fffaf0"/>
+                <path d="M-16,-38 Q-24,-85 -10,-82 Q-11,-58 -8,-38 Z" fill="#fbcfe8"/>
+                <path d="M16,-38 Q30,-95 8,-90 Q8,-55 4,-35 Z" fill="#fffaf0"/>
+                <path d="M16,-38 Q24,-85 10,-82 Q11,-58 8,-38 Z" fill="#fbcfe8"/>
+
+                <!-- פנים -->
+                <circle cx="-9" cy="-16" r="3" fill="#1f2937"/>
+                <circle cx="9" cy="-16" r="3" fill="#1f2937"/>
+                <ellipse cx="0" cy="-6" rx="4" ry="3" fill="#fb7185"/>
+                <circle cx="-16" cy="-8" r="6" fill="#fbcfe8" opacity="0.8"/>
+                <circle cx="16" cy="-8" r="6" fill="#fbcfe8" opacity="0.8"/>
+            </g>
+        </svg>
+    </div>
+
     <div class="pride-bar"></div>
 
     <div class="top-buttons-container">
@@ -904,26 +1075,26 @@
         }
 
         const all20Pairs = [
-            { text: "ניצן (חצי 1)", matchId: 1 }, { text: "מקום 1 - יורופוסטמה 4", matchId: 1 },
-            { text: "מעין (חצי 2)", matchId: 2 }, { text: "מקום 2 - יורופוסטמה 4", matchId: 2 },
-            { text: "שי (חצי 1)", matchId: 3 }, { text: "מקום 3 - יורופוסטמה 4", matchId: 3 },
-            { text: "עידו (חצי 1)", matchId: 4 }, { text: "מקום 4 - יורופוסטמה 4", matchId: 4 },
-            { text: "רון (חצי 2)", matchId: 5 }, { text: "מקום 5 - יורופוסטמה 4", matchId: 5 },
-            { text: "אלונה (חצי 1)", matchId: 6 }, { text: "מקום 1 - יורופוסטמה 3", matchId: 6 },
-            { text: "ניצן (חצי 1)", matchId: 7 }, { text: "מקום 2 - יורופוסטמה 3", matchId: 7 },
-            { text: "נעם (חצי 2)", matchId: 8 }, { text: "מקום 3 - יורופוסטמה 3", matchId: 8 },
-            { text: "עידן (חצי 2)", matchId: 9 }, { text: "מקום 4 - יורופוסטמה 3", matchId: 9 },
-            { text: "עדיאל (חצי 2)", matchId: 10 }, { text: "מקום 5 - יורופוסטמה 3", matchId: 10 },
-            { text: "גילי (חצי 2)", matchId: 11 }, { text: "מקום 1 - יורופוסטמה 2", matchId: 11 },
-            { text: "חשאבה (חצי 2)", matchId: 12 }, { text: "מקום 2 - יורופוסטמה 2", matchId: 12 },
-            { text: "ניצן (חצי 2)", matchId: 13 }, { text: "מקום 3 - יורופוסטמה 2", matchId: 13 },
-            { text: "איילת (חצי 1)", matchId: 14 }, { text: "מקום 4 - יורופוסטמה 2", matchId: 14 },
-            { text: "אלונה (חצי 1)", matchId: 15 }, { text: "מקום 5 - יורופוסטמה 2", matchId: 15 },
-            { text: "אלונה (חצי 2)", matchId: 16 }, { text: "מקום 1 - יורופוסטמה 1", matchId: 16 },
-            { text: "גילי (חצי 1)", matchId: 17 }, { text: "מקום 2 - יורופוסטמה 1", matchId: 17 },
-            { text: "עידן קשת (חצי 1)", matchId: 18 }, { text: "מקום 3 - יורופוסטמה 1", matchId: 18 },
-            { text: "עידו (חצי 1)", matchId: 19 }, { text: "מקום 4 - יורופוסטמה 1", matchId: 19 },
-            { text: "הילה (חצי 1)", matchId: 20 }, { text: "מקום 5 - יורופוסטמה 1", matchId: 20 }
+            { text: "ניצן (חצי 1) - יורופוסטמה 4", matchId: 1 }, { text: "מקום 1 - יורופוסטמה 4", matchId: 1 },
+            { text: "מעין (חצי 2) - יורופוסטמה 4", matchId: 2 }, { text: "מקום 2 - יורופוסטמה 4", matchId: 2 },
+            { text: "שי (חצי 1) - יורופוסטמה 4", matchId: 3 }, { text: "מקום 3 - יורופוסטמה 4", matchId: 3 },
+            { text: "עידו (חצי 1) - יורופוסטמה 4", matchId: 4 }, { text: "מקום 4 - יורופוסטמה 4", matchId: 4 },
+            { text: "רון (חצי 2) - יורופוסטמה 4", matchId: 5 }, { text: "מקום 5 - יורופוסטמה 4", matchId: 5 },
+            { text: "אלונה (חצי 1) - יורופוסטמה 3", matchId: 6 }, { text: "מקום 1 - יורופוסטמה 3", matchId: 6 },
+            { text: "ניצן (חצי 1) - יורופוסטמה 3", matchId: 7 }, { text: "מקום 2 - יורופוסטמה 3", matchId: 7 },
+            { text: "נעם (חצי 2) - יורופוסטמה 3", matchId: 8 }, { text: "מקום 3 - יורופוסטמה 3", matchId: 8 },
+            { text: "עידן (חצי 2) - יורופוסטמה 3", matchId: 9 }, { text: "מקום 4 - יורופוסטמה 3", matchId: 9 },
+            { text: "עדיאל (חצי 2) - יורופוסטמה 3", matchId: 10 }, { text: "מקום 5 - יורופוסטמה 3", matchId: 10 },
+            { text: "גילי (חצי 2) - יורופוסטמה 2", matchId: 11 }, { text: "מקום 1 - יורופוסטמה 2", matchId: 11 },
+            { text: "חשאבה (חצי 2) - יורופוסטמה 2", matchId: 12 }, { text: "מקום 2 - יורופוסטמה 2", matchId: 12 },
+            { text: "ניצן (חצי 2) - יורופוסטמה 2", matchId: 13 }, { text: "מקום 3 - יורופוסטמה 2", matchId: 13 },
+            { text: "איילת (חצי 1) - יורופוסטמה 2", matchId: 14 }, { text: "מקום 4 - יורופוסטמה 2", matchId: 14 },
+            { text: "אלונה (חצי 1) - יורופוסטמה 2", matchId: 15 }, { text: "מקום 5 - יורופוסטמה 2", matchId: 15 },
+            { text: "אלונה (חצי 2) - יורופוסטמה 1", matchId: 16 }, { text: "מקום 1 - יורופוסטמה 1", matchId: 16 },
+            { text: "גילי (חצי 1) - יורופוסטמה 1", matchId: 17 }, { text: "מקום 2 - יורופוסטמה 1", matchId: 17 },
+            { text: "עידן קשת (חצי 1) - יורופוסטמה 1", matchId: 18 }, { text: "מקום 3 - יורופוסטמה 1", matchId: 18 },
+            { text: "עידו (חצי 1) - יורופוסטמה 1", matchId: 19 }, { text: "מקום 4 - יורופוסטמה 1", matchId: 19 },
+            { text: "הילה (חצי 1) - יורופוסטמה 1", matchId: 20 }, { text: "מקום 5 - יורופוסטמה 1", matchId: 20 }
         ];
 
         let selectedCards = [];
