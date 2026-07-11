@@ -69,9 +69,10 @@
             z-index: 2000;
             display: flex;
             gap: 15px;
+            flex-wrap: wrap;
         }
 
-        .flip-world-btn, .trivia-game-btn {
+        .flip-world-btn, .trivia-game-btn, .leaderboard-btn {
             color: white;
             border: none;
             padding: 14px 28px;
@@ -101,6 +102,16 @@
         .trivia-game-btn:hover {
             transform: scale(1.1) rotate(2deg);
             box-shadow: 0 15px 30px rgba(107, 33, 168, 0.6);
+        }
+
+        .leaderboard-btn {
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+            box-shadow: 0 10px 25px rgba(217, 119, 6, 0.4);
+        }
+
+        .leaderboard-btn:hover {
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 0 15px 30px rgba(217, 119, 6, 0.6);
         }
 
         .pride-bar {
@@ -504,6 +515,143 @@
             0% { transform: translate(-50%, -50%) scale(0) rotate(-15deg); opacity: 0; }
             100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
         }
+
+        /* --- מודאל הזנת שם --- */
+        .name-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            z-index: 6000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .name-modal-box {
+            background: #ffffff;
+            border: 4px solid #0ea5e9;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .name-modal-box h3 {
+            margin-top: 0;
+            color: #0369a1;
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+
+        .name-modal-box p {
+            color: #475569;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .name-modal-box input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: 2px solid #cbd5e1;
+            font-family: 'Rubik', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .name-modal-box button {
+            width: 100%;
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.4);
+        }
+
+        /* --- מודאל טבלת שיאים --- */
+        .leaderboard-modal {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ffffff;
+            border: 4px solid #d97706;
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 500px;
+            width: 95%;
+            max-height: 75vh;
+            overflow-y: auto;
+            z-index: 4500;
+            display: none;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .leaderboard-modal h3 {
+            margin-top: 0;
+            color: #92400e;
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: 900;
+            border-bottom: 3px solid #d97706;
+            padding-bottom: 10px;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .leaderboard-table th {
+            text-align: right;
+            padding: 10px 8px;
+            border-bottom: 3px solid #d97706;
+            font-size: 1.05rem;
+            color: #92400e;
+            font-weight: 900;
+        }
+
+        .leaderboard-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .leaderboard-table tr.current-player td {
+            color: #0369a1;
+        }
+
+        .leaderboard-empty {
+            text-align: center;
+            color: #64748b;
+            font-weight: 700;
+            padding: 20px 0;
+        }
+
+        .close-leaderboard-btn {
+            display: block;
+            width: 100%;
+            background: #d97706;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(217, 119, 6, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -513,6 +661,7 @@
     <div class="top-buttons-container">
         <button class="flip-world-btn" onclick="flipWorld()">הפוך את העולם! 🌀</button>
         <button class="trivia-game-btn" onclick="startTriviaGame()">🎮 משחק טריוויה זיכרון</button>
+        <button class="leaderboard-btn" onclick="openLeaderboard()">🏆 טבלת שיאים</button>
     </div>
 
     <header>
@@ -597,12 +746,11 @@
         
         <div class="game-header">
             <h2>🧩 מגה משחק זיכרון - כל 20 התוצאות (40 קלפים!) 🧩</h2>
-            <div id="gameStatus" class="game-status">ניסיונות שנותרו: 20</div>
+            <div id="gameStatus" class="game-status">ניסיונות: 0</div>
         </div>
 
         <div id="bannerStart" class="big-banner banner-start">START</div>
         <div id="bannerWinner" class="big-banner banner-winner">WINNER</div>
-        <div id="bannerLoser" class="big-banner banner-loser">LOSER</div>
 
         <div id="gameBoard" class="game-board"></div>
     </div>
@@ -634,6 +782,21 @@
         <button class="close-cheat-btn" onclick="toggleCheatSheet(false)">הבנתי, חזרה למשחק 👍</button>
     </div>
 
+    <div id="nameModalOverlay" class="name-modal-overlay">
+        <div class="name-modal-box">
+            <h3>👋 ברוכים הבאים!</h3>
+            <p>לפני שמתחילים - איך קוראים לך? השם יישמר לתמיד ולא ניתן יהיה לשנות אותו.</p>
+            <input type="text" id="nameInput" maxlength="20" placeholder="הקלד/י את שמך כאן">
+            <button onclick="confirmName()">✅ אישור</button>
+        </div>
+    </div>
+
+    <div id="leaderboardModal" class="leaderboard-modal">
+        <h3>🏆 טבלת השיאים</h3>
+        <div id="leaderboardContent"></div>
+        <button class="close-leaderboard-btn" onclick="closeLeaderboard()">סגירה</button>
+    </div>
+
     <script>
         function flipWorld() {
             document.body.classList.toggle('flipped');
@@ -641,6 +804,103 @@
 
         function toggleCheatSheet(show) {
             document.getElementById('cheatSheetModal').style.display = show ? 'block' : 'none';
+        }
+
+        /* ===== ניהול שם שחקן (נשמר לצמיתות בדפדפן) ===== */
+        const PLAYER_NAME_KEY = 'euroHallPlayerName';
+        const LEADERBOARD_KEY = 'euroHallLeaderboard';
+
+        function getPlayerName() {
+            return localStorage.getItem(PLAYER_NAME_KEY);
+        }
+
+        function showNameModalIfNeeded() {
+            if (!getPlayerName()) {
+                document.getElementById('nameModalOverlay').style.display = 'flex';
+            }
+        }
+
+        function confirmName() {
+            const input = document.getElementById('nameInput');
+            const name = input.value.trim();
+            if (!name) {
+                input.focus();
+                return;
+            }
+            // השם נשמר לצמיתות - אין דרך בממשק לשנות אותו
+            localStorage.setItem(PLAYER_NAME_KEY, name);
+            document.getElementById('nameModalOverlay').style.display = 'none';
+        }
+
+        /* ===== ניהול טבלת שיאים ===== */
+        function loadLeaderboard() {
+            try {
+                const raw = localStorage.getItem(LEADERBOARD_KEY);
+                return raw ? JSON.parse(raw) : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveLeaderboard(data) {
+            localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(data));
+        }
+
+        // נקרא בסיום ניצחון - שומר את מספר הניסיונות שהושקעו, רק אם זה שיא אישי חדש
+        function recordScore(attemptsUsed) {
+            const name = getPlayerName();
+            if (!name) return;
+
+            const board = loadLeaderboard();
+            const existing = board[name];
+
+            if (existing === undefined || attemptsUsed < existing) {
+                board[name] = attemptsUsed;
+                saveLeaderboard(board);
+            }
+        }
+
+        function renderLeaderboard() {
+            const board = loadLeaderboard();
+            const container = document.getElementById('leaderboardContent');
+            const currentName = getPlayerName();
+
+            const entries = Object.entries(board).sort((a, b) => a[1] - b[1]);
+
+            if (entries.length === 0) {
+                container.innerHTML = '<div class="leaderboard-empty">עדיין אין שיאים שמורים. תהיו הראשונים לנצח! 🎉</div>';
+                return;
+            }
+
+            let rows = entries.map(([name, attempts], index) => {
+                const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : (index + 1);
+                const isCurrent = name === currentName ? ' current-player' : '';
+                return `<tr class="${isCurrent}"><td>${medal}</td><td>${escapeHtml(name)}</td><td>${attempts}</td></tr>`;
+            }).join('');
+
+            container.innerHTML = `
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr><th>מקום</th><th>שם</th><th>ניסיונות שהושקעו</th></tr>
+                    </thead>
+                    <tbody>${rows}</tbody>
+                </table>
+            `;
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function openLeaderboard() {
+            renderLeaderboard();
+            document.getElementById('leaderboardModal').style.display = 'block';
+        }
+
+        function closeLeaderboard() {
+            document.getElementById('leaderboardModal').style.display = 'none';
         }
 
         const all20Pairs = [
@@ -668,7 +928,7 @@
 
         let selectedCards = [];
         let matchedPairs = 0;
-        let attemptsLeft = 20; 
+        let attemptsMade = 0;
         let isGameActive = false;
         let shuffleInterval;
 
@@ -689,19 +949,24 @@
         }
 
         function startTriviaGame() {
+            // חייבים שם שחקן לפני תחילת המשחק
+            if (!getPlayerName()) {
+                showNameModalIfNeeded();
+                return;
+            }
+
             const overlay = document.getElementById('gameOverlay');
             const board = document.getElementById('gameBoard');
             const statusText = document.getElementById('gameStatus');
             
             selectedCards = [];
             matchedPairs = 0;
-            attemptsLeft = 20; 
+            attemptsMade = 0;
             isGameActive = false;
-            statusText.innerText = `ניסיונות שנותרו: ${attemptsLeft}`;
+            statusText.innerText = `ניסיונות: ${attemptsMade}`;
             
             document.getElementById('bannerStart').style.display = 'none';
             document.getElementById('bannerWinner').style.display = 'none';
-            document.getElementById('bannerLoser').style.display = 'none';
 
             overlay.style.display = 'flex';
             board.innerHTML = '';
@@ -796,35 +1061,29 @@
                 selectedCards = [];
 
                 if (matchedPairs === all20Pairs.length / 2) {
-                    endGame(true);
+                    endGame();
                 }
             } else {
-                attemptsLeft--;
-                statusText.innerText = `ניסיונות שנותרו: ${attemptsLeft}`;
+                attemptsMade++;
+                statusText.innerText = `ניסיונות: ${attemptsMade}`;
 
                 setTimeout(() => {
                     card1.classList.remove('flipped'); 
                     card2.classList.remove('flipped');
                     selectedCards = [];
-                    
-                    if (attemptsLeft <= 0) {
-                        endGame(false);
-                    }
                 }, 1000);
             }
         }
 
-        function endGame(isWin) {
+        function endGame() {
             isGameActive = false;
-            if (isWin) {
-                document.getElementById('bannerWinner').style.display = 'block';
-                speak("WINNER");
-            } else {
-                document.getElementById('bannerLoser').style.display = 'block';
-                speak("LOSER");
-                document.querySelectorAll('.card').forEach(card => card.classList.add('flipped')); 
-            }
+            document.getElementById('bannerWinner').style.display = 'block';
+            speak("WINNER");
+            recordScore(attemptsMade);
         }
+
+        // בדיקה בטעינת הדף אם צריך לבקש שם
+        showNameModalIfNeeded();
     </script>
 </body>
 </html>
