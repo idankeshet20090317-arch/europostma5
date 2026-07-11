@@ -927,28 +927,8 @@
     </div>
 
     <div id="cheatSheetModal" class="cheat-sheet-modal">
-        <h3>📋 רשימת כל התשובות והזוגות</h3>
-        <ul class="cheat-list">
-            <li><span class="cheat-name">ניצן (חצי 1) [יורופוסטמה 4]</span> <span class="cheat-pos">מקום 1 - יורופוסטמה 4</span></li>
-            <li><span class="cheat-name">מעין (חצי 2) [יורופוסטמה 4]</span> <span class="cheat-pos">מקום 2 - יורופוסטמה 4</span></li>
-            <li><span class="cheat-name">שי (חצי 1) [יורופוסטמה 4]</span> <span class="cheat-pos">מקום 3 - יורופוסטמה 4</span></li>
-            <li><span class="cheat-name">עידו (חצי 1) [יורופוסטמה 4]</span> <span class="cheat-pos">מקום 4 - יורופוסטמה 4</span></li>
-            <li><span class="cheat-name">רון (חצי 2) [יורופוסטמה 4]</span> <span class="cheat-pos">מקום 5 - יורופוסטמה 4</span></li>
-            <li><span class="cheat-name">אלונה (חצי 1) [יורופוסטמה 3]</span> <span class="cheat-pos">מקום 1 - יורופוסטמה 3</span></li>
-            <li><span class="cheat-name">ניצן (חצי 1) [יורופוסטמה 3]</span> <span class="cheat-pos">מקום 2 - יורופוסטמה 3</span></li>
-            <li><span class="cheat-name">נעם (חצי 2) [יורופוסטמה 3]</span> <span class="cheat-pos">מקום 3 - יורופוסטמה 3</span></li>
-            <li><span class="cheat-name">עידן (חצי 2) [יורופוסטמה 3]</span> <span class="cheat-pos">מקום 4 - יורופוסטמה 3</span></li>
-            <li><span class="cheat-name">עדיאל (חצי 2) [יורופוסטמה 3]</span> <span class="cheat-pos">מקום 5 - יורופוסטמה 3</span></li>
-            <li><span class="cheat-name">גילי (חצי 2) [יורופוסטמה 2]</span> <span class="cheat-pos">מקום 1 - יורופוסטמה 2</span></li>
-            <li><span class="cheat-name">חשאבה (חצי 2) [יורופוסטמה 2]</span> <span class="cheat-pos">מקום 2 - יורופוסטמה 2</span></li>
-            <li><span class="cheat-name">ניצן (חצי 2) [יורופוסטמה 2]</span> <span class="cheat-pos">מקום 3 - יורופוסטמה 2</span></li>
-            <li><span class="cheat-name">איילת (חצי 1) [יורופוסטמה 2]</span> <span class="cheat-pos">מקום 4 - יורופוסטמה 2</span></li>
-            <li><span class="cheat-name">אלונה (חצי 1) [יורופוסטמה 2]</span> <span class="cheat-pos">מקום 5 - יורופוסטמה 2</span></li>
-            <li><span class="cheat-name">אלונה (חצי 2) [יורופוסטמה 1]</span> <span class="cheat-pos">מקום 1 - יורופוסטמה 1</span></li>
-            <li><span class="cheat-name">גילי (חצי 1) [יורופוסטמה 1]</span> <span class="cheat-pos">מקום 2 - יורופוסטמה 1</span></li>
-            <li><span class="cheat-name">עידן קשת (חצי 1) [יורופוסטמה 1]</span> <span class="cheat-pos">מקום 3 - יורופוסטמה 1</span></li>
-            <li><span class="cheat-name">עידו (חצי 1) [יורופוסטמה 1]</span> <span class="cheat-pos">מקום 4 - יורופוסטמה 1</span></li>
-            <li><span class="cheat-name">הילה (חצי 1) [יורופוסטמה 1]</span> <span class="cheat-pos">מקום 5 - יורופוסטמה 1</span></li>
+        <h3>📋 רשימת התשובות והזוגות - הסבב הנוכחי</h3>
+        <ul id="cheatList" class="cheat-list">
         </ul>
         <button class="close-cheat-btn" onclick="toggleCheatSheet(false)">הבנתי, חזרה למשחק 👍</button>
     </div>
@@ -975,6 +955,19 @@
 
         function toggleCheatSheet(show) {
             document.getElementById('cheatSheetModal').style.display = show ? 'block' : 'none';
+        }
+
+        function renderCheatSheet(matchIds) {
+            const list = document.getElementById('cheatList');
+            const sortedIds = [...matchIds].sort((a, b) => a - b);
+
+            list.innerHTML = sortedIds.map(id => {
+                const pair = all20Pairs.filter(p => p.matchId === id);
+                const nameItem = pair.find(p => !p.text.startsWith('מקום'));
+                const posItem = pair.find(p => p.text.startsWith('מקום'));
+                if (!nameItem || !posItem) return '';
+                return `<li><span class="cheat-name">${escapeHtml(nameItem.text)}</span><span class="cheat-pos">${escapeHtml(posItem.text)}</span></li>`;
+            }).join('');
         }
 
         /* ===== ניהול שם שחקן (נשמר לצמיתות בדפדפן) ===== */
@@ -1150,6 +1143,8 @@
 
             const roundPairs = all20Pairs.filter(p => chosenMatchIds.includes(p.matchId));
             const shuffledData = [...roundPairs].sort(() => Math.random() - 0.5);
+
+            renderCheatSheet(chosenMatchIds);
 
             shuffledData.forEach((data) => {
                 const cardEl = document.createElement('div');
