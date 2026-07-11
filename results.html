@@ -916,7 +916,7 @@
         <button class="cheat-sheet-btn" onclick="toggleCheatSheet(true)">📋 צפייה בתוצאות</button>
         
         <div class="game-header">
-            <h2>🧩 מגה משחק זיכרון - כל 20 התוצאות (40 קלפים!) 🧩</h2>
+            <h2>🧩 משחק זיכרון - 10 זוגות רנדומליים (20 קלפים!) 🧩</h2>
             <div id="gameStatus" class="game-status">ניסיונות: 0</div>
         </div>
 
@@ -1099,6 +1099,7 @@
 
         let selectedCards = [];
         let matchedPairs = 0;
+        let currentRoundPairCount = 10;
         let attemptsMade = 0;
         let isGameActive = false;
         let shuffleInterval;
@@ -1142,7 +1143,13 @@
             overlay.style.display = 'flex';
             board.innerHTML = '';
 
-            const shuffledData = [...all20Pairs].sort(() => Math.random() - 0.5);
+            const uniqueMatchIds = [...new Set(all20Pairs.map(p => p.matchId))];
+            const shuffledMatchIds = [...uniqueMatchIds].sort(() => Math.random() - 0.5);
+            const chosenMatchIds = shuffledMatchIds.slice(0, 10);
+            currentRoundPairCount = chosenMatchIds.length;
+
+            const roundPairs = all20Pairs.filter(p => chosenMatchIds.includes(p.matchId));
+            const shuffledData = [...roundPairs].sort(() => Math.random() - 0.5);
 
             shuffledData.forEach((data) => {
                 const cardEl = document.createElement('div');
@@ -1231,7 +1238,7 @@
                 
                 selectedCards = [];
 
-                if (matchedPairs === all20Pairs.length / 2) {
+                if (matchedPairs === currentRoundPairCount) {
                     endGame();
                 }
             } else {
