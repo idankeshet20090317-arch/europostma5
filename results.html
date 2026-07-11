@@ -634,6 +634,9 @@
             box-shadow: 0 5px 15px rgba(217, 119, 6, 0.4);
         }
     </style>
+    <!-- Firebase - למסד נתונים משותף של טבלת השיאים (חינמי) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -972,7 +975,6 @@
 
         /* ===== ניהול שם שחקן (נשמר לצמיתות בדפדפן) ===== */
         const PLAYER_NAME_KEY = 'euroHallPlayerName';
-        const LEADERBOARD_KEY = 'euroHallLeaderboard';
 
         function getPlayerName() {
             return localStorage.getItem(PLAYER_NAME_KEY);
@@ -996,60 +998,89 @@
             document.getElementById('nameModalOverlay').style.display = 'none';
         }
 
-        /* ===== ניהול טבלת שיאים ===== */
-        function loadLeaderboard() {
-            try {
-                const raw = localStorage.getItem(LEADERBOARD_KEY);
-                return raw ? JSON.parse(raw) : {};
-            } catch (e) {
-                return {};
-            }
+        /* ===== חיבור ל-Firebase (טבלת שיאים משותפת לכל המכשירים) =====
+           1. היכנס ל-https://console.firebase.google.com/ וצור פרויקט חדש (חינמי).
+           2. בתפריט השמאלי: Build > Realtime Database > Create Database > Start in test mode.
+           3. בלשונית "Rules" של ה-Database הדבק:
+              {
+                "rules": {
+                  "leaderboard": { ".read": true, ".write": true }
+                }
+              }
+           4. Project settings (גלגל שיניים) > כללי > "Your apps" > הוסף אפליקציית Web (</>)
+           5. העתק את אובייקט firebaseConfig שמתקבל ותדביק אותו במקום הדוגמה למטה. */
+        const firebaseConfig = {
+            apiKey: "AIzaSyCwyojpYgD0yWBdNK0uSMrN9Irx5BBO3Bw",
+            authDomain: "europustema-9902a.firebaseapp.com",
+            databaseURL: "https://europustema-9902a-default-rtdb.firebaseio.com",
+            projectId: "europustema-9902a",
+            storageBucket: "europustema-9902a.firebasestorage.app",
+            messagingSenderId: "310706846976",
+            appId: "1:310706846976:web:4953720867cd4edc5ac7e5",
+            measurementId: "G-5FY8REBX8K"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // מפתחות ב-Firebase לא יכולים להכיל . # $ [ ] / - מנקים את השם לפני שמירה
+        function sanitizeKey(str) {
+            return encodeURIComponent(str).replace(/[.#$\[\]]/g, '_');
         }
 
-        function saveLeaderboard(data) {
-            localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(data));
-        }
+        /* ===== ניהול טבלת שיאים משותפת ===== */
 
         // נקרא בסיום ניצחון - שומר את מספר הניסיונות שהושקעו, רק אם זה שיא אישי חדש
         function recordScore(attemptsUsed) {
             const name = getPlayerName();
             if (!name) return;
 
-            const board = loadLeaderboard();
-            const existing = board[name];
+            const key = sanitizeKey(name);
+            const ref = db.ref('leaderboard/' + key);
 
-            if (existing === undefined || attemptsUsed < existing) {
-                board[name] = attemptsUsed;
-                saveLeaderboard(board);
-            }
+            ref.once('value').then((snapshot) => {
+                const existing = snapshot.val();
+                if (!existing || attemptsUsed < existing.attempts) {
+                    ref.set({ name: name, attempts: attemptsUsed });
+                }
+            }).catch((err) => {
+                console.error('שגיאה בשמירת התוצאה:', err);
+            });
         }
 
         function renderLeaderboard() {
-            const board = loadLeaderboard();
             const container = document.getElementById('leaderboardContent');
             const currentName = getPlayerName();
 
-            const entries = Object.entries(board).sort((a, b) => a[1] - b[1]);
+            container.innerHTML = '<div class="leaderboard-empty">⏳ טוען את טבלת השיאים...</div>';
 
-            if (entries.length === 0) {
-                container.innerHTML = '<div class="leaderboard-empty">עדיין אין שיאים שמורים. תהיו הראשונים לנצח! 🎉</div>';
-                return;
-            }
+            db.ref('leaderboard').once('value').then((snapshot) => {
+                const data = snapshot.val() || {};
+                const entries = Object.values(data).sort((a, b) => a.attempts - b.attempts);
 
-            let rows = entries.map(([name, attempts], index) => {
-                const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : (index + 1);
-                const isCurrent = name === currentName ? ' current-player' : '';
-                return `<tr class="${isCurrent}"><td>${medal}</td><td>${escapeHtml(name)}</td><td>${attempts}</td></tr>`;
-            }).join('');
+                if (entries.length === 0) {
+                    container.innerHTML = '<div class="leaderboard-empty">עדיין אין שיאים שמורים. תהיו הראשונים לנצח! 🎉</div>';
+                    return;
+                }
 
-            container.innerHTML = `
-                <table class="leaderboard-table">
-                    <thead>
-                        <tr><th>מקום</th><th>שם</th><th>ניסיונות שהושקעו</th></tr>
-                    </thead>
-                    <tbody>${rows}</tbody>
-                </table>
-            `;
+                let rows = entries.map((entry, index) => {
+                    const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : (index + 1);
+                    const isCurrent = entry.name === currentName ? ' current-player' : '';
+                    return `<tr class="${isCurrent}"><td>${medal}</td><td>${escapeHtml(entry.name)}</td><td>${entry.attempts}</td></tr>`;
+                }).join('');
+
+                container.innerHTML = `
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr><th>מקום</th><th>שם</th><th>ניסיונות שהושקעו</th></tr>
+                        </thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                `;
+            }).catch((err) => {
+                console.error('שגיאה בטעינת הטבלה:', err);
+                container.innerHTML = '<div class="leaderboard-empty">⚠️ לא הצלחתי לטעון את הטבלה. בדוק את חיבור ה-Firebase.</div>';
+            });
         }
 
         function escapeHtml(str) {
