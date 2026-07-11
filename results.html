@@ -282,7 +282,7 @@
         .game-header {
             text-align: center;
             margin-bottom: 15px;
-            margin-top: 40px; /* רווח קטן כדי שלא יתקע בכפתור ה-X בנייד */
+            margin-top: 40px; 
             z-index: 3100;
         }
 
@@ -302,7 +302,68 @@
             cursor: pointer; z-index: 3200;
         }
 
-        /* לוח משחק ברירת מחדל (למחשב) */
+        /* כפתור שליף תוצאות חדש */
+        .cheat-sheet-btn {
+            position: absolute;
+            top: 15px; left: 15px;
+            background: #10b981; color: white;
+            border: none; padding: 10px 20px;
+            font-weight: bold; border-radius: 20px;
+            cursor: pointer; z-index: 3200;
+        }
+
+        /* תיבת השליף חלון צף */
+        .cheat-sheet-modal {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1e293b;
+            border: 3px solid #10b981;
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 70vh;
+            overflow-y: auto;
+            z-index: 4000;
+            display: none;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        }
+
+        .cheat-sheet-modal h3 {
+            margin-top: 0;
+            color: #10b981;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .cheat-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .cheat-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .close-cheat-btn {
+            display: block;
+            width: 100%;
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
         .game-board {
             display: grid;
             grid-template-columns: repeat(8, 110px);
@@ -326,23 +387,22 @@
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), left 0.5s ease-in-out, top 0.5s ease-in-out;
         }
 
-        /* התאמה רספונסיבית מיוחדת לטלפונים וטאבלטים קטנים */
         @media (max-width: 950px) {
             .game-board { 
-                grid-template-columns: repeat(4, 75px); /* 4 עמודות צרות יותר בנייד */
+                grid-template-columns: repeat(4, 75px); 
                 gap: 8px;
                 min-height: auto;
             }
             .card {
                 width: 75px;
-                height: 105px; /* הקטנת הקלפים כדי שלא יגלשו מהמסך */
+                height: 105px; 
             }
             .card-face {
-                font-size: 0.75rem !important; /* הקטנת הטקסט בפנים הקלף */
+                font-size: 0.75rem !important; 
                 padding: 4px !important;
             }
             .big-banner {
-                font-size: 4rem !important; /* הקטנת כרזות ה-START/WINNER בנייד */
+                font-size: 4rem !important; 
             }
             .top-buttons-container {
                 position: relative;
@@ -369,7 +429,6 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.4);
         }
 
-        /* גב הקלף */
         .card-back {
             background: repeating-linear-gradient(
                 45deg,
@@ -383,7 +442,6 @@
             z-index: 2;
         }
 
-        /* פנים הקלף */
         .card-front {
             background: #ffffff;
             color: #1e3a8a;
@@ -393,12 +451,10 @@
             word-wrap: break-word;
         }
 
-        /* קלף הפוך */
         .card.flipped {
             transform: rotateY(180deg);
         }
 
-        /* אפקט חיתוך */
         @keyframes cutSplit {
             0% { transform: scale(1); }
             50% { transform: scale(1.1) skewY(-15deg); filter: brightness(1.2); }
@@ -406,7 +462,6 @@
         }
         .animate-cut { animation: cutSplit 0.6s ease-in-out; }
 
-        /* אנימציית הצלחה והיעלמות */
         @keyframes successZoomAndFade {
             0% { transform: scale(1) rotateY(180deg); opacity: 1; z-index: 1000; }
             40% { transform: scale(1.6) rotateY(180deg) translateZ(300px); opacity: 1; z-index: 1000; }
@@ -416,7 +471,6 @@
             animation: successZoomAndFade 1.2s ease-in-out forwards;
         }
 
-        /* כרזות ענק */
         .big-banner {
             position: fixed;
             top: 50%; left: 50%;
@@ -525,6 +579,7 @@
 
     <div id="gameOverlay" class="game-overlay">
         <button class="close-game-btn" onclick="closeGame()">יציאה ❌</button>
+        <button class="cheat-sheet-btn" onclick="toggleCheatSheet(true)">📋 צפייה בתוצאות</button>
         
         <div class="game-header">
             <h2>🧩 מגה משחק זיכרון - כל 20 התוצאות (40 קלפים!) 🧩</h2>
@@ -538,31 +593,59 @@
         <div id="gameBoard" class="game-board"></div>
     </div>
 
+    <div id="cheatSheetModal" class="cheat-sheet-modal">
+        <h3>📋 רשימת כל התשובות והזוגות</h3>
+        <ul class="cheat-list">
+            <li><span>ניצן (חצי 1)</span> <span>מקום 1 - יורופוסטמה 4</span></li>
+            <li><span>מעין (חצי 2)</span> <span>מקום 2 - יורופוסטמה 4</span></li>
+            <li><span>שי (חצי 1)</span> <span>מקום 3 - יורופוסטמה 4</span></li>
+            <li><span>עידו (חצי 1)</span> <span>מקום 4 - יורופוסטמה 4</span></li>
+            <li><span>רון (חצי 2)</span> <span>מקום 5 - יורופוסטמה 4</span></li>
+            <li><span>אלונה (חצי 1)</span> <span>מקום 1 - יורופוסטמה 3</span></li>
+            <li><span>ניצן (חצי 1)</span> <span>מקום 2 - יורופוסטמה 3</span></li>
+            <li><span>נעם (חצי 2)</span> <span>מקום 3 - יורופוסטמה 3</span></li>
+            <li><span>עידן (חצי 2)</span> <span>מקום 4 - יורופוסטמה 3</span></li>
+            <li><span>עדיאל (חצי 2)</span> <span>מקום 5 - יורופוסטמה 3</span></li>
+            <li><span>גילי (חצי 2)</span> <span>מקום 1 - יורופוסטמה 2</span></li>
+            <li><span>חשאבה (חצי 2)</span> <span>מקום 2 - יורופוסטמה 2</span></li>
+            <li><span>ניצן (חצי 2)</span> <span>מקום 3 - יורופוסטמה 2</span></li>
+            <li><span>איילת (חצי 1)</span> <span>מקום 4 - יורופוסטמה 2</span></li>
+            <li><span>אלונה (חצי 1)</span> <span>מקום 5 - יורופוסטמה 2</span></li>
+            <li><span>אלונה (חצי 2)</span> <span>מקום 1 - יורופוסטמה 1</span></li>
+            <li><span>גילי (חצי 1)</span> <span>מקום 2 - יורופוסטמה 1</span></li>
+            <li><span>עידן קשת (חצי 1)</span> <span>מקום 3 - יורופוסטמה 1</span></li>
+            <li><span>עידו (חצי 1)</span> <span>מקום 4 - יורופוסטמה 1</span></li>
+            <li><span>הילה (חצי 1)</span> <span>מקום 5 - יורופוסטמה 1</span></li>
+        </ul>
+        <button class="close-cheat-btn" onclick="toggleCheatSheet(false)">הבנתי, חזרה למשחק 👍</button>
+    </div>
+
     <script>
         function flipWorld() {
             document.body.classList.toggle('flipped');
         }
 
+        // פתיחה וסגירה של חלון השליף
+        function toggleCheatSheet(show) {
+            document.getElementById('cheatSheetModal').style.display = show ? 'block' : 'none';
+        }
+
         const all20Pairs = [
-            // יורופוסטמה 4
             { text: "ניצן (חצי 1)", matchId: 1 }, { text: "מקום 1 - יורופוסטמה 4", matchId: 1 },
             { text: "מעין (חצי 2)", matchId: 2 }, { text: "מקום 2 - יורופוסטמה 4", matchId: 2 },
             { text: "שי (חצי 1)", matchId: 3 }, { text: "מקום 3 - יורופוסטמה 4", matchId: 3 },
             { text: "עידו (חצי 1)", matchId: 4 }, { text: "מקום 4 - יורופוסטמה 4", matchId: 4 },
             { text: "רון (חצי 2)", matchId: 5 }, { text: "מקום 5 - יורופוסטמה 4", matchId: 5 },
-            // יורופוסטמה 3
             { text: "אלונה (חצי 1)", matchId: 6 }, { text: "מקום 1 - יורופוסטמה 3", matchId: 6 },
             { text: "ניצן (חצי 1)", matchId: 7 }, { text: "מקום 2 - יורופוסטמה 3", matchId: 7 },
             { text: "נעם (חצי 2)", matchId: 8 }, { text: "מקום 3 - יורופוסטמה 3", matchId: 8 },
             { text: "עידן (חצי 2)", matchId: 9 }, { text: "מקום 4 - יורופוסטמה 3", matchId: 9 },
             { text: "עדיאל (חצי 2)", matchId: 10 }, { text: "מקום 5 - יורופוסטמה 3", matchId: 10 },
-            // יורופוסטמה 2
             { text: "גילי (חצי 2)", matchId: 11 }, { text: "מקום 1 - יורופוסטמה 2", matchId: 11 },
             { text: "חשאבה (חצי 2)", matchId: 12 }, { text: "מקום 2 - יורופוסטמה 2", matchId: 12 },
             { text: "ניצן (חצי 2)", matchId: 13 }, { text: "מקום 3 - יורופוסטמה 2", matchId: 13 },
             { text: "איילת (חצי 1)", matchId: 14 }, { text: "מקום 4 - יורופוסטמה 2", matchId: 14 },
             { text: "אלונה (חצי 1)", matchId: 15 }, { text: "מקום 5 - יורופוסטמה 2", matchId: 15 },
-            // יורופוסטמה 1
             { text: "אלונה (חצי 2)", matchId: 16 }, { text: "מקום 1 - יורופוסטמה 1", matchId: 16 },
             { text: "גילי (חצי 1)", matchId: 17 }, { text: "מקום 2 - יורופוסטמה 1", matchId: 17 },
             { text: "עידן קשת (חצי 1)", matchId: 18 }, { text: "מקום 3 - יורופוסטמה 1", matchId: 18 },
@@ -588,6 +671,7 @@
         function closeGame() {
             clearInterval(shuffleInterval);
             document.getElementById('gameOverlay').style.display = 'none';
+            toggleCheatSheet(false);
             isGameActive = false;
         }
 
@@ -637,7 +721,6 @@
 
                 shuffleInterval = setInterval(() => {
                     cards.forEach(card => {
-                        // חישוב גבולות מותאם לממדי הקלף הנוכחיים (תומך גם בנייד)
                         const cardWidth = card.offsetWidth || 75;
                         const cardHeight = card.offsetHeight || 105;
                         const randomX = Math.floor(Math.random() * (board.offsetWidth - cardWidth));
