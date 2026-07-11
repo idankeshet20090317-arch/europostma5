@@ -503,7 +503,7 @@
         
         <div class="game-header">
             <h2>🧩 מגה משחק זיכרון - כל 20 התוצאות (40 קלפים!) 🧩</h2>
-            <div id="gameStatus" class="game-status">ניסיונות שנותרו: 10</div>
+            <div id="gameStatus" class="game-status">ניסיונות שנותרו: 20</div>
         </div>
 
         <div id="bannerStart" class="big-banner banner-start">START</div>
@@ -547,7 +547,7 @@
 
         let selectedCards = [];
         let matchedPairs = 0;
-        let attemptsLeft = 10;
+        let attemptsLeft = 20; // כמות הניסיונות עודכנה ל-20!
         let isGameActive = false;
         let shuffleInterval;
 
@@ -573,7 +573,7 @@
             
             selectedCards = [];
             matchedPairs = 0;
-            attemptsLeft = 10;
+            attemptsLeft = 20; // איפוס ל-20 ניסיונות בתחילת כל משחק
             isGameActive = false;
             statusText.innerText = `ניסיונות שנותרו: ${attemptsLeft}`;
             
@@ -588,7 +588,7 @@
 
             shuffledData.forEach((data) => {
                 const cardEl = document.createElement('div');
-                cardEl.classList.add('card'); // מתחיל במצב גב (לא פתוח)
+                cardEl.classList.add('card'); 
                 cardEl.dataset.matchId = data.matchId;
 
                 cardEl.innerHTML = `
@@ -600,12 +600,10 @@
 
             const cards = document.querySelectorAll('.card');
 
-            // אפקט חצייה/גזירה מהיר כעבור שנייה
             setTimeout(() => {
                 cards.forEach(card => card.classList.add('animate-cut'));
             }, 1000);
 
-            // תזוזה מטורפת ברחבי כל המסך כשהם הפוכים!
             setTimeout(() => {
                 cards.forEach(card => {
                     card.classList.remove('animate-cut');
@@ -622,7 +620,6 @@
                 }, 400); 
             }, 1800);
 
-            // סיום הערבוב, חזרה לרשת, והצגת כרזת התחלה
             setTimeout(() => {
                 clearInterval(shuffleInterval);
                 
@@ -649,12 +646,11 @@
             const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
                 card.addEventListener('click', function() {
-                    // מונע לחיצה אם המשחק לא פעיל, אם הקלף כבר נעלם, או אם הוא כבר הפוך (גלוי), או אם נבחרו כבר 2 קלפים
                     if (!isGameActive || this.classList.contains('success-animate') || this.classList.contains('flipped') || selectedCards.length >= 2) {
                         return;
                     }
 
-                    this.classList.add('flipped'); // הופך את הקלף וחושף את הכתוב
+                    this.classList.add('flipped'); 
                     selectedCards.push(this);
 
                     if (selectedCards.length === 2) {
@@ -683,7 +679,7 @@
                 statusText.innerText = `ניסיונות שנותרו: ${attemptsLeft}`;
 
                 setTimeout(() => {
-                    card1.classList.remove('flipped'); // מחזיר למצב גב חסוי
+                    card1.classList.remove('flipped'); 
                     card2.classList.remove('flipped');
                     selectedCards = [];
                     
@@ -702,7 +698,7 @@
             } else {
                 document.getElementById('bannerLoser').style.display = 'block';
                 speak("LOSER");
-                document.querySelectorAll('.card').forEach(card => card.classList.add('flipped')); // חושף את כולם בסוף אם הפסדת
+                document.querySelectorAll('.card').forEach(card => card.classList.add('flipped')); 
             }
         }
     </script>
