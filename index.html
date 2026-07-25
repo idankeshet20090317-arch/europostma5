@@ -240,6 +240,30 @@
             background: linear-gradient(90deg, #ff5500, #ff0055);
         }
 
+        .btn-surprise-main {
+            display: inline-block;
+            padding: 16px 36px;
+            background: linear-gradient(90deg, #ffdd00, #ff7700);
+            color: #000;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            box-shadow: 0 6px 20px rgba(255,221,0,0.5);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid white;
+            width: 80%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        .btn-surprise-main:hover {
+            transform: scale(1.06);
+            box-shadow: 0 10px 30px rgba(255,221,0,0.8);
+            background: linear-gradient(90deg, #ff7700, #ffdd00);
+        }
+
         h2 {
             font-size: 1.8rem;
             margin-top: 0;
@@ -481,7 +505,7 @@
                 padding: 15px 45px 15px 15px;
             }
             
-            .btn-schedule-main, .btn-news-main, .btn-songs-main, .btn-order-main {
+            .btn-schedule-main, .btn-news-main, .btn-songs-main, .btn-order-main, .btn-surprise-main {
                 font-size: 1.1rem;
                 padding: 14px 25px;
                 width: 100%;
@@ -504,6 +528,7 @@
     <div class="container">
 
         <div class="schedule-block">
+            <a href="surprise.html" class="btn-surprise-main">🎉 הפתעה</a>
             <a href="music.html" class="btn-songs-main">🎵 לעמוד השירים</a>
             <a href="news.html" class="btn-news-main">📰 PUSTEMA NEWS</a>
             <a href="schedule.html" class="btn-schedule-main">📅 לוח זמנים ושליחת שירים רשמי</a>
@@ -651,7 +676,7 @@
             confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
         }
 
-        document.querySelectorAll('.btn, .random-btn, .btn-schedule-main, .btn-news-main, .btn-songs-main, .btn-order-main').forEach(button => {
+        document.querySelectorAll('.btn, .random-btn, .btn-schedule-main, .btn-news-main, .btn-songs-main, .btn-order-main, .btn-surprise-main').forEach(button => {
             button.addEventListener('click', shootConfetti);
         });
 
