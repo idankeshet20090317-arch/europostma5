@@ -121,6 +121,14 @@
             font-size: 1.5rem;
         }
 
+        .semifinal-image {
+            width: 100%;
+            border-radius: 18px;
+            display: block;
+            margin-top: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
         .schedule-block {
             background: rgba(0, 0, 0, 0.55);
             backdrop-filter: blur(15px);
@@ -142,126 +150,102 @@
             box-shadow: 0 20px 45px rgba(255, 0, 127, 0.3);
         }
 
-        .btn-songs-main {
+        /* סגנון בסיס לכל כפתורי התפריט */
+        .btn-main-item {
             display: inline-block;
             padding: 16px 36px;
-            background: linear-gradient(90deg, #00ffcc, #0055ff);
             color: white;
             text-decoration: none;
             border-radius: 50px;
             font-size: 1.3rem;
-            font-weight: bold;
-            box-shadow: 0 6px 20px rgba(0,255,204,0.4);
+            font-weight: 900;
             transition: all 0.3s ease;
             cursor: pointer;
             border: 2px solid white;
             width: 80%;
             max-width: 500px;
             box-sizing: border-box;
+            text-align: center;
         }
 
+        /* 1. כפתור הפתעה (צהוב-כתום) */
+        .btn-surprise-main {
+            background: linear-gradient(90deg, #ffdd00, #ff7700);
+            color: #000;
+            box-shadow: 0 6px 20px rgba(255,221,0,0.5);
+        }
+        .btn-surprise-main:hover {
+            transform: scale(1.06);
+            box-shadow: 0 10px 30px rgba(255,221,0,0.8);
+            background: linear-gradient(90deg, #ff7700, #ffdd00);
+        }
+
+        /* 2. כפתור לעמוד השירים (טורקיז-כחול) */
+        .btn-songs-main {
+            background: linear-gradient(90deg, #00ffcc, #0055ff);
+            box-shadow: 0 6px 20px rgba(0,255,204,0.4);
+        }
         .btn-songs-main:hover {
             transform: scale(1.06);
             box-shadow: 0 10px 30px rgba(0,255,204,0.7);
             background: linear-gradient(90deg, #0055ff, #00ffcc);
         }
 
-        .btn-schedule-main {
-            display: inline-block;
-            padding: 16px 36px;
-            background: linear-gradient(90deg, #ff007f, #7f00ff);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 1.3rem;
-            font-weight: bold;
-            box-shadow: 0 6px 20px rgba(255,0,127,0.5);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 2px solid white;
-            width: 80%;
-            max-width: 500px;
-            box-sizing: border-box;
+        /* 3. כפתור חדשות (ציאן-כחול) */
+        .btn-news-main {
+            background: linear-gradient(90deg, #00f2fe, #4facfe);
+            box-shadow: 0 6px 20px rgba(0,242,254,0.4);
+        }
+        .btn-news-main:hover {
+            transform: scale(1.06);
+            box-shadow: 0 10px 30px rgba(0,242,254,0.7);
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
         }
 
+        /* 4. כפתור לוח זמנים (וורוד-סגול) */
+        .btn-schedule-main {
+            background: linear-gradient(90deg, #ff007f, #7f00ff);
+            box-shadow: 0 6px 20px rgba(255,0,127,0.5);
+        }
         .btn-schedule-main:hover {
             transform: scale(1.06);
             box-shadow: 0 10px 30px rgba(255,0,127,0.8);
             background: linear-gradient(90deg, #7f00ff, #ff007f);
         }
 
-        .btn-news-main {
-            display: inline-block;
-            padding: 16px 36px;
-            background: linear-gradient(90deg, #00ffff, #0055ff);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 1.3rem;
-            font-weight: 900;
-            box-shadow: 0 6px 20px rgba(0,255,255,0.4);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 2px solid white;
-            width: 80%;
-            max-width: 500px;
-            box-sizing: border-box;
-            letter-spacing: 0.5px;
+        /* 5. כפתור EUROPUSTEMA AWARDS (זהב יוקרתי) */
+        .btn-awards-main {
+            background: linear-gradient(90deg, #ffe9a8, #f8b500, #d4a017);
+            color: #241800;
+            box-shadow: 0 6px 20px rgba(248,181,0,0.5);
         }
-
-        .btn-news-main:hover {
+        .btn-awards-main:hover {
             transform: scale(1.06);
-            box-shadow: 0 10px 30px rgba(0,255,255,0.7);
-            background: linear-gradient(90deg, #0055ff, #00ffff);
-            text-shadow: 0 0 8px rgba(255,255,255,0.6);
+            box-shadow: 0 10px 30px rgba(248,181,0,0.8);
+            background: linear-gradient(90deg, #d4a017, #f8b500, #ffe9a8);
         }
 
+        /* 6. כפתור טופ 5 של כל השנים (אדום-כתום) */
         .btn-order-main {
-            display: inline-block;
-            padding: 16px 36px;
             background: linear-gradient(90deg, #ff0055, #ff5500);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 1.3rem;
-            font-weight: bold;
             box-shadow: 0 6px 20px rgba(255,0,85,0.4);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 2px solid white;
-            width: 80%;
-            max-width: 500px;
-            box-sizing: border-box;
         }
-
         .btn-order-main:hover {
             transform: scale(1.06);
             box-shadow: 0 10px 30px rgba(255,0,85,0.7);
             background: linear-gradient(90deg, #ff5500, #ff0055);
         }
 
-        .btn-surprise-main {
-            display: inline-block;
-            padding: 16px 36px;
-            background: linear-gradient(90deg, #ffdd00, #ff7700);
+        /* 7. כפתור משחק הזיכרון (ירוק-אמרלד לסגול) */
+        .btn-memory-main {
+            background: linear-gradient(90deg, #00b09b, #96c93d);
             color: #000;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 1.3rem;
-            font-weight: 900;
-            box-shadow: 0 6px 20px rgba(255,221,0,0.5);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 2px solid white;
-            width: 80%;
-            max-width: 500px;
-            box-sizing: border-box;
+            box-shadow: 0 6px 20px rgba(0,176,155,0.5);
         }
-
-        .btn-surprise-main:hover {
+        .btn-memory-main:hover {
             transform: scale(1.06);
-            box-shadow: 0 10px 30px rgba(255,221,0,0.8);
-            background: linear-gradient(90deg, #ff7700, #ffdd00);
+            box-shadow: 0 10px 30px rgba(0,176,155,0.8);
+            background: linear-gradient(90deg, #96c93d, #00b09b);
         }
 
         h2 {
@@ -505,7 +489,7 @@
                 padding: 15px 45px 15px 15px;
             }
             
-            .btn-schedule-main, .btn-news-main, .btn-songs-main, .btn-order-main, .btn-surprise-main {
+            .btn-main-item {
                 font-size: 1.1rem;
                 padding: 14px 25px;
                 width: 100%;
@@ -528,11 +512,18 @@
     <div class="container">
 
         <div class="schedule-block">
-            <a href="surprise.html" class="btn-surprise-main">🎉 הפתעה</a>
-            <a href="music.html" class="btn-songs-main">🎵 לעמוד השירים</a>
-            <a href="news.html" class="btn-news-main">📰 PUSTEMA NEWS</a>
-            <a href="schedule.html" class="btn-schedule-main">📅 לוח זמנים ושליחת שירים רשמי</a>
-            <a href="order.html" class="btn-order-main">👥 סדר אנשים בשליחת שירים</a>
+            <a href="surprise.html" class="btn-main-item btn-surprise-main">🎉 הפתעה</a>
+            <a href="music.html" class="btn-main-item btn-songs-main">🎵 לעמוד השירים</a>
+            <a href="news.html" class="btn-main-item btn-news-main">📰 PUSTEMA NEWS</a>
+            <a href="schedule.html" class="btn-main-item btn-schedule-main">📅 לוח זמנים ושליחת שירים רשמי</a>
+            <a href="awards.html" class="btn-main-item btn-awards-main">🏆 EUROPUSTEMA AWARDS</a>
+            <a href="order.html" class="btn-main-item btn-order-main">🏆 טופ 5 של כל השנים אבר</a>
+            <a href="results.html" class="btn-main-item btn-memory-main">🧠 משחק הזיכרון</a>
+        </div>
+
+        <div class="card">
+            <h2>🎤 סדר השירים בחצאי הגמר</h2>
+            <img src="semifinals-order.png" alt="סדר השירים בחצאי הגמר" class="semifinal-image">
         </div>
 
         <div class="card">
@@ -655,16 +646,6 @@
 
         <div class="mid-flags">🇪🇺 🇮🇱 🇺🇦 🇬🇷 🇨🇭 🇪🇸 🇮🇹 🇫🇷 🇬🇧</div>
 
-        <div class="card">
-            <h2>🏆 ארכיון התוצאות הרשמי 🏳️‍🌈</h2>
-            <p>ההיסטוריה נכתבת כאן! כל המנצחים הגדולים, המיקומים המפתיעים וטבלאות הניקוד המלאות מחכים לכם בלחיצת כפתור אחת.</p>
-            
-            <div class="results-box">
-                <p>לחצו על הכפתור כדי לדעת את כל התוצאות של הטופ 5 מכללל הזמנים:</p>
-                <a href="results.html" class="btn" style="background: #ffff00; color: #000;">להצגת טבלאות התוצאות 📊</a>
-            </div>
-        </div>
-
         <div class="footer-flags">
             🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
         </div>
@@ -676,7 +657,7 @@
             confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
         }
 
-        document.querySelectorAll('.btn, .random-btn, .btn-schedule-main, .btn-news-main, .btn-songs-main, .btn-order-main, .btn-surprise-main').forEach(button => {
+        document.querySelectorAll('.btn, .random-btn, .btn-main-item').forEach(button => {
             button.addEventListener('click', shootConfetti);
         });
 
@@ -689,7 +670,6 @@
             rows.forEach(function(row) {
                 let fullTitle = row.querySelector('.country-title').textContent;
                 
-                // לוקח את המדינה שנמצאת *אחרי* החץ (החלק השני, אינדקס 1)
                 let allowedCountry = "";
                 if(fullTitle.includes('←')) {
                     allowedCountry = fullTitle.split('←')[1].toLowerCase();
