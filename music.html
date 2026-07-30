@@ -7,21 +7,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
-
+    
     <style>
         body {
             font-family: 'Rubik', sans-serif;
             margin: 0;
             padding: 0;
-            /* רקע שקיעה געשית - שמים כהים שהופכים לזוהר לוהט באופק */
-            background: linear-gradient(180deg, #0d0221 0%, #2c1250 30%, #6e1f3a 58%, #d1502f 78%, #ffb454 100%);
+            /* שינוי הרקע לשמים תכלת יפים */
+            background: linear-gradient(180deg, #7ec0ee 0%, #a1dbff 50%, #e0f4ff 100%);
             color: #1a0033;
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* עננים הופכים לענני אפר - צבע אפרפר-חום, מיזוג עדין עם הרקע הלוהט */
         .cloud-bg {
             position: fixed;
             top: 0;
@@ -29,12 +28,12 @@
             width: 100%;
             height: 100%;
             background: url('https://www.transparenttextures.com/patterns/clouds.png') repeat;
-            opacity: 0.28;
-            z-index: 3;
+            /* העננים נראים הרבה הרבה יותר חזק (העלאת האופסיטי מ-0.18 ל-0.85) */
+            opacity: 0.85;
+            z-index: 1;
             pointer-events: none;
-            animation: moveClouds 55s linear infinite;
-            filter: brightness(0.55) sepia(0.5) hue-rotate(-8deg) contrast(1.2);
-            mix-blend-mode: screen;
+            animation: moveClouds 40s linear infinite;
+            filter: brightness(1.2);
         }
 
         @keyframes moveClouds {
@@ -42,129 +41,58 @@
             to { background-position: 1000px 500px; }
         }
 
-        /* ===== סצנת הר הגעש ===== */
-        .volcano-scene {
-            position: fixed;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 1100px;
-            max-width: 160vw;
-            height: 46vh;
-            min-height: 340px;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .volcano-mountain {
+        /* הגדרות כלי הנגינה והאנימציות שלהם */
+        .instrument-wrapper {
             position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, #4a2c1c 0%, #2a160f 45%, #180b08 75%, #0d0605 100%);
-            clip-path: polygon(0% 100%, 36% 100%, 45.5% 26%, 50% 16%, 54.5% 26%, 64% 100%, 100% 100%);
-            box-shadow: inset 0 -40px 80px rgba(0,0,0,0.5);
+            cursor: pointer;
+            z-index: 10;
+            user-select: none;
+            transition: transform 0.2s;
         }
 
-        /* פסי סלע עדינים על מדרון ההר */
-        .volcano-mountain::before {
-            content: '';
+        .instrument-emoji {
+            font-size: 4rem;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
+            position: relative;
+            z-index: 12;
+        }
+
+        /* איברים מוסתרים כברירת מחדל */
+        .character-part {
             position: absolute;
-            inset: 0;
-            background:
-                repeating-linear-gradient(115deg, rgba(0,0,0,0.25) 0px, rgba(0,0,0,0.25) 6px, transparent 6px, transparent 26px);
-            clip-path: polygon(0% 100%, 36% 100%, 45.5% 26%, 50% 16%, 54.5% 26%, 64% 100%, 100% 100%);
-            opacity: 0.5;
-        }
-
-        /* זוהר הלבה בתוך פי הלוע */
-        .crater-glow {
-            position: absolute;
-            top: 8%;
-            left: 50%;
-            width: 130px;
-            height: 90px;
-            transform: translateX(-50%);
-            background: radial-gradient(ellipse at center, #fff5b0 0%, #ffb020 35%, #ff5a1f 60%, rgba(255,90,30,0) 80%);
-            filter: blur(4px);
-            border-radius: 50%;
-            animation: craterPulse 2.4s ease-in-out infinite alternate;
-        }
-
-        @keyframes craterPulse {
-            0% { opacity: 0.65; transform: translateX(-50%) scale(0.92); }
-            100% { opacity: 1; transform: translateX(-50%) scale(1.08); }
-        }
-
-        /* זרמי לבה זוהרים במורדות */
-        .lava-flow {
-            position: absolute;
-            top: 20%;
-            width: 22px;
-            height: 62%;
-            background: repeating-linear-gradient(180deg, #ffe066 0%, #ff8c1a 18%, #d4300f 36%, #ff8c1a 54%, #ffe066 72%, #ff8c1a 90%, #d4300f 100%);
-            background-size: 100% 220%;
-            filter: blur(0.5px);
-            box-shadow: 0 0 18px 4px rgba(255,120,20,0.75), 0 0 40px 10px rgba(255,60,10,0.35);
-            border-radius: 40% 40% 60% 60% / 10% 10% 90% 90%;
-            animation: lavaFlow 2.2s linear infinite;
-            opacity: 0.9;
-        }
-
-        .lava-left {
-            left: 42%;
-            transform: rotate(11deg);
-        }
-
-        .lava-right {
-            right: 39%;
-            transform: rotate(-9deg);
-        }
-
-        @keyframes lavaFlow {
-            from { background-position: 0 0; }
-            to { background-position: 0 220%; }
-        }
-
-        /* בריכת לבה זוהרת בבסיס ההר, נמסה לתוך קו האופק */
-        .lava-pool {
-            position: absolute;
-            bottom: -6px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60%;
-            height: 26px;
-            background: radial-gradient(ellipse at center, #ffce5c 0%, #ff7a1f 45%, rgba(255,60,10,0) 85%);
-            filter: blur(6px);
-            animation: craterPulse 3s ease-in-out infinite alternate-reverse;
-        }
-
-        /* ניצוצות ואפר עולים מפי הלוע */
-        .embers {
-            position: fixed;
-            inset: 0;
-            z-index: 4;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .ember {
-            position: absolute;
-            bottom: 18%;
-            left: 50%;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #fff2b8 0%, #ff8c1a 55%, rgba(255,90,20,0) 100%);
-            box-shadow: 0 0 6px 2px rgba(255,140,30,0.8);
+            font-size: 1.2rem;
             opacity: 0;
-            animation: emberRise linear infinite;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 11;
         }
 
-        @keyframes emberRise {
-            0% { opacity: 0; transform: translate(0, 0) scale(0.6); }
-            8% { opacity: 1; }
-            80% { opacity: 0.8; }
-            100% { opacity: 0; transform: translate(var(--drift, 40px), -85vh) scale(1.3); }
+        .face { top: 15px; left: 50%; transform: translateX(-50%); font-size: 1.1rem; }
+        .left-arm { top: 25px; left: -15px; }
+        .right-arm { top: 25px; right: -15px; }
+        .left-leg { bottom: -15px; left: 10px; }
+        .right-leg { bottom: -15px; right: 10px; }
+
+        /* מצב ריקוד אקטיבי */
+        .dancing .character-part {
+            opacity: 1;
         }
+
+        .dancing {
+            animation: intenseDance 0.5s ease-in-out infinite alternate !important;
+        }
+
+        @keyframes intenseDance {
+            0% { transform: translateY(0px) scale(1.1) rotate(-15deg); }
+            100% { transform: translateY(-20px) scale(1.1) rotate(15deg); }
+        }
+
+        /* מיקומים התחלתיים כלליים באוויר */
+        .ins-1 { top: 12%; left: 8%; }
+        .ins-2 { top: 22%; right: 10%; }
+        .ins-3 { top: 50%; left: 12%; }
+        .ins-4 { top: 75%; right: 14%; }
+        .ins-5 { top: 38%; left: 45%; }
 
         .pride-bar {
             height: 10px;
@@ -203,23 +131,24 @@
         }
 
         .article-card {
-            background: rgba(255, 255, 255, 0.32);
-            backdrop-filter: blur(6px);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
             border-radius: 30px;
             padding: 45px 35px;
             margin-bottom: 40px;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 25px 55px rgba(0,0,0,0.2), inset 0 0 25px rgba(255, 255, 255, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 25px 55px rgba(0,0,0,0.15), inset 0 0 25px rgba(255, 255, 255, 0.5);
             text-align: center;
         }
 
-        /* כותרת הפלייליסטים */
-        .playlist-title {
+        /* עיצוב הטקסט החדש - השירים ייכנסו בגמר */
+        .no-songs-title {
             color: #1a4fd6;
-            font-size: 2.4rem;
+            font-size: 3.4rem;
             font-weight: 900;
-            margin: 0 0 30px 0;
+            margin: 10px 0;
             text-shadow: 3px 3px 0px #fff, -3px -3px 0px #fff, 3px -3px 0px #fff, -3px 3px 0px #fff;
+            animation: pulseText 1.5s infinite alternate;
             line-height: 1.3;
         }
 
@@ -227,60 +156,13 @@
             color: #ffcc00;
             font-size: 3.2rem;
             font-weight: 700;
-            margin: 30px 0 0 0;
+            margin: 10px 0;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 1px 1px 0px #000;
         }
 
-        /* כפתורי הפלייליסטים */
-        .playlist-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .playlist-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 14px;
-            width: 100%;
-            max-width: 420px;
-            padding: 18px 30px;
-            border-radius: 60px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: white;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-            border: 2px solid rgba(255,255,255,0.35);
-            transition: all 0.25s ease;
-        }
-
-        .playlist-btn .btn-icon {
-            font-size: 1.7rem;
-            line-height: 1;
-        }
-
-        .playlist-btn:hover {
-            transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 16px 32px rgba(0,0,0,0.35);
-        }
-
-        .spotify-btn {
-            background: linear-gradient(135deg, #1ed760, #178a3f);
-        }
-
-        .spotify-btn:hover {
-            background: linear-gradient(135deg, #23e567, #1a9d47);
-        }
-
-        .youtube-btn {
-            background: linear-gradient(135deg, #ff3b3b, #b30d0d);
-        }
-
-        .youtube-btn:hover {
-            background: linear-gradient(135deg, #ff5252, #cc1010);
+        @keyframes pulseText {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.04); }
         }
 
         .back-nav-container {
@@ -312,54 +194,61 @@
 <body>
 
     <div class="pride-bar"></div>
-
-    <!-- סצנת הר הגעש ברקע -->
-    <div class="volcano-scene">
-        <div class="volcano-mountain"></div>
-        <div class="crater-glow"></div>
-        <div class="lava-flow lava-left"></div>
-        <div class="lava-flow lava-right"></div>
-        <div class="lava-pool"></div>
-    </div>
-
-    <!-- ניצוצות ואפר עולים -->
-    <div class="embers" id="embers"></div>
-
     <div class="cloud-bg"></div>
 
+    <div class="instrument-wrapper ins-1" onclick="playAndDance(this, 'guitar')">
+        <div class="character-part face">😊</div>
+        <div class="character-part left-arm">💪</div>
+        <div class="character-part right-arm">👋</div>
+        <div class="character-part left-leg">👟</div>
+        <div class="character-part right-leg">👟</div>
+        <div class="instrument-emoji">🎸</div>
+    </div>
+
+    <div class="instrument-wrapper ins-2" onclick="playAndDance(this, 'trumpet')">
+        <div class="character-part face">😀</div>
+        <div class="character-part left-arm">🙌</div>
+        <div class="character-part right-arm">👍</div>
+        <div class="character-part left-leg">🥾</div>
+        <div class="character-part right-leg">🥾</div>
+        <div class="instrument-emoji">🎺</div>
+    </div>
+
+    <div class="instrument-wrapper ins-3" onclick="playAndDance(this, 'synth')">
+        <div class="character-part face">😎</div>
+        <div class="character-part left-arm">✌️</div>
+        <div class="character-part right-arm">🎈</div>
+        <div class="character-part left-leg">👟</div>
+        <div class="character-part right-leg">👟</div>
+        <div class="instrument-emoji">🎶</div>
+    </div>
+
+    <div class="instrument-wrapper ins-4" onclick="playAndDance(this, 'piano')">
+        <div class="character-part face">😆</div>
+        <div class="character-part left-arm">🤝</div>
+        <div class="character-part right-arm">✨</div>
+        <div class="character-part left-leg">👠</div>
+        <div class="character-part right-leg">👠</div>
+        <div class="instrument-emoji">🎹</div>
+    </div>
+
+    <div class="instrument-wrapper ins-5" onclick="playAndDance(this, 'violin')">
+        <div class="character-part face">😍</div>
+        <div class="character-part left-arm">🎵</div>
+        <div class="character-part right-arm">🎻</div>
+        <div class="character-part left-leg">👞</div>
+        <div class="character-part right-leg">👞</div>
+        <div class="instrument-emoji">🎻</div>
+    </div>
+
     <header>
-        <h1>🌋 עולם המוזיקה של התחרות 🌋</h1>
+        <h1>☁️ עולם המוזיקה של התחרות ☁️</h1>
     </header>
 
     <div class="container">
 
         <div class="article-card">
-            <div class="playlist-title">חצי גמר, גמר ראשון ויורופוסטמה 🎶</div>
-            <div class="playlist-buttons">
-                <a class="playlist-btn spotify-btn" href="https://open.spotify.com/playlist/63cZWAYAkZlJXwx2qudwO3?si=84e8b8b825c34fc9&pt=9c98ad5f407882aa62a21674cc1318fe" target="_blank" rel="noopener noreferrer">
-                    <span class="btn-icon">🎧</span>
-                    <span>הפלייליסט בספוטיפי</span>
-                </a>
-                <a class="playlist-btn youtube-btn" href="https://youtube.com/playlist?list=PLU3X-KUoTS5A&si=t3Z5qe-D3sGdvgu8" target="_blank" rel="noopener noreferrer">
-                    <span class="btn-icon">▶️</span>
-                    <span>הפלייליסט ביוטיוב</span>
-                </a>
-            </div>
-            <div class="love-idans">אוהבים עידנים</div>
-        </div>
-
-        <div class="article-card">
-            <div class="playlist-title">חצי גמר 2 🎶</div>
-            <div class="playlist-buttons">
-                <a class="playlist-btn spotify-btn" href="https://open.spotify.com/playlist/0fnX3MikQeLmRV1u4nTInm?si=862191fb8bb14f14&pt=7dd2efb6c22cd4f19839823d2d8455ab" target="_blank" rel="noopener noreferrer">
-                    <span class="btn-icon">🎧</span>
-                    <span>הפלייליסט בספוטיפי</span>
-                </a>
-                <a class="playlist-btn youtube-btn" href="https://youtube.com/playlist?list=PLXO-Drso6d-M&si=IShCF1ZOwLrkzJXx" target="_blank" rel="noopener noreferrer">
-                    <span class="btn-icon">▶️</span>
-                    <span>הפלייליסט ביוטיוב</span>
-                </a>
-            </div>
+            <div class="no-songs-title">השירים ייכנסו לכאן בגמר 🎶</div>
             <div class="love-idans">אוהבים עידנים</div>
         </div>
 
@@ -370,27 +259,86 @@
     </div>
 
     <script>
-        // יצירת ניצוצות אפר עולים מפי הלוע באופן אקראי
-        (function spawnEmbers() {
-            const container = document.getElementById('embers');
-            const count = 22;
-            for (let i = 0; i < count; i++) {
-                const ember = document.createElement('div');
-                ember.className = 'ember';
-                const leftPercent = 46 + Math.random() * 8; // מרוכז סביב פי הלוע
-                const drift = (Math.random() * 160 - 80) + 'px';
-                const duration = 4 + Math.random() * 4;
-                const delay = Math.random() * 6;
-                const size = 3 + Math.random() * 5;
-                ember.style.left = leftPercent + '%';
-                ember.style.width = size + 'px';
-                ember.style.height = size + 'px';
-                ember.style.setProperty('--drift', drift);
-                ember.style.animationDuration = duration + 's';
-                ember.style.animationDelay = delay + 's';
-                container.appendChild(ember);
+        // מערכת יצירת סאונד ייחודי לכל כלי נגינה באמצעות Web Audio API
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new AudioContext();
             }
-        })();
+        }
+
+        function playAndDance(element, instrumentType) {
+            initAudio();
+            
+            // הפעלת האנימציה והצגת האיברים
+            if (element.classList.contains('dancing')) return;
+            element.classList.add('dancing');
+
+            // יצירת והשמעת הצליל המתאים לכלי
+            try {
+                if (instrumentType === 'guitar') {
+                    // צליל גיטרה אקוסטית/חשמלית (גל משולש חם עם דעיכה מהירה)
+                    playTone(196.00, 'triangle', 0.4, 0.1);
+                    setTimeout(() => playTone(293.66, 'triangle', 0.4, 0.15), 100);
+                    setTimeout(() => playTone(392.00, 'triangle', 0.5, 0.3), 200);
+                } 
+                else if (instrumentType === 'trumpet') {
+                    // צליל חצוצרה (גל שן-מסור חותך וגבוה)
+                    playTone(349.23, 'sawtooth', 0.3, 0.4);
+                    setTimeout(() => playTone(523.25, 'sawtooth', 0.3, 0.5), 150);
+                } 
+                else if (instrumentType === 'synth') {
+                    // צליל אפקטים/סינתיסייזר (שילוב גלי סינוס קופצניים)
+                    playTone(440, 'sine', 0.4, 0.2);
+                    setTimeout(() => playTone(880, 'sine', 0.4, 0.2), 120);
+                } 
+                else if (instrumentType === 'piano') {
+                    // צליל פסנתר (מכת גל סינוס עמוקה בשילוב הרמוניה)
+                    playTone(261.63, 'sine', 0.6, 0.6);
+                    playTone(329.63, 'sine', 0.4, 0.5);
+                    playTone(392.00, 'sine', 0.4, 0.5);
+                } 
+                else if (instrumentType === 'violin') {
+                    // צליל כינור (גל שן-מסור ארוך עם עלייה הדרגתית)
+                    playTone(293.66, 'sawtooth', 0.2, 0.7, true);
+                    setTimeout(() => playTone(440.00, 'sawtooth', 0.2, 0.8, true), 200);
+                }
+            } catch(e) { console.log("Audio error:", e); }
+
+            // הפסקת הריקוד לאחר שנייה וחצי
+            setTimeout(() => {
+                element.classList.remove('dancing');
+            }, 1500);
+        }
+
+        function playTone(freq, type, volume, duration, isViolin = false) {
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            
+            // בניית מעטפת עוצמה (Envelop) כדי לחקות את הכלי במדויק
+            if (isViolin) {
+                // לכינור יש מעבר רך בהתחלה
+                gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+                gainNode.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + 0.15);
+            } else {
+                // לפסנתר וגיטרה יש מכה חזקה מיד על ההתחלה
+                gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+            }
+            
+            // דעיכת הצליל בסוף
+            gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+            
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
     </script>
 
 </body>
