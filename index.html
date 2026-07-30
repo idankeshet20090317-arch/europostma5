@@ -7,620 +7,725 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
-
+    
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
-        * { box-sizing: border-box; }
-
         body {
             font-family: 'Rubik', sans-serif;
             margin: 0;
             padding: 0;
-            background: #0a0c16;
-            color: #f2f4fb;
+            background: linear-gradient(
+                45deg,
+                #ff0000, #ff7700, #ffdd00, #00ff00,
+                #00ffff, #0055ff, #9900ff, #ff00ff,
+                #ff0055, #00ffaa, #ffbb00, #ff0000
+            );
+            background-size: 400% 400%;
+            animation: ultimateRainbow 10s linear infinite;
+            color: white;
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* --- רקע חדש: Aurora מקצועי --- */
-        .bg-aura {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            overflow: hidden;
-            background: #0a0c16;
-        }
-
-        .bg-aura::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
-            background-size: 48px 48px;
-            mask-image: radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0.9), transparent 75%);
-            -webkit-mask-image: radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0.9), transparent 75%);
-        }
-
-        .aura-blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(95px);
-            opacity: 0.45;
-            animation: auraMove 20s ease-in-out infinite;
-        }
-
-        .blob-1 { top: -10%; left: -5%; width: 480px; height: 480px; background: #22d3ee; }
-        .blob-2 { bottom: -15%; right: -10%; width: 520px; height: 520px; background: #a855f7; animation-delay: -6s; }
-        .blob-3 { top: 30%; right: 20%; width: 380px; height: 380px; background: #ec4899; animation-delay: -12s; opacity: 0.3; }
-        .blob-4 { bottom: 10%; left: 15%; width: 340px; height: 340px; background: #f59e0b; animation-delay: -16s; opacity: 0.28; }
-
-        @keyframes auraMove {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(50px, -40px) scale(1.15); }
-        }
-
-        .grain-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        @keyframes ultimateRainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .pride-bar {
-            height: 6px;
+            height: 10px;
             width: 100%;
             background: linear-gradient(to right, #ff0000, #ff8000, #ffff00, #008000, #0000ff, #a000c0);
             position: fixed;
             top: 0;
-            z-index: 1002;
+            z-index: 1000;
         }
 
-        .scroll-progress {
-            position: fixed;
-            top: 6px;
-            right: 0;
-            height: 3px;
-            width: 0%;
-            background: linear-gradient(90deg, #22d3ee, #a855f7, #ec4899);
-            z-index: 1001;
-            transition: width 0.1s ease-out;
-        }
-
-        /* --- ניווט עליון --- */
-        .top-navbar {
-            position: sticky;
-            top: 9px;
-            z-index: 500;
-            max-width: 1100px;
-            margin: 15px auto 0;
-            padding: 14px 26px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            border-radius: 50px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-        }
-
-        .nav-logo {
-            font-weight: 900;
-            font-size: 1.2rem;
-            background: linear-gradient(90deg, #22d3ee, #a855f7, #ec4899);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .nav-clock {
-            font-weight: 700;
-            font-size: 1rem;
-            color: #cbd5e1;
-            direction: ltr;
-            letter-spacing: 1px;
-            background: rgba(255,255,255,0.06);
-            padding: 6px 16px;
-            border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-
-        /* --- הירו --- */
-        header.hero {
-            position: relative;
-            z-index: 10;
+        header {
+            padding: 60px 20px 40px 20px;
             text-align: center;
-            padding: 60px 20px 40px;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(12px);
+            margin-bottom: 30px;
+            border-bottom: 3px solid rgba(255,255,255,0.2);
+            position: relative;
         }
 
-        header.hero h1 {
-            font-size: 3.1rem;
+        header h1 {
+            font-size: 3rem;
             margin: 0;
             font-weight: 900;
-            letter-spacing: 0.5px;
-            background: linear-gradient(90deg, #ffffff, #c7d2fe, #ffffff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 50px rgba(168, 85, 247, 0.25);
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.6);
+            letter-spacing: 1px;
         }
 
-        header.hero p {
+        header p {
             font-size: 1.2rem;
-            margin: 14px 0 0;
-            color: #b6bdd6;
-            font-weight: 500;
+            margin: 10px 0 0;
+            opacity: 0.95;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
         }
 
         .geo-badge {
-            background: rgba(34, 211, 238, 0.1);
-            border: 1px solid rgba(34, 211, 238, 0.4);
-            color: #67e8f9;
-            padding: 8px 18px;
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff;
+            padding: 8px 15px;
             border-radius: 20px;
             display: inline-block;
-            margin-top: 20px;
-            font-size: 0.95rem;
-            font-weight: 700;
+            margin-top: 15px;
+            font-size: 1rem;
             backdrop-filter: blur(5px);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
         }
 
         .container {
-            position: relative;
-            z-index: 10;
-            max-width: 1100px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 10px 20px 20px;
+            padding: 20px;
         }
 
-        /* --- כרטיס חיפוש/ניווט מהיר --- */
-        .quick-nav-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(18px);
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            border-radius: 22px;
-            padding: 18px 22px;
-            margin-bottom: 26px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-        }
-
-        .quick-nav-row {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
-
-        .search-icon-nav {
-            font-size: 1.3rem;
-            opacity: 0.7;
-        }
-
-        #menuFilter {
-            flex: 1;
-            min-width: 180px;
-            background: rgba(0,0,0,0.25);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 30px;
-            padding: 12px 20px;
-            color: white;
-            font-size: 1.05rem;
-            font-family: 'Rubik', sans-serif;
-            transition: all 0.25s ease;
-        }
-
-        #menuFilter:focus {
-            outline: none;
-            border-color: #22d3ee;
-            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.2);
-        }
-
-        .random-jump-btn {
-            background: linear-gradient(135deg, #a855f7, #6366f1);
-            color: white;
-            border: none;
-            padding: 12px 22px;
-            border-radius: 30px;
-            font-weight: 800;
-            font-size: 1rem;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.25s ease;
-            box-shadow: 0 8px 18px rgba(168, 85, 247, 0.35);
-        }
-
-        .random-jump-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 22px rgba(168, 85, 247, 0.55);
-        }
-
-        .no-menu-results {
-            display: none;
-            text-align: center;
-            padding: 30px;
-            color: #94a3b8;
-            font-weight: 700;
-        }
-
-        /* --- רשת התפריט --- */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 18px;
-            margin-bottom: 40px;
-        }
-
-        .menu-card {
-            --c1: #22d3ee;
-            --c2: #6366f1;
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            background: rgba(255, 255, 255, 0.045);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            border-radius: 22px;
-            padding: 20px 22px;
-            text-decoration: none;
-            color: #fff;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
-        }
-
-        .menu-card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, var(--c1) 0%, transparent 55%);
-            opacity: 0.08;
-            pointer-events: none;
-        }
-
-        .menu-card:hover {
-            transform: translateY(-6px);
-            border-color: var(--c1);
-            box-shadow: 0 18px 40px -12px var(--c1);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .menu-icon {
-            width: 56px;
-            height: 56px;
-            min-width: 56px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.7rem;
-            background: linear-gradient(135deg, var(--c1), var(--c2));
-            box-shadow: 0 10px 20px -6px var(--c1);
-        }
-
-        .menu-text {
-            flex: 1;
-            position: relative;
-            z-index: 1;
-        }
-
-        .menu-title {
-            font-size: 1.2rem;
-            font-weight: 900;
-        }
-
-        .menu-desc {
-            font-size: 0.9rem;
-            opacity: 0.7;
-            margin-top: 3px;
-        }
-
-        .menu-arrow {
-            font-size: 1.3rem;
-            opacity: 0.45;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 1;
-        }
-
-        .menu-card:hover .menu-arrow {
-            transform: translateX(-6px);
-            opacity: 1;
-            color: var(--c1);
-        }
-
-        /* --- כרטיס תמונה --- */
         .card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(15px);
             border-radius: 25px;
             padding: 30px;
             margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
 
-        .card h2 {
-            font-size: 1.6rem;
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .card::before {
+            content: "🇪🇺 🏳️‍🌈";
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            opacity: 0.25;
+            font-size: 1.5rem;
+        }
+
+        .schedule-block {
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 35px 20px;
+            margin-bottom: 30px;
+            border: 2px dashed rgba(255, 255, 255, 0.35);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .schedule-block:hover {
+            transform: scale(1.02);
+            border-color: #ff007f;
+            box-shadow: 0 20px 45px rgba(255, 0, 127, 0.3);
+        }
+
+        .btn-songs-main {
+            display: inline-block;
+            padding: 16px 36px;
+            background: linear-gradient(90deg, #00ffcc, #0055ff);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            box-shadow: 0 6px 20px rgba(0,255,204,0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid white;
+            width: 80%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        .btn-songs-main:hover {
+            transform: scale(1.06);
+            box-shadow: 0 10px 30px rgba(0,255,204,0.7);
+            background: linear-gradient(90deg, #0055ff, #00ffcc);
+        }
+
+        .btn-schedule-main {
+            display: inline-block;
+            padding: 16px 36px;
+            background: linear-gradient(90deg, #ff007f, #7f00ff);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            box-shadow: 0 6px 20px rgba(255,0,127,0.5);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid white;
+            width: 80%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        .btn-schedule-main:hover {
+            transform: scale(1.06);
+            box-shadow: 0 10px 30px rgba(255,0,127,0.8);
+            background: linear-gradient(90deg, #7f00ff, #ff007f);
+        }
+
+        .btn-news-main {
+            display: inline-block;
+            padding: 16px 36px;
+            background: linear-gradient(90deg, #00ffff, #0055ff);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            box-shadow: 0 6px 20px rgba(0,255,255,0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid white;
+            width: 80%;
+            max-width: 500px;
+            box-sizing: border-box;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-news-main:hover {
+            transform: scale(1.06);
+            box-shadow: 0 10px 30px rgba(0,255,255,0.7);
+            background: linear-gradient(90deg, #0055ff, #00ffff);
+            text-shadow: 0 0 8px rgba(255,255,255,0.6);
+        }
+
+        .btn-order-main {
+            display: inline-block;
+            padding: 16px 36px;
+            background: linear-gradient(90deg, #ff0055, #ff5500);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            box-shadow: 0 6px 20px rgba(255,0,85,0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid white;
+            width: 80%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        .btn-order-main:hover {
+            transform: scale(1.06);
+            box-shadow: 0 10px 30px rgba(255,0,85,0.7);
+            background: linear-gradient(90deg, #ff5500, #ff0055);
+        }
+
+        .btn-surprise-main {
+            display: inline-block;
+            padding: 16px 36px;
+            background: linear-gradient(90deg, #ffdd00, #ff7700);
+            color: #000;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            box-shadow: 0 6px 20px rgba(255,221,0,0.5);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid white;
+            width: 80%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        .btn-surprise-main:hover {
+            transform: scale(1.06);
+            box-shadow: 0 10px 30px rgba(255,221,0,0.8);
+            background: linear-gradient(90deg, #ff7700, #ffdd00);
+        }
+
+        h2 {
+            font-size: 1.8rem;
             margin-top: 0;
-            border-bottom: 2px solid rgba(255,255,255,0.12);
-            padding-bottom: 12px;
-            color: #f2f4fb;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+            color: #ffff00;
             display: flex;
             align-items: center;
             gap: 10px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
         }
 
-        .semifinal-image {
-            width: 100%;
-            border-radius: 18px;
-            display: block;
-            margin-top: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        p, li {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
-        /* --- פוטר --- */
-        .site-footer {
+        .rules-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .rule-item {
+            margin-bottom: 18px;
+            padding-bottom: 5px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .rule-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .rule-important {
+            color: #ff0055;
+            font-weight: bold;
+            background: rgba(255, 0, 85, 0.15);
+            padding: 5px 12px;
+            border-radius: 8px;
+            border-right: 4px solid #ff0055;
+        }
+
+        .rule-allowed {
+            color: #00ffff;
+            font-weight: bold;
+            background: rgba(0, 255, 255, 0.1);
+            padding: 5px 12px;
+            border-radius: 8px;
+            border-right: 4px solid #00ffff;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
             position: relative;
-            z-index: 10;
-            text-align: center;
-            padding: 10px 20px 70px;
+            display: flex;
+            gap: 10px;
         }
 
-        .footer-flags {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            letter-spacing: 6px;
-            opacity: 0.85;
-        }
-
-        .footer-note {
-            color: #8890ac;
-            font-size: 0.9rem;
-        }
-
-        /* --- כפתור חזרה למעלה --- */
-        .back-to-top {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #22d3ee, #a855f7);
+        .search-input {
+            flex: 1;
+            padding: 15px 50px 15px 20px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            border: 2px solid rgba(255,255,255,0.4);
+            background: rgba(0, 0, 0, 0.7);
             color: white;
-            border: none;
-            font-size: 1.3rem;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(34, 211, 238, 0.4);
-            z-index: 900;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(15px);
+            box-sizing: border-box;
+            font-family: 'Rubik', sans-serif;
             transition: all 0.3s ease;
         }
 
-        .back-to-top.visible {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0);
+        .search-input:focus {
+            outline: none;
+            border-color: #ffff00;
+            box-shadow: 0 0 15px rgba(255,255,0,0.4);
+            background: rgba(0, 0, 0, 0.85);
         }
 
-        .back-to-top:hover {
-            transform: translateY(-4px) scale(1.08);
+        .search-icon {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            font-size: 1.4rem;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .random-btn {
+            background: #00ffff;
+            color: black;
+            border: none;
+            padding: 0 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,255,255,0.3);
+            white-space: nowrap;
+        }
+
+        .random-btn:hover {
+            background: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255,255,255,0.5);
+        }
+
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 0, 0, 0.3);
+            border: 2px solid #ff0000;
+            border-radius: 15px;
+            margin-top: 15px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .country-rule {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border-right: 5px solid #23d5ab;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .country-highlight {
+            animation: pulseHighlight 1s infinite alternate;
+            border-right-color: #ffff00;
+            box-shadow: 0 0 25px rgba(255,255,0,0.6);
+            transform: scale(1.02);
+        }
+
+        @keyframes pulseHighlight {
+            0% { background: rgba(255, 255, 255, 0.4); }
+            100% { background: rgba(255, 255, 255, 0.1); }
+        }
+
+        .country-title {
+            font-weight: bold;
+            font-size: 1.25rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+        }
+
+        .country-desc {
+            font-size: 1.05rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #fff;
+            color: #000;
+            padding: 14px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.15rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            margin-top: 15px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #ffff00;
+            color: #000;
+            transform: scale(1.08);
+            box-shadow: 0 8px 20px rgba(255,255,0,0.4);
+        }
+
+        .results-box {
+            text-align: center;
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 15px;
+            border: 2px dashed rgba(255,255,255,0.3);
+        }
+
+        .results-box p {
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .mid-flags {
+            text-align: center;
+            font-size: 2rem;
+            margin: 35px 0;
+            opacity: 0.7;
+            letter-spacing: 10px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .footer-flags {
+            text-align: center;
+            font-size: 2.5rem;
+            margin: 40px 0;
+            letter-spacing: 6px;
+            opacity: 0.95;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
         }
 
         @media (max-width: 600px) {
-            header.hero h1 { font-size: 2.1rem; }
-            .top-navbar { border-radius: 25px; padding: 12px 18px; }
-            .nav-logo { font-size: 1rem; }
-            .nav-clock { font-size: 0.85rem; padding: 5px 12px; }
+            header {
+                padding: 40px 15px 30px 15px;
+            }
+
+            header h1 {
+                font-size: 2.2rem;
+            }
+
+            .search-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .random-btn {
+                width: 100%;
+                padding: 15px;
+                border-radius: 50px;
+            }
+
+            .search-input {
+                padding: 15px 45px 15px 15px;
+            }
+            
+            .btn-schedule-main, .btn-news-main, .btn-songs-main, .btn-order-main, .btn-surprise-main {
+                font-size: 1.1rem;
+                padding: 14px 25px;
+                width: 100%;
+                box-sizing: border-box;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-aura" aria-hidden="true">
-        <div class="aura-blob blob-1"></div>
-        <div class="aura-blob blob-2"></div>
-        <div class="aura-blob blob-3"></div>
-        <div class="aura-blob blob-4"></div>
-    </div>
-    <div class="grain-overlay" aria-hidden="true"></div>
-
     <div class="pride-bar"></div>
-    <div class="scroll-progress" id="scrollProgress"></div>
 
-    <nav class="top-navbar">
-        <div class="nav-logo">🎵 יורופוסטמה</div>
-        <div class="nav-clock" id="liveClock">--:--:--</div>
-    </nav>
-
-    <header class="hero">
-        <h1>יורופוסטמה 🇪🇺</h1>
+    <header>
+        <h1>🎵 יורופוסטמה 🇪🇺</h1>
         <p>ברוכים הבאים לאתר הרשמי של תחרות השירים הגדולה</p>
+        
         <div id="geoBadge" class="geo-badge">📡 מרחק מישראל לסין: כ-6,600 ק"מ</div>
     </header>
 
     <div class="container">
 
-        <div class="quick-nav-card">
-            <div class="quick-nav-row">
-                <span class="search-icon-nav">🔍</span>
-                <input type="text" id="menuFilter" placeholder="חפשו עמוד באתר... (לדוגמה: שירים, פרסים, משחק) — או הקישו / בכל מקום">
-                <button type="button" class="random-jump-btn" onclick="randomJump()">🎲 קפיצה אקראית</button>
-            </div>
-            <div id="noMenuResults" class="no-menu-results">😕 לא נמצא עמוד תואם לחיפוש שלכם</div>
-        </div>
-
-        <div class="menu-grid" id="menuGrid">
-            <a href="surprise.html" class="menu-card" data-title="הפתעה surprise" style="--c1:#ffb703; --c2:#ff7700;">
-                <div class="menu-icon">🎉</div>
-                <div class="menu-text">
-                    <div class="menu-title">הפתעה</div>
-                    <div class="menu-desc">משהו מיוחד מחכה לכם</div>
-                </div>
-                <div class="menu-arrow">←</div>
-            </a>
-
-            <a href="music.html" class="menu-card" data-title="לעמוד השירים music songs" style="--c1:#22d3ee; --c2:#0ea5e9;">
-                <div class="menu-icon">🎵</div>
-                <div class="menu-text">
-                    <div class="menu-title">לעמוד השירים</div>
-                    <div class="menu-desc">כל השירים של העונה</div>
-                </div>
-                <div class="menu-arrow">←</div>
-            </a>
-
-            <a href="news.html" class="menu-card" data-title="pustema news חדשות" style="--c1:#38bdf8; --c2:#4facfe;">
-                <div class="menu-icon">📰</div>
-                <div class="menu-text">
-                    <div class="menu-title">PUSTEMA NEWS</div>
-                    <div class="menu-desc">כל העדכונים החמים</div>
-                </div>
-                <div class="menu-arrow">←</div>
-            </a>
-
-            <a href="schedule.html" class="menu-card" data-title="לוח זמנים שליחת שירים schedule" style="--c1:#ec4899; --c2:#a855f7;">
-                <div class="menu-icon">📅</div>
-                <div class="menu-text">
-                    <div class="menu-title">לוח זמנים ושליחת שירים רשמי</div>
-                    <div class="menu-desc">כל התאריכים החשובים</div>
-                </div>
-                <div class="menu-arrow">←</div>
-            </a>
-
-            <a href="awards.html" class="menu-card" data-title="europustema awards פרסים" style="--c1:#f8b500; --c2:#d4a017;">
-                <div class="menu-icon">🏆</div>
-                <div class="menu-text">
-                    <div class="menu-title">EUROPUSTEMA AWARDS</div>
-                    <div class="menu-desc">הצביעו לזוכים המצטיינים</div>
-                </div>
-                <div class="menu-arrow">←</div>
-            </a>
-
-            <a href="order.html" class="menu-card" data-title="טופ 5 כל השנים top 5" style="--c1:#ef4444; --c2:#f97316;">
-                <div class="menu-icon">🥇</div>
-                <div class="menu-text">
-                    <div class="menu-title">טופ 5 של כל השנים</div>
-                    <div class="menu-desc">היכל התהילה הרשמי</div>
-                </div>
-                <div class="menu-arrow">←</div>
-            </a>
-
-            <a href="results.html" class="menu-card" data-title="משחק הזיכרון memory game" style="--c1:#10b981; --c2:#22c55e;">
-                <div class="menu-icon">🧠</div>
-                <div class="menu-text">
-                    <div class="menu-title">משחק הזיכרון</div>
-                    <div class="menu-desc">בדקו את הזיכרון שלכם</div>
-                </div>
-                <div class="menu-arrow">←</div>
-            </a>
+        <div class="schedule-block">
+            <a href="surprise.html" class="btn-surprise-main">🎉 הפתעה</a>
+            <a href="music.html" class="btn-songs-main">🎵 לעמוד השירים</a>
+            <a href="news.html" class="btn-news-main">📰 PUSTEMA NEWS</a>
+            <a href="schedule.html" class="btn-schedule-main">📅 לוח זמנים ושליחת שירים רשמי</a>
+            <a href="order.html" class="btn-order-main">👥 סדר אנשים בשליחת שירים</a>
         </div>
 
         <div class="card">
-            <h2>🎤 סדר השירים בחצאי הגמר</h2>
-            <img src="semifinals-order.png" alt="סדר השירים בחצאי הגמר" class="semifinal-image">
+            <h2>📜 חוקי התחרות</h2>
+            <ul class="rules-list">
+                <li class="rule-item">📅 מותרים שירים משנת <strong>2012 עד היום</strong></li>
+                <li class="rule-item">❌ <strong>אסור</strong> שירי אירוויזיון</li>
+                <li class="rule-item">❌ <strong>אסור</strong> זמרי אירוויזיון</li>
+                <li class="rule-item">❌ <strong>אסור</strong> שירי קדמים</li>
+                <li class="rule-item">✅ <strong>מותר</strong> זמרי קדמים</li>
+                <li class="rule-item">❌ <strong>אסור</strong> שירי יורופאנס</li>
+                <li class="rule-item"><div class="rule-allowed">שימו ❤️ מותר זמרי יורופאנס!!!</div></li>
+                <li class="rule-item">❌ <strong>אסור</strong> לשלוח זמרים ישנים מהיורופוסטמה</li>
+                <li class="rule-item">⏱️ שירים יכולים להיות <strong>עד 4 דקות</strong></li>
+                <li class="rule-item"><div class="rule-important">שימו ❤️ מותר שיהיו מעל 4 דק' רק אם לוקח זמן לקליפ עצמו (לדוגמה שיר שהוא 3:51 שניות אבל עם הקליפ 4:24)</div></li>
+                <li class="rule-item">📈 מותר שירים <strong>עד 50M צפיות</strong> ביוטיוב</li>
+                <li class="rule-item">🎵 מותר שירים <strong>עד 50M השמעות</strong> בספוטיפי</li>
+                <li class="rule-item">❌ <strong>אסור</strong> שלזמר יהיה ממוצע חודשי בספוטיפי <strong>מעל 10M</strong></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>📝 החלפת מדינות</h2>
+            <p style="margin-bottom: 20px; font-weight: 500;">לאור העלייה במספר המשתתפים והרצון להעניק הזדמנות שווה גם למדינות קטנות, הוחלט על מתן ההקלות הבאות:</p>
+
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="countrySearch" class="search-input" placeholder="חפש מדינה... (לדוגמה: ישראל, איטליה, הוותיקן)">
+                <button type="button" class="random-btn" id="randomBtn" onclick="triggerRandomCountry()">🎲 תפתיע אותי!</button>
+            </div>
+
+            <div id="noResultsMessage" class="no-results">
+                <span class="error-icon">❌</span>
+                <strong>המדינה שחיפשת לא נמצאה ברשימה!</strong>
+                <p style="margin: 5px 0 0; font-size: 1rem; opacity: 0.8;">נסה לבדוק שוב את האיות או לחפש מדינה אחרת.</p>
+            </div>
+
+            <div id="countriesList">
+                <div class="country-rule">
+                    <div class="country-title">🇻🇦 הוותיקן ← 🇮🇹 איטליה</div>
+                    <p class="country-desc">ניתן לשלוח זמר איטלקי 🇮🇹<br>(הוותיקן ממוקם בתוך איטליה, ורוב תושביו ועובדיו קשורים אליה באופן ישיר.)</p>
+                </div>
+
+                <div class="country-rule">
+                    <div class="country-title">🇮🇲 האי מאן ← 🇬🇧 בריטניה</div>
+                    <p class="country-desc">ניתן לשלוח זמר בריטי 🇬🇧<br>(האי מאן הוא טריטוריה בריטית בעלת קשרים מדיניים ותרבותיים הדוקים עם בריטניה.)</p>
+                </div>
+
+                <div class="country-rule">
+                    <div class="country-title">🇫🇴 איי פארו ← דנמרק</div>
+                    <p class="country-desc">ניתן לשלוח זמר דני 🇩🇰<br>(איי פארו הם טריטוריה אוטונומית בתוך ממלכת דנמרק.)</p>
+                </div>
+
+                <div class="country-rule">
+                    <div class="country-title">🇲🇨 מונקו ← 🇫🇷 צרפת</div>
+                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(מונקו מוקפת כמעט לחלוטין בצרפת ומושפעת ממנה מבחינה תרבותית וכלכלית.)</p>
+                </div>
+
+                <div class="country-rule">
+                    <div class="country-title">🇸🇲 סן מרינו ← 🇮🇹 איטליה</div>
+                    <p class="country-desc">ניתן לשלוח זמר איטלקי 🇮🇹<br>(סן מרינו מוקפת לחלוטין באיטליה ומקיימת עמה קשרים הדוקים.)</p>
+                </div>
+
+                <div class="country-rule">
+                    <div class="country-title">🇦🇩 אנדורה ← 🇪🇸 ספרד</div>
+                    <p class="country-desc">ניתן לשלוח זמר ספרדי 🇪🇸<br>(בשל הקרבה הגאוגרפית והקשרים התרבותיים ההדוקים עם ספרד.)</p>
+                </div>
+
+                <div class="country-rule">
+                    <div class="country-title">🇰🇵 צפון קוריאה ← 🇰🇷 דרום קוריאה</div>
+                    <p class="country-desc">ניתן לשלוח זמר מדרום קוריאה 🇰🇷<br>(שתי המדינות היו בעבר מדינה אחת וחולקות מורשת והיסטוריה משותפת.)</p>
+                </div>
+
+                <div class="country-rule">
+                    <div class="country-title">🇰🇷 דרום קוריאה ← 🇰🇵 צפון קוריאה</div>
+                    <p class="country-desc">ניתן לשלוח זמר מצפון קוריאה 🇰🇵<br>(שתי המדינות היו בעבר מדינה אחת וחולקות מורשת והיסטוריה משותפת.)</p>
+                </div>
+
+                <div class="country-rule">
+                    <div class="country-title">🇵🇸 פלסטין ← 🇮🇱 ישראל</div>
+                    <p class="country-desc">ניתן לשלוח זמר ישראלי 🇮🇱<br>(בשל הקרבה הגאוגרפית והקשרים התרבותיים הקיימים באזור.)</p>
+                </div>
+
+                <div class="country-rule">
+                    <div class="country-title">🇭🇰 הונג קונג ← 🇨🇳 סין</div>
+                    <p class="country-desc">ניתן לשלוח זמר סיני 🇨🇳<br>(הונג קונג היא אזור מנהלי מיוחד של סין ומקיימת עמה קשרים פוליטיים והיסטוריים.)</p>
+                </div>
+
+                <div class="country-rule">
+                    <div class="country-title">🇵🇷 פוארטו ריקו ← 🇺🇸 ארצות הברית</div>
+                    <p class="country-desc">ניתן לשלוח זמר אמריקאי 🇺🇸<br>(פוארטו ריקו היא טריטוריה של ארצות הברית, ותושביה הם אזרחים אמריקאים.)</p>
+                </div>
+
+                <div class="country-rule">
+                    <div class="country-title">🇨🇾 קפריסין ← 🇬🇷 יוון</div>
+                    <p class="country-desc">ניתן לשלוח זמר יווני 🇬🇷<br>(בשל הקשרים ההיסטוריים והתרבותיים ההדוקים בין המדינות.)</p>
+                </div>
+
+                <div class="country-rule">
+                    <div class="country-title">🇲🇪 מונטנגרו ← 🇷🇸 סרביה</div>
+                    <p class="country-desc">ניתן לשלוח זמר סרבי 🇷🇸<br>(בשל ההיסטוריה המשותפת והקשרים האזוריים בין המדינות.)</p>
+                </div>
+
+                <div class="country-rule">
+                    <div class="country-title">🇱🇺 לוקסמבורג ← 🇫🇷 צרפת</div>
+                    <p class="country-desc">ניתן לשלוח זמר צרפתי 🇫🇷<br>(בשל ההשפעה התרבותית והקשרים ההיסטוריים עם צרפת.)</p>
+                </div>
+
+                <div class="country-rule">
+                    <div class="country-title">🇱🇮 ליכטנשטיין ← 🇩🇪 גרמניה</div>
+                    <p class="country-desc">ניתן לשלוח זמר גרמני 🇩🇪<br>(בשל הקרבה התרבותית וההיסטורית לגרמניה.)</p>
+                </div>
+
+                <div class="country-rule">
+                    <div class="country-title">🇲🇩 מולדובה ← 🇷🇴 רומניה</div>
+                    <p class="country-desc">ניתן לשלוח זמר רומני 🇷🇴<br>(בשל ההיסטוריה המשותפת והקשרים התרבותיים ההדוקים בין המדינות. עד שנת 1940 רוב שטחה של מולדובה המודרנית היה חלק מרומניה, וגם כיום קיימים קשרים חזקים בתחומי התרבות והמוזיקה.)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mid-flags">🇪🇺 🇮🇱 🇺🇦 🇬🇷 🇨🇭 🇪🇸 🇮🇹 🇫🇷 🇬🇧</div>
+
+        <div class="card">
+            <h2>🏆 ארכיון התוצאות הרשמי 🏳️‍🌈</h2>
+            <p>ההיסטוריה נכתבת כאן! כל המנצחים הגדולים, המיקומים המפתיעים וטבלאות הניקוד המלאות מחכים לכם בלחיצת כפתור אחת.</p>
+            
+            <div class="results-box">
+                <p>לחצו על הכפתור כדי לדעת את כל התוצאות של הטופ 5 מכללל הזמנים:</p>
+                <a href="results.html" class="btn" style="background: #ffff00; color: #000;">להצגת טבלאות התוצאות 📊</a>
+            </div>
+        </div>
+
+        <div class="footer-flags">
+            🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰 🇳🇱 🇧🇪 🇦🇹 🇨🇿 🇮🇪 🇵🇹 🇨🇾 🇲🇹
         </div>
 
     </div>
-
-    <footer class="site-footer">
-        <div class="footer-flags">🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰 🇳🇱</div>
-        <p class="footer-note">יורופוסטמה © 2026</p>
-    </footer>
-
-    <button id="backToTop" class="back-to-top" aria-label="חזרה למעלה" title="חזרה למעלה">⬆️</button>
 
     <script>
         function shootConfetti() {
             confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
         }
 
-        document.querySelectorAll('.menu-card').forEach(card => {
-            card.addEventListener('click', shootConfetti);
+        document.querySelectorAll('.btn, .random-btn, .btn-schedule-main, .btn-news-main, .btn-songs-main, .btn-order-main, .btn-surprise-main').forEach(button => {
+            button.addEventListener('click', shootConfetti);
         });
 
-        /* ===== שעון חי ===== */
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('liveClock').textContent = now.toLocaleTimeString('he-IL');
-        }
-        updateClock();
-        setInterval(updateClock, 1000);
+        // החיפוש המעודכן - בודק רק את המדינה שאותה מותר לשלוח (אחרי החץ)
+        document.getElementById('countrySearch').addEventListener('input', function() {
+            let filter = this.value.trim().toLowerCase();
+            let rows = document.querySelectorAll('#countriesList .country-rule');
+            let anyFound = false;
 
-        /* ===== סרגל התקדמות גלילה ===== */
-        function updateScrollProgress() {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            document.getElementById('scrollProgress').style.width = progress + '%';
+            rows.forEach(function(row) {
+                let fullTitle = row.querySelector('.country-title').textContent;
+                
+                // לוקח את המדינה שנמצאת *אחרי* החץ (החלק השני, אינדקס 1)
+                let allowedCountry = "";
+                if(fullTitle.includes('←')) {
+                    allowedCountry = fullTitle.split('←')[1].toLowerCase();
+                }
 
-            const backBtn = document.getElementById('backToTop');
-            if (scrollTop > 300) {
-                backBtn.classList.add('visible');
-            } else {
-                backBtn.classList.remove('visible');
-            }
-        }
-        window.addEventListener('scroll', updateScrollProgress);
-        updateScrollProgress();
-
-        document.getElementById('backToTop').addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        /* ===== חיפוש/סינון מהיר של התפריט ===== */
-        const menuFilterInput = document.getElementById('menuFilter');
-        const menuCards = Array.from(document.querySelectorAll('.menu-card'));
-        const noMenuResults = document.getElementById('noMenuResults');
-
-        menuFilterInput.addEventListener('input', function () {
-            const filter = this.value.trim().toLowerCase();
-            let anyVisible = false;
-
-            menuCards.forEach(card => {
-                const title = card.dataset.title.toLowerCase();
-                if (filter === "" || title.includes(filter)) {
-                    card.style.display = 'flex';
-                    anyVisible = true;
+                if (filter === "") {
+                    row.style.display = 'block';
+                    row.classList.remove('country-highlight');
+                } else if (allowedCountry.includes(filter)) {
+                    row.style.display = 'block';
+                    row.classList.add('country-highlight');
+                    anyFound = true;
                 } else {
-                    card.style.display = 'none';
+                    row.style.display = 'none';
+                    row.classList.remove('country-highlight');
                 }
             });
 
-            noMenuResults.style.display = (!anyVisible && filter !== "") ? 'block' : 'none';
+            document.getElementById('noResultsMessage').style.display = (!anyFound && filter !== "") ? 'block' : 'none';
         });
 
-        menuFilterInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                const firstVisible = menuCards.find(card => card.style.display !== 'none');
-                if (firstVisible) window.location.href = firstVisible.getAttribute('href');
-            }
-        });
-
-        /* קיצור מקלדת: לחיצה על / ממקדת את החיפוש מכל מקום באתר */
-        document.addEventListener('keydown', function (e) {
-            if (e.key === '/' && document.activeElement !== menuFilterInput) {
-                e.preventDefault();
-                menuFilterInput.focus();
-            }
-        });
-
-        /* ===== קפיצה אקראית לעמוד ===== */
-        function randomJump() {
-            const links = menuCards.map(card => card.getAttribute('href'));
-            const randomLink = links[Math.floor(Math.random() * links.length)];
-            shootConfetti();
-            setTimeout(() => { window.location.href = randomLink; }, 400);
+        function triggerRandomCountry() {
+            let rows = Array.from(document.querySelectorAll('#countriesList .country-rule'));
+            if(rows.length === 0) return;
+            
+            document.getElementById('countrySearch').value = "";
+            rows.forEach(r => {
+                r.style.display = 'block';
+                r.classList.remove('country-highlight');
+            });
+            
+            let randomIndex = Math.floor(Math.random() * rows.length);
+            let selectedRow = rows[randomIndex];
+            
+            selectedRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            selectedRow.classList.add('country-highlight');
         }
     </script>
 </body>
