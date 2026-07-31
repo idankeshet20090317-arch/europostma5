@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>שיאי כל הזמנים - יורופוסטמה 🏆</title>
+<title>גלגל המזל - שיאי כל הזמנים 🎡</title>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <style>
@@ -13,6 +13,7 @@ body { font-family:'Rubik',sans-serif; margin:0; background:#0a0c16; color:#f2f4
 .aura-blob { position:absolute; border-radius:50%; filter:blur(95px); opacity:.4; animation:auraMove 20s ease-in-out infinite; }
 .blob-1{top:-10%;left:-5%;width:480px;height:480px;background:#f59e0b;}
 .blob-2{bottom:-15%;right:-10%;width:520px;height:520px;background:#dc2626;animation-delay:-6s;}
+.blob-3{top:35%;right:20%;width:340px;height:340px;background:#fbbf24;animation-delay:-12s;opacity:.28;}
 @keyframes auraMove{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(50px,-40px) scale(1.15);}}
 .pride-bar{height:6px;width:100%;background:linear-gradient(to right,#ff0000,#ff8000,#ffff00,#008000,#0000ff,#a000c0);position:fixed;top:0;z-index:1002;}
 .top-navbar{position:sticky;top:9px;z-index:500;max-width:1100px;margin:15px auto 0;padding:14px 26px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.09);border-radius:50px;}
@@ -23,31 +24,31 @@ body { font-family:'Rubik',sans-serif; margin:0; background:#0a0c16; color:#f2f4
 header.hero{position:relative;z-index:10;text-align:center;padding:36px 20px 10px;}
 header.hero h1{font-size:2.1rem;margin:0;font-weight:900;color:#fde68a;}
 header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
-.container{position:relative;z-index:10;max-width:1000px;margin:0 auto;padding:20px 20px 60px;}
-.score-bar{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:14px 20px;margin-bottom:24px;}
+.container{position:relative;z-index:10;max-width:640px;margin:0 auto;padding:20px 20px 60px;text-align:center;}
+.top-bar{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:22px;}
 .score-pill{background:rgba(245,158,11,.14);border:1px solid rgba(245,158,11,.4);color:#fde68a;padding:8px 18px;border-radius:20px;font-weight:800;}
-.reset-btn{background:linear-gradient(135deg,#a855f7,#6366f1);color:#fff;border:none;padding:9px 20px;border-radius:30px;font-weight:800;cursor:pointer;}
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;}
-.trivia-card{perspective:1200px;height:220px;}
-.trivia-card-inner{position:relative;width:100%;height:100%;transition:transform .6s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d;}
-.trivia-card.flipped .trivia-card-inner{transform:rotateY(180deg);}
-.card-face{position:absolute;inset:0;border-radius:22px;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;text-align:center;border:1px solid rgba(255,255,255,.09);}
-.card-back{background:linear-gradient(160deg,var(--c1),var(--c2));cursor:pointer;box-shadow:0 15px 30px -10px var(--c1);}
-.card-back .num{font-size:2.2rem;font-weight:900;color:rgba(255,255,255,.95);}
-.card-back .hint{margin-top:8px;font-size:.85rem;color:rgba(255,255,255,.85);font-weight:700;}
-.card-front{background:rgba(20,22,38,.95);transform:rotateY(180deg);justify-content:flex-start;gap:8px;overflow-y:auto;}
-.card-front .q-text{font-size:.95rem;font-weight:800;color:#fde68a;margin-bottom:4px;}
-.answer-btn{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:#f2f4fb;padding:8px 10px;border-radius:10px;font-size:.82rem;font-family:'Rubik',sans-serif;font-weight:700;cursor:pointer;}
+.round-pill{background:rgba(168,85,247,.14);border:1px solid rgba(168,85,247,.4);color:#e9d5ff;padding:8px 18px;border-radius:20px;font-weight:800;}
+
+.wheel-wrap{position:relative;width:280px;height:280px;margin:0 auto 20px;}
+.wheel-pointer{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:2rem;z-index:5;filter:drop-shadow(0 4px 6px rgba(0,0,0,.5));}
+.wheel{width:100%;height:100%;border-radius:50%;border:6px solid rgba(255,255,255,.18);box-shadow:0 20px 50px rgba(0,0,0,.5);position:relative;transition:transform 4s cubic-bezier(.17,.67,.16,1);background:conic-gradient(#22d3ee 0deg 72deg,#fbbf24 72deg 144deg,#ec4899 144deg 216deg,#10b981 216deg 288deg,#f59e0b 288deg 360deg);}
+.wheel-label{position:absolute;top:50%;left:50%;width:120px;text-align:center;font-weight:900;font-size:.85rem;color:#04231c;transform-origin:0 0;}
+.wheel-hub{position:absolute;top:50%;left:50%;width:56px;height:56px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,#fff,#e2e8f0);display:flex;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 6px 14px rgba(0,0,0,.4);z-index:4;}
+.spin-btn{background:linear-gradient(135deg,#f59e0b,#dc2626);color:#fff;border:none;padding:14px 36px;border-radius:30px;font-weight:900;font-size:1.05rem;cursor:pointer;box-shadow:0 10px 24px rgba(245,158,11,.4);}
+.spin-btn:disabled{opacity:.5;cursor:default;}
+.landed-label{min-height:26px;font-weight:900;color:#fde68a;margin:14px 0 6px;font-size:1.05rem;}
+.q-card{display:none;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:24px;margin-top:6px;text-align:right;}
+.q-card.shown{display:block;}
+.q-card .q-text{font-weight:900;font-size:1.05rem;color:#fde68a;margin-bottom:16px;text-align:center;}
+.answer-btn{display:block;width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:#f2f4fb;padding:10px;border-radius:10px;font-size:.92rem;font-family:'Rubik',sans-serif;font-weight:700;cursor:pointer;margin-bottom:8px;}
 .answer-btn:hover:not(:disabled){background:rgba(255,255,255,.14);}
-.answer-btn.correct{background:rgba(52,211,153,.25);border-color:#34d399;}
-.answer-btn.wrong{background:rgba(239,68,68,.25);border-color:#ef4444;}
-.feedback-line{font-size:.85rem;font-weight:800;margin-top:4px;min-height:18px;}
-.feedback-line.correct{color:#34d399;}
-.feedback-line.wrong{color:#f87171;}
-.final-banner{display:none;text-align:center;margin-top:30px;background:rgba(255,255,255,.05);border:1px solid rgba(245,158,11,.4);border-radius:22px;padding:28px;}
+.answer-btn.correct{background:rgba(52,211,153,.3);border-color:#34d399;}
+.answer-btn.wrong{background:rgba(239,68,68,.3);border-color:#ef4444;}
+.final-banner{display:none;text-align:center;margin-top:26px;background:rgba(255,255,255,.05);border:1px solid rgba(245,158,11,.4);border-radius:22px;padding:28px;}
 .final-banner.shown{display:block;}
 .final-banner .t{font-size:1.5rem;font-weight:900;color:#fde68a;}
-.blob-3{top:35%;right:20%;width:340px;height:340px;background:#fbbf24;animation-delay:-12s;opacity:.28;}
+.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;font-size:.72rem;color:#b6bdd6;margin-bottom:6px;}
+.legend span{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:3px 9px;}
 .grain-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 .vignette{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at 50% 30%, transparent 40%, rgba(0,0,0,.55) 100%);}
 .rays{position:fixed;top:-20%;left:50%;width:1400px;height:1400px;transform:translateX(-50%);z-index:0;pointer-events:none;opacity:.12;background:repeating-conic-gradient(from 0deg,#fde68a 0deg 6deg,transparent 6deg 18deg);animation:raySpin 60s linear infinite;}
@@ -55,10 +56,21 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
 .floaters{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
 .floaters span{position:absolute;bottom:-60px;font-size:1.8rem;opacity:0;animation:floatUp linear infinite;filter:drop-shadow(0 0 8px rgba(255,255,255,.15));}
 @keyframes floatUp{0%{transform:translateY(0) rotate(0deg);opacity:0;}8%{opacity:.5;}90%{opacity:.32;}100%{transform:translateY(-115vh) rotate(30deg);opacity:0;}}
-@media(max-width:600px){header.hero h1{font-size:1.5rem;}.trivia-card{height:250px;}}
+@media(max-width:600px){header.hero h1{font-size:1.5rem;}.wheel-wrap{width:230px;height:230px;}}
+
+.intro-curtain{position:fixed;inset:0;z-index:2000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(circle at 50% 50%, #f59e0b, #0a0c16 72%);animation:curtainOut 1.05s ease forwards;animation-delay:.85s;}
+.intro-emoji{font-size:5rem;animation:introPop .7s cubic-bezier(.34,1.56,.64,1) both;}
+.intro-title{font-size:1.6rem;font-weight:900;color:#fff;letter-spacing:1px;animation:introFadeUp .6s ease .2s both;}
+@keyframes introPop{0%{transform:scale(0) rotate(-25deg);opacity:0;}100%{transform:scale(1) rotate(0);opacity:1;}}
+@keyframes introFadeUp{0%{opacity:0;transform:translateY(14px);}100%{opacity:1;transform:translateY(0);}}
+@keyframes curtainOut{0%{opacity:1;visibility:visible;}99%{opacity:0;visibility:visible;}100%{opacity:0;visibility:hidden;}}
 </style>
 </head>
 <body>
+<div class="intro-curtain" id="introCurtain">
+    <div class="intro-emoji">🎡</div>
+    <div class="intro-title">גלגל המזל · כל הזמנים</div>
+</div>
 <div class="bg-aura" aria-hidden="true"><div class="aura-blob blob-1"></div><div class="aura-blob blob-2"></div><div class="aura-blob blob-3"></div></div>
 <div class="rays" aria-hidden="true"></div>
 <div class="grain-overlay" aria-hidden="true"></div>
@@ -73,30 +85,158 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
 </div>
 <div class="pride-bar"></div>
 <nav class="top-navbar">
-    <div class="nav-logo">🏆 שיאי כל הזמנים</div>
+    <div class="nav-logo">🎡 גלגל המזל</div>
     <div class="nav-links">
         <a href="trivia-world.html" class="btn-back-home alt">🎡 עולם הטריוויה</a>
         <a href="index.html" class="btn-back-home">🏠 ראשי</a>
     </div>
 </nav>
 <header class="hero">
-    <h1>🏆 שיאי כל הזמנים של היורופוסטמה</h1>
-    <p>שאלות שמשלבות את כל 4 העונות - מי הכי גבוה, מי הכי נמוך, ומי שבר שיאים</p>
+    <h1>🎡 גלגל המזל של היורופוסטמה</h1>
+    <p>סובבו את הגלגל, נחתו על עונה (או על "שיאים"), וענו על שאלה משלבת מכל ההיסטוריה</p>
 </header>
 <div class="container">
-    <div class="score-bar">
-        <div class="score-pill" id="scorePill">0 / 8 נכונות</div>
-        <button class="reset-btn" onclick="resetGame()">🔄 מחדש</button>
+    <div class="top-bar">
+        <div class="score-pill" id="scorePill">0 נכונות</div>
+        <div class="round-pill" id="roundPill">סיבוב 0/8</div>
     </div>
-    <div class="cards-grid" id="cardsGrid"></div>
+    <div class="legend">
+        <span style="color:#67e8f9;">🔵 עונה 1</span>
+        <span style="color:#fbbf24;">🟡 עונה 2</span>
+        <span style="color:#f9a8d4;">🌸 עונה 3</span>
+        <span style="color:#6ee7b7;">🟢 עונה 4</span>
+        <span style="color:#fcd34d;">🏆 שיאי כל הזמנים</span>
+    </div>
+    <div class="wheel-wrap">
+        <div class="wheel-pointer">📍</div>
+        <div class="wheel" id="wheel">
+            <div class="wheel-label" style="transform:rotate(36deg) translate(70px,-10px);">🔵 עונה 1</div>
+            <div class="wheel-label" style="transform:rotate(108deg) translate(70px,-10px);">🟡 עונה 2</div>
+            <div class="wheel-label" style="transform:rotate(180deg) translate(70px,-10px);">🌸 עונה 3</div>
+            <div class="wheel-label" style="transform:rotate(252deg) translate(70px,-10px);">🟢 עונה 4</div>
+            <div class="wheel-label" style="transform:rotate(324deg) translate(70px,-10px);">🏆 שיאים</div>
+        </div>
+        <div class="wheel-hub">🎯</div>
+    </div>
+    <button class="spin-btn" id="spinBtn" onclick="spin()">🎡 סובבו את הגלגל</button>
+    <div class="landed-label" id="landedLabel"></div>
+    <div class="q-card" id="qCard">
+        <div class="q-text" id="qText"></div>
+        <div id="qOpts"></div>
+    </div>
     <div class="final-banner" id="finalBanner">
         <div class="t" id="finalTitle"></div>
         <div id="finalScore" style="margin-top:8px;color:#dde1f2;"></div>
+        <button class="spin-btn" style="margin-top:14px;" onclick="resetGame()">🔄 עוד סיבוב</button>
     </div>
 </div>
 <script>
-const palette = [['#f59e0b','#dc2626'],['#22d3ee','#6366f1'],['#a855f7','#ec4899'],['#10b981','#0ea5e9'],['#fbbf24','#f97316'],['#6366f1','#a855f7'],['#ef4444','#f59e0b'],['#0ea5e9','#22d3ee']];
-const questions = [
+/* ===== full data for all 4 seasons ===== */
+const SEASON1 = [
+{name:"אלונה",country:"גרמניה",song:"Renn!",artist:"AYLIVA",rank:1,final:true},
+{name:"גילי",country:"דרום קוריאה",song:"FAMOUS",artist:"ALLDAY PROJECT",rank:2,final:true},
+{name:"עידן קשת",country:"איטליה",song:"Maschio",artist:"Annalisa",rank:3,final:true},
+{name:"עידו",country:"פינלנד",song:"Everest",artist:"Minttu",rank:4,final:true},
+{name:"הילה",country:"אנדורה",song:"Dramático",artist:"Belén Aguilera",rank:5,final:true},
+{name:"שי",country:"בריטניה",song:"Super Elastic",artist:"Valencia Grace",rank:6,final:true},
+{name:"נעם",country:"נורווגיה",song:"Den tid den sorg",artist:"Ylva",rank:7,final:true},
+{name:"רוני",country:"סרביה",song:"Smak Sveta",artist:"Popovska",rank:8,final:true},
+{name:"איילת",country:"בלגיה",song:"Docteur",artist:"RORI",rank:9,final:true},
+{name:"עדיאל",country:"ישראל",song:"מעריב לנוער",artist:"שירה זלוף",rank:10,final:true},
+{name:"קרן",country:"סלובקיה",song:"Go",artist:"ADÉLA",rank:11,final:true},
+{name:"עידן",country:"הולנד",song:"Skyward",artist:"Davina Michelle",rank:12,final:true},
+{name:"ניצן",country:"סלובניה",song:"Cry When I Cum",artist:"July Jones",rank:13,final:false,semi:1,semiPlace:7},
+{name:"נריה",country:"אזרבייג'ן",song:"Hədəf",artist:"Latifa Soyuoz",rank:14,final:false,semi:2,semiPlace:7},
+{name:"שלו",country:"ספרד",song:"Obsessed",artist:"Adelén",rank:15,final:false,semi:2,semiPlace:8},
+{name:"איתן",country:"רומניה",song:"Hasta Luego",artist:"Antonia",rank:16,final:false,semi:2,semiPlace:9},
+{name:"לין",country:"מונקו",song:"En nuit",artist:"Videoclub",rank:17,final:false,semi:1,semiPlace:8},
+{name:"ענבר",country:"פורטוגל",song:"FVN!",artist:"LVL1",rank:18,final:false,semi:1,semiPlace:9},
+{name:"אדיר",country:"אוסטרליה",song:"Bird Set Free",artist:"Sia",rank:19,final:false,semi:1,semiPlace:10},
+{name:"רון",country:"צרפת",song:"Dans 10 ans",artist:"Yamê",rank:20,final:false,semi:2,semiPlace:10}
+];
+const SEASON2 = [
+{name:"גילי",country:"יפן",song:"HYPNOTIZE",artist:"XG",rank:1,final:true},
+{name:"רון",country:"רוסיה",song:"Плачу на техно",artist:"HLEB, CREAM SODA",rank:2,final:true},
+{name:"ניצן",country:"בלגיה",song:"Thousand Nights",artist:"Aqua Riyaz",rank:3,final:true},
+{name:"איילת",country:"סין",song:"EAT",artist:"Zoe Ko",rank:4,final:true},
+{name:"אלונה",country:"גרמניה",song:"RAGE GIRL",artist:"Nina Chuba",rank:5,final:true},
+{name:"שי",country:"דנמרק",song:"ingen andre",artist:"Annika, Mille",rank:6,final:true},
+{name:"עדיאל",country:"איטליה",song:"NERO GOTICO",artist:"CLARA",rank:7,final:true},
+{name:"נעם",country:"מרוקו",song:"מה יהיה איתך",artist:"נינט טייב",rank:8,final:true},
+{name:"רוני",country:"יוון",song:"MASKOFOROS",artist:"ARCHANGEL",rank:9,final:true},
+{name:"עידו",country:"פולין",song:"LET IT B",artist:"bambi",rank:10,final:true},
+{name:"עידן",country:"תאילנד",song:"Turn Back Time",artist:"WayV",rank:11,final:true},
+{name:"לין",country:"ישראל",song:"נועדת לי",artist:"ליהי טולדנו",rank:12,final:true},
+{name:"שלו",country:"שווייץ",song:"Clean Break",artist:"ILIRA",rank:13,final:true,note:"wildcard"},
+{name:"עידן קשת",country:"בריטניה",song:"Nightingale Lane.",artist:"RAYE",rank:14,final:false,semi:1,semiPlace:7,note:"retired"},
+{name:"ענבר",country:"סרביה",song:"Riba de luxe",artist:"Milica Pavlović",rank:15,final:false,semi:2,semiPlace:7},
+{name:"אדיר",country:"ארה\"ב",song:"i'm okay",artist:"AleXa",rank:16,final:false,semi:1,semiPlace:9},
+{name:"שירה",country:"קולומביה",song:"Ivonny Bonita",artist:"KAROL G",rank:17,final:false,semi:2,semiPlace:8},
+{name:"איתן",country:"אסטוניה",song:"That's What U Get",artist:"OLLIE",rank:18,final:false,semi:2,semiPlace:9},
+{name:"טל",country:"קזחסטן",song:"OSEK KETTI DOMALAP",artist:"Say Mo",rank:19,final:false,semi:2,semiPlace:10},
+{name:"קרן",country:"דרום קוריאה",song:"Praying",artist:"SEULGI",rank:20,final:false,semi:1,semiPlace:10}
+];
+const SEASON3 = [
+{name:"אלונה",country:"שוודיה",song:"Fantomsmärta",artist:"Molly Hammar",rank:1,final:true},
+{name:"ניצן",country:"ישראל",song:"אמרתי לו כן",artist:"פרידה",rank:2,final:true},
+{name:"נעם",country:"איטליה",song:"Poco Poco",artist:"Angie",rank:3,final:true},
+{name:"עידן",country:"ארה\"ב",song:"AMERICAN HORROR SHOW",artist:"Snow Wife",rank:4,final:true},
+{name:"עדיאל",country:"ליכטנשטיין",song:"Krieg mit mir Selbst",artist:"Vincent Lee, Marie Wegener",rank:5,final:true},
+{name:"טלי",country:"אזרבייג'ן",song:"S.O.S",artist:"Aygün Kazımova",rank:6,final:true},
+{name:"שי",country:"אוקראינה",song:"engravings",artist:"Ethan Bortnick",rank:7,final:true},
+{name:"גילי",country:"ארמניה",song:"Au",artist:"Nanul",rank:8,final:true},
+{name:"איילת",country:"קונגו",song:"Coups de soleil",artist:"Camille Yembe",rank:9,final:true},
+{name:"טל",country:"האיטי",song:"WELCOME TO ECLESIA",artist:"Naïka",rank:10,final:true},
+{name:"הילה",country:"פינלנד",song:"Painava sydän",artist:"Mirella",rank:11,final:true},
+{name:"עידו",country:"בריטניה",song:"MF Diamond",artist:"CHINCHILLA",rank:12,final:true},
+{name:"יוני",country:"בלגיה",song:"Libre",artist:"Angèle",rank:13,final:true},
+{name:"רון",country:"רוסיה",song:"Jealous",artist:"Egor Kreed, 9mice",rank:14,final:true},
+{name:"מיקה",country:"סין",song:"炜WARD ROMANCE",artist:"FLAVOR FOLEY",rank:15,final:true},
+{name:"סהר",country:"ניו זילנד",song:"Moon Man",artist:"Balu Brigada",rank:16,final:true},
+{name:"שלו",country:"בולגריה",song:"Носталгия",artist:"Elizabet",rank:17,final:true},
+{name:"אגם",country:"תאילנד",song:"Bad Angel",artist:"LISA, Anyma",rank:18,final:true},
+{name:"שירה",country:"טורקיה",song:"İstesen de sevemezsin",artist:"Nova Norda",rank:19,final:false,semi:1,semiPlace:10},
+{name:"עידן קשת",country:"דרום קוריאה",song:"Tongue Tied",artist:"AleXa",rank:20,final:false,semi:1,semiPlace:11},
+{name:"איתן",country:"גרמניה",song:"Wer liebt dich jetzt?",artist:"Shirin David, SANTOS",rank:21,final:false,semi:1,semiPlace:12},
+{name:"ג'וסף",country:"ספרד",song:"TOTO DE LOCA",artist:"Metrika",rank:22,final:false,semi:1,semiPlace:13},
+{name:"נריה הבת",country:"צ'ילה",song:"Shiny",artist:"Dysbit, Easykid",rank:23,final:false,semi:2,semiPlace:10},
+{name:"סתיו",country:"ברזיל",song:"Girassóis",artist:"Arthur Verocai, Silva",rank:24,final:false,semi:2,semiPlace:11},
+{name:"תומר",country:"סן מרינו",song:"TT LE GIRLZ",artist:"Niky Savage, ANNA",rank:25,final:false,semi:2,semiPlace:12},
+{name:"אדיר",country:"קרואטיה",song:"Baddy",artist:"Electra Elite",rank:26,final:false,semi:2,semiPlace:13}
+];
+const SEASON4 = [
+{name:"ניצן",country:"סין",song:"Night at the Opera",artist:"Emei",rank:1,final:true},
+{name:"מעין",country:"בריטניה",song:"Rebel Child",artist:"Dylan",rank:2,final:true},
+{name:"שי",country:"קזחסטן",song:"Выбери меня",artist:"КРИМ ПЛИН",rank:3,final:true},
+{name:"עידו",country:"בלגיה",song:"Ben je klaar?",artist:"Pommelien Thijs",rank:4,final:true},
+{name:"רון",country:"דרום קוריאה",song:"LEMONADE",artist:"aespa",rank:5,final:true},
+{name:"נריה",country:"מולדובה",song:"suflet",artist:"Krrysopher",rank:6,final:true},
+{name:"הילה",country:"ברזיל",song:"Mar",artist:"Bea Duarte",rank:7,final:true},
+{name:"אגם",country:"קנדה",song:"Dancing and Crying",artist:"Kiesza",rank:8,final:true},
+{name:"עדיאל",country:"לוקסמבורג",song:"The One I Love",artist:"Bolshiee",rank:9,final:true},
+{name:"שלו",country:"פולין",song:"3 miesiące",artist:"Manya",rank:10,final:true},
+{name:"אלונה",country:"צרפת",song:"Merci",artist:"Linh",rank:11,final:true},
+{name:"גילי",country:"רומניה",song:"Romanian girl",artist:"Stefania",rank:12,final:true},
+{name:"נעם",country:"איטליה",song:"La Città Addosso",artist:"La rappresentante di lista",rank:13,final:true},
+{name:"רוני",country:"צפון מקדוניה",song:"Magnet",artist:"Antonia Gigovska",rank:14,final:true},
+{name:"סהר",country:"ישראל",song:"כוח גדול",artist:"אפרת גוש",rank:15,final:true},
+{name:"תומר",country:"סרביה",song:"Infuzija",artist:"Jelena Kostov",rank:16,final:true},
+{name:"נוי",country:"הולנד",song:"Casual",artist:"Roxy Dekker",rank:17,final:true},
+{name:"טלי",country:"לבנון",song:"Jananto",artist:"Zeina",rank:18,final:true},
+{name:"איילת",country:"מקסיקו",song:"I Like 2 Be",artist:"BRUSES",rank:19,final:true},
+{name:"ג'וסף",country:"ספרד",song:"2 PUÑALAITAS",artist:"Cris Lora",rank:20,final:true},
+{name:"שירה",country:"יוון",song:"Auto Pou Thes",artist:"Josephine",rank:21,final:false,semi:1,semiPlace:11},
+{name:"יוני",country:"רוסיה",song:"Мальчик на девятке",artist:"DEAD BLONDE",rank:22,final:false,semi:2,semiPlace:11},
+{name:"עידן",country:"ערב הסעודית",song:"אלואן",artist:"Toyor Baby",rank:23,final:false,semi:2,semiPlace:12},
+{name:"טל",country:"קפריסין",song:"Ta Xano",artist:"Foivos, Lena Zevgara",rank:24,final:false,semi:2,semiPlace:13},
+{name:"קרן",country:"יפן",song:"Ash",artist:"LE SSERAFIM",rank:25,final:false,semi:1,semiPlace:12,note:"retired"},
+{name:"איתן",country:"אוקראינה",song:"Plakala",artist:"KAZKA",rank:26,final:false,semi:2,semiPlace:14},
+{name:"עידן קשת",country:"אוסטרליה",song:"Blue Valentine",artist:"NMIXX",rank:27,final:false,semi:1,semiPlace:13},
+{name:"ענבר",country:"צפון קוריאה",song:"Friendly Father, Kim Jong Un!",artist:"Kim Ryu Kyong & Kim Ok Ju",rank:28,final:false,semi:1,semiPlace:14},
+{name:"מיקה",country:"ארה\"ב",song:"Watching Me",artist:"Lil Darkie, CHRIST DILLINGER, MKULTRA",rank:29,final:false,semi:1,semiPlace:15},
+{name:"סתיו",country:"דנמרק",song:"Star",artist:"Iceage",rank:30,final:false,semi:2,semiPlace:15}
+];
+const RECORDS = [
     { q:"מי המשתתפ/ת שניצח/ה הכי הרבה פעמים ביורופוסטמה (עד עכשיו)?", options:["ניצן","גילי","אלונה","עידן קשת"], correct:2 },
     { q:"מה הניקוד הגבוה ביותר שנרשם אי פעם בגמר יורופוסטמה?", options:["149 (אלונה, עונה 3)","156 (גילי, עונה 2)","146 (ניצן, עונה 4)","128 (אלונה, עונה 1)"], correct:1 },
     { q:"מה הניקוד הנמוך ביותר של זוכה/ת מקום ראשון בגמר, מבין 4 העונות?", options:["128 (עונה 1)","156 (עונה 2)","149 (עונה 3)","146 (עונה 4)"], correct:0 },
@@ -104,74 +244,117 @@ const questions = [
     { q:"איזו מדינה ייצג עידן קשת ביורופוסטמה 1?", options:["בריטניה","איטליה","אוסטרליה","דרום קוריאה"], correct:1 },
     { q:"מי ניצח/ה ביורופוסטמה 2?", options:["רון","גילי","ניצן","אלונה"], correct:1 },
     { q:"מי סיים/ה במקום האחרון בגמר יורופוסטמה 4 (מתוך 20)?", options:["איילת (מקסיקו)","נוי (הולנד)","ג'וסף (ספרד)","טלי (לבנון)"], correct:2 },
-    { q:"איזו מדינה ייצגה אלונה כשניצחה ביורופוסטמה 3?", options:["גרמניה","שוודיה","ישראל","איטליה"], correct:1 }
+    { q:"איזו מדינה ייצגה אלונה כשניצחה ביורופוסטמה 3?", options:["גרמניה","שוודיה","ישראל","איטליה"], correct:1 },
+    { q:"כמה עונות של יורופוסטמה שוחקו עד כה?", options:["2","3","4","5"], correct:2 },
+    { q:"איזו עונה כללה הכי הרבה משתתפים (30 בסך הכל)?", options:["עונה 1","עונה 2","עונה 3","עונה 4"], correct:3 },
+    { q:"איזו עונה הייתה הראשונה שבה השתמשו ב\"גלגל הצלה\" כדי להעפיל לגמר?", options:["עונה 1","עונה 2","עונה 3","עונה 4"], correct:1 },
+    { q:"עידן קשת ועידן (בלי קשת) הם שני משתתפים שונים - איזה שם משותף לשניהם מבלבל הכי הרבה?", options:["עידן","רון","ניצן","שי"], correct:0 }
 ];
-let score=0, answeredCount=0;
-function buildCards(){
-    const grid = document.getElementById('cardsGrid');
-    grid.innerHTML='';
-    questions.forEach((item,index)=>{
-        const [c1,c2] = palette[index%palette.length];
-        const cardWrap = document.createElement('div');
-        cardWrap.className='trivia-card';
-        cardWrap.id='card-'+index;
-        cardWrap.innerHTML = `
-            <div class="trivia-card-inner">
-                <div class="card-face card-back" style="--c1:${c1};--c2:${c2};" onclick="flipCard(${index})">
-                    <div class="num">#${index+1}</div>
-                    <div class="hint">הפכו לשאלה</div>
-                </div>
-                <div class="card-face card-front">
-                    <div class="q-text">${item.q}</div>
-                    ${item.options.map((opt,i)=>`<button class="answer-btn" onclick="answer(${index},${i})">${opt}</button>`).join('')}
-                    <div class="feedback-line" id="feedback-${index}"></div>
-                </div>
-            </div>`;
-        grid.appendChild(cardWrap);
+
+/* ===== generic question engine ===== */
+function shuffleArr(a){ const arr=a.slice(); for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+function randomOthers(list, correctVal, key, n){ const vals=list.map(p=>p[key]).filter(v=>v!==correctVal); return shuffleArr(vals).slice(0,n); }
+function makeMC(qText, correctVal, wrongVals){ const options = shuffleArr([correctVal, ...wrongVals]); return { q:qText, options, correct: options.indexOf(correctVal) }; }
+function buildSeasonPool(DATA, label){
+    const pool = [];
+    const finalists = DATA.filter(p=>p.final);
+    const nonFinalists = DATA.filter(p=>!p.final);
+    DATA.forEach(p=>{
+        pool.push(makeMC(`מי ייצג/ה את ${p.country} ב${label}?`, p.name, randomOthers(DATA,p.name,'name',3)));
+        pool.push(makeMC(`איזו מדינה ייצג/ה ${p.name} ב${label}?`, p.country, randomOthers(DATA,p.country,'country',3)));
+        pool.push(makeMC(`מה שם השיר איתו התמודד/ה ${p.name} ב${label}?`, p.song, randomOthers(DATA,p.song,'song',3)));
+        pool.push(makeMC(`מי ביצע/ה במקור את השיר "${p.song}"?`, p.artist, randomOthers(DATA,p.artist,'artist',3)));
     });
+    finalists.forEach(p=>{
+        pool.push(makeMC(`מי סיים/ה במקום ה-${p.rank} בגמר ${label}?`, p.name, randomOthers(finalists,p.name,'name',3)));
+        pool.push(makeMC(`באיזה מקום סיים/ה ${p.name} בגמר ${label}?`, String(p.rank), randomOthers(finalists,p.rank,'rank',3).map(String)));
+    });
+    nonFinalists.forEach(p=>{
+        pool.push(makeMC(`מי סיים/ה במקום ה-${p.semiPlace} בחצי גמר ${p.semi} ולא עלה/תה לגמר ${label}?`, p.name, randomOthers(nonFinalists,p.name,'name',3)));
+    });
+    DATA.filter(p=>p.note==='retired').forEach(p=>{ pool.push(makeMC(`מי פרש/ה מהתחרות במהלך ${label}?`, p.name, randomOthers(DATA,p.name,'name',3))); });
+    return pool;
 }
-function flipCard(index){
-    const card = document.getElementById('card-'+index);
-    if(card.classList.contains('answered')) return;
-    card.classList.add('flipped');
+const POOLS = [
+    buildSeasonPool(SEASON1,'1'),
+    buildSeasonPool(SEASON2,'2'),
+    buildSeasonPool(SEASON3,'3'),
+    buildSeasonPool(SEASON4,'4'),
+    RECORDS
+];
+const SEGMENT_LABELS = ['🔵 עונה 1','🟡 עונה 2','🌸 עונה 3','🟢 עונה 4','🏆 שיאי כל הזמנים'];
+
+/* ===== wheel game ===== */
+const TOTAL_ROUNDS = 8;
+let totalRotation = 0, spinning = false, round = 0, score = 0, currentSegIndex = null;
+
+function updateBars(){
+    document.getElementById('scorePill').textContent = `${score} נכונות`;
+    document.getElementById('roundPill').textContent = `סיבוב ${round}/${TOTAL_ROUNDS}`;
 }
-function answer(index, chosenIdx){
-    const card = document.getElementById('card-'+index);
-    if(card.classList.contains('answered')) return;
-    card.classList.add('answered');
-    const item = questions[index];
-    const buttons = card.querySelectorAll('.answer-btn');
-    const feedback = document.getElementById('feedback-'+index);
+function spin(){
+    if(spinning || round>=TOTAL_ROUNDS) return;
+    spinning = true;
+    document.getElementById('spinBtn').disabled = true;
+    document.getElementById('qCard').classList.remove('shown');
+    document.getElementById('landedLabel').textContent = '';
+    const segAngle = 72;
+    const segIndex = Math.floor(Math.random()*5);
+    const centerAngle = segIndex*segAngle + segAngle/2;
+    const desiredFinalMod = (360 - centerAngle + 360) % 360;
+    const currentMod = totalRotation % 360;
+    let delta = desiredFinalMod - currentMod;
+    if(delta <= 0) delta += 360;
+    delta += 360*5;
+    totalRotation += delta;
+    document.getElementById('wheel').style.transform = `rotate(${totalRotation}deg)`;
+    setTimeout(()=>{ spinning=false; onLanded(segIndex); }, 4050);
+}
+function onLanded(segIndex){
+    currentSegIndex = segIndex;
+    document.getElementById('landedLabel').textContent = `נחתתם על: ${SEGMENT_LABELS[segIndex]} 🎉`;
+    confetti({particleCount:70,spread:70,origin:{y:.5}});
+    const pool = POOLS[segIndex];
+    const item = shuffleArr(pool)[0];
+    document.getElementById('qCard').dataset.currentItem = JSON.stringify(item);
+    document.getElementById('qText').textContent = item.q;
+    document.getElementById('qOpts').innerHTML = item.options.map((opt,i)=>`<button class="answer-btn" id="qopt-${i}" onclick="answerRound(${i})">${opt}</button>`).join('');
+    document.getElementById('qCard').classList.add('shown');
+}
+function answerRound(chosenIdx){
+    const item = JSON.parse(document.getElementById('qCard').dataset.currentItem);
+    const buttons = document.querySelectorAll('#qOpts .answer-btn');
     buttons.forEach((btn,i)=>{ btn.disabled=true; if(i===item.correct) btn.classList.add('correct'); else if(i===chosenIdx) btn.classList.add('wrong'); });
-    if(chosenIdx===item.correct){
-        score++;
-        feedback.textContent='🎉 נכון!';
-        feedback.classList.add('correct');
-        confetti({particleCount:60,spread:55,origin:{y:.6}});
+    if(chosenIdx===item.correct){ score++; confetti({particleCount:90,spread:70,origin:{y:.5}}); }
+    round++;
+    updateBars();
+    if(round>=TOTAL_ROUNDS){
+        setTimeout(showFinal, 900);
     } else {
-        feedback.textContent='❌ הפעם לא';
-        feedback.classList.add('wrong');
+        setTimeout(()=>{ document.getElementById('spinBtn').disabled=false; }, 700);
     }
-    answeredCount++;
-    document.getElementById('scorePill').textContent = `${score} / ${questions.length} נכונות`;
-    if(answeredCount===questions.length) setTimeout(showFinalBanner,500);
 }
-function showFinalBanner(){
+function showFinal(){
     const banner = document.getElementById('finalBanner');
-    const ratio = score/questions.length;
-    let title = ratio===1 ? '👑 אלופי כל הזמנים - ציון מושלם!' : ratio>=0.6 ? '🔥 ידע מרשים על ההיסטוריה!' : '📚 כדאי לרענן זיכרון על העונות הקודמות';
+    const ratio = score/TOTAL_ROUNDS;
+    let title = ratio===1 ? '👑 אלופי כל הזמנים - ציון מושלם!' : ratio>=0.6 ? '🔥 ידע מרשים על כל ההיסטוריה!' : '📚 כדאי לרענן זיכרון על העונות הקודמות';
     document.getElementById('finalTitle').textContent = title;
-    document.getElementById('finalScore').textContent = `הציון הסופי: ${score} מתוך ${questions.length}`;
+    document.getElementById('finalScore').textContent = `הציון הסופי: ${score} מתוך ${TOTAL_ROUNDS}`;
     banner.classList.add('shown');
-    if(ratio===1) confetti({particleCount:200,spread:100,origin:{y:.5}});
+    document.getElementById('spinBtn').disabled = true;
+    if(ratio===1) confetti({particleCount:220,spread:110,origin:{y:.5}});
 }
 function resetGame(){
-    score=0; answeredCount=0;
+    round=0; score=0; currentSegIndex=null;
     document.getElementById('finalBanner').classList.remove('shown');
-    document.getElementById('scorePill').textContent = `0 / ${questions.length} נכונות`;
-    buildCards();
+    document.getElementById('qCard').classList.remove('shown');
+    document.getElementById('landedLabel').textContent='';
+    document.getElementById('spinBtn').disabled = false;
+    updateBars();
 }
-buildCards();
+resetGame();
+document.getElementById('introCurtain').addEventListener('animationend', e=>{ e.target.remove(); });
+window.addEventListener('load', ()=>{ setTimeout(()=>confetti({particleCount:90,spread:100,origin:{y:.3},colors:['#f59e0b','#dc2626','#fde68a']}),950); });
 </script>
 </body>
 </html>
