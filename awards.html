@@ -1,1 +1,672 @@
 
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EUROPUSTEMA AWARDS 🏆</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #1a0400;
+            color: #ffe9c7;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- רקע: אולם פרסים אדום-זהב --- */
+        .awards-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            background: radial-gradient(ellipse at 50% 100%, #3d0a05 0%, #200502 45%, #0a0100 85%);
+        }
+
+        .beam {
+            position: absolute;
+            bottom: -15%;
+            left: 50%;
+            width: 260px;
+            height: 170vh;
+            background: linear-gradient(to top, rgba(255, 210, 120, 0.35), rgba(255, 210, 120, 0.05) 55%, transparent 80%);
+            filter: blur(8px);
+            mix-blend-mode: screen;
+            transform-origin: bottom center;
+            animation: sweep 8s ease-in-out infinite;
+            opacity: 0.8;
+        }
+
+        .beam-1 { left: 15%; animation-delay: 0s; }
+        .beam-2 { left: 50%; width: 300px; animation-delay: -2.6s; }
+        .beam-3 { left: 85%; animation-delay: -5.2s; }
+
+        @keyframes sweep {
+            0%, 100% { transform: translateX(-50%) rotate(-22deg); }
+            50% { transform: translateX(-50%) rotate(22deg); }
+        }
+
+        .vignette {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background: radial-gradient(ellipse at 50% 40%, transparent 35%, rgba(0,0,0,0.8) 100%);
+        }
+
+        .floating-trophy {
+            position: fixed;
+            font-size: 3.5rem;
+            opacity: 0.12;
+            z-index: 1;
+            pointer-events: none;
+            animation: driftTrophy 14s ease-in-out infinite;
+        }
+
+        .ft-1 { top: 12%; left: 8%; animation-delay: 0s; }
+        .ft-2 { top: 65%; left: 85%; animation-delay: -5s; font-size: 4.5rem; }
+        .ft-3 { top: 78%; left: 15%; animation-delay: -9s; font-size: 2.8rem; }
+        .ft-4 { top: 20%; left: 80%; animation-delay: -3s; font-size: 3rem; }
+
+        @keyframes driftTrophy {
+            0%, 100% { transform: translateY(0) rotate(-6deg); }
+            50% { transform: translateY(-30px) rotate(6deg); }
+        }
+
+        .sparkle-container {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .sparkle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fff6d9 0%, #f8b500 55%, transparent 75%);
+            opacity: 0;
+            animation-name: floatUp, twinkleFade;
+            animation-timing-function: linear, ease-in-out;
+            animation-iteration-count: infinite, infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-115vh); }
+        }
+
+        @keyframes twinkleFade {
+            0%, 100% { opacity: 0; }
+            10% { opacity: 0.9; }
+            50% { opacity: 0.4; }
+            90% { opacity: 0.9; }
+        }
+
+        /* --- אפקט כניסה: ספוטלייט נפתח --- */
+        .iris {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 0 3000px #050100;
+            z-index: 9000;
+            pointer-events: none;
+            animation: irisOpen 1.3s cubic-bezier(0.6, 0.02, 0.3, 1) forwards;
+        }
+
+        @keyframes irisOpen {
+            0% { width: 0; height: 0; }
+            100% { width: 3200px; height: 3200px; }
+        }
+
+        .pride-bar {
+            height: 10px;
+            width: 100%;
+            background: linear-gradient(to right, #ff0000, #ff8000, #ffff00, #008000, #0000ff, #a000c0);
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-nav {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 20px 15px 0;
+        }
+
+        .btn-back-home-top {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffe9a8, #f8b500, #d4a017);
+            color: #241800;
+            padding: 12px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1rem;
+            box-shadow: 0 8px 20px rgba(248, 181, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-back-home-top:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 26px rgba(248, 181, 0, 0.55);
+        }
+
+        header {
+            position: relative;
+            z-index: 10;
+            padding: 30px 20px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            margin: 0;
+            background: linear-gradient(90deg, #fceabb 0%, #ffd700 25%, #f8b500 50%, #ffd700 75%, #fceabb 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+            text-shadow: 0 0 35px rgba(255, 215, 0, 0.3);
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        header p {
+            margin-top: 12px;
+            color: #f3c98a;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: linear-gradient(160deg, #2a0d05 0%, #1c0a04 100%);
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow:
+                0 0 0 1px rgba(255, 215, 0, 0.06),
+                0 0 30px rgba(255, 160, 0, 0.12),
+                0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .card h2 {
+            font-size: 1.6rem;
+            margin-top: 0;
+            color: #ffd700;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.4);
+            padding-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .card p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+        }
+
+        .deadline-line {
+            background: rgba(255, 215, 0, 0.1);
+            border-right: 4px solid #ffd700;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        .categories-list {
+            margin: 15px 0 0;
+            padding-right: 22px;
+            counter-reset: none;
+        }
+
+        .categories-list li {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            margin-bottom: 10px;
+            padding-right: 6px;
+        }
+
+        .categories-list li strong {
+            color: #ffe9a8;
+        }
+
+        .new-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff5555, #ff0055);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 900;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-right: 8px;
+            vertical-align: middle;
+            box-shadow: 0 3px 10px rgba(255, 0, 85, 0.4);
+        }
+
+        .bonus-award {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.08);
+            border: 2px dashed rgba(255, 215, 0, 0.4);
+            border-radius: 15px;
+            padding: 16px;
+        }
+
+        .signature-card {
+            text-align: center;
+        }
+
+        .signature-card p {
+            margin: 5px 0;
+        }
+
+        .signature {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: 1.4rem;
+            color: #ffd700;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        /* --- כלים למצביעים --- */
+        .countdown-box {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 15px 0 25px;
+        }
+
+        .countdown-unit {
+            background: rgba(255, 215, 0, 0.08);
+            border: 1px solid rgba(255, 215, 0, 0.35);
+            border-radius: 15px;
+            padding: 14px 10px;
+            min-width: 75px;
+            text-align: center;
+        }
+
+        .countdown-unit .num {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #ffd700;
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+            display: block;
+        }
+
+        .countdown-unit .label {
+            font-size: 0.85rem;
+            opacity: 0.85;
+        }
+
+        .countdown-closed {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #ff5555;
+            padding: 15px;
+        }
+
+        .tool-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #ffe9a8, #f8b500, #d4a017);
+            color: #241800;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-bottom: 14px;
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 20px rgba(248, 181, 0, 0.3);
+        }
+
+        .tool-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 26px rgba(248, 181, 0, 0.45);
+        }
+
+        .tool-btn.copied {
+            background: linear-gradient(135deg, #34d399, #059669);
+            color: white;
+        }
+
+        .checklist-title {
+            font-weight: 700;
+            margin: 20px 0 10px;
+            font-size: 1.05rem;
+            color: #f3c98a;
+        }
+
+        .vote-checklist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .vote-checklist li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            transition: background 0.2s ease;
+        }
+
+        .vote-checklist li.checked {
+            background: rgba(52, 211, 153, 0.12);
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        .vote-checklist input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #ffd700;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .vote-checklist li span.cat-name {
+            flex: 1;
+        }
+
+        .vote-checklist input.country-input {
+            width: 110px;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 215, 0, 0.35);
+            border-radius: 8px;
+            padding: 6px 10px;
+            color: #ffe9c7;
+            font-family: 'Rubik', sans-serif;
+            font-size: 0.9rem;
+            text-align: center;
+            text-decoration: none;
+            display: none;
+        }
+
+        .vote-checklist li.checked input.country-input {
+            display: block;
+        }
+
+        .vote-checklist input.country-input::placeholder {
+            color: rgba(255, 233, 199, 0.4);
+        }
+
+        .vote-checklist input.country-input:focus {
+            outline: none;
+            border-color: #ffd700;
+        }
+
+        .footer-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 10px 20px 60px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 2rem; }
+            .beam { width: 160px; }
+            .countdown-unit { min-width: 62px; padding: 10px 6px; }
+            .countdown-unit .num { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="iris" id="irisEl" aria-hidden="true"></div>
+
+    <div class="awards-bg" aria-hidden="true">
+        <div class="beam beam-1"></div>
+        <div class="beam beam-2"></div>
+        <div class="beam beam-3"></div>
+        <div class="floating-trophy ft-1">🏆</div>
+        <div class="floating-trophy ft-2">🏆</div>
+        <div class="floating-trophy ft-3">🏆</div>
+        <div class="floating-trophy ft-4">🏆</div>
+    </div>
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="sparkle-container" id="sparkleContainer" aria-hidden="true"></div>
+
+    <div class="pride-bar"></div>
+
+    <div class="top-nav">
+        <a href="index.html" class="btn-back-home-top">🏠 חזרה לעמוד הראשי</a>
+    </div>
+
+    <header>
+        <h1>🏆 EUROPUSTEMA AWARDS 🏆</h1>
+        <p>ההצבעות הרשמיות לפרסי היורופוסטמה</p>
+    </header>
+
+    <div class="container">
+
+        <div class="card">
+            <h2>📣 הודעה רשמית</h2>
+            <p>שלום לכל מתמודדי היורופוסטמה היקרים ❤️ אני שמח להכריז על <strong>פתיחת ההצבעות לאווארדס</strong>.</p>
+            <p class="deadline-line">⏰ ההצבעות פתוחות עד התאריך <strong>ה-3 באוגוסט</strong>, עד השעה <strong>19:00</strong> ❤️</p>
+            <p>את ההצבעות שולחים ל<strong>עידן קשת</strong> בהודעה פרטית.</p>
+            <p>⚠️ וכמובן <strong>אסור להצביע לעצמכם</strong>.</p>
+        </div>
+
+        <div class="card">
+            <h2>🏆 הקטגוריות</h2>
+            <ol class="categories-list">
+                <li><strong>השיר הכי טוב באנגלית</strong></li>
+                <li><strong>השיר הכי טוב בשפה זרה</strong></li>
+                <li><strong>השיר הכי מקורי</strong></li>
+                <li><strong>הקליפ הכי טוב</strong></li>
+                <li><strong>השיר שהכי היה מצליח באירוויזיון</strong></li>
+                <li><strong>השיר שהכי גדל עליכם</strong></li>
+                <li><strong>הווקאלס הכי טובים</strong></li>
+                <li><span class="new-badge">חדש!</span><strong>השיר שכתוב הכי יפה</strong></li>
+                <li><span class="new-badge">חדש!</span><strong>השיר שאלקסה היתה הכי אוהבת</strong></li>
+                <li><span class="new-badge">חדש!</span><strong>השיר עם הפוטנציאל הכי גבוה להפוך ללהיט עולמי</strong></li>
+            </ol>
+        </div>
+
+        <div class="card signature-card">
+            <p>בהצלחה לכולם ❤️</p>
+            <p class="signature">United by AleXa ❤️</p>
+        </div>
+
+        <div class="card">
+            <h2>🛠️ כלים למצביעים</h2>
+
+            <div id="countdownBox" class="countdown-box"></div>
+
+            <button class="tool-btn" onclick="addToCalendar()">🔔 הוסף תזכורת ליומן Google</button>
+
+            <div class="checklist-title">✅ סמנו אילו קטגוריות כבר החלטתם עליהן (נשמר במכשיר שלכם בלבד):</div>
+            <ul id="voteChecklist" class="vote-checklist"></ul>
+        </div>
+
+    </div>
+
+    <div class="footer-container">
+        <a href="index.html" class="btn-back-home-top">🏠 חזרה לעמוד הראשי</a>
+    </div>
+
+    <script>
+        const categories = [
+            "השיר הכי טוב באנגלית",
+            "השיר הכי טוב בשפה זרה",
+            "השיר הכי מקורי",
+            "הקליפ הכי טוב",
+            "השיר שהכי היה מצליח באירוויזיון",
+            "השיר שהכי גדל עליכם",
+            "הווקאלס הכי טובים",
+            "השיר שכתוב הכי יפה (חדש!)",
+            "השיר שאלקסה היתה הכי אוהבת (חדש!)",
+            "השיר עם הפוטנציאל הכי גבוה להפוך ללהיט עולמי (חדש!)"
+        ];
+
+        /* ===== ניצוצות זהב ברקע ===== */
+        function spawnAmbientSparkles() {
+            const container = document.getElementById('sparkleContainer');
+            const count = 30;
+            for (let i = 0; i < count; i++) {
+                const s = document.createElement('div');
+                s.className = 'sparkle';
+                const size = 2 + Math.random() * 4;
+                s.style.width = size + 'px';
+                s.style.height = size + 'px';
+                s.style.left = Math.random() * 100 + 'vw';
+                s.style.top = (50 + Math.random() * 50) + 'vh';
+                const floatDuration = 7 + Math.random() * 8;
+                const twinkleDuration = 2 + Math.random() * 3;
+                s.style.animationDuration = floatDuration + 's, ' + twinkleDuration + 's';
+                s.style.animationDelay = (Math.random() * 8) + 's, ' + (Math.random() * 3) + 's';
+                container.appendChild(s);
+            }
+        }
+
+        /* ===== אפקט כניסה: ספוטלייט + קונפטי זהב ===== */
+        window.addEventListener('load', function () {
+            spawnAmbientSparkles();
+            setTimeout(() => {
+                confetti({
+                    particleCount: 160,
+                    spread: 100,
+                    origin: { y: 0.4 },
+                    colors: ['#ffd700', '#fff2b2', '#f8b500', '#ffe9a8']
+                });
+                const iris = document.getElementById('irisEl');
+                if (iris) setTimeout(() => iris.remove(), 400);
+            }, 1000);
+        });
+
+        /* ===== ספירה לאחור עד סגירת ההצבעות ===== */
+        const deadline = new Date(2026, 7, 3, 19, 0, 0); // 3 באוגוסט 2026, 19:00
+
+        function updateCountdown() {
+            const box = document.getElementById('countdownBox');
+            const now = new Date();
+            const diff = deadline - now;
+
+            if (diff <= 0) {
+                box.innerHTML = '<div class="countdown-closed">⛔ ההצבעות נסגרו</div>';
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            box.innerHTML = `
+                <div class="countdown-unit"><span class="num">${days}</span><span class="label">ימים</span></div>
+                <div class="countdown-unit"><span class="num">${hours}</span><span class="label">שעות</span></div>
+                <div class="countdown-unit"><span class="num">${minutes}</span><span class="label">דקות</span></div>
+                <div class="countdown-unit"><span class="num">${seconds}</span><span class="label">שניות</span></div>
+            `;
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        /* ===== הוספת תזכורת ליומן גוגל ===== */
+        function addToCalendar() {
+            const title = encodeURIComponent("EUROPUSTEMA AWARDS - סוף ההצבעות");
+            const details = encodeURIComponent("מועד אחרון לשליחת ההצבעות לאווארדס - שולחים לעידן קשת בפרטי!");
+            const startStr = "20260803T190000";
+            const endStr = "20260803T200000";
+            const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startStr}/${endStr}&details=${details}&ctz=Asia/Jerusalem`;
+            window.open(url, '_blank');
+        }
+
+        /* ===== צ'קליסט אישי (נשמר בדפדפן בלבד) ===== */
+        const CHECKLIST_KEY = 'europustemaAwardsChecklist';
+
+        function getChecklistState() {
+            try {
+                return JSON.parse(localStorage.getItem(CHECKLIST_KEY)) || {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveChecklistState(state) {
+            localStorage.setItem(CHECKLIST_KEY, JSON.stringify(state));
+        }
+
+        function renderChecklist() {
+            const list = document.getElementById('voteChecklist');
+            const state = getChecklistState();
+
+            list.innerHTML = categories.map((cat, index) => {
+                const entry = state[index] || {};
+                const isChecked = !!entry.checked;
+                const country = entry.country || '';
+                return `
+                    <li class="${isChecked ? 'checked' : ''}">
+                        <input type="checkbox" data-index="${index}" ${isChecked ? 'checked' : ''}>
+                        <span class="cat-name">${cat}</span>
+                        <input type="text" class="country-input" data-index="${index}" placeholder="איזו מדינה?" value="${country}">
+                    </li>
+                `;
+            }).join('');
+
+            list.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.addEventListener('change', function () {
+                    const idx = this.dataset.index;
+                    const currentState = getChecklistState();
+                    currentState[idx] = currentState[idx] || {};
+                    currentState[idx].checked = this.checked;
+                    saveChecklistState(currentState);
+                    this.closest('li').classList.toggle('checked', this.checked);
+                });
+            });
+
+            list.querySelectorAll('input.country-input').forEach(input => {
+                input.addEventListener('input', function () {
+                    const idx = this.dataset.index;
+                    const currentState = getChecklistState();
+                    currentState[idx] = currentState[idx] || {};
+                    currentState[idx].country = this.value;
+                    saveChecklistState(currentState);
+                });
+            });
+        }
+
+        renderChecklist();
+    </script>
+</body>
+</html>
