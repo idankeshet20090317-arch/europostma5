@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מרוץ נגד השעון - יורופוסטמה 3 ⏱️</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+* { box-sizing: border-box; }
+body { font-family:'Rubik',sans-serif; margin:0; background:#0a0c16; color:#f2f4fb; min-height:100vh; overflow-x:hidden; }
+.bg-aura { position:fixed; inset:0; z-index:0; overflow:hidden; }
+.aura-blob { position:absolute; border-radius:50%; filter:blur(95px); opacity:.4; animation:auraMove 20s ease-in-out infinite; }
+.blob-1{top:-10%;left:-5%;width:480px;height:480px;background:#ec4899;}
+.blob-2{bottom:-15%;right:-10%;width:520px;height:520px;background:#a855f7;animation-delay:-6s;}
+@keyframes auraMove{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(50px,-40px) scale(1.15);}}
+.pride-bar{height:6px;width:100%;background:linear-gradient(to right,#ff0000,#ff8000,#ffff00,#008000,#0000ff,#a000c0);position:fixed;top:0;z-index:1002;}
+.top-navbar{position:sticky;top:9px;z-index:500;max-width:1100px;margin:15px auto 0;padding:14px 26px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.09);border-radius:50px;}
+.nav-logo{font-weight:900;font-size:1.1rem;color:#fbcfe8;}
+.nav-links{display:flex;gap:10px;}
+.btn-back-home{background:linear-gradient(135deg,#22d3ee,#6366f1);color:#fff;padding:9px 18px;border-radius:30px;text-decoration:none;font-weight:800;font-size:.9rem;}
+.btn-back-home.alt{background:linear-gradient(135deg,#ec4899,#a855f7);}
+header.hero{position:relative;z-index:10;text-align:center;padding:36px 20px 10px;}
+header.hero h1{font-size:2.1rem;margin:0;font-weight:900;color:#fbcfe8;}
+header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
+.container{position:relative;z-index:10;max-width:600px;margin:0 auto;padding:20px 20px 60px;}
+.timer-wrap{background:rgba(255,255,255,.06);border-radius:20px;padding:6px;margin-bottom:22px;border:1px solid rgba(255,255,255,.1);}
+.timer-bar{height:18px;border-radius:14px;background:linear-gradient(90deg,#ec4899,#a855f7);width:100%;transition:width 1s linear;}
+.timer-label{text-align:center;font-weight:900;margin-bottom:6px;color:#fbcfe8;}
+.score-pill{display:block;text-align:center;background:rgba(236,72,153,.14);border:1px solid rgba(236,72,153,.4);color:#fbcfe8;padding:8px 18px;border-radius:20px;font-weight:800;margin-bottom:20px;}
+.start-screen, .question-screen, .end-screen { display:none; text-align:center; }
+.start-screen.shown, .question-screen.shown, .end-screen.shown { display:block; }
+.big-btn{background:linear-gradient(135deg,#ec4899,#a855f7);color:#fff;border:none;padding:16px 36px;border-radius:30px;font-weight:900;font-size:1.1rem;cursor:pointer;box-shadow:0 10px 24px rgba(236,72,153,.35);}
+.question-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:26px;}
+.question-card .q-text{font-weight:900;font-size:1.15rem;color:#fbcfe8;margin-bottom:18px;}
+.answer-btn{display:block;width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:#f2f4fb;padding:12px;border-radius:12px;font-size:.98rem;font-family:'Rubik',sans-serif;font-weight:700;cursor:pointer;margin-bottom:10px;}
+.answer-btn:hover:not(:disabled){background:rgba(255,255,255,.14);}
+.answer-btn.correct{background:rgba(52,211,153,.3);border-color:#34d399;}
+.answer-btn.wrong{background:rgba(239,68,68,.3);border-color:#ef4444;}
+.end-screen .t{font-size:1.4rem;font-weight:900;color:#fbcfe8;}
+.blob-3{top:35%;right:20%;width:340px;height:340px;background:#f59e0b;animation-delay:-12s;opacity:.25;}
+.grain-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.vignette{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at 50% 35%, transparent 45%, rgba(0,0,0,.5) 100%);}
+.floaters{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+.floaters span{position:absolute;bottom:-60px;font-size:1.8rem;opacity:0;animation:floatUp linear infinite;filter:drop-shadow(0 0 8px rgba(255,255,255,.15));}
+@keyframes floatUp{0%{transform:translateY(0) rotate(0deg);opacity:0;}8%{opacity:.5;}90%{opacity:.32;}100%{transform:translateY(-115vh) rotate(30deg);opacity:0;}}
+.pulse-rings{position:absolute;inset:-40px;pointer-events:none;z-index:-1;}
+.pulse-rings span{position:absolute;inset:0;border-radius:20px;border:2px solid rgba(236,72,153,.35);animation:pulseRing 2.5s ease-out infinite;}
+.pulse-rings span:nth-child(2){animation-delay:.8s;}
+.pulse-rings span:nth-child(3){animation-delay:1.6s;}
+@keyframes pulseRing{0%{transform:scale(.9);opacity:.7;}100%{transform:scale(1.25);opacity:0;}}
+@media(max-width:600px){header.hero h1{font-size:1.5rem;}}
+</style>
+</head>
+<body>
+<div class="bg-aura" aria-hidden="true"><div class="aura-blob blob-1"></div><div class="aura-blob blob-2"></div><div class="aura-blob blob-3"></div></div>
+<div class="grain-overlay" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+<div class="floaters" aria-hidden="true">
+    <span style="left:8%;animation-duration:17s;animation-delay:0s;">⏱️</span>
+    <span style="left:24%;animation-duration:20s;animation-delay:4s;">💥</span>
+    <span style="left:42%;animation-duration:19s;animation-delay:8s;">✨</span>
+    <span style="left:60%;animation-duration:22s;animation-delay:2s;">⏱️</span>
+    <span style="left:78%;animation-duration:18s;animation-delay:10s;">🔥</span>
+    <span style="left:90%;animation-duration:21s;animation-delay:6s;">✨</span>
+</div>
+<div class="pride-bar"></div>
+<nav class="top-navbar">
+    <div class="nav-logo">⏱️ יורופוסטמה 3</div>
+    <div class="nav-links">
+        <a href="trivia-world.html" class="btn-back-home alt">🎡 עולם הטריוויה</a>
+        <a href="index.html" class="btn-back-home">🏠 ראשי</a>
+    </div>
+</nav>
+<header class="hero">
+    <h1>⏱️ מרוץ נגד השעון - יורופוסטמה 3</h1>
+    <p>יש לכם 60 שניות - כמה שאלות תספיקו לענות נכון?</p>
+</header>
+<div class="container">
+    <div class="start-screen shown" id="startScreen">
+        <button class="big-btn" onclick="startGame()">🚀 התחילו את המרוץ</button>
+    </div>
+
+    <div class="question-screen" id="questionScreen">
+        <div class="timer-wrap" style="position:relative;">
+        <div class="pulse-rings"><span></span><span></span><span></span></div>
+        <div class="timer-bar" id="timerBar"></div>
+    </div>
+        <div class="timer-label" id="timerLabel">60 שניות</div>
+        <div class="score-pill" id="scorePill">0 תשובות נכונות</div>
+        <div class="question-card">
+            <div class="q-text" id="qText"></div>
+            <div id="qOpts"></div>
+        </div>
+    </div>
+
+    <div class="end-screen" id="endScreen">
+        <div class="t" id="endTitle"></div>
+        <p id="endScore" style="color:#dde1f2;margin-top:10px;"></p>
+        <button class="big-btn" onclick="startGame()">🔄 עוד סיבוב</button>
+    </div>
+</div>
+<script>
+const questions = [
+    { q:"מי ניצח/ה ביורופוסטמה 3?", options:["ניצן (ישראל)","אלונה (שוודיה)","נעם (איטליה)","עידן (ארה\"ב)"], correct:1 },
+    { q:"איזו מדינה ייצג עידן קשת ביורופוסטמה 3?", options:["איטליה","בריטניה","דרום קוריאה","אוסטרליה"], correct:2 },
+    { q:"כמה נקודות קיבלה אלונה בגמר הגדול?", options:["122","116","149","107"], correct:2 },
+    { q:"מי סיים/ה במקום האחרון בגמר (מתוך 18)?", options:["אגם (תאילנד)","שלו (בולגריה)","סהר (ניו זילנד)","מיקה (סין)"], correct:0 },
+    { q:"מה הניקוד השיאי שקיבלה אלונה בחצי גמר 1?", options:["149","183","199","156"], correct:2 },
+    { q:"מי קיבל/ה הכי הרבה נקודות קהל בגמר יורופוסטמה 3?", options:["אלונה","נעם","ניצן","עדיאל"], correct:2 },
+    { q:"איזו מדינה ייצגה ניצן ביורופוסטמה 3?", options:["ישראל","איטליה","ליכטנשטיין","אזרבייג'ן"], correct:0 },
+    { q:"מי סיים/ה במקום השני בגמר יורופוסטמה 3?", options:["נעם","עדיאל","ניצן","טלי"], correct:2 },
+    { q:"איזו מדינה ייצג/ה נעם ביורופוסטמה 3?", options:["אזרבייג'ן","איטליה","אוקראינה","ארמניה"], correct:1 },
+    { q:"איזו מדינה ייצג/ה עדיאל ביורופוסטמה 3?", options:["ליכטנשטיין","בלגיה","רוסיה","סין"], correct:0 },
+    { q:"איזו מדינה ייצגה טלי ביורופוסטמה 3?", options:["אזרבייג'ן","פינלנד","בריטניה","ניו זילנד"], correct:0 },
+    { q:"איזו מדינה ייצג/ה שי ביורופוסטמה 3?", options:["אוקראינה","בלגיה","רוסיה","בולגריה"], correct:0 },
+    { q:"איזו מדינה ייצג/ה גילי ביורופוסטמה 3?", options:["ארמניה","קונגו","האיטי","תאילנד"], correct:0 },
+    { q:"איזו מדינה ייצגה איילת ביורופוסטמה 3?", options:["קונגו","פינלנד","בריטניה","סין"], correct:0 },
+    { q:"איזו מדינה ייצג/ה טל ביורופוסטמה 3?", options:["האיטי","בלגיה","רוסיה","ניו זילנד"], correct:0 },
+    { q:"איזו מדינה ייצגה הילה ביורופוסטמה 3?", options:["פינלנד","בריטניה","בלגיה","רוסיה"], correct:0 },
+    { q:"איזו מדינה ייצג/ה עידו ביורופוסטמה 3?", options:["בריטניה","פינלנד","סין","ניו זילנד"], correct:0 },
+    { q:"איזו מדינה ייצג/ה יוני ביורופוסטמה 3?", options:["בלגיה","רוסיה","סין","בולגריה"], correct:0 },
+    { q:"איזו מדינה ייצג/ה רון ביורופוסטמה 3?", options:["רוסיה","סין","ניו זילנד","בולגריה"], correct:0 },
+    { q:"איזו מדינה ייצג/ה מיקה ביורופוסטמה 3?", options:["סין","ניו זילנד","בולגריה","תאילנד"], correct:0 },
+    { q:"איזו מדינה ייצג/ה סהר ביורופוסטמה 3?", options:["ניו זילנד","בולגריה","תאילנד","איטליה"], correct:0 },
+    { q:"איזו מדינה ייצג/ה שלו ביורופוסטמה 3?", options:["בולגריה","תאילנד","איטליה","ליכטנשטיין"], correct:0 },
+    { q:"מי ייצג/ה את שוודיה ביורופוסטמה 3?", options:["ניצן","אלונה","נעם","עידן"], correct:1 },
+    { q:"מי ייצג/ה את ישראל ביורופוסטמה 3?", options:["ניצן","אלונה","עדיאל","טלי"], correct:0 },
+    { q:"מי ייצג/ה את איטליה ביורופוסטמה 3?", options:["נעם","שי","גילי","איילת"], correct:0 },
+    { q:"מי ייצג/ה את ארה\"ב ביורופוסטמה 3?", options:["עידן","עידו","יוני","רון"], correct:0 },
+    { q:"מי ייצג/ה את בריטניה ביורופוסטמה 3?", options:["עידו","יוני","רון","מיקה"], correct:0 },
+    { q:"מי ייצג/ה את בלגיה ביורופוסטמה 3?", options:["יוני","רון","מיקה","סהר"], correct:0 },
+    { q:"מי ייצג/ה את תאילנד ביורופוסטמה 3?", options:["אגם","שלו","סהר","מיקה"], correct:0 },
+    { q:"כמה נקודות קיבל/ה ניצן בגמר הגדול?", options:["149","122","116","113"], correct:1 },
+    { q:"כמה נקודות קיבל/ה נעם בגמר הגדול?", options:["113","111","116","107"], correct:2 },
+    { q:"כמה נקודות קיבל/ה עדיאל בגמר הגדול?", options:["107","111","106","99"], correct:1 },
+    { q:"כמה נקודות קיבל/ה שי בגמר הגדול?", options:["107","99","106","79"], correct:2 },
+    { q:"כמה נקודות קיבל/ה גילי בגמר הגדול?", options:["79","99","74","72"], correct:1 },
+    { q:"כמה נקודות קיבל/ה אגם בגמר הגדול - הניקוד הכי נמוך בעונה?", options:["54","62","66","38"], correct:3 },
+    { q:"מה שם השיר של ניצן בחצי גמר 1?", options:["אמרתי לו כן","Libre","Au","engravings"], correct:0 },
+    { q:"מה שם השיר של שי בחצי גמר 1?", options:["Fantomsmärta","engravings","Libre","Au"], correct:1 },
+    { q:"מה שם השיר של יוני בחצי גמר 1?", options:["Libre","Au","Coups de soleil","WELCOME TO ECLESIA"], correct:0 },
+    { q:"מה שם השיר של גילי בחצי גמר 1?", options:["Au","Painava sydän","TOTO DE LOCA","Girassóis"], correct:0 },
+    { q:"מי שר/ה את השיר \"WELCOME TO ECLESIA\" בחצי גמר 1?", options:["טל","הילה","מיקה","שירה"], correct:0 },
+    { q:"כמה נקודות קיבל/ה יוני בחצי גמר 1?", options:["152","135","131","127"], correct:2 },
+    { q:"כמה נקודות קיבל/ה מיקה בחצי גמר 1?", options:["112","110","105","104"], correct:2 },
+    { q:"מי שר/ה את השיר \"TOTO DE LOCA\" בחצי הגמר?", options:["ג'וסף","סתיו","שירה","עידן קשת"], correct:0 },
+    { q:"מי שר/ה את השיר \"Girassóis\" בחצי הגמר?", options:["עידן קשת","ג'וסף","סתיו","שירה"], correct:2 }
+];
+let order=[], qIndex=0, score=0, timeLeft=60, timerInterval=null;
+
+function shuffle(arr){ return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]); }
+
+function startGame(){
+    document.getElementById('startScreen').classList.remove('shown');
+    document.getElementById('endScreen').classList.remove('shown');
+    document.getElementById('questionScreen').classList.add('shown');
+    order = shuffle(questions.map((_,i)=>i));
+    qIndex = 0; score = 0; timeLeft = 60;
+    document.getElementById('scorePill').textContent = '0 תשובות נכונות';
+    updateTimerUI();
+    showQuestion();
+    if(timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(()=>{
+        timeLeft--;
+        updateTimerUI();
+        if(timeLeft<=0){ clearInterval(timerInterval); endGame(); }
+    },1000);
+}
+
+function updateTimerUI(){
+    document.getElementById('timerLabel').textContent = timeLeft + ' שניות';
+    document.getElementById('timerBar').style.width = (timeLeft/60*100)+'%';
+}
+
+function showQuestion(){
+    if(qIndex >= order.length){ order = order.concat(shuffle(questions.map((_,i)=>i))); }
+    const item = questions[order[qIndex]];
+    document.getElementById('qText').textContent = item.q;
+    document.getElementById('qOpts').innerHTML = item.options.map((opt,i)=>`<button class="answer-btn" onclick="answer(${i})">${opt}</button>`).join('');
+}
+
+function answer(chosenIdx){
+    const item = questions[order[qIndex]];
+    const buttons = document.querySelectorAll('#qOpts .answer-btn');
+    buttons.forEach((btn,i)=>{ btn.disabled=true; if(i===item.correct) btn.classList.add('correct'); else if(i===chosenIdx) btn.classList.add('wrong'); });
+    if(chosenIdx===item.correct){
+        score++;
+        document.getElementById('scorePill').textContent = score + ' תשובות נכונות';
+        confetti({particleCount:40,spread:45,origin:{y:.6}});
+    }
+    qIndex++;
+    setTimeout(()=>{ if(timeLeft>0) showQuestion(); },500);
+}
+
+function endGame(){
+    document.getElementById('questionScreen').classList.remove('shown');
+    document.getElementById('endScreen').classList.add('shown');
+    let title = score>=6 ? '🔥 מהירים ומדויקים!' : score>=3 ? '🙂 לא רע בכלל!' : '📚 יש עוד לאן להתקדם';
+    document.getElementById('endTitle').textContent = title;
+    document.getElementById('endScore').textContent = `ענית נכון על ${score} שאלות ב-60 שניות`;
+    if(score>=6) confetti({particleCount:160,spread:100,origin:{y:.5}});
+}
+</script>
+</body>
+</html>
