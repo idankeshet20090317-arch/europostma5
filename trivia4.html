@@ -1,677 +1,539 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>יורופוסטמה - האתר הרשמי</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מסלול הלוח - יורופוסטמה 4 🎲</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+* { box-sizing: border-box; }
+body { font-family:'Rubik',sans-serif; margin:0; background:#0a0c16; color:#f2f4fb; min-height:100vh; overflow-x:hidden; }
+.bg-aura { position:fixed; inset:0; z-index:0; overflow:hidden; }
+.aura-blob { position:absolute; border-radius:50%; filter:blur(95px); opacity:.4; animation:auraMove 20s ease-in-out infinite; }
+.blob-1{top:-10%;left:-5%;width:480px;height:480px;background:#10b981;}
+.blob-2{bottom:-15%;right:-10%;width:520px;height:520px;background:#0ea5e9;animation-delay:-6s;}
+@keyframes auraMove{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(50px,-40px) scale(1.15);}}
+.pride-bar{height:6px;width:100%;background:linear-gradient(to right,#ff0000,#ff8000,#ffff00,#008000,#0000ff,#a000c0);position:fixed;top:0;z-index:1002;}
+.top-navbar{position:sticky;top:9px;z-index:500;max-width:1100px;margin:15px auto 0;padding:14px 26px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.09);border-radius:50px;}
+.nav-logo{font-weight:900;font-size:1.1rem;color:#a7f3d0;}
+.nav-links{display:flex;gap:10px;}
+.btn-back-home{background:linear-gradient(135deg,#22d3ee,#6366f1);color:#fff;padding:9px 18px;border-radius:30px;text-decoration:none;font-weight:800;font-size:.9rem;}
+.btn-back-home.alt{background:linear-gradient(135deg,#10b981,#0ea5e9);}
+header.hero{position:relative;z-index:10;text-align:center;padding:36px 20px 10px;}
+header.hero h1{font-size:2.1rem;margin:0;font-weight:900;color:#a7f3d0;}
+header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
+.container{position:relative;z-index:10;max-width:950px;margin:0 auto;padding:20px 20px 60px;text-align:center;}
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+.status-container { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 15px; }
+.score-pill{ background:rgba(16,185,129,.14);border:1px solid rgba(16,185,129,.4);color:#a7f3d0;padding:10px 20px;border-radius:20px;font-weight:800; }
+.bot-pill{ background:rgba(239,68,68,.14);border:1px solid rgba(239,68,68,.4);color:#fca5a5;padding:10px 20px;border-radius:20px;font-weight:800; }
 
-    <style>
-        * { box-sizing: border-box; }
+/* חנות פרסים מעודכנת */
+.shop-section { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 20px; padding: 15px; margin-bottom: 20px; }
+.shop-title { font-weight: 900; color: #fde68a; margin-bottom: 10px; font-size: 1.1rem; }
+.shop-items { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.shop-btn { background: linear-gradient(135deg, #a855f7, #6366f1); color: white; border: none; padding: 8px 14px; border-radius: 12px; font-weight: 800; cursor: pointer; font-family: 'Rubik', sans-serif; font-size: 0.85rem; }
+.shop-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        body {
-            font-family: 'Rubik', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #0a0c16;
-            color: #f2f4fb;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
+.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;font-size:.78rem;color:#b6bdd6;margin-bottom:18px;}
+.legend span{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:4px 10px;}
 
-        /* --- רקע Aurora --- */
-        .bg-aura {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            overflow: hidden;
-            background: #0a0c16;
-        }
+.board{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:22px;max-width:850px;margin-left:auto;margin-right:auto;}
+.station{position:relative;aspect-ratio:1/1;border-radius:12px;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;color:#dde1f2;font-size:.8rem;}
+.station.done{background:rgba(16,185,129,.2);border-color:rgba(52,211,153,.5);}
+.station.t-question{background:rgba(99,102,241,.18);border-color:rgba(99,102,241,.4);}
+.station.t-ladder{background:rgba(52,211,153,.18);border-color:rgba(52,211,153,.4);}
+.station.t-snake{background:rgba(239,68,68,.18);border-color:rgba(239,68,68,.4);}
+.station.t-star{background:rgba(251,191,36,.18);border-color:rgba(251,191,36,.4);}
+.station.t-gift{background:rgba(236,72,153,.18);border-color:rgba(236,72,153,.4);}
+.station.t-skip{background:rgba(148,163,184,.18);border-color:rgba(148,163,184,.4);}
+.station.t-trap{background:rgba(220,38,38,.4);border-color:#ef4444;}
+.station.t-finish{background:rgba(251,191,36,.35);border-color:#fbbf24;}
+.station .icon{font-size:0.85rem;}
 
-        .bg-aura::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
-            background-size: 48px 48px;
-            mask-image: radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0.9), transparent 75%);
-            -webkit-mask-image: radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0.9), transparent 75%);
-        }
+/* עיצוב משופר, בולט וגדול בטירוף לשחקנים */
+.tokens-holder { 
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    display: flex; 
+    gap: 4px; 
+    z-index: 50; 
+    pointer-events: none;
+}
+.player-token, .bot-token { 
+    font-size: 2.2rem; 
+    background: rgba(10, 12, 22, 0.85); 
+    border-radius: 50%; 
+    padding: 2px; 
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.8), 0 4px 8px rgba(0, 0, 0, 0.9); 
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.player-token { border: 2px solid #22d3ee; }
+.bot-token { border: 2px solid #ef4444; }
 
-        .aura-blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(95px);
-            opacity: 0.45;
-            animation: auraMove 20s ease-in-out infinite;
-        }
+@keyframes popIn {
+    0% { transform: scale(0); }
+    100% { transform: scale(1); }
+}
 
-        .blob-1 { top: -10%; left: -5%; width: 480px; height: 480px; background: #22d3ee; }
-        .blob-2 { bottom: -15%; right: -10%; width: 520px; height: 520px; background: #a855f7; animation-delay: -6s; }
-        .blob-3 { top: 30%; right: 20%; width: 380px; height: 380px; background: #ec4899; animation-delay: -12s; opacity: 0.3; }
-        .blob-4 { bottom: 10%; left: 15%; width: 340px; height: 340px; background: #f59e0b; animation-delay: -16s; opacity: 0.28; }
+.die-area{margin-bottom:10px;}
+.die{width:70px;height:70px;margin:0 auto 14px;border-radius:16px;background:linear-gradient(135deg,#10b981,#0ea5e9);display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:900;box-shadow:0 10px 24px rgba(16,185,129,.35);}
+.big-btn{background:linear-gradient(135deg,#10b981,#0ea5e9);color:#04231c;border:none;padding:14px 34px;border-radius:30px;font-weight:900;font-size:1.05rem;cursor:pointer;box-shadow:0 10px 24px rgba(16,185,129,.35);}
+.big-btn:disabled{opacity:.5;cursor:default;}
+.toast{min-height:30px;font-weight:800;color:#fde68a;margin-top:10px;font-size:.95rem;}
 
-        @keyframes auraMove {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(50px, -40px) scale(1.15); }
-        }
+.question-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);align-items:center;justify-content:center;z-index:900;padding:20px;}
+.question-modal.shown{display:flex;}
+.question-box{background:#141a2e;border:1px solid rgba(16,185,129,.4);border-radius:22px;padding:28px;max-width:440px;width:100%;}
+.question-box .q-text{font-weight:900;font-size:1.1rem;color:#a7f3d0;margin-bottom:16px;text-align:center;}
+.answer-btn{display:block;width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:#f2f4fb;padding:10px;border-radius:10px;font-size:.95rem;font-family:'Rubik',sans-serif;font-weight:700;cursor:pointer;margin-bottom:8px;}
+.answer-btn:hover:not(:disabled){background:rgba(255,255,255,.14);}
+.answer-btn.correct{background:rgba(52,211,153,.3);border-color:#34d399;}
+.answer-btn.wrong{background:rgba(239,68,68,.3);border-color:#ef4444;}
+.close-modal{margin-top:10px;background:linear-gradient(135deg,#6366f1,#a855f7);color:#fff;border:none;padding:9px 20px;border-radius:30px;font-weight:800;cursor:pointer;display:none;}
+.close-modal.shown{display:inline-block;}
 
-        .grain-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        }
+.finish-banner{display:none;margin-top:10px;background:rgba(255,255,255,.05);border:1px solid rgba(16,185,129,.4);border-radius:22px;padding:24px;}
+.finish-banner.shown{display:block;}
 
-        .pride-bar {
-            height: 6px;
-            width: 100%;
-            background: linear-gradient(to right, #ff0000, #ff8000, #ffff00, #008000, #0000ff, #a000c0);
-            position: fixed;
-            top: 0;
-            z-index: 1002;
-        }
-
-        .scroll-progress {
-            position: fixed;
-            top: 6px;
-            right: 0;
-            height: 3px;
-            width: 0%;
-            background: linear-gradient(90deg, #22d3ee, #a855f7, #ec4899);
-            z-index: 1001;
-            transition: width 0.1s ease-out;
-        }
-
-        /* --- ניווט עליון --- */
-        .top-navbar {
-            position: sticky;
-            top: 9px;
-            z-index: 500;
-            max-width: 1100px;
-            margin: 15px auto 0;
-            padding: 14px 26px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            border-radius: 50px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-        }
-
-        .nav-logo {
-            font-weight: 900;
-            font-size: 1.2rem;
-            background: linear-gradient(90deg, #22d3ee, #a855f7, #ec4899);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .nav-clock {
-            font-weight: 700;
-            font-size: 1rem;
-            color: #cbd5e1;
-            direction: ltr;
-            letter-spacing: 1px;
-            background: rgba(255,255,255,0.06);
-            padding: 6px 16px;
-            border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-
-        /* --- הירו --- */
-        header.hero {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            padding: 60px 20px 40px;
-        }
-
-        header.hero h1 {
-            font-size: 3.1rem;
-            margin: 0;
-            font-weight: 900;
-            letter-spacing: 0.5px;
-            background: linear-gradient(90deg, #ffffff, #c7d2fe, #ffffff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 50px rgba(168, 85, 247, 0.25);
-        }
-
-        header.hero p {
-            font-size: 1.2rem;
-            margin: 14px 0 0;
-            color: #b6bdd6;
-            font-weight: 500;
-        }
-
-        .geo-badge {
-            background: rgba(34, 211, 238, 0.1);
-            border: 1px solid rgba(34, 211, 238, 0.4);
-            color: #67e8f9;
-            padding: 8px 18px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-top: 20px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            backdrop-filter: blur(5px);
-        }
-
-        .container {
-            position: relative;
-            z-index: 10;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 10px 20px 20px;
-        }
-
-        /* --- כרטיס חיפוש/ניווט מהיר --- */
-        .quick-nav-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(18px);
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            border-radius: 22px;
-            padding: 18px 22px;
-            margin-bottom: 26px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-        }
-
-        .quick-nav-row {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
-
-        .search-icon-nav {
-            font-size: 1.3rem;
-            opacity: 0.7;
-        }
-
-        #menuFilter {
-            flex: 1;
-            min-width: 180px;
-            background: rgba(0,0,0,0.25);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 30px;
-            padding: 12px 20px;
-            color: white;
-            font-size: 1.05rem;
-            font-family: 'Rubik', sans-serif;
-            transition: all 0.25s ease;
-        }
-
-        #menuFilter:focus {
-            outline: none;
-            border-color: #22d3ee;
-            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.2);
-        }
-
-        .random-jump-btn {
-            background: linear-gradient(135deg, #a855f7, #6366f1);
-            color: white;
-            border: none;
-            padding: 12px 22px;
-            border-radius: 30px;
-            font-weight: 800;
-            font-size: 1rem;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.25s ease;
-            box-shadow: 0 8px 18px rgba(168, 85, 247, 0.35);
-        }
-
-        .random-jump-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 22px rgba(168, 85, 247, 0.55);
-        }
-
-        .no-menu-results {
-            display: none;
-            text-align: center;
-            padding: 30px;
-            color: #94a3b8;
-            font-weight: 700;
-        }
-
-        /* --- רשת התפריט --- */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 18px;
-            margin-bottom: 40px;
-        }
-
-        .menu-card {
-            --c1: #22d3ee;
-            --c2: #6366f1;
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            background: rgba(255, 255, 255, 0.045);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            border-radius: 22px;
-            padding: 20px 22px;
-            text-decoration: none;
-            color: #fff;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
-        }
-
-        .menu-card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, var(--c1) 0%, transparent 55%);
-            opacity: 0.08;
-            pointer-events: none;
-        }
-
-        .menu-card:hover {
-            transform: translateY(-6px);
-            border-color: var(--c1);
-            box-shadow: 0 18px 40px -12px var(--c1);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .menu-icon {
-            width: 56px;
-            height: 56px;
-            min-width: 56px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.7rem;
-            background: linear-gradient(135deg, var(--c1), var(--c2));
-            box-shadow: 0 10px 20px -6px var(--c1);
-        }
-
-        .menu-text {
-            flex: 1;
-            position: relative;
-            z-index: 1;
-        }
-
-        .menu-title {
-            font-size: 1.2rem;
-            font-weight: 900;
-        }
-
-        .menu-desc {
-            font-size: 0.9rem;
-            opacity: 0.7;
-            margin-top: 3px;
-        }
-
-        .menu-arrow {
-            font-size: 1.3rem;
-            opacity: 0.45;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 1;
-        }
-
-        .menu-card:hover .menu-arrow {
-            transform: translateX(-6px);
-            opacity: 1;
-            color: var(--c1);
-        }
-
-        /* --- כרטיס תמונה ווידאו --- */
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border-radius: 25px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-        }
-
-        .card h2 {
-            font-size: 1.6rem;
-            margin-top: 0;
-            border-bottom: 2px solid rgba(255,255,255,0.12);
-            padding-bottom: 12px;
-            color: #f2f4fb;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .semifinal-image {
-            width: 100%;
-            border-radius: 18px;
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
-
-        /* עיצוב סרטונים מקומיים */
-        .videos-container {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            margin-top: 20px;
-        }
-
-        .video-item h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.15rem;
-            color: #67e8f9;
-        }
-
-        .semifinal-video {
-            width: 100%;
-            max-height: 500px;
-            border-radius: 18px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            background: #000;
-            outline: none;
-        }
-
-        /* --- פוטר --- */
-        .site-footer {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            padding: 10px 20px 70px;
-        }
-
-        .footer-flags {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            letter-spacing: 6px;
-            opacity: 0.85;
-        }
-
-        .footer-note {
-            color: #8890ac;
-            font-size: 0.9rem;
-        }
-
-        /* --- כפתור חזרה למעלה --- */
-        .back-to-top {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #22d3ee, #a855f7);
-            color: white;
-            border: none;
-            font-size: 1.3rem;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(34, 211, 238, 0.4);
-            z-index: 900;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(15px);
-            transition: all 0.3s ease;
-        }
-
-        .back-to-top.visible {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0);
-        }
-
-        .back-to-top:hover {
-            transform: translateY(-4px) scale(1.08);
-        }
-
-        @media (max-width: 600px) {
-            header.hero h1 { font-size: 2.1rem; }
-            .top-navbar { border-radius: 25px; padding: 12px 18px; }
-            .nav-logo { font-size: 1rem; }
-            .nav-clock { font-size: 0.85rem; padding: 5px 12px; }
-        }
-    </style>
+@media(max-width:768px){ .board{grid-template-columns:repeat(5,1fr);} }
+</style>
 </head>
 <body>
 
-    <div class="bg-aura" aria-hidden="true">
-        <div class="aura-blob blob-1"></div>
-        <div class="aura-blob blob-2"></div>
-        <div class="aura-blob blob-3"></div>
-        <div class="aura-blob blob-4"></div>
+<div class="pride-bar"></div>
+<nav class="top-navbar">
+    <div class="nav-logo">🎲 יורופוסטמה 4</div>
+    <div class="nav-links">
+        <a href="trivia-world.html" class="btn-back-home alt">🎡 עולם הטריוויה</a>
+        <a href="index.html" class="btn-back-home">🏠 ראשי</a>
     </div>
-    <div class="grain-overlay" aria-hidden="true"></div>
+</nav>
 
-    <div class="pride-bar"></div>
-    <div class="scroll-progress" id="scrollProgress"></div>
+<header class="hero">
+    <h1>🎲 מסלול הלוח - יורופוסטמה 4</h1>
+    <p>50 צעדים לניצחון! ענו על שאלות, הרעפו מטבעות, קנו שדרוגים והביסו את המחשב!</p>
+</header>
 
-    <nav class="top-navbar">
-        <div class="nav-logo">🎵 יורופוסטמה</div>
-        <div class="nav-clock" id="liveClock">--:--:--</div>
-    </nav>
-
-    <header class="hero">
-        <h1>יורופוסטמה 🇪🇺</h1>
-        <p>ברוכים הבאים לאתר הרשמי של תחרות השירים הגדולה</p>
-        <div id="geoBadge" class="geo-badge">📡 מרחק מישראל לסין: כ-6,600 ק"מ</div>
-    </header>
-
-    <div class="container">
-
-        <div class="quick-nav-card">
-            <div class="quick-nav-row">
-                <span class="search-icon-nav">🔍</span>
-                <input type="text" id="menuFilter" placeholder="חפשו עמוד באתר... (לדוגמה: שירים, פרסים, משחק) — או הקישו / בכל מקום">
-                <button type="button" class="random-jump-btn" onclick="randomJump()">🎲 קפיצה אקראית</button>
-            </div>
-            <div id="noMenuResults" class="no-menu-results">😕 לא נמצא עמוד תואם לחיפוש שלכם</div>
-        </div>
-
-        <div class="menu-grid" id="menuGrid">
-            <a href="surprise.html" class="menu-card" data-title="הפתעה surprise" style="--c1:#ffb703; --c2:#ff7700;">
-                <div class="menu-icon">🎉</div>
-                <div class="menu-text">
-                    <div class="menu-title">הפתעה</div>
-                    <div class="menu-desc">משהו מיוחד מחכה לכם</div>
-                </div>
-                <div class="menu-arrow">←</div>
-            </a>
-
-            <a href="trivia-world.html" class="menu-card" data-title="עולם הטריוויה טריוויה יורופוסטמה trivia כרטיסיות משחק" style="--c1:#fbbf24; --c2:#ef4444;">
-                <div class="menu-icon">🎡</div>
-                <div class="menu-text">
-                    <div class="menu-title">עולם הטריוויה</div>
-                    <div class="menu-desc">4 משחקים שונים, כל אחד על עונה אחרת של היורופוסטמה</div>
-                </div>
-                <div class="menu-arrow">←</div>
-            </a>
-
-            <a href="music.html" class="menu-card" data-title="לעמוד השירים music songs" style="--c1:#22d3ee; --c2:#0ea5e9;">
-                <div class="menu-icon">🎵</div>
-                <div class="menu-text">
-                    <div class="menu-title">לעמוד השירים</div>
-                    <div class="menu-desc">כל השירים של העונה</div>
-                </div>
-                <div class="menu-arrow">←</div>
-            </a>
-
-            <a href="news.html" class="menu-card" data-title="pustema news חדשות" style="--c1:#38bdf8; --c2:#4facfe;">
-                <div class="menu-icon">📰</div>
-                <div class="menu-text">
-                    <div class="menu-title">PUSTEMA NEWS</div>
-                    <div class="menu-desc">כל העדכונים החמים</div>
-                </div>
-                <div class="menu-arrow">←</div>
-            </a>
-
-            <a href="schedule.html" class="menu-card" data-title="לוח זמנים שליחת שירים schedule" style="--c1:#ec4899; --c2:#a855f7;">
-                <div class="menu-icon">📅</div>
-                <div class="menu-text">
-                    <div class="menu-title">לוח זמנים ושליחת שירים רשמי</div>
-                    <div class="menu-desc">כל התאריכים החשובים</div>
-                </div>
-                <div class="menu-arrow">←</div>
-            </a>
-
-            <a href="awards.html" class="menu-card" data-title="europustema awards פרסים" style="--c1:#f8b500; --c2:#d4a017;">
-                <div class="menu-icon">🏆</div>
-                <div class="menu-text">
-                    <div class="menu-title">EUROPUSTEMA AWARDS</div>
-                    <div class="menu-desc">הצביעו לזוכים המצטיינים</div>
-                </div>
-                <div class="menu-arrow">←</div>
-            </a>
-
-            <a href="order.html" class="menu-card" data-title="טופ 5 כל השנים top 5" style="--c1:#ef4444; --c2:#f97316;">
-                <div class="menu-icon">🥇</div>
-                <div class="menu-text">
-                    <div class="menu-title">טופ 5 של כל השנים</div>
-                    <div class="menu-desc">היכל התהילה הרשמי</div>
-                </div>
-                <div class="menu-arrow">←</div>
-            </a>
-
-            <a href="results.html" class="menu-card" data-title="משחק הזיכרון memory game" style="--c1:#10b981; --c2:#22c55e;">
-                <div class="menu-icon">🧠</div>
-                <div class="menu-text">
-                    <div class="menu-title">משחק הזיכרון</div>
-                    <div class="menu-desc">בדקו את הזיכרון שלכם</div>
-                </div>
-                <div class="menu-arrow">←</div>
-            </a>
-        </div>
-
-        <div class="card">
-            <h2>🎤 סדר השירים בחצאי הגמר</h2>
-            <img src="semifinals-order.png" alt="סדר השירים בחצאי הגמר" class="semifinal-image">
-
-            <div class="videos-container">
-                <div class="video-item">
-                    <h3>🎬 סרטון 1 - חצי גמר ראשון</h3>
-                    <video controls class="semifinal-video">
-                        <source src="video1.mp4" type="video/mp4">
-                        הדפדפן שלך אינו תומך בנגן הווידאו.
-                    </video>
-                </div>
-                <div class="video-item">
-                    <h3>🎬 סרטון 2 - חצי גמר שני</h3>
-                    <video controls class="semifinal-video">
-                        <source src="video2.mp4" type="video/mp4">
-                        הדפדפן שלך אינו תומך בנגן הווידאו.
-                    </video>
-                </div>
-            </div>
-        </div>
-
+<div class="container">
+    <div class="status-container">
+        <div class="score-pill" id="scorePill">👤 אתה: משבצת 0 | 🪙 0₪</div>
+        <div class="bot-pill" id="botPill">🤖 המחשב: משבצת 0 | 🪙 0₪</div>
     </div>
 
-    <footer class="site-footer">
-        <div class="footer-flags">🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 🇩🇰 🇳🇱</div>
-        <p class="footer-note">יורופוסטמה © 2026</p>
-    </footer>
+    <div class="shop-section">
+        <div class="shop-title">🛒 חנות הפרסים והשדרוגים</div>
+        <div class="shop-items">
+            <button class="shop-btn" id="itemApple" onclick="buyItem('apple')">🍎 תפוח זהב (+3 צעדים) - 50₪</button>
+            <button class="shop-btn" id="itemRocket" onclick="buyItem('rocket')">🚀 טיל טורבו (+6 צעדים) - 85₪</button>
+            <button class="shop-btn" id="itemShield" onclick="buyItem('shield')">🛡️ מגן מלכודות (חסינות מ-49) - 70₪</button>
+            <button class="shop-btn" id="itemBanana" onclick="buyItem('banana')">🍌 קליפת בננה (הכשלת יריב -4) - 60₪</button>
+        </div>
+    </div>
 
-    <button id="backToTop" class="back-to-top" aria-label="חזרה למעלה" title="חזרה למעלה">⬆️</button>
+    <div class="legend">
+        <span>🟣 שאלה</span><span>🪜 סולם +3</span><span>🐍 נחש -2</span><span>⭐ בונוס +2</span><span>🎁 מתנה</span><span>⛔ פספוס</span><span>🔥 מלכודת (49)</span><span>🏁 סיום (50)</span>
+    </div>
 
-    <script>
-        function shootConfetti() {
-            confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+    <div class="board" id="board"></div>
+
+    <div class="die-area">
+        <div class="die" id="die">🎲</div>
+        <button class="big-btn" id="rollBtn" onclick="roll()">הטילו קובייה</button>
+        <div class="toast" id="toast"></div>
+    </div>
+
+    <div class="finish-banner" id="finishBanner">
+        <div id="finishTitle" style="font-size:1.3rem;font-weight:900;color:#a7f3d0;"></div>
+        <div id="finishScore" style="margin-top:8px;color:#dde1f2;"></div>
+        <button class="big-btn" style="margin-top:14px;" onclick="resetGame()">🔄 משחק חדש</button>
+    </div>
+</div>
+
+<div class="question-modal" id="modal">
+    <div class="question-box">
+        <div class="q-text" id="modalQ"></div>
+        <div id="modalOpts"></div>
+        <div style="text-align:center;"><button class="close-modal" id="closeModalBtn" onclick="closeModal()">המשיכו במסלול</button></div>
+    </div>
+</div>
+
+<script>
+/* ===== DATA ===== */
+const SEASON4 = [
+{name:"ניצן",country:"סין",song:"Night at the Opera",artist:"Emei",rank:1,final:true},
+{name:"מעין",country:"בריטניה",song:"Rebel Child",artist:"Dylan",rank:2,final:true},
+{name:"שי",country:"קזחסטן",song:"Выбери меня",artist:"КРИМ ПЛИН",rank:3,final:true},
+{name:"עידו",country:"בלגיה",song:"Ben je klaar?",artist:"Pommelien Thijs",rank:4,final:true},
+{name:"רון",country:"דרום קוריאה",song:"LEMONADE",artist:"aespa",rank:5,final:true},
+{name:"נריה",country:"מולדובה",song:"suflet",artist:"Krrysopher",rank:6,final:true},
+{name:"הילה",country:"ברזיל",song:"Mar",artist:"Bea Duarte",rank:7,final:true},
+{name:"אגם",country:"קנדה",song:"Dancing and Crying",artist:"Kiesza",rank:8,final:true},
+{name:"עדיאל",country:"לוקסמבורג",song:"The One I Love",artist:"Bolshiee",rank:9,final:true},
+{name:"שלו",country:"פולין",song:"3 miesiące",artist:"Manya",rank:10,final:true}
+];
+const CURATED = [
+    { q:"מי ניצח/ה ביורופוסטמה 4?", options:["מעין (בריטניה)","ניצן (סין)","שי (קזחסטן)","עידו (בלגיה)"], correct:1 },
+    { q:"מי סיים/ה במקום השני בגמר יורופוסטמה 4?", options:["שי","מעין","רון","נריה"], correct:1 },
+    // 10 קלפי שאלות נוספים
+    { q:"איזה שיר ביצעה Emei שייצגה את סין?", options:["Night at the Opera","Rebel Child","LEMONADE","Mar"], correct:0 },
+    { q:"איזו מדינה ייצגה האמנית Dylan ביורופוסטמה 4?", options:["בריטניה","בלגיה","קנדה","פולין"], correct:0 },
+    { q:"מה היה שמה של נציגת ברזיל ביורופוסטמה 4?", options:["הילה","נריה","אגם","שי"], correct:0 },
+    { q:"איזה אמן/להסגרה ביצע/ה את השיר 'LEMONADE' (דרום קוריאה)?", options:["aespa","Kiesza","Manya","Bea Duarte"], correct:0 },
+    { q:"באיזה מקום בגמר סיימה נציגת ברזיל (הילה)?", options:["מקום 7","מקום 3","מקום 5","מקום 10"], correct:0 },
+    { q:"מי ייצג/ה את מולדובה עם השיר 'suflet'?", options:["נריה","עדיאל","שלו","עידו"], correct:0 },
+    { q:"מה שם השיר של Pommelien Thijs מבלגיה?", options:["Ben je klaar?","3 miesiące","Rebel Child","Mar"], correct:0 },
+    { q:"איזו מדינה ייצג עדיאל ביורופוסטמה 4?", options:["לוקסמבורג","פולין","קזחסטן","סין"], correct:0 },
+    { q:"איזה שיר יצגה Kiesza מקנדה?", options:["Dancing and Crying","Night at the Opera","suflet","Выбери меня"], correct:0 },
+    { q:"מי הגיע/ה למקום ה-3 בגמר הגדול מבין המשתתפים?", options:["שי (קזחסטן)","עידו (בלגיה)","שלו (פולין)","אגם (קנדה)"], correct:0 }
+];
+
+function shuffleArr(a){ const arr=a.slice(); for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+function randomOthers(list, correctVal, key, n){ const vals=list.map(p=>p[key]).filter(v=>v!==correctVal); return shuffleArr(vals).slice(0,n); }
+function makeMC(qText, correctVal, wrongVals){ const options = shuffleArr([correctVal, ...wrongVals]); return { q:qText, options, correct: options.indexOf(correctVal) }; }
+function buildSeasonPool(DATA, label){
+    const pool = [];
+    DATA.forEach(p=>{
+        pool.push(makeMC(`מי ייצג/ה את ${p.country} ב${label}?`, p.name, randomOthers(DATA,p.name,'name',3)));
+        pool.push(makeMC(`איזו מדינה ייצג/ה ${p.name} ב${label}?`, p.country, randomOthers(DATA,p.country,'country',3)));
+    });
+    return pool;
+}
+const POOL = [...CURATED, ...buildSeasonPool(SEASON4,'4')];
+
+/* ===== GAME ENGINE ===== */
+const TOTAL_STEPS = 50;
+const TILE_MAP = {
+    3:{type:'question'}, 5:{type:'ladder',amount:3}, 8:{type:'snake',amount:2}, 10:{type:'question'},
+    12:{type:'star',amount:2}, 15:{type:'question'}, 18:{type:'gift'}, 20:{type:'question'},
+    22:{type:'skip'}, 25:{type:'ladder',amount:4}, 28:{type:'question'}, 31:{type:'snake',amount:3},
+    34:{type:'question'}, 37:{type:'star',amount:3}, 40:{type:'question'}, 42:{type:'gift'},
+    45:{type:'question'}, 47:{type:'skip'}, 49:{type:'trap'}, 50:{type:'finish'}
+};
+const TILE_ICON = { normal:'', question:'❓', ladder:'🪜', snake:'🐍', star:'⭐', gift:'🎁', skip:'⛔', trap:'🔥', finish:'🏁' };
+function tileOf(n){ return TILE_MAP[n] || {type:'normal'}; }
+
+// משתנים - שחקן
+let position = 0, money = 0, skipNext = false;
+let boughtItems = { apple:false, rocket:false, shield:false, banana:false };
+let hasShield = false;
+
+// משתנים - מחשב
+let botPos = 0, botMoney = 0, botSkipNext = false;
+let botBought = { apple:false, rocket:false, shield:false, banana:false };
+let botHasShield = false;
+
+let isBotTurn = false, rolling = false, awaitingAnswer = false, finished = false;
+let deck = [], deckPos = 0;
+
+function freshDeck(){ return shuffleArr(POOL); }
+function drawQuestion(){ if(deckPos>=deck.length){ deck=freshDeck(); deckPos=0; } return deck[deckPos++]; }
+
+function buildBoard(){
+    const board = document.getElementById('board');
+    board.innerHTML='';
+    for(let i=1;i<=TOTAL_STEPS;i++){
+        const tile = tileOf(i);
+        const st = document.createElement('div');
+        st.className='station t-'+tile.type;
+        st.id='station-'+i;
+        st.innerHTML = `<div class="icon">${TILE_ICON[tile.type]}</div><div class="num">${i}</div>`;
+        board.appendChild(st);
+    }
+    updateBoardHighlight();
+}
+
+function updateBoardHighlight(){
+    for(let i=1;i<=TOTAL_STEPS;i++){
+        const st = document.getElementById('station-'+i);
+        st.classList.remove('done');
+        const tokenExisting = st.querySelector('.tokens-holder');
+        if(tokenExisting) tokenExisting.remove();
+        if(i <= position) st.classList.add('done');
+    }
+
+    for(let i=1; i<=TOTAL_STEPS; i++){
+        const st = document.getElementById('station-'+i);
+        if(i === position || i === botPos){
+            const holder = document.createElement('div');
+            holder.className = 'tokens-holder';
+            if(i === position) holder.innerHTML += `<span class="player-token" title="אתה">👤</span>`;
+            if(i === botPos) holder.innerHTML += `<span class="bot-token" title="המחשב">🤖</span>`;
+            st.appendChild(holder);
         }
+    }
 
-        document.querySelectorAll('.menu-card').forEach(card => {
-            card.addEventListener('click', shootConfetti);
-        });
+    document.getElementById('scorePill').textContent = `👤 אתה: משבצת ${position}/${TOTAL_STEPS} | 🪙 ${money}₪`;
+    document.getElementById('botPill').textContent = `🤖 המחשב: משבצת ${botPos}/${TOTAL_STEPS} | 🪙 ${botMoney}₪`;
+    updateShopButtons();
+}
 
-        /* ===== שעון חי ===== */
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('liveClock').textContent = now.toLocaleTimeString('he-IL');
+function updateShopButtons(){
+    // ניתן לקנות בחנות תמיד כל עוד לא תור הבוט והמשחק לא הסתיים
+    document.getElementById('itemApple').disabled = boughtItems.apple || money < 50 || isBotTurn || finished;
+    document.getElementById('itemRocket').disabled = boughtItems.rocket || money < 85 || isBotTurn || finished;
+    document.getElementById('itemShield').disabled = boughtItems.shield || money < 70 || isBotTurn || finished;
+    document.getElementById('itemBanana').disabled = boughtItems.banana || money < 60 || isBotTurn || finished;
+}
+
+/* ===== חנות שדרוגים ===== */
+function buyItem(item){
+    if(isBotTurn || finished) return;
+    if(item === 'apple' && money >= 50 && !boughtItems.apple){
+        money -= 50; boughtItems.apple = true;
+        position = Math.min(position + 3, TOTAL_STEPS);
+        showToast('🍎 אכלת תפוח זהב! קפצת 3 צעדים קדימה!');
+    } else if(item === 'rocket' && money >= 85 && !boughtItems.rocket){
+        money -= 85; boughtItems.rocket = true;
+        position = Math.min(position + 6, TOTAL_STEPS);
+        showToast('🚀 הפעלת טיל טורבו! טסת 6 צעדים קדימה!');
+    } else if(item === 'shield' && money >= 70 && !boughtItems.shield){
+        money -= 70; boughtItems.shield = true;
+        hasShield = true;
+        showToast('🛡️ קנית מגן! אתה מוגן מנפילה במלכודת 49!');
+    } else if(item === 'banana' && money >= 60 && !boughtItems.banana){
+        money -= 60; boughtItems.banana = true;
+        botPos = Math.max(botPos - 4, 1);
+        showToast('🍌 זרקת קליפת בננה! המחשב החליק 4 צעדים אחורה!');
+    }
+    updateBoardHighlight();
+    checkWinCondition();
+}
+
+function showToast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    setTimeout(()=>{ if(t.textContent===msg) t.textContent=''; }, 2800);
+}
+
+function roll(){
+    if(rolling || awaitingAnswer || finished || isBotTurn) return;
+    if(skipNext){
+        skipNext = false;
+        showToast('⛔ פספסת תור! כעת תור המחשב...');
+        setTimeout(startBotTurn, 1500);
+        return;
+    }
+    rolling = true;
+    document.getElementById('rollBtn').disabled = true;
+    let ticks = 0;
+    const dieEl = document.getElementById('die');
+    const rollAnim = setInterval(()=>{
+        dieEl.textContent = 1+Math.floor(Math.random()*6);
+        ticks++;
+        if(ticks>10){
+            clearInterval(rollAnim);
+            const finalRoll = 1+Math.floor(Math.random()*6);
+            dieEl.textContent = finalRoll;
+            
+            position = Math.min(position + finalRoll, TOTAL_STEPS);
+            updateBoardHighlight();
+            rolling = false;
+            resolveTile(position, false);
         }
-        updateClock();
-        setInterval(updateClock, 1000);
+    },90);
+}
 
-        /* ===== סרגל התקדמות גלילה ===== */
-        function updateScrollProgress() {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            document.getElementById('scrollProgress').style.width = progress + '%';
-
-            const backBtn = document.getElementById('backToTop');
-            if (scrollTop > 300) {
-                backBtn.classList.add('visible');
-            } else {
-                backBtn.classList.remove('visible');
-            }
+function resolveTile(cellNum, isBot){
+    const tile = tileOf(cellNum);
+    
+    if(cellNum === 49){
+        if(!isBot && hasShield){
+            hasShield = false;
+            showToast('🛡️ המגן שלך הופעל והציל אותך מהמלכודת!');
+        } else if(isBot && botHasShield){
+            botHasShield = false;
+            showToast('🛡️ המגן של המחשב הופעל והציל אותו מהמלכודת!');
+        } else {
+            if(!isBot) { position = 1; showToast('🔥 נפלת במלכודת 49! חזרת להתחלה!'); }
+            else { botPos = 1; showToast('🔥 המחשב נפל במלכודת 49 וחזר להתחלה!'); }
         }
-        window.addEventListener('scroll', updateScrollProgress);
-        updateScrollProgress();
+        updateBoardHighlight();
+        endTurn(isBot);
+        return;
+    }
 
-        document.getElementById('backToTop').addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        /* ===== חיפוש/סינון מהיר של התפריט ===== */
-        const menuFilterInput = document.getElementById('menuFilter');
-        const menuCards = Array.from(document.querySelectorAll('.menu-card'));
-        const noMenuResults = document.getElementById('noMenuResults');
-
-        menuFilterInput.addEventListener('input', function () {
-            const filter = this.value.trim().toLowerCase();
-            let anyVisible = false;
-
-            menuCards.forEach(card => {
-                const title = card.dataset.title.toLowerCase();
-                if (filter === "" || title.includes(filter)) {
-                    card.style.display = 'flex';
-                    anyVisible = true;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            noMenuResults.style.display = (!anyVisible && filter !== "") ? 'block' : 'none';
-        });
-
-        menuFilterInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                const firstVisible = menuCards.find(card => card.style.display !== 'none');
-                if (firstVisible) window.location.href = firstVisible.getAttribute('href');
-            }
-        });
-
-        /* קיצור מקלדת: לחיצה על / ממקדת את החיפוש מכל מקום באתר */
-        document.addEventListener('keydown', function (e) {
-            if (e.key === '/' && document.activeElement !== menuFilterInput) {
-                e.preventDefault();
-                menuFilterInput.focus();
-            }
-        });
-
-        /* ===== קפיצה אקראית לעמוד ===== */
-        function randomJump() {
-            const links = menuCards.map(card => card.getAttribute('href'));
-            const randomLink = links[Math.floor(Math.random() * links.length)];
-            shootConfetti();
-            setTimeout(() => { window.location.href = randomLink; }, 400);
+    if(tile.type==='question'){
+        if(!isBot){
+            awaitingAnswer = true;
+            openQuestion();
+        } else {
+            handleBotQuestion();
         }
-    </script>
+        return;
+    }
+    
+    if(tile.type==='ladder'){
+        if(!isBot) { position = Math.min(position+tile.amount, TOTAL_STEPS); showToast(`🪜 סולם! קפצת ${tile.amount} צעדים!`); }
+        else { botPos = Math.min(botPos+tile.amount, TOTAL_STEPS); showToast(`🪜 המחשב טיפס בסולם ${tile.amount} צעדים!`); }
+    } else if(tile.type==='snake'){
+        if(!isBot) { position = Math.max(position-tile.amount, 1); showToast(`🐍 אופס! החלקת ${tile.amount} צעדים אחורה!`); }
+        else { botPos = Math.max(botPos-tile.amount, 1); showToast(`🐍 המחשב החליק ${tile.amount} צעדים אחורה!`); }
+    } else if(tile.type==='star'){
+        if(!isBot) { position = Math.min(position+tile.amount, TOTAL_STEPS); showToast(`⭐ בונוס! עוד ${tile.amount} צעדים!`); }
+        else { botPos = Math.min(botPos+tile.amount, TOTAL_STEPS); showToast(`⭐ המחשב קיבל בונוס +${tile.amount}!`); }
+    } else if(tile.type==='gift'){
+        if(!isBot) { money += 30; showToast('🎁 קיבלת מתנה! +30₪'); }
+        else { botMoney += 30; showToast('🎁 המחשב קיבל מתנה! +30₪'); }
+    } else if(tile.type==='skip'){
+        if(!isBot) { skipNext = true; showToast('⛔ תחנת פספוס תור!'); }
+        else { botSkipNext = true; showToast('⛔ המחשב יפספס את התור הבא!'); }
+    }
+
+    updateBoardHighlight();
+    endTurn(isBot);
+}
+
+function endTurn(isBot){
+    if(checkWinCondition()) return;
+    
+    if(!isBot){
+        isBotTurn = true;
+        setTimeout(startBotTurn, 1500);
+    } else {
+        isBotTurn = false;
+        document.getElementById('rollBtn').disabled = false;
+        updateShopButtons();
+    }
+}
+
+function openQuestion(){
+    const item = drawQuestion();
+    document.getElementById('modal').dataset.currentItem = JSON.stringify(item);
+    document.getElementById('modalQ').textContent = item.q;
+    const optsDiv = document.getElementById('modalOpts');
+    optsDiv.innerHTML = item.options.map((opt,i)=>`<button class="answer-btn" id="opt-${i}" onclick="answerModal(${i})">${opt}</button>`).join('');
+    document.getElementById('closeModalBtn').classList.remove('shown');
+    document.getElementById('modal').classList.add('shown');
+}
+
+function answerModal(chosenIdx){
+    const item = JSON.parse(document.getElementById('modal').dataset.currentItem);
+    item.options.forEach((_,i)=>{
+        const btn = document.getElementById('opt-'+i);
+        btn.disabled = true;
+        if(i===item.correct) btn.classList.add('correct');
+        else if(i===chosenIdx) btn.classList.add('wrong');
+    });
+
+    if(chosenIdx===item.correct){
+        money += 50;
+        position = Math.min(position + 2, TOTAL_STEPS); // התקדמות 2 צעדים קדימה
+        confetti({particleCount:50,spread:50,origin:{y:.6}});
+        document.getElementById('modal').dataset.result = 'correct';
+    } else {
+        money = Math.max(0, money - 20);
+        position = Math.max(1, position - 2); // נסיגה 2 צעדים אחורה
+        document.getElementById('modal').dataset.result = 'wrong';
+    }
+    document.getElementById('closeModalBtn').classList.add('shown');
+}
+
+function closeModal(){
+    document.getElementById('modal').classList.remove('shown');
+    awaitingAnswer = false;
+    const result = document.getElementById('modal').dataset.result;
+    showToast(result==='correct' ? '✅ תשובה נכונה! קיבלת 50₪ ומתקדמים 2 צעדים קדימה!' : '❌ תשובה שגויה! הפסדת 20₪ ונסגת 2 צעדים אחורה');
+    updateBoardHighlight();
+    endTurn(false);
+}
+
+/* ===== תור המחשב ===== */
+function startBotTurn(){
+    if(finished) return;
+    if(botSkipNext){
+        botSkipNext = false;
+        showToast('🤖 המחשב פספס תור! תורך לשחק.');
+        isBotTurn = false;
+        document.getElementById('rollBtn').disabled = false;
+        updateShopButtons();
+        return;
+    }
+
+    showToast('🤖 תור המחשב לשחק...');
+    
+    // AI קניות
+    if(botMoney >= 85 && !botBought.rocket){
+        botMoney -= 85; botBought.rocket = true;
+        botPos = Math.min(botPos + 6, TOTAL_STEPS);
+        showToast('🤖 המחשב קנה טיל טורבו וטס 6 צעדים קדימה!');
+    } else if(botMoney >= 60 && !botBought.banana && position > 4){
+        botMoney -= 60; botBought.banana = true;
+        position = Math.max(position - 4, 1);
+        showToast('🍌 המחשב זרק עליך קליפת בננה! החלקת 4 צעדים אחורה!');
+    } else if(botMoney >= 50 && !botBought.apple){
+        botMoney -= 50; botBought.apple = true;
+        botPos = Math.min(botPos + 3, TOTAL_STEPS);
+        showToast('🤖 המחשב קנה תפוח זהב וזז 3 צעדים קדימה!');
+    }
+
+    setTimeout(()=>{
+        const botRoll = 1 + Math.floor(Math.random()*6);
+        document.getElementById('die').textContent = botRoll;
+        botPos = Math.min(botPos + botRoll, TOTAL_STEPS);
+        updateBoardHighlight();
+        resolveTile(botPos, true);
+    }, 1200);
+}
+
+function handleBotQuestion(){
+    const isCorrect = Math.random() < 0.40;
+    if(isCorrect){
+        botMoney += 50;
+        botPos = Math.min(botPos + 2, TOTAL_STEPS); // התקדמות 2 צעדים קדימה עבור המחשב
+        showToast('🤖 המחשב ענה נכון! הרוויח 50₪ וזז 2 צעדים קדימה!');
+    } else {
+        botMoney = Math.max(0, botMoney - 20);
+        botPos = Math.max(1, botPos - 2); // נסיגה 2 צעדים אחורה עבור המחשב
+        showToast('🤖 המחשב טעה! הפסיד 20₪ וזז 2 צעדים אחורה!');
+    }
+    updateBoardHighlight();
+    endTurn(true);
+}
+
+function checkWinCondition(){
+    if(position >= TOTAL_STEPS){
+        finished = true;
+        showFinish('👑 כל הכבוד! ניצחת את המחשב והגעת לסוף!');
+        return true;
+    } else if(botPos >= TOTAL_STEPS){
+        finished = true;
+        showFinish('🤖 המחשב הגיע ראשון לסוף וניצח!');
+        return true;
+    }
+    return false;
+}
+
+function showFinish(title){
+    document.getElementById('rollBtn').disabled = true;
+    const banner = document.getElementById('finishBanner');
+    document.getElementById('finishTitle').textContent = title;
+    document.getElementById('finishScore').textContent = `מאזן סופי: אתה 🪙${money}₪ | מחשב 🪙${botMoney}₪`;
+    banner.classList.add('shown');
+    if(position >= TOTAL_STEPS){
+        confetti({particleCount:180,spread:100,origin:{y:.5}});
+    }
+}
+
+function resetGame(){
+    position = 0; money = 0; skipNext = false;
+    botPos = 0; botMoney = 0; botSkipNext = false;
+    boughtItems = { apple:false, rocket:false, shield:false, banana:false };
+    botBought = { apple:false, rocket:false, shield:false, banana:false };
+    hasShield = false; botHasShield = false;
+    isBotTurn = false; rolling = false; awaitingAnswer = false; finished = false;
+    
+    deck = freshDeck(); deckPos = 0;
+    document.getElementById('finishBanner').classList.remove('shown');
+    document.getElementById('rollBtn').disabled = false;
+    document.getElementById('toast').textContent='';
+    buildBoard();
+}
+
+resetGame();
+</script>
 </body>
 </html>
