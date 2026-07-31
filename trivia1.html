@@ -49,9 +49,21 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
 .floaters span{position:absolute;bottom:-60px;font-size:1.8rem;opacity:0;animation:floatUp linear infinite;filter:drop-shadow(0 0 8px rgba(255,255,255,.15));}
 @keyframes floatUp{0%{transform:translateY(0) rotate(0deg);opacity:0;}8%{opacity:.5;}90%{opacity:.32;}100%{transform:translateY(-115vh) rotate(30deg);opacity:0;}}
 @media(max-width:600px){header.hero h1{font-size:1.5rem;}.top-navbar{border-radius:25px;padding:10px 16px;}}
+
+/* entrance curtain */
+.intro-curtain{position:fixed;inset:0;z-index:2000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(circle at 50% 50%, #22d3ee, #0a0c16 72%);animation:curtainOut 1.05s ease forwards;animation-delay:.85s;}
+.intro-emoji{font-size:5rem;animation:introPop .7s cubic-bezier(.34,1.56,.64,1) both;}
+.intro-title{font-size:1.6rem;font-weight:900;color:#fff;letter-spacing:1px;animation:introFadeUp .6s ease .2s both;}
+@keyframes introPop{0%{transform:scale(0) rotate(-25deg);opacity:0;}100%{transform:scale(1) rotate(0);opacity:1;}}
+@keyframes introFadeUp{0%{opacity:0;transform:translateY(14px);}100%{opacity:1;transform:translateY(0);}}
+@keyframes curtainOut{0%{opacity:1;visibility:visible;}99%{opacity:0;visibility:visible;}100%{opacity:0;visibility:hidden;}}
 </style>
 </head>
 <body>
+<div class="intro-curtain" id="introCurtain">
+    <div class="intro-emoji">🎫</div>
+    <div class="intro-title">יורופוסטמה 1 · כרטיסי גירוד</div>
+</div>
 <div class="bg-aura" aria-hidden="true"><div class="aura-blob blob-1"></div><div class="aura-blob blob-2"></div><div class="aura-blob blob-3"></div></div>
 <div class="grain-overlay" aria-hidden="true"></div>
 <div class="vignette" aria-hidden="true"></div>
@@ -78,7 +90,7 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
 <div class="container">
     <div class="score-bar">
         <div class="score-pill" id="scorePill">0 / 8 נכונות</div>
-        <button class="reset-btn" onclick="resetGame()">🔄 מחדש</button>
+        <button class="reset-btn" onclick="resetGame()">🔄 סבב חדש (שאלות חדשות)</button>
     </div>
     <div class="cards-grid" id="cardsGrid"></div>
     <div class="final-banner" id="finalBanner">
@@ -87,18 +99,70 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
     </div>
 </div>
 <script>
-const questions = [
+/* ===== season 1 data ===== */
+const SEASON1 = [
+{name:"אלונה",country:"גרמניה",song:"Renn!",artist:"AYLIVA",rank:1,final:true},
+{name:"גילי",country:"דרום קוריאה",song:"FAMOUS",artist:"ALLDAY PROJECT",rank:2,final:true},
+{name:"עידן קשת",country:"איטליה",song:"Maschio",artist:"Annalisa",rank:3,final:true},
+{name:"עידו",country:"פינלנד",song:"Everest",artist:"Minttu",rank:4,final:true},
+{name:"הילה",country:"אנדורה",song:"Dramático",artist:"Belén Aguilera",rank:5,final:true},
+{name:"שי",country:"בריטניה",song:"Super Elastic",artist:"Valencia Grace",rank:6,final:true},
+{name:"נעם",country:"נורווגיה",song:"Den tid den sorg",artist:"Ylva",rank:7,final:true},
+{name:"רוני",country:"סרביה",song:"Smak Sveta",artist:"Popovska",rank:8,final:true},
+{name:"איילת",country:"בלגיה",song:"Docteur",artist:"RORI",rank:9,final:true},
+{name:"עדיאל",country:"ישראל",song:"מעריב לנוער",artist:"שירה זלוף",rank:10,final:true},
+{name:"קרן",country:"סלובקיה",song:"Go",artist:"ADÉLA",rank:11,final:true},
+{name:"עידן",country:"הולנד",song:"Skyward",artist:"Davina Michelle",rank:12,final:true},
+{name:"ניצן",country:"סלובניה",song:"Cry When I Cum",artist:"July Jones",rank:13,final:false,semi:1,semiPlace:7},
+{name:"נריה",country:"אזרבייג'ן",song:"Hədəf",artist:"Latifa Soyuoz",rank:14,final:false,semi:2,semiPlace:7},
+{name:"שלו",country:"ספרד",song:"Obsessed",artist:"Adelén",rank:15,final:false,semi:2,semiPlace:8},
+{name:"איתן",country:"רומניה",song:"Hasta Luego",artist:"Antonia",rank:16,final:false,semi:2,semiPlace:9},
+{name:"לין",country:"מונקו",song:"En nuit",artist:"Videoclub",rank:17,final:false,semi:1,semiPlace:8},
+{name:"ענבר",country:"פורטוגל",song:"FVN!",artist:"LVL1",rank:18,final:false,semi:1,semiPlace:9},
+{name:"אדיר",country:"אוסטרליה",song:"Bird Set Free",artist:"Sia",rank:19,final:false,semi:1,semiPlace:10},
+{name:"רון",country:"צרפת",song:"Dans 10 ans",artist:"Yamê",rank:20,final:false,semi:2,semiPlace:10}
+];
+const CURATED = [
     { q:"מי ניצח/ה ביורופוסטמה 1?", options:["גילי (דרום קוריאה)","אלונה (גרמניה)","עידן קשת (איטליה)","עידו (פינלנד)"], correct:1 },
-    { q:"איזו מדינה ייצג עידן קשת ביורופוסטמה 1?", options:["דרום קוריאה","בריטניה","איטליה","אוסטרליה"], correct:2 },
     { q:"כמה נקודות קיבלה אלונה בגמר הגדול?", options:["115","128","149","107"], correct:1 },
-    { q:"מי סיים/ה במקום האחרון בגמר יורופוסטמה 1?", options:["עידן (הולנד)","קרן (סלובקיה)","עדיאל (ישראל)","רוני (סרביה)"], correct:0 },
     { q:"מה שם השיר של גילי בחצי גמר 1?", options:["Renn!","FAMOUS","Dramático","Maschio"], correct:1 },
     { q:"מי קיבל/ה הכי הרבה נקודות קהל בגמר?", options:["גילי","אלונה","עידו","הילה"], correct:1 },
-    { q:"איזו מדינה ייצגה הילה ביורופוסטמה 1?", options:["אנדורה","נורווגיה","בלגיה","הולנד"], correct:0 },
     { q:"כמה נקודות קיבלה אלונה בחצי גמר 2?", options:["136","149","117","106"], correct:1 }
 ];
+
+/* ===== generic question engine ===== */
+function shuffleArr(a){ const arr=a.slice(); for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+function randomOthers(list, correctVal, key, n){ const vals=list.map(p=>p[key]).filter(v=>v!==correctVal); return shuffleArr(vals).slice(0,n); }
+function makeMC(qText, correctVal, wrongVals){ const options = shuffleArr([correctVal, ...wrongVals]); return { q:qText, options, correct: options.indexOf(correctVal) }; }
+function buildSeasonPool(DATA, label){
+    const pool = [];
+    const finalists = DATA.filter(p=>p.final);
+    const nonFinalists = DATA.filter(p=>!p.final);
+    DATA.forEach(p=>{
+        pool.push(makeMC(`מי ייצג/ה את ${p.country} ב${label}?`, p.name, randomOthers(DATA,p.name,'name',3)));
+        pool.push(makeMC(`איזו מדינה ייצג/ה ${p.name} ב${label}?`, p.country, randomOthers(DATA,p.country,'country',3)));
+        pool.push(makeMC(`מה שם השיר איתו התמודד/ה ${p.name} ב${label}?`, p.song, randomOthers(DATA,p.song,'song',3)));
+        pool.push(makeMC(`מי ביצע/ה במקור את השיר "${p.song}"?`, p.artist, randomOthers(DATA,p.artist,'artist',3)));
+    });
+    finalists.forEach(p=>{
+        pool.push(makeMC(`מי סיים/ה במקום ה-${p.rank} בגמר ${label}?`, p.name, randomOthers(finalists,p.name,'name',3)));
+        pool.push(makeMC(`באיזה מקום סיים/ה ${p.name} בגמר ${label}?`, String(p.rank), randomOthers(finalists,p.rank,'rank',3).map(String)));
+    });
+    nonFinalists.forEach(p=>{
+        pool.push(makeMC(`מי סיים/ה במקום ה-${p.semiPlace} בחצי גמר ${p.semi} ולא עלה/תה לגמר ${label}?`, p.name, randomOthers(nonFinalists,p.name,'name',3)));
+    });
+    return pool;
+}
+const POOL = [...CURATED, ...buildSeasonPool(SEASON1,'1')];
+let questions = [];
+
+/* ===== game logic ===== */
 let score=0, answered=0;
 function buildCards(){
+    questions = shuffleArr(POOL).slice(0,8);
+    score=0; answered=0;
+    document.getElementById('finalBanner').classList.remove('shown');
+    document.getElementById('scorePill').textContent = `0 / ${questions.length} נכונות`;
     const grid = document.getElementById('cardsGrid');
     grid.innerHTML='';
     questions.forEach((item,index)=>{
@@ -162,8 +226,10 @@ function showFinal(){
     banner.classList.add('shown');
     if(ratio===1) confetti({particleCount:180,spread:100,origin:{y:.5}});
 }
-function resetGame(){ score=0; answered=0; document.getElementById('finalBanner').classList.remove('shown'); document.getElementById('scorePill').textContent=`0 / ${questions.length} נכונות`; buildCards(); }
+function resetGame(){ buildCards(); }
 buildCards();
+document.getElementById('introCurtain').addEventListener('animationend', e=>{ e.target.remove(); });
+window.addEventListener('load', ()=>{ setTimeout(()=>confetti({particleCount:70,spread:80,origin:{y:.3},colors:['#22d3ee','#6366f1','#a5f3fc']}),950); });
 </script>
 </body>
 </html>
