@@ -23,18 +23,44 @@ body { font-family:'Rubik',sans-serif; margin:0; background:#0a0c16; color:#f2f4
 header.hero{position:relative;z-index:10;text-align:center;padding:36px 20px 10px;}
 header.hero h1{font-size:2.1rem;margin:0;font-weight:900;color:#a7f3d0;}
 header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
-.container{position:relative;z-index:10;max-width:820px;margin:0 auto;padding:20px 20px 60px;text-align:center;}
-.score-pill{display:inline-block;background:rgba(16,185,129,.14);border:1px solid rgba(16,185,129,.4);color:#a7f3d0;padding:8px 18px;border-radius:20px;font-weight:800;margin-bottom:22px;}
-.board{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:26px;}
-.station{position:relative;width:80px;height:80px;border-radius:16px;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;color:#dde1f2;}
-.station.done{background:rgba(16,185,129,.25);border-color:#34d399;}
-.station.current{border-color:#fbbf24;box-shadow:0 0 0 3px rgba(251,191,36,.35);}
-.station .num{font-size:1.1rem;}
-.station .token{position:absolute;top:-16px;font-size:1.4rem;}
-.die-area{margin-bottom:18px;}
+.container{position:relative;z-index:10;max-width:950px;margin:0 auto;padding:20px 20px 60px;text-align:center;}
+
+.status-container { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 15px; }
+.score-pill{ background:rgba(16,185,129,.14);border:1px solid rgba(16,185,129,.4);color:#a7f3d0;padding:10px 20px;border-radius:20px;font-weight:800; }
+.bot-pill{ background:rgba(239,68,68,.14);border:1px solid rgba(239,68,68,.4);color:#fca5a5;padding:10px 20px;border-radius:20px;font-weight:800; }
+
+/* חנות פרסים מעודכנת */
+.shop-section { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 20px; padding: 15px; margin-bottom: 20px; }
+.shop-title { font-weight: 900; color: #fde68a; margin-bottom: 10px; font-size: 1.1rem; }
+.shop-items { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.shop-btn { background: linear-gradient(135deg, #a855f7, #6366f1); color: white; border: none; padding: 8px 14px; border-radius: 12px; font-weight: 800; cursor: pointer; font-family: 'Rubik', sans-serif; font-size: 0.85rem; }
+.shop-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;font-size:.78rem;color:#b6bdd6;margin-bottom:18px;}
+.legend span{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:4px 10px;}
+
+.board{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:22px;max-width:850px;margin-left:auto;margin-right:auto;}
+.station{position:relative;aspect-ratio:1/1;border-radius:12px;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;color:#dde1f2;font-size:.8rem;}
+.station.done{background:rgba(16,185,129,.2);border-color:rgba(52,211,153,.5);}
+.station.t-question{background:rgba(99,102,241,.18);border-color:rgba(99,102,241,.4);}
+.station.t-ladder{background:rgba(52,211,153,.18);border-color:rgba(52,211,153,.4);}
+.station.t-snake{background:rgba(239,68,68,.18);border-color:rgba(239,68,68,.4);}
+.station.t-star{background:rgba(251,191,36,.18);border-color:rgba(251,191,36,.4);}
+.station.t-gift{background:rgba(236,72,153,.18);border-color:rgba(236,72,153,.4);}
+.station.t-skip{background:rgba(148,163,184,.18);border-color:rgba(148,163,184,.4);}
+.station.t-trap{background:rgba(220,38,38,.4);border-color:#ef4444;}
+.station.t-finish{background:rgba(251,191,36,.35);border-color:#fbbf24;}
+.station .icon{font-size:0.85rem;}
+
+.tokens-holder { position: absolute; top: -10px; display: flex; gap: 2px; z-index: 20; }
+.player-token, .bot-token { font-size: 1.2rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+
+.die-area{margin-bottom:10px;}
 .die{width:70px;height:70px;margin:0 auto 14px;border-radius:16px;background:linear-gradient(135deg,#10b981,#0ea5e9);display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:900;box-shadow:0 10px 24px rgba(16,185,129,.35);}
 .big-btn{background:linear-gradient(135deg,#10b981,#0ea5e9);color:#04231c;border:none;padding:14px 34px;border-radius:30px;font-weight:900;font-size:1.05rem;cursor:pointer;box-shadow:0 10px 24px rgba(16,185,129,.35);}
 .big-btn:disabled{opacity:.5;cursor:default;}
+.toast{min-height:30px;font-weight:800;color:#fde68a;margin-top:10px;font-size:.95rem;}
+
 .question-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);align-items:center;justify-content:center;z-index:900;padding:20px;}
 .question-modal.shown{display:flex;}
 .question-box{background:#141a2e;border:1px solid rgba(16,185,129,.4);border-radius:22px;padding:28px;max-width:440px;width:100%;}
@@ -45,31 +71,15 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
 .answer-btn.wrong{background:rgba(239,68,68,.3);border-color:#ef4444;}
 .close-modal{margin-top:10px;background:linear-gradient(135deg,#6366f1,#a855f7);color:#fff;border:none;padding:9px 20px;border-radius:30px;font-weight:800;cursor:pointer;display:none;}
 .close-modal.shown{display:inline-block;}
+
 .finish-banner{display:none;margin-top:10px;background:rgba(255,255,255,.05);border:1px solid rgba(16,185,129,.4);border-radius:22px;padding:24px;}
 .finish-banner.shown{display:block;}
-.blob-3{top:35%;right:20%;width:340px;height:340px;background:#fbbf24;animation-delay:-12s;opacity:.22;}
-.grain-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
-.vignette{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at 50% 35%, transparent 45%, rgba(0,0,0,.5) 100%);}
-.board-pattern{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.06;background-image:linear-gradient(45deg,#fff 25%,transparent 25%),linear-gradient(-45deg,#fff 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#fff 75%),linear-gradient(-45deg,transparent 75%,#fff 75%);background-size:60px 60px;background-position:0 0,0 30px,30px -30px,-30px 0px;}
-.floaters{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
-.floaters span{position:absolute;bottom:-60px;font-size:1.8rem;opacity:0;animation:floatUp linear infinite;filter:drop-shadow(0 0 8px rgba(255,255,255,.15));}
-@keyframes floatUp{0%{transform:translateY(0) rotate(0deg);opacity:0;}8%{opacity:.5;}90%{opacity:.32;}100%{transform:translateY(-115vh) rotate(30deg);opacity:0;}}
-@media(max-width:600px){header.hero h1{font-size:1.5rem;}.station{width:62px;height:62px;}}
+
+@media(max-width:768px){ .board{grid-template-columns:repeat(5,1fr);} }
 </style>
 </head>
 <body>
-<div class="bg-aura" aria-hidden="true"><div class="aura-blob blob-1"></div><div class="aura-blob blob-2"></div><div class="aura-blob blob-3"></div></div>
-<div class="board-pattern" aria-hidden="true"></div>
-<div class="grain-overlay" aria-hidden="true"></div>
-<div class="vignette" aria-hidden="true"></div>
-<div class="floaters" aria-hidden="true">
-    <span style="left:8%;animation-duration:17s;animation-delay:0s;">🎲</span>
-    <span style="left:24%;animation-duration:20s;animation-delay:4s;">🏁</span>
-    <span style="left:42%;animation-duration:19s;animation-delay:8s;">✨</span>
-    <span style="left:60%;animation-duration:22s;animation-delay:2s;">🎲</span>
-    <span style="left:78%;animation-duration:18s;animation-delay:10s;">🚩</span>
-    <span style="left:90%;animation-duration:21s;animation-delay:6s;">✨</span>
-</div>
+
 <div class="pride-bar"></div>
 <nav class="top-navbar">
     <div class="nav-logo">🎲 יורופוסטמה 4</div>
@@ -78,21 +88,44 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
         <a href="index.html" class="btn-back-home">🏠 ראשי</a>
     </div>
 </nav>
+
 <header class="hero">
     <h1>🎲 מסלול הלוח - יורופוסטמה 4</h1>
-    <p>הטילו קובייה, התקדמו על המסלול, וענו על השאלה בכל תחנה</p>
+    <p>50 צעדים לניצחון! ענו על שאלות, הרעפו מטבעות, קנו שדרוגים והביסו את המחשב!</p>
 </header>
+
 <div class="container">
-    <div class="score-pill" id="scorePill">0 / 8 נכונות · תחנה 0/8</div>
+    <div class="status-container">
+        <div class="score-pill" id="scorePill">👤 אתה: משבצת 0 | 🪙 0₪</div>
+        <div class="bot-pill" id="botPill">🤖 המחשב: משבצת 0 | 🪙 0₪</div>
+    </div>
+
+    <div class="shop-section">
+        <div class="shop-title">🛒 חנות הפרסים והשדרוגים</div>
+        <div class="shop-items">
+            <button class="shop-btn" id="itemApple" onclick="buyItem('apple')">🍎 תפוח זהב (+3 צעדים) - 50₪</button>
+            <button class="shop-btn" id="itemRocket" onclick="buyItem('rocket')">🚀 טיל טורבו (+6 צעדים) - 85₪</button>
+            <button class="shop-btn" id="itemShield" onclick="buyItem('shield')">🛡️ מגן מלכודות (חסינות מ-49) - 70₪</button>
+            <button class="shop-btn" id="itemBanana" onclick="buyItem('banana')">🍌 קליפת בננה (הכשלת יריב -4) - 60₪</button>
+        </div>
+    </div>
+
+    <div class="legend">
+        <span>🟣 שאלה</span><span>🪜 סולם +3</span><span>🐍 נחש -2</span><span>⭐ בונוס +2</span><span>🎁 מתנה</span><span>⛔ פספוס</span><span>🔥 מלכודת (49)</span><span>🏁 סיום (50)</span>
+    </div>
+
     <div class="board" id="board"></div>
+
     <div class="die-area">
         <div class="die" id="die">🎲</div>
         <button class="big-btn" id="rollBtn" onclick="roll()">הטילו קובייה</button>
+        <div class="toast" id="toast"></div>
     </div>
+
     <div class="finish-banner" id="finishBanner">
         <div id="finishTitle" style="font-size:1.3rem;font-weight:900;color:#a7f3d0;"></div>
         <div id="finishScore" style="margin-top:8px;color:#dde1f2;"></div>
-        <button class="big-btn" style="margin-top:14px;" onclick="resetGame()">🔄 עוד סיבוב</button>
+        <button class="big-btn" style="margin-top:14px;" onclick="resetGame()">🔄 משחק חדש</button>
     </div>
 </div>
 
@@ -105,48 +138,149 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
 </div>
 
 <script>
-const questions = [
+/* ===== DATA ===== */
+const SEASON4 = [
+{name:"ניצן",country:"סין",song:"Night at the Opera",artist:"Emei",rank:1,final:true},
+{name:"מעין",country:"בריטניה",song:"Rebel Child",artist:"Dylan",rank:2,final:true},
+{name:"שי",country:"קזחסטן",song:"Выбери меня",artist:"КРИМ ПЛИН",rank:3,final:true},
+{name:"עידו",country:"בלגיה",song:"Ben je klaar?",artist:"Pommelien Thijs",rank:4,final:true},
+{name:"רון",country:"דרום קוריאה",song:"LEMONADE",artist:"aespa",rank:5,final:true},
+{name:"נריה",country:"מולדובה",song:"suflet",artist:"Krrysopher",rank:6,final:true},
+{name:"הילה",country:"ברזיל",song:"Mar",artist:"Bea Duarte",rank:7,final:true},
+{name:"אגם",country:"קנדה",song:"Dancing and Crying",artist:"Kiesza",rank:8,final:true},
+{name:"עדיאל",country:"לוקסמבורג",song:"The One I Love",artist:"Bolshiee",rank:9,final:true},
+{name:"שלו",country:"פולין",song:"3 miesiące",artist:"Manya",rank:10,final:true}
+];
+const CURATED = [
     { q:"מי ניצח/ה ביורופוסטמה 4?", options:["מעין (בריטניה)","ניצן (סין)","שי (קזחסטן)","עידו (בלגיה)"], correct:1 },
-    { q:"איזו מדינה ייצג עידן קשת ביורופוסטמה 4?", options:["איטליה","בריטניה","אוסטרליה","קנדה"], correct:2 },
-    { q:"כמה נקודות קיבל/ה ניצן בגמר הגדול?", options:["145","140","146","137"], correct:2 },
-    { q:"מי סיים/ה במקום האחרון בגמר (מתוך 20)?", options:["איילת (מקסיקו)","ג'וסף (ספרד)","טלי (לבנון)","נוי (הולנד)"], correct:1 },
-    { q:"מה שם השיר של עידו בחצי גמר 1 - השיא של אותו חצי גמר?", options:["Night at the Opera","Ben je klaar?","Выбери меня","Magnet"], correct:1 },
-    { q:"מי קיבל/ה הכי הרבה נקודות קהל בגמר יורופוסטמה 4?", options:["ניצן","מעין","רון","עדיאל"], correct:2 },
-    { q:"איזו מדינה ייצגה סתיו ביורופוסטמה 4?", options:["דנמרק","רוסיה","צרפת","הולנד"], correct:0 },
     { q:"מי סיים/ה במקום השני בגמר יורופוסטמה 4?", options:["שי","מעין","רון","נריה"], correct:1 }
 ];
-let position=0, score=0, rolling=false, awaitingAnswer=false;
+
+function shuffleArr(a){ const arr=a.slice(); for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+function randomOthers(list, correctVal, key, n){ const vals=list.map(p=>p[key]).filter(v=>v!==correctVal); return shuffleArr(vals).slice(0,n); }
+function makeMC(qText, correctVal, wrongVals){ const options = shuffleArr([correctVal, ...wrongVals]); return { q:qText, options, correct: options.indexOf(correctVal) }; }
+function buildSeasonPool(DATA, label){
+    const pool = [];
+    DATA.forEach(p=>{
+        pool.push(makeMC(`מי ייצג/ה את ${p.country} ב${label}?`, p.name, randomOthers(DATA,p.name,'name',3)));
+        pool.push(makeMC(`איזו מדינה ייצג/ה ${p.name} ב${label}?`, p.country, randomOthers(DATA,p.country,'country',3)));
+    });
+    return pool;
+}
+const POOL = [...CURATED, ...buildSeasonPool(SEASON4,'4')];
+
+/* ===== GAME ENGINE ===== */
+const TOTAL_STEPS = 50;
+const TILE_MAP = {
+    3:{type:'question'}, 5:{type:'ladder',amount:3}, 8:{type:'snake',amount:2}, 10:{type:'question'},
+    12:{type:'star',amount:2}, 15:{type:'question'}, 18:{type:'gift'}, 20:{type:'question'},
+    22:{type:'skip'}, 25:{type:'ladder',amount:4}, 28:{type:'question'}, 31:{type:'snake',amount:3},
+    34:{type:'question'}, 37:{type:'star',amount:3}, 40:{type:'question'}, 42:{type:'gift'},
+    45:{type:'question'}, 47:{type:'skip'}, 49:{type:'trap'}, 50:{type:'finish'}
+};
+const TILE_ICON = { normal:'', question:'❓', ladder:'🪜', snake:'🐍', star:'⭐', gift:'🎁', skip:'⛔', trap:'🔥', finish:'🏁' };
+function tileOf(n){ return TILE_MAP[n] || {type:'normal'}; }
+
+// משתנים - שחקן
+let position = 0, money = 0, skipNext = false;
+let boughtItems = { apple:false, rocket:false, shield:false, banana:false };
+let hasShield = false;
+
+// משתנים - מחשב
+let botPos = 0, botMoney = 0, botSkipNext = false;
+let botBought = { apple:false, rocket:false, shield:false, banana:false };
+let botHasShield = false;
+
+let isBotTurn = false, rolling = false, awaitingAnswer = false, finished = false;
+let deck = [], deckPos = 0;
+
+function freshDeck(){ return shuffleArr(POOL); }
+function drawQuestion(){ if(deckPos>=deck.length){ deck=freshDeck(); deckPos=0; } return deck[deckPos++]; }
 
 function buildBoard(){
     const board = document.getElementById('board');
     board.innerHTML='';
-    for(let i=1;i<=questions.length;i++){
+    for(let i=1;i<=TOTAL_STEPS;i++){
+        const tile = tileOf(i);
         const st = document.createElement('div');
-        st.className='station';
+        st.className='station t-'+tile.type;
         st.id='station-'+i;
-        st.innerHTML = `<div class="num">${i}</div>${i===position ? '<div class="token">🚩</div>' : ''}`;
+        st.innerHTML = `<div class="icon">${TILE_ICON[tile.type]}</div><div class="num">${i}</div>`;
         board.appendChild(st);
     }
+    updateBoardHighlight();
 }
 
 function updateBoardHighlight(){
-    for(let i=1;i<=questions.length;i++){
+    for(let i=1;i<=TOTAL_STEPS;i++){
         const st = document.getElementById('station-'+i);
-        st.classList.remove('current');
-        const tokenExisting = st.querySelector('.token');
+        st.classList.remove('done');
+        const tokenExisting = st.querySelector('.tokens-holder');
         if(tokenExisting) tokenExisting.remove();
+        if(i <= position) st.classList.add('done');
     }
-    if(position>=1 && position<=questions.length){
-        const st = document.getElementById('station-'+position);
-        st.classList.add('current');
-        const token = document.createElement('div');
-        token.className='token'; token.textContent='🚩';
-        st.appendChild(token);
+
+    for(let i=1; i<=TOTAL_STEPS; i++){
+        const st = document.getElementById('station-'+i);
+        if(i === position || i === botPos){
+            const holder = document.createElement('div');
+            holder.className = 'tokens-holder';
+            if(i === position) holder.innerHTML += `<span class="player-token" title="אתה">👤</span>`;
+            if(i === botPos) holder.innerHTML += `<span class="bot-token" title="המחשב">🤖</span>`;
+            st.appendChild(holder);
+        }
     }
+
+    document.getElementById('scorePill').textContent = `👤 אתה: משבצת ${position}/${TOTAL_STEPS} | 🪙 ${money}₪`;
+    document.getElementById('botPill').textContent = `🤖 המחשב: משבצת ${botPos}/${TOTAL_STEPS} | 🪙 ${botMoney}₪`;
+    updateShopButtons();
+}
+
+function updateShopButtons(){
+    document.getElementById('itemApple').disabled = boughtItems.apple || money < 50 || isBotTurn || finished;
+    document.getElementById('itemRocket').disabled = boughtItems.rocket || money < 85 || isBotTurn || finished;
+    document.getElementById('itemShield').disabled = boughtItems.shield || money < 70 || isBotTurn || finished;
+    document.getElementById('itemBanana').disabled = boughtItems.banana || money < 60 || isBotTurn || finished;
+}
+
+/* ===== חנות שדרוגים ===== */
+function buyItem(item){
+    if(isBotTurn || finished) return;
+    if(item === 'apple' && money >= 50 && !boughtItems.apple){
+        money -= 50; boughtItems.apple = true;
+        position = Math.min(position + 3, TOTAL_STEPS);
+        showToast('🍎 אכלת תפוח זהב! קפצת 3 צעדים קדימה!');
+    } else if(item === 'rocket' && money >= 85 && !boughtItems.rocket){
+        money -= 85; boughtItems.rocket = true;
+        position = Math.min(position + 6, TOTAL_STEPS);
+        showToast('🚀 הפעלת טיל טורבו! טסת 6 צעדים קדימה!');
+    } else if(item === 'shield' && money >= 70 && !boughtItems.shield){
+        money -= 70; boughtItems.shield = true;
+        hasShield = true;
+        showToast('🛡️ קנית מגן! אתה מוגן מנפילה במלכודת 49!');
+    } else if(item === 'banana' && money >= 60 && !boughtItems.banana){
+        money -= 60; boughtItems.banana = true;
+        botPos = Math.max(botPos - 4, 1);
+        showToast('🍌 זרקת קליפת בננה! המחשב החליק 4 צעדים אחורה!');
+    }
+    updateBoardHighlight();
+    checkWinCondition();
+}
+
+function showToast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    setTimeout(()=>{ if(t.textContent===msg) t.textContent=''; }, 2800);
 }
 
 function roll(){
-    if(rolling || awaitingAnswer || position>=questions.length) return;
+    if(rolling || awaitingAnswer || finished || isBotTurn) return;
+    if(skipNext){
+        skipNext = false;
+        showToast('⛔ פספסת תור! כעת תור המחשב...');
+        setTimeout(startBotTurn, 1500);
+        return;
+    }
     rolling = true;
     document.getElementById('rollBtn').disabled = true;
     let ticks = 0;
@@ -158,68 +292,206 @@ function roll(){
             clearInterval(rollAnim);
             const finalRoll = 1+Math.floor(Math.random()*6);
             dieEl.textContent = finalRoll;
-            position = Math.min(position+1, questions.length);
-            document.getElementById('station-'+position).classList.add('done');
+            
+            position = Math.min(position + finalRoll, TOTAL_STEPS);
             updateBoardHighlight();
             rolling = false;
-            awaitingAnswer = true;
-            openQuestion(position-1);
+            resolveTile(position, false);
         }
     },90);
 }
 
-function openQuestion(index){
-    const item = questions[index];
+function resolveTile(cellNum, isBot){
+    const tile = tileOf(cellNum);
+    
+    if(cellNum === 49){
+        if(!isBot && hasShield){
+            hasShield = false;
+            showToast('🛡️ המגן שלך הופעל והציל אותך מהמלכודת!');
+        } else if(isBot && botHasShield){
+            botHasShield = false;
+            showToast('🛡️ המגן של המחשב הופעל והציל אותו מהמלכודת!');
+        } else {
+            if(!isBot) { position = 1; showToast('🔥 נפלת במלכודת 49! חזרת להתחלה!'); }
+            else { botPos = 1; showToast('🔥 המחשב נפל במלכודת 49 וחזר להתחלה!'); }
+        }
+        updateBoardHighlight();
+        endTurn(isBot);
+        return;
+    }
+
+    if(tile.type==='question'){
+        if(!isBot){
+            awaitingAnswer = true;
+            openQuestion();
+        } else {
+            handleBotQuestion();
+        }
+        return;
+    }
+    
+    if(tile.type==='ladder'){
+        if(!isBot) { position = Math.min(position+tile.amount, TOTAL_STEPS); showToast(`🪜 סולם! קפצת ${tile.amount} צעדים!`); }
+        else { botPos = Math.min(botPos+tile.amount, TOTAL_STEPS); showToast(`🪜 המחשב טיפס בסולם ${tile.amount} צעדים!`); }
+    } else if(tile.type==='snake'){
+        if(!isBot) { position = Math.max(position-tile.amount, 1); showToast(`🐍 אופס! החלקת ${tile.amount} צעדים אחורה!`); }
+        else { botPos = Math.max(botPos-tile.amount, 1); showToast(`🐍 המחשב החליק ${tile.amount} צעדים אחורה!`); }
+    } else if(tile.type==='star'){
+        if(!isBot) { position = Math.min(position+tile.amount, TOTAL_STEPS); showToast(`⭐ בונוס! עוד ${tile.amount} צעדים!`); }
+        else { botPos = Math.min(botPos+tile.amount, TOTAL_STEPS); showToast(`⭐ המחשב קיבל בונוס +${tile.amount}!`); }
+    } else if(tile.type==='gift'){
+        if(!isBot) { money += 30; showToast('🎁 קיבלת מתנה! +30₪'); }
+        else { botMoney += 30; showToast('🎁 המחשב קיבל מתנה! +30₪'); }
+    } else if(tile.type==='skip'){
+        if(!isBot) { skipNext = true; showToast('⛔ תחנת פספוס תור!'); }
+        else { botSkipNext = true; showToast('⛔ המחשב יפספס את התור הבא!'); }
+    }
+
+    updateBoardHighlight();
+    endTurn(isBot);
+}
+
+function endTurn(isBot){
+    if(checkWinCondition()) return;
+    
+    if(!isBot){
+        isBotTurn = true;
+        setTimeout(startBotTurn, 1500);
+    } else {
+        isBotTurn = false;
+        document.getElementById('rollBtn').disabled = false;
+    }
+}
+
+function openQuestion(){
+    const item = drawQuestion();
+    document.getElementById('modal').dataset.currentItem = JSON.stringify(item);
     document.getElementById('modalQ').textContent = item.q;
     const optsDiv = document.getElementById('modalOpts');
-    optsDiv.innerHTML = item.options.map((opt,i)=>`<button class="answer-btn" id="opt-${i}" onclick="answerModal(${index},${i})">${opt}</button>`).join('');
+    optsDiv.innerHTML = item.options.map((opt,i)=>`<button class="answer-btn" id="opt-${i}" onclick="answerModal(${i})">${opt}</button>`).join('');
     document.getElementById('closeModalBtn').classList.remove('shown');
     document.getElementById('modal').classList.add('shown');
 }
 
-function answerModal(index, chosenIdx){
-    const item = questions[index];
+function answerModal(chosenIdx){
+    const item = JSON.parse(document.getElementById('modal').dataset.currentItem);
     item.options.forEach((_,i)=>{
         const btn = document.getElementById('opt-'+i);
         btn.disabled = true;
         if(i===item.correct) btn.classList.add('correct');
         else if(i===chosenIdx) btn.classList.add('wrong');
     });
-    if(chosenIdx===item.correct){ score++; confetti({particleCount:60,spread:55,origin:{y:.6}}); }
-    document.getElementById('scorePill').textContent = `${score} / ${questions.length} נכונות · תחנה ${position}/${questions.length}`;
+
+    if(chosenIdx===item.correct){
+        money += 50;
+        confetti({particleCount:50,spread:50,origin:{y:.6}});
+        document.getElementById('modal').dataset.result = 'correct';
+    } else {
+        money = Math.max(0, money - 20);
+        document.getElementById('modal').dataset.result = 'wrong';
+    }
     document.getElementById('closeModalBtn').classList.add('shown');
 }
 
 function closeModal(){
     document.getElementById('modal').classList.remove('shown');
     awaitingAnswer = false;
-    if(position>=questions.length){
-        document.getElementById('rollBtn').disabled = true;
-        showFinish();
-    } else {
+    const result = document.getElementById('modal').dataset.result;
+    showToast(result==='correct' ? '✅ תשובה נכונה! הורווחת 50₪!' : '❌ תשובה שגויה! הפסדת 20₪');
+    updateBoardHighlight();
+    endTurn(false);
+}
+
+/* ===== תור המחשב והשימוש בבננה נגד השחקן ===== */
+function startBotTurn(){
+    if(finished) return;
+    if(botSkipNext){
+        botSkipNext = false;
+        showToast('🤖 המחשב פספס תור! תורך לשחק.');
+        isBotTurn = false;
         document.getElementById('rollBtn').disabled = false;
+        return;
+    }
+
+    showToast('🤖 תור המחשב לשחק...');
+    
+    // AI קניות: קונה גם בננה ומפעיל נגד השחקן!
+    if(botMoney >= 85 && !botBought.rocket){
+        botMoney -= 85; botBought.rocket = true;
+        botPos = Math.min(botPos + 6, TOTAL_STEPS);
+        showToast('🤖 המחשב קנה טיל טורבו וטס 6 צעדים קדימה!');
+    } else if(botMoney >= 60 && !botBought.banana && position > 4){
+        botMoney -= 60; botBought.banana = true;
+        position = Math.max(position - 4, 1);
+        showToast('🍌 המחשב זרק עליך קליפת בננה! החלקת 4 צעדים אחורה!');
+    } else if(botMoney >= 50 && !botBought.apple){
+        botMoney -= 50; botBought.apple = true;
+        botPos = Math.min(botPos + 3, TOTAL_STEPS);
+        showToast('🤖 המחשב קנה תפוח זהב וזז 3 צעדים קדימה!');
+    }
+
+    setTimeout(()=>{
+        const botRoll = 1 + Math.floor(Math.random()*6);
+        document.getElementById('die').textContent = botRoll;
+        botPos = Math.min(botPos + botRoll, TOTAL_STEPS);
+        updateBoardHighlight();
+        resolveTile(botPos, true);
+    }, 1200);
+}
+
+function handleBotQuestion(){
+    const isCorrect = Math.random() < 0.40;
+    if(isCorrect){
+        botMoney += 50;
+        showToast('🤖 המחשב ענה נכון על שאלה והרוויח 50₪!');
+    } else {
+        botMoney = Math.max(0, botMoney - 20);
+        showToast('🤖 המחשב טעה בשאלה והפסיד 20₪!');
+    }
+    updateBoardHighlight();
+    endTurn(true);
+}
+
+function checkWinCondition(){
+    if(position >= TOTAL_STEPS){
+        finished = true;
+        showFinish('👑 כל הכבוד! ניצחת את המחשב והגעת לסוף!');
+        return true;
+    } else if(botPos >= TOTAL_STEPS){
+        finished = true;
+        showFinish('🤖 המחשב הגיע ראשון לסוף וניצח!');
+        return true;
+    }
+    return false;
+}
+
+function showFinish(title){
+    document.getElementById('rollBtn').disabled = true;
+    const banner = document.getElementById('finishBanner');
+    document.getElementById('finishTitle').textContent = title;
+    document.getElementById('finishScore').textContent = `מאזן סופי: אתה 🪙${money}₪ | מחשב 🪙${botMoney}₪`;
+    banner.classList.add('shown');
+    if(position >= TOTAL_STEPS){
+        confetti({particleCount:180,spread:100,origin:{y:.5}});
     }
 }
 
-function showFinish(){
-    const banner = document.getElementById('finishBanner');
-    const ratio = score/questions.length;
-    let title = ratio===1 ? '👑 סיימתם את המסלול בציון מושלם!' : ratio>=0.6 ? '🔥 סיימתם את המסלול - כל הכבוד!' : '🏁 סיימתם את המסלול!';
-    document.getElementById('finishTitle').textContent = title;
-    document.getElementById('finishScore').textContent = `הציון הסופי: ${score} מתוך ${questions.length}`;
-    banner.classList.add('shown');
-    if(ratio===1) confetti({particleCount:180,spread:100,origin:{y:.5}});
-}
-
 function resetGame(){
-    position = 0; score = 0; rolling=false; awaitingAnswer=false;
-    document.getElementById('scorePill').textContent = `0 / ${questions.length} נכונות · תחנה 0/${questions.length}`;
+    position = 0; money = 0; skipNext = false;
+    botPos = 0; botMoney = 0; botSkipNext = false;
+    boughtItems = { apple:false, rocket:false, shield:false, banana:false };
+    botBought = { apple:false, rocket:false, shield:false, banana:false };
+    hasShield = false; botHasShield = false;
+    isBotTurn = false; rolling = false; awaitingAnswer = false; finished = false;
+    
+    deck = freshDeck(); deckPos = 0;
     document.getElementById('finishBanner').classList.remove('shown');
     document.getElementById('rollBtn').disabled = false;
+    document.getElementById('toast').textContent='';
     buildBoard();
 }
 
-buildBoard();
+resetGame();
 </script>
 </body>
 </html>
