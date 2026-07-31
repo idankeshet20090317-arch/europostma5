@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>בלוני פיצוץ - יורופוסטמה 2 🎈</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+* { box-sizing: border-box; }
+body { font-family:'Rubik',sans-serif; margin:0; background:#0a0c16; color:#f2f4fb; min-height:100vh; overflow-x:hidden; }
+.bg-aura { position:fixed; inset:0; z-index:0; overflow:hidden; }
+.aura-blob { position:absolute; border-radius:50%; filter:blur(95px); opacity:.4; animation:auraMove 20s ease-in-out infinite; }
+.blob-1{top:-10%;left:-5%;width:480px;height:480px;background:#fbbf24;}
+.blob-2{bottom:-15%;right:-10%;width:520px;height:520px;background:#ef4444;animation-delay:-6s;}
+.blob-3{top:35%;right:20%;width:340px;height:340px;background:#22d3ee;animation-delay:-12s;opacity:.25;}
+@keyframes auraMove{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(50px,-40px) scale(1.15);}}
+.grain-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.vignette{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at 50% 35%, transparent 45%, rgba(0,0,0,.5) 100%);}
+.floaters{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+.floaters span{position:absolute;bottom:-60px;font-size:1.8rem;opacity:0;animation:floatUp linear infinite;filter:drop-shadow(0 0 8px rgba(255,255,255,.15));}
+@keyframes floatUp{0%{transform:translateY(0) rotate(0deg);opacity:0;}8%{opacity:.5;}90%{opacity:.32;}100%{transform:translateY(-115vh) rotate(30deg);opacity:0;}}
+.pride-bar{height:6px;width:100%;background:linear-gradient(to right,#ff0000,#ff8000,#ffff00,#008000,#0000ff,#a000c0);position:fixed;top:0;z-index:1002;}
+.top-navbar{position:sticky;top:9px;z-index:500;max-width:1100px;margin:15px auto 0;padding:14px 26px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.09);border-radius:50px;}
+.nav-logo{font-weight:900;font-size:1.1rem;color:#fde68a;}
+.nav-links{display:flex;gap:10px;}
+.btn-back-home{background:linear-gradient(135deg,#22d3ee,#6366f1);color:#fff;padding:9px 18px;border-radius:30px;text-decoration:none;font-weight:800;font-size:.9rem;}
+.btn-back-home.alt{background:linear-gradient(135deg,#fbbf24,#ef4444);}
+header.hero{position:relative;z-index:10;text-align:center;padding:36px 20px 10px;}
+header.hero h1{font-size:2.1rem;margin:0;font-weight:900;color:#fde68a;}
+header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
+.container{position:relative;z-index:10;max-width:1000px;margin:0 auto;padding:20px 20px 60px;}
+.score-bar{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:14px 20px;margin-bottom:24px;}
+.score-pill{background:rgba(251,191,36,.14);border:1px solid rgba(251,191,36,.4);color:#fde68a;padding:8px 18px;border-radius:20px;font-weight:800;}
+.reset-btn{background:linear-gradient(135deg,#a855f7,#6366f1);color:#fff;border:none;padding:9px 20px;border-radius:30px;font-weight:800;cursor:pointer;}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;}
+.balloon-wrap{position:relative;height:230px;}
+.balloon-reveal{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px;text-align:center;background:rgba(20,22,38,.9);border:1px solid rgba(255,255,255,.1);border-radius:20px;opacity:0;transition:opacity .3s ease;}
+.balloon-wrap.popped .balloon-reveal{opacity:1;}
+.balloon-reveal .q-text{font-weight:900;font-size:.92rem;color:#fde68a;}
+.opts{display:flex;flex-direction:column;gap:6px;width:100%;}
+.answer-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:#f2f4fb;padding:6px 8px;border-radius:8px;font-size:.78rem;font-family:'Rubik',sans-serif;font-weight:700;cursor:pointer;}
+.answer-btn:hover:not(:disabled){background:rgba(255,255,255,.14);}
+.answer-btn.correct{background:rgba(52,211,153,.3);border-color:#34d399;}
+.answer-btn.wrong{background:rgba(239,68,68,.3);border-color:#ef4444;}
+.balloon-btn{position:absolute;left:50%;top:10px;transform:translateX(-50%);width:110px;height:135px;border:none;cursor:pointer;background:transparent;transition:transform .15s ease, opacity .2s ease;animation:bob 3.4s ease-in-out infinite;}
+.balloon-btn::before{content:"";position:absolute;inset:0;border-radius:50% 50% 46% 46%;background:radial-gradient(circle at 35% 30%, var(--bc2), var(--bc1));box-shadow:inset -8px -10px 20px rgba(0,0,0,.25), 0 10px 20px rgba(0,0,0,.35);}
+.balloon-btn::after{content:"";position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);width:2px;height:36px;background:rgba(255,255,255,.35);}
+.balloon-btn .num{position:relative;z-index:2;display:block;padding-top:48px;font-weight:900;font-size:1.3rem;color:rgba(20,10,0,.55);}
+.balloon-wrap.popped .balloon-btn{opacity:0;transform:translateX(-50%) scale(1.6);pointer-events:none;}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0) rotate(-2deg);}50%{transform:translateX(-50%) translateY(-10px) rotate(2deg);}}
+.final-banner{display:none;text-align:center;margin-top:26px;background:rgba(255,255,255,.05);border:1px solid rgba(251,191,36,.4);border-radius:22px;padding:26px;}
+.final-banner.shown{display:block;}
+.final-banner .t{font-size:1.3rem;font-weight:900;color:#fde68a;}
+@media(max-width:600px){header.hero h1{font-size:1.5rem;}}
+</style>
+</head>
+<body>
+<div class="bg-aura" aria-hidden="true"><div class="aura-blob blob-1"></div><div class="aura-blob blob-2"></div><div class="aura-blob blob-3"></div></div>
+<div class="grain-overlay" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+<div class="floaters" aria-hidden="true">
+    <span style="left:8%;animation-duration:17s;animation-delay:0s;">🎈</span>
+    <span style="left:24%;animation-duration:20s;animation-delay:4s;">🎉</span>
+    <span style="left:42%;animation-duration:19s;animation-delay:8s;">✨</span>
+    <span style="left:60%;animation-duration:22s;animation-delay:2s;">🎈</span>
+    <span style="left:78%;animation-duration:18s;animation-delay:10s;">✨</span>
+    <span style="left:90%;animation-duration:21s;animation-delay:6s;">🎉</span>
+</div>
+<div class="pride-bar"></div>
+<nav class="top-navbar">
+    <div class="nav-logo">🎈 יורופוסטמה 2</div>
+    <div class="nav-links">
+        <a href="trivia-world.html" class="btn-back-home alt">🎡 עולם הטריוויה</a>
+        <a href="index.html" class="btn-back-home">🏠 ראשי</a>
+    </div>
+</nav>
+<header class="hero">
+    <h1>🎈 בלוני פיצוץ - יורופוסטמה 2</h1>
+    <p>לחצו על בלון כדי לפוצץ אותו ולגלות שאלה, ואז בחרו תשובה</p>
+</header>
+<div class="container">
+    <div class="score-bar">
+        <div class="score-pill" id="scorePill">0 / 8 נכונות</div>
+        <button class="reset-btn" onclick="resetGame()">🔄 מחדש</button>
+    </div>
+    <div class="cards-grid" id="cardsGrid"></div>
+    <div class="final-banner" id="finalBanner">
+        <div class="t" id="finalTitle"></div>
+        <div id="finalScore" style="margin-top:8px;color:#dde1f2;"></div>
+    </div>
+</div>
+<script>
+const questions = [
+    { q:"מי ניצח/ה ביורופוסטמה 2?", options:["רון (רוסיה)","גילי (יפן)","ניצן (בלגיה)","איילת (סין)"], correct:1 },
+    { q:"איזו מדינה ייצג עידן קשת ביורופוסטמה 2?", options:["דרום קוריאה","בריטניה","איטליה","תאילנד"], correct:1 },
+    { q:"כמה נקודות קיבל/ה גילי בגמר הגדול?", options:["146","156","173","122"], correct:1 },
+    { q:"מי סיים/ה במקום האחרון בגמר יורופוסטמה 2?", options:["לין (ישראל)","עידן (תאילנד)","שלו (שווייץ)","עידו (פולין)"], correct:2 },
+    { q:"מה שם השיר של גילי בחצי גמר 2?", options:["FAMOUS","HYPNOTIZE","RAGE GIRL","Thousand Nights"], correct:1 },
+    { q:"איזו מדינה ייצגה אלונה ביורופוסטמה 2?", options:["גרמניה","שוודיה","דנמרק","סין"], correct:0 },
+    { q:"כמה נקודות קיבל/ה גילי בחצי גמר 2 - השיא של כל העונה?", options:["150","156","173","149"], correct:2 },
+    { q:"מי סיים/ה במקום השני בגמר יורופוסטמה 2?", options:["ניצן","רון","איילת","אלונה"], correct:1 }
+];
+const balloonColors = [['#fbbf24','#f97316'],['#22d3ee','#0ea5e9'],['#ec4899','#a855f7'],['#34d399','#10b981'],['#f87171','#ef4444'],['#a78bfa','#6366f1'],['#fde047','#facc15'],['#38bdf8','#3b82f6']];
+let score=0, answered=0;
+
+function buildCards(){
+    const grid = document.getElementById('cardsGrid');
+    grid.innerHTML='';
+    questions.forEach((item,index)=>{
+        const c = balloonColors[index%balloonColors.length];
+        const c1 = c[0], c2 = c[1];
+        const wrap = document.createElement('div');
+        wrap.className='balloon-wrap';
+        wrap.id='wrap-'+index;
+        wrap.innerHTML = `
+            <div class="balloon-reveal">
+                <div class="q-text">${item.q}</div>
+                <div class="opts">
+                    ${item.options.map((opt,i)=>`<button class="answer-btn" onclick="answer(${index},${i})">${opt}</button>`).join('')}
+                </div>
+            </div>
+            <button class="balloon-btn" style="--bc1:${c1};--bc2:${c2};" onclick="pop(${index}, event)">
+                <span class="num">#${index+1}</span>
+            </button>
+        `;
+        grid.appendChild(wrap);
+    });
+}
+
+function pop(index, e){
+    const wrap = document.getElementById('wrap-'+index);
+    if(wrap.classList.contains('popped')) return;
+    wrap.classList.add('popped');
+    const rect = e.target.getBoundingClientRect();
+    confetti({
+        particleCount: 26,
+        spread: 55,
+        startVelocity: 22,
+        origin: { x: (rect.left+rect.width/2)/window.innerWidth, y: (rect.top+rect.height/2)/window.innerHeight }
+    });
+}
+
+function answer(index,chosenIdx){
+    const wrap = document.getElementById('wrap-'+index);
+    if(wrap.dataset.answered) return;
+    wrap.dataset.answered='1';
+    const item = questions[index];
+    const buttons = wrap.querySelectorAll('.answer-btn');
+    buttons.forEach((btn,i)=>{ btn.disabled=true; if(i===item.correct) btn.classList.add('correct'); else if(i===chosenIdx) btn.classList.add('wrong'); });
+    if(chosenIdx===item.correct){ score++; confetti({particleCount:50,spread:50,origin:{y:.6}}); }
+    answered++;
+    document.getElementById('scorePill').textContent = `${score} / ${questions.length} נכונות`;
+    if(answered===questions.length) setTimeout(showFinal,400);
+}
+
+function showFinal(){
+    const banner = document.getElementById('finalBanner');
+    const ratio = score/questions.length;
+    let title = ratio===1 ? '👑 ציון מושלם!' : ratio>=0.6 ? '🔥 כל הכבוד!' : '🙂 לא רע, נסו שוב!';
+    document.getElementById('finalTitle').textContent = title;
+    document.getElementById('finalScore').textContent = `הציון שלכם: ${score} מתוך ${questions.length}`;
+    banner.classList.add('shown');
+    if(ratio===1) confetti({particleCount:180,spread:100,origin:{y:.5}});
+}
+
+function resetGame(){ score=0; answered=0; document.getElementById('finalBanner').classList.remove('shown'); document.getElementById('scorePill').textContent=`0 / ${questions.length} נכונות`; buildCards(); }
+buildCards();
+</script>
+</body>
+</html>
