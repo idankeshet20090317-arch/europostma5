@@ -24,7 +24,7 @@
             position: relative;
         }
 
-        /* --- רקע Aurora --- */
+        /* --- רקע: Aurora מקצועי --- */
         .bg-aura {
             position: fixed;
             inset: 0;
@@ -336,7 +336,7 @@
             color: var(--c1);
         }
 
-        /* --- כרטיס תמונה ווידאו --- */
+        /* --- כרטיס תמונה --- */
         .card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(18px);
@@ -365,32 +365,6 @@
             display: block;
             margin-top: 15px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
-
-        /* עיצוב עבור הסרטונים */
-        .videos-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-top: 25px;
-        }
-
-        .video-item {
-            width: 100%;
-        }
-
-        .video-item h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.1rem;
-            color: #67e8f9;
-        }
-
-        .semifinal-video {
-            width: 100%;
-            border-radius: 18px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            outline: none;
-            background: #000;
         }
 
         /* --- פוטר --- */
@@ -481,7 +455,7 @@
         <div class="quick-nav-card">
             <div class="quick-nav-row">
                 <span class="search-icon-nav">🔍</span>
-                <input type="text" id="menuFilter" placeholder="חפשו עמוד באתר... (לדוגמה: שירים, פרסים, משחק) — או הקישו / בכל מקום">
+                <input type="text" id="menuFilter" placeholder="חפשו עמוד באתר... (לדוגמה: מונופול, שירים, פרסים) — או הקישו / בכל מקום">
                 <button type="button" class="random-jump-btn" onclick="randomJump()">🎲 קפיצה אקראית</button>
             </div>
             <div id="noMenuResults" class="no-menu-results">😕 לא נמצא עמוד תואם לחיפוש שלכם</div>
@@ -497,7 +471,16 @@
                 <div class="menu-arrow">←</div>
             </a>
 
-            <a href="trivia-world.html" class="menu-card" data-title="עולם הטריוויה טריוויה יורופוסטמה trivia כרטיסיות משחק" style="--c1:#fbbf24; --c2:#ef4444;">
+            <a href="monopoly.html" class="menu-card" data-title="מונופול יורופוסטמה monopoly טריוויה משחק לוח" style="--c1:#f59e0b; --c2:#ef4444;">
+                <div class="menu-icon">🎲</div>
+                <div class="menu-text">
+                    <div class="menu-title">מונופול יורופוסטמה</div>
+                    <div class="menu-desc">קנו בלוקים, ענו על שאלות והגיעו ל-1,000 ₪!</div>
+                </div>
+                <div class="menu-arrow">←</div>
+            </a>
+
+            <a href="trivia-world.html" class="menu-card" data-title="עולם הטריוויה טריוויה יורופוסטמה trivia כרטיסיות משחק" style="--c1:#fbbf24; --c2:#d97706;">
                 <div class="menu-icon">🎡</div>
                 <div class="menu-text">
                     <div class="menu-title">עולם הטריוויה</div>
@@ -564,23 +547,6 @@
         <div class="card">
             <h2>🎤 סדר השירים בחצאי הגמר</h2>
             <img src="semifinals-order.png" alt="סדר השירים בחצאי הגמר" class="semifinal-image">
-
-            <div class="videos-container">
-                <div class="video-item">
-                    <h3>🎬 סרטון 1 - חצי גמר ראשון</h3>
-                    <video controls class="semifinal-video">
-                        <source src="video1.mp4" type="video/mp4">
-                        הדפדפן שלך אינו תומך בנגן הווידאו.
-                    </video>
-                </div>
-                <div class="video-item">
-                    <h3>🎬 סרטון 2 - חצי גמר שני</h3>
-                    <video controls class="semifinal-video">
-                        <source src="video2.mp4" type="video/mp4">
-                        הדפדפן שלך אינו תומך בנגן הווידאו.
-                    </video>
-                </div>
-            </div>
         </div>
 
     </div>
