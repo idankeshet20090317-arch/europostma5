@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>עולם הטריוויה 🎡 | יורופוסטמה</title>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <style>
 * { box-sizing: border-box; }
 body { font-family:'Rubik',sans-serif; margin:0; background:#0a0c16; color:#f2f4fb; min-height:100vh; overflow-x:hidden; }
@@ -22,22 +23,37 @@ body { font-family:'Rubik',sans-serif; margin:0; background:#0a0c16; color:#f2f4
 header.hero{position:relative;z-index:10;text-align:center;padding:44px 20px 10px;}
 header.hero h1{font-size:2.5rem;margin:0;font-weight:900;background:linear-gradient(90deg,#fff,#c7d2fe,#fff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
 header.hero p{font-size:1.05rem;margin:14px 0 0;color:#b6bdd6;}
-.container{position:relative;z-index:10;max-width:1100px;margin:0 auto;padding:30px 20px 60px;}
-.games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;}
-.game-card{position:relative;border-radius:26px;padding:30px 24px;text-decoration:none;color:#fff;overflow:hidden;border:1px solid rgba(255,255,255,.1);box-shadow:0 20px 40px -15px var(--c1);transition:.3s;display:block;}
-.game-card:hover{transform:translateY(-6px);}
+.container{position:relative;z-index:10;max-width:900px;margin:0 auto;padding:30px 20px 60px;}
+
+/* symmetric 2x2 grid for the four seasons */
+.games-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;max-width:620px;margin:0 auto;}
+.game-card{position:relative;border-radius:26px;padding:30px 22px;text-decoration:none;color:#fff;overflow:hidden;border:1px solid rgba(255,255,255,.1);box-shadow:0 20px 40px -15px var(--c1);opacity:0;transform:translateY(40px) scale(.92);transition:opacity .65s ease, transform .65s ease;}
+.game-card.visible{opacity:1;transform:translateY(0) scale(1);}
+.game-card:hover{transform:translateY(-6px) scale(1.04);}
 .game-card::before{content:"";position:absolute;inset:0;background:linear-gradient(155deg,var(--c1),var(--c2));opacity:.9;z-index:-1;}
-.game-icon{font-size:2.6rem;margin-bottom:12px;}
-.game-title{font-size:1.3rem;font-weight:900;margin-bottom:8px;}
-.game-desc{font-size:.95rem;opacity:.92;line-height:1.5;}
-.game-tag{position:absolute;top:18px;left:18px;background:rgba(0,0,0,.25);padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:800;}
-.alltime-card{grid-column:1 / -1;}
+.game-icon{font-size:2.4rem;margin-bottom:10px;}
+.game-title{font-size:1.2rem;font-weight:900;margin-bottom:6px;}
+.game-desc{font-size:.9rem;opacity:.92;line-height:1.5;}
+.game-tag{position:absolute;top:16px;left:16px;background:rgba(0,0,0,.25);padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:800;}
+
+/* symmetric special banner for the bonus game, centered below the grid */
+.divider{display:flex;align-items:center;gap:14px;max-width:620px;margin:38px auto 22px;color:#8992b8;font-weight:800;font-size:.85rem;}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.15);}
+.alltime-banner{position:relative;max-width:620px;margin:0 auto;display:flex;align-items:center;gap:22px;text-decoration:none;color:#fff;border-radius:28px;padding:26px 30px;border:1px solid rgba(255,255,255,.12);overflow:hidden;opacity:0;transform:translateY(40px) scale(.92);transition:opacity .65s ease, transform .65s ease;box-shadow:0 25px 50px -18px #f59e0b;}
+.alltime-banner.visible{opacity:1;transform:translateY(0) scale(1);}
+.alltime-banner:hover{transform:translateY(-6px) scale(1.03);}
+.alltime-banner::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,#f59e0b,#dc2626 60%,#a855f7);opacity:.92;z-index:-1;}
+.alltime-icon{font-size:3.2rem;flex-shrink:0;}
+.alltime-title{font-size:1.35rem;font-weight:900;margin-bottom:4px;}
+.alltime-desc{font-size:.92rem;opacity:.92;line-height:1.5;}
+.alltime-tag{position:absolute;top:16px;left:16px;background:rgba(0,0,0,.28);padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:800;}
+
 .grain-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 .vignette{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at 50% 35%, transparent 45%, rgba(0,0,0,.5) 100%);}
 .floaters{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
 .floaters span{position:absolute;bottom:-60px;font-size:1.9rem;opacity:0;animation:floatUp linear infinite;filter:drop-shadow(0 0 8px rgba(255,255,255,.15));}
 @keyframes floatUp{0%{transform:translateY(0) rotate(0deg);opacity:0;}8%{opacity:.5;}90%{opacity:.35;}100%{transform:translateY(-115vh) rotate(30deg);opacity:0;}}
-@media(max-width:600px){header.hero h1{font-size:1.9rem;}}
+@media(max-width:600px){header.hero h1{font-size:1.9rem;}.games-grid{grid-template-columns:1fr;max-width:320px;}.alltime-banner{flex-direction:column;text-align:center;}}
 </style>
 </head>
 <body>
@@ -64,38 +80,52 @@ header.hero p{font-size:1.05rem;margin:14px 0 0;color:#b6bdd6;}
     <p>4 עונות, 4 משחקים שונים, ושאלה אחת גדולה: כמה אתם באמת זוכרים?</p>
 </header>
 <div class="container">
-    <div class="games-grid">
+    <div class="games-grid" id="gamesGrid">
         <a href="trivia1.html" class="game-card" style="--c1:#22d3ee;--c2:#6366f1;">
-            <div class="game-tag">יורופוסטמה 1</div>
+            <div class="game-tag">עונה 1</div>
             <div class="game-icon">🎫</div>
             <div class="game-title">כרטיסי גירוד</div>
             <div class="game-desc">גרדו כל כרטיס כדי לחשוף שאלה על העונה הראשונה</div>
         </a>
         <a href="trivia2.html" class="game-card" style="--c1:#fbbf24;--c2:#ef4444;">
-            <div class="game-tag">יורופוסטמה 2</div>
-            <div class="game-icon">🎡</div>
-            <div class="game-title">גלגל המזל</div>
-            <div class="game-desc">סובבו את הגלגל וגלו איזו שאלה הוא מגריל לכם מהעונה השנייה</div>
+            <div class="game-tag">עונה 2</div>
+            <div class="game-icon">🎈</div>
+            <div class="game-title">בלוני צניחה</div>
+            <div class="game-desc">הבלונים נופלים מהשמיים - הספיקו לענות לפני שהם נוגעים בקרקע</div>
         </a>
         <a href="trivia3.html" class="game-card" style="--c1:#ec4899;--c2:#a855f7;">
-            <div class="game-tag">יורופוסטמה 3</div>
+            <div class="game-tag">עונה 3</div>
             <div class="game-icon">⏱️</div>
             <div class="game-title">מרוץ נגד השעון</div>
             <div class="game-desc">60 שניות, כמה שיותר תשובות נכונות על העונה עם 18 הגמר-איסטים</div>
         </a>
         <a href="trivia4.html" class="game-card" style="--c1:#10b981;--c2:#0ea5e9;">
-            <div class="game-tag">יורופוסטמה 4</div>
+            <div class="game-tag">עונה 4</div>
             <div class="game-icon">🎲</div>
             <div class="game-title">מסלול הלוח</div>
-            <div class="game-desc">הטילו קובייה, התקדמו על המסלול וענו על שאלות מהעונה עם 30 המשתתפים</div>
-        </a>
-        <a href="trivia-alltime.html" class="game-card alltime-card" style="--c1:#f59e0b;--c2:#dc2626;">
-            <div class="game-tag">⭐ מיוחד</div>
-            <div class="game-icon">🏆</div>
-            <div class="game-title">שיאי כל הזמנים</div>
-            <div class="game-desc">מה הניקוד הכי גבוה שנרשם אי פעם? מי ניצח הכי הרבה פעמים? מבחן שמשלב את כל 4 העונות יחד</div>
+            <div class="game-desc">40 צעדים, קוביה, מלכודות וסולמות - ותשובה נכונה שווה קפיצה קדימה</div>
         </a>
     </div>
+    <div class="divider">⭐ ולסיום, האתגר הגדול מכולם ⭐</div>
+    <a href="trivia-alltime.html" class="alltime-banner" id="alltimeBanner">
+        <div class="alltime-tag">⭐ מיוחד</div>
+        <div class="alltime-icon">🎡</div>
+        <div>
+            <div class="alltime-title">גלגל המזל של כל הזמנים</div>
+            <div class="alltime-desc">סובבו את הגלגל, נחתו על אחת מ-4 העונות, וענו על שאלה משלבת מכל ההיסטוריה של היורופוסטמה</div>
+        </div>
+    </a>
 </div>
+<script>
+document.querySelectorAll('.game-card').forEach((card, i) => {
+    setTimeout(() => card.classList.add('visible'), 120 + i * 130);
+});
+setTimeout(() => document.getElementById('alltimeBanner').classList.add('visible'), 120 + 4*130 + 150);
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        confetti({ particleCount: 90, spread: 100, startVelocity: 35, origin: { y: 0.15 }, colors: ['#22d3ee','#a855f7','#fbbf24','#ec4899','#10b981'] });
+    }, 200);
+});
+</script>
 </body>
 </html>
