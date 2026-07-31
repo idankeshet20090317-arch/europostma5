@@ -46,28 +46,28 @@ header h1 { margin: 15px 0 5px; color: #fde68a; font-size: 2.2rem; text-align: c
 }
 .player-card {
     background: rgba(255,255,255,0.05);
-    border: 2px solid rgba(255,255,255,0.1);
+    border: 3px solid rgba(255,255,255,0.1);
     padding: 12px 24px;
     border-radius: 16px;
     text-align: center;
-    min-width: 160px;
+    min-width: 180px;
 }
-.player-card.active { border-color: #f59e0b; background: rgba(245,158,11,0.15); }
-.p-name { font-weight: 800; font-size: 1.1rem; }
-.p-money { font-size: 1.4rem; font-weight: 900; color: #10b981; }
+.player-card.active { border-color: #f59e0b; background: rgba(245,158,11,0.25); box-shadow: 0 0 15px rgba(245,158,11,0.5); }
+.p-name { font-weight: 800; font-size: 1.2rem; }
+.p-money { font-size: 1.5rem; font-weight: 900; color: #10b981; }
 
 /* Monopoly Board Layout (4-sided ring) */
 .board-container {
     position: relative;
-    width: 720px;
-    height: 720px;
+    width: 780px;
+    height: 780px;
     margin: 10px auto;
     background: #121526;
     border: 4px solid #fde68a;
     border-radius: 16px;
     display: grid;
-    grid-template-columns: 120px repeat(4, 1fr) 120px;
-    grid-template-rows: 120px repeat(4, 1fr) 120px;
+    grid-template-columns: 120px repeat(13, 1fr) 120px;
+    grid-template-rows: 120px repeat(13, 1fr) 120px;
     gap: 4px;
     padding: 4px;
     box-shadow: 0 0 30px rgba(0,0,0,0.8);
@@ -80,14 +80,14 @@ header h1 { margin: 15px 0 5px; color: #fde68a; font-size: 2.2rem; text-align: c
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 6px;
+    justify-content: space-between;
+    padding: 4px;
     text-align: center;
     font-size: 0.75rem;
     position: relative;
     font-weight: 700;
 }
-.cell-title { font-weight: 800; font-size: 0.85rem; margin-top: 4px; }
+.cell-title { font-weight: 800; font-size: 0.8rem; margin-top: 2px; }
 .cell-price { color: #fde68a; margin-top: 2px; }
 .cell-owner { font-size: 0.65rem; color: #a7f3d0; margin-top: 2px; }
 
@@ -99,8 +99,8 @@ header h1 { margin: 15px 0 5px; color: #fde68a; font-size: 2.2rem; text-align: c
 
 /* Center of the Board */
 .board-center {
-    grid-column: 2 / 6;
-    grid-row: 2 / 6;
+    grid-column: 2 / 15;
+    grid-row: 2 / 15;
     background: radial-gradient(circle, #1e2338 0%, #0f121d 100%);
     border-radius: 12px;
     display: flex;
@@ -111,25 +111,46 @@ header h1 { margin: 15px 0 5px; color: #fde68a; font-size: 2.2rem; text-align: c
     position: relative;
 }
 
-/* Tokens */
+/* Tokens - עיצוב מוגדל וברור מאוד */
 .tokens-container {
     position: absolute;
-    bottom: 4px;
+    inset: 0;
     display: flex;
-    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    pointer-events: none;
+    z-index: 10;
 }
 .token {
-    width: 22px;
-    height: 22px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.75rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    font-size: 1.4rem;
+    font-weight: 900;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.8);
+    border: 3px solid #fff;
+    transition: transform 0.2s ease-in-out;
+    animation: bounce 1s infinite alternate;
 }
-.token-p1 { background: #3b82f6; color: white; }
-.token-p2 { background: #ef4444; color: white; }
+.token-p1 { 
+    background: linear-gradient(135deg, #2563eb, #3b82f6); 
+    border-color: #60a5fa; 
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.9);
+}
+.token-p2 { 
+    background: linear-gradient(135deg, #dc2626, #ef4444); 
+    border-color: #fca5a5; 
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.9);
+}
+
+@keyframes bounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-4px); }
+}
 
 /* Controls & Dice */
 .dice-btn {
@@ -146,7 +167,7 @@ header h1 { margin: 15px 0 5px; color: #fde68a; font-size: 2.2rem; text-align: c
 }
 .dice-btn:active { transform: scale(0.95); }
 .dice-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.dice-result { font-size: 2.5rem; margin: 10px 0; font-weight: 900; }
+.dice-result { font-size: 2.8rem; margin: 10px 0; font-weight: 900; }
 
 /* Modal / Card overlay */
 .modal-overlay {
@@ -198,10 +219,11 @@ header h1 { margin: 15px 0 5px; color: #fde68a; font-size: 2.2rem; text-align: c
 .q-opt:hover { background: rgba(255,255,255,0.18); }
 
 @media(max-width:750px){
-    .board-container { width: 360px; height: 360px; }
-    .cell { font-size: 0.55rem; }
-    .cell-title { font-size: 0.65rem; }
-    .board-container { grid-template-columns: 60px repeat(4, 1fr) 60px; grid-template-rows: 60px repeat(4, 1fr) 60px; }
+    .board-container { width: 380px; height: 380px; }
+    .cell { font-size: 0.5rem; }
+    .cell-title { font-size: 0.55rem; }
+    .board-container { grid-template-columns: 50px repeat(13, 1fr) 50px; grid-template-rows: 50px repeat(13, 1fr) 50px; }
+    .token { width: 24px; height: 24px; font-size: 0.8rem; }
 }
 </style>
 </head>
@@ -228,17 +250,17 @@ header h1 { margin: 15px 0 5px; color: #fde68a; font-size: 2.2rem; text-align: c
 
 <div class="board-container" id="board">
     <div class="board-center">
-        <div style="font-weight: 900; font-size: 1.2rem; color: #fde68a;">❓ קלפי הפתעה ❓</div>
+        <div style="font-weight: 900; font-size: 1.3rem; color: #fde68a; margin-bottom: 5px;">❓ קלפי הפתעה ❓</div>
         <div class="dice-result" id="diceDisplay">🎲</div>
         <button class="dice-btn" id="rollBtn" onclick="playTurn()">הטלת קוביה</button>
-        <p id="gameLog" style="margin-top: 15px; font-weight: 600; color: #94a3b8; font-size: 0.9rem;"></p>
+        <p id="gameLog" style="margin-top: 15px; font-weight: 600; color: #94a3b8; font-size: 0.95rem;"></p>
     </div>
 </div>
 
 <div class="modal-overlay" id="modal">
     <div class="card-box" id="cardBox">
         <div class="card-icon" id="mIcon">❓</div>
-        <div class="card-title" id="mTitle">שלאלה</div>
+        <div class="card-title" id="mTitle">שאלה</div>
         <div class="card-desc" id="mDesc">תראה את השאלה ותבחר תשובה</div>
         <div id="mOpts"></div>
     </div>
@@ -257,40 +279,35 @@ const QUESTIONS = [
     { q: "מה שמו של שיר הניצחון של אלונה בעונה 1?", opts: ["Renn!", "FAMOUS", "Everest", "Maschio"], correct: 0 }
 ];
 
-/* Board Cells Configuration (16 cells total around the perimeter) */
-const CELLS_CONFIG = [
-    { type: 'start', name: 'דרך צלחה! 🚀', desc: '+50 ₪ במעבר' },
-    { type: 'prop', name: 'יורופוסטמה 1', cost: 50, season: 1, class: 's1' },
-    { type: 'chance', name: 'קלף הפתעה ❓' },
-    { type: 'prop', name: 'יורופוסטמה 1 (ב)', cost: 50, season: 1, class: 's1' },
-    { type: 'cop', name: 'משטרה! 👮‍♂️', desc: 'טוס לכלא!' },
-    { type: 'prop', name: 'יורופוסטמה 2', cost: 100, season: 2, class: 's2' },
-    { type: 'chance', name: 'קלף הפתעה ❓' },
-    { type: 'prop', name: 'יורופוסטמה 2 (ב)', cost: 100, season: 2, class: 's2' },
-    { type: 'jail', name: 'כלא ⛓️', desc: 'מפספס תור' },
-    { type: 'prop', name: 'יורופוסטמה 3', cost: 150, season: 3, class: 's3' },
-    { type: 'chance', name: 'קלף הפתעה ❓' },
-    { type: 'prop', name: 'יורופוסטמה 3 (ב)', cost: 150, season: 3, class: 's3' },
-    { type: 'park', name: 'חניה חינם 🅿️', desc: 'מנוחה' },
-    { type: 'prop', name: 'יורופוסטמה 4', cost: 200, season: 4, class: 's4' },
-    { type: 'chance', name: 'קלף הפתעה ❓' },
-    { type: 'prop', name: 'יורופוסטמה 4 (ב)', cost: 200, season: 4, class: 's4' }
-];
+/* Board Cells Configuration (60 cells around the perimeter) */
+const CELLS_CONFIG = [];
+for (let i = 0; i < 60; i++) {
+    if (i === 0) CELLS_CONFIG.push({ type: 'start', name: 'התחלה 🚀', desc: '+50 ₪' });
+    else if (i === 15) CELLS_CONFIG.push({ type: 'cop', name: 'משטרה! 👮‍♂️', desc: 'טוס לכלא!' });
+    else if (i === 30) CELLS_CONFIG.push({ type: 'jail', name: 'כלא ⛓️', desc: 'מפספס תור' });
+    else if (i === 45) CELLS_CONFIG.push({ type: 'park', name: 'חניה 🅿️', desc: 'מנוחה' });
+    else if (i % 4 === 2) CELLS_CONFIG.push({ type: 'chance', name: 'הפתעה ❓' });
+    else {
+        const season = Math.floor(i / 15) + 1;
+        const cost = season * 50;
+        CELLS_CONFIG.push({ type: 'prop', name: `יורופוסטמה ${season}`, cost: cost, class: `s${season}` });
+    }
+}
 
-// Grid mapping for perimeter (clockwise 6x6 ring)
-const GRID_POSITIONS = [
-    {r: 6, c: 6}, {r: 6, c: 5}, {r: 6, c: 4}, {r: 6, c: 3}, {r: 6, c: 2}, {r: 6, c: 1}, // Bottom
-    {r: 5, c: 1}, {r: 4, c: 1}, {r: 3, c: 1}, {r: 2, c: 1}, {r: 1, c: 1},             // Left
-    {r: 1, c: 2}, {r: 1, c: 3}, {r: 1, c: 4}, {r: 1, c: 5}, {r: 1, c: 6}              // Top & Right
-];
+// Grid mapping for perimeter (clockwise 15x15 ring)
+const GRID_POSITIONS = [];
+for (let i = 1; i <= 15; i++) GRID_POSITIONS.push({ r: 15, c: i });
+for (let i = 14; i >= 1; i--) GRID_POSITIONS.push({ r: i, c: 15 });
+for (let i = 14; i >= 1; i--) GRID_POSITIONS.push({ r: 1, c: i });
+for (let i = 2; i <= 14; i++) GRID_POSITIONS.push({ r: i, c: 1 });
 
 /* ================= GAME STATE ================= */
 let players = [
     { id: 0, name: 'אתה', money: 500, pos: 0, inJail: false, isBot: false },
     { id: 1, name: 'הבוט', money: 500, pos: 0, inJail: false, isBot: true }
 ];
-let cellOwners = Array(16).fill(null); // stores player index or null
-let turn = 0; // 0 for player 1, 1 for bot
+let cellOwners = Array(60).fill(null);
+let turn = 0;
 let gameOver = false;
 
 /* ================= BOARD INITIALIZATION ================= */
@@ -306,7 +323,7 @@ function initBoard() {
         
         let content = `<div class="cell-title">${cfg.name}</div>`;
         if(cfg.cost) content += `<div class="cell-price">${cfg.cost} ₪</div>`;
-        if(cfg.desc) content += `<div style="font-size:0.65rem;color:#94a3b8">${cfg.desc}</div>`;
+        if(cfg.desc) content += `<div style="font-size:0.6rem;color:#94a3b8">${cfg.desc}</div>`;
         content += `<div class="cell-owner" id="owner-${idx}"></div>`;
         content += `<div class="tokens-container" id="tokens-${idx}"></div>`;
         
@@ -317,7 +334,7 @@ function initBoard() {
 }
 
 function renderTokens() {
-    for(let i=0; i<16; i++) {
+    for(let i=0; i<60; i++) {
         const container = document.getElementById(`tokens-${i}`);
         if(container) container.innerHTML = '';
     }
@@ -327,6 +344,7 @@ function renderTokens() {
             const token = document.createElement('div');
             token.className = `token ${idx === 0 ? 'token-p1' : 'token-p2'}`;
             token.textContent = idx === 0 ? '👤' : '🤖';
+            token.title = `${p.name}`;
             container.appendChild(token);
         }
     });
@@ -342,7 +360,7 @@ function updateUI() {
     cellOwners.forEach((owner, idx) => {
         const el = document.getElementById(`owner-${idx}`);
         if(el && owner !== null) {
-            el.textContent = `בבעלות: ${players[owner].name}`;
+            el.textContent = `של: ${players[owner].name}`;
         }
     });
 
@@ -384,9 +402,8 @@ function playTurn() {
     const dice = Math.floor(Math.random() * 6) + 1;
     document.getElementById('diceDisplay').textContent = `🎲 ${dice}`;
     
-    // Move player
-    p.pos = (p.pos + dice) % 16;
-    if(p.pos < dice && p.pos !== 0) { // Passed Start
+    p.pos = (p.pos + dice) % 60;
+    if(p.pos < dice && p.pos !== 0) {
         p.money += 50;
         log(`${p.name} עבר בנקודת ההתחלה וקיבל 50 ₪!`);
     }
@@ -403,7 +420,6 @@ function handleCellLanding(p) {
     if(cell.type === 'prop') {
         const owner = cellOwners[p.pos];
         if(owner === null) {
-            // Unowned - Opportunity to buy
             if(p.isBot) {
                 if(p.money - cell.cost > 200) {
                     p.money -= cell.cost;
@@ -415,7 +431,6 @@ function handleCellLanding(p) {
                 askToBuy(p, cell);
             }
         } else if(owner !== p.id) {
-            // Landed on opponent's property
             triggerTriviaChallenge(p, players[owner], cell);
         } else {
             nextTurn();
@@ -423,7 +438,7 @@ function handleCellLanding(p) {
     } else if(cell.type === 'chance') {
         triggerChanceCard(p);
     } else if(cell.type === 'cop') {
-        p.pos = 8; // Jail cell index
+        p.pos = 30; // Jail cell index
         p.inJail = true;
         renderTokens();
         log(`👮‍♂️ ${p.name} נתפס ע"י המשטרה ונשלח לכלא!`);
@@ -457,17 +472,15 @@ function triggerTriviaChallenge(visitor, owner, cell) {
     const refundAmount = Math.round(cell.cost * 1.25);
 
     if(visitor.isBot) {
-        // Bot has 60% chance to FAIL the question
-        const botFailed = Math.random() < 0.60;
+        const botFailed = Math.random() < 0.50; // 50% chance to fail
         if(botFailed) {
             owner.money += refundAmount;
-            log(`🤖 הבוט טעה בשאלה על ${cell.name}! ${owner.name} מקבל/ת ${refundAmount} ₪!`);
+            log(`🤖 הבוט טעה בשאלה! ${owner.name} מקבל/ת ${refundAmount} ₪!`);
         } else {
             log(`🤖 הבוט ענה נכון על השאלה ולא משלם פיצוי.`);
         }
         nextTurn();
     } else {
-        // Human player must answer
         const shuffledOpts = [...q.opts].sort(() => Math.random() - 0.5);
         showModal(
             `עמדת על הנכס של ${owner.name}!`,
@@ -497,7 +510,7 @@ function triggerChanceCard(p) {
     const q = QUESTIONS[Math.floor(Math.random() * QUESTIONS.length)];
 
     if(p.isBot) {
-        const botSuccess = Math.random() > 0.60;
+        const botSuccess = Math.random() > 0.50;
         if(isAngel) {
             if(botSuccess) p.money += 50;
         } else {
