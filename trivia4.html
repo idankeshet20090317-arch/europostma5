@@ -52,8 +52,32 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
 .station.t-finish{background:rgba(251,191,36,.35);border-color:#fbbf24;}
 .station .icon{font-size:0.85rem;}
 
-.tokens-holder { position: absolute; top: -10px; display: flex; gap: 2px; z-index: 20; }
-.player-token, .bot-token { font-size: 1.2rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+/* עיצוב משופר, בולט וגדול בטירוף לשחקנים */
+.tokens-holder { 
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    display: flex; 
+    gap: 4px; 
+    z-index: 50; 
+    pointer-events: none;
+}
+.player-token, .bot-token { 
+    font-size: 2.2rem; 
+    background: rgba(10, 12, 22, 0.85); 
+    border-radius: 50%; 
+    padding: 2px; 
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.8), 0 4px 8px rgba(0, 0, 0, 0.9); 
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.player-token { border: 2px solid #22d3ee; }
+.bot-token { border: 2px solid #ef4444; }
+
+@keyframes popIn {
+    0% { transform: scale(0); }
+    100% { transform: scale(1); }
+}
 
 .die-area{margin-bottom:10px;}
 .die{width:70px;height:70px;margin:0 auto 14px;border-radius:16px;background:linear-gradient(135deg,#10b981,#0ea5e9);display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:900;box-shadow:0 10px 24px rgba(16,185,129,.35);}
@@ -153,7 +177,18 @@ const SEASON4 = [
 ];
 const CURATED = [
     { q:"מי ניצח/ה ביורופוסטמה 4?", options:["מעין (בריטניה)","ניצן (סין)","שי (קזחסטן)","עידו (בלגיה)"], correct:1 },
-    { q:"מי סיים/ה במקום השני בגמר יורופוסטמה 4?", options:["שי","מעין","רון","נריה"], correct:1 }
+    { q:"מי סיים/ה במקום השני בגמר יורופוסטמה 4?", options:["שי","מעין","רון","נריה"], correct:1 },
+    // 10 קלפי שאלות נוספים
+    { q:"איזה שיר ביצעה Emei שייצגה את סין?", options:["Night at the Opera","Rebel Child","LEMONADE","Mar"], correct:0 },
+    { q:"איזו מדינה ייצגה האמנית Dylan ביורופוסטמה 4?", options:["בריטניה","בלגיה","קנדה","פולין"], correct:0 },
+    { q:"מה היה שמה של נציגת ברזיל ביורופוסטמה 4?", options:["הילה","נריה","אגם","שי"], correct:0 },
+    { q:"איזה אמן/להסגרה ביצע/ה את השיר 'LEMONADE' (דרום קוריאה)?", options:["aespa","Kiesza","Manya","Bea Duarte"], correct:0 },
+    { q:"באיזה מקום בגמר סיימה נציגת ברזיל (הילה)?", options:["מקום 7","מקום 3","מקום 5","מקום 10"], correct:0 },
+    { q:"מי ייצג/ה את מולדובה עם השיר 'suflet'?", options:["נריה","עדיאל","שלו","עידו"], correct:0 },
+    { q:"מה שם השיר של Pommelien Thijs מבלגיה?", options:["Ben je klaar?","3 miesiące","Rebel Child","Mar"], correct:0 },
+    { q:"איזו מדינה ייצג עדיאל ביורופוסטמה 4?", options:["לוקסמבורג","פולין","קזחסטן","סין"], correct:0 },
+    { q:"איזה שיר יצגה Kiesza מקנדה?", options:["Dancing and Crying","Night at the Opera","suflet","Выбери меня"], correct:0 },
+    { q:"מי הגיע/ה למקום ה-3 בגמר הגדול מבין המשתתפים?", options:["שי (קזחסטן)","עידו (בלגיה)","שלו (פולין)","אגם (קנדה)"], correct:0 }
 ];
 
 function shuffleArr(a){ const arr=a.slice(); for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
@@ -237,6 +272,7 @@ function updateBoardHighlight(){
 }
 
 function updateShopButtons(){
+    // ניתן לקנות בחנות תמיד כל עוד לא תור הבוט והמשחק לא הסתיים
     document.getElementById('itemApple').disabled = boughtItems.apple || money < 50 || isBotTurn || finished;
     document.getElementById('itemRocket').disabled = boughtItems.rocket || money < 85 || isBotTurn || finished;
     document.getElementById('itemShield').disabled = boughtItems.shield || money < 70 || isBotTurn || finished;
@@ -360,6 +396,7 @@ function endTurn(isBot){
     } else {
         isBotTurn = false;
         document.getElementById('rollBtn').disabled = false;
+        updateShopButtons();
     }
 }
 
@@ -384,10 +421,12 @@ function answerModal(chosenIdx){
 
     if(chosenIdx===item.correct){
         money += 50;
+        position = Math.min(position + 2, TOTAL_STEPS); // התקדמות 2 צעדים קדימה
         confetti({particleCount:50,spread:50,origin:{y:.6}});
         document.getElementById('modal').dataset.result = 'correct';
     } else {
         money = Math.max(0, money - 20);
+        position = Math.max(1, position - 2); // נסיגה 2 צעדים אחורה
         document.getElementById('modal').dataset.result = 'wrong';
     }
     document.getElementById('closeModalBtn').classList.add('shown');
@@ -397,12 +436,12 @@ function closeModal(){
     document.getElementById('modal').classList.remove('shown');
     awaitingAnswer = false;
     const result = document.getElementById('modal').dataset.result;
-    showToast(result==='correct' ? '✅ תשובה נכונה! הורווחת 50₪!' : '❌ תשובה שגויה! הפסדת 20₪');
+    showToast(result==='correct' ? '✅ תשובה נכונה! קיבלת 50₪ ומתקדמים 2 צעדים קדימה!' : '❌ תשובה שגויה! הפסדת 20₪ ונסגת 2 צעדים אחורה');
     updateBoardHighlight();
     endTurn(false);
 }
 
-/* ===== תור המחשב והשימוש בבננה נגד השחקן ===== */
+/* ===== תור המחשב ===== */
 function startBotTurn(){
     if(finished) return;
     if(botSkipNext){
@@ -410,12 +449,13 @@ function startBotTurn(){
         showToast('🤖 המחשב פספס תור! תורך לשחק.');
         isBotTurn = false;
         document.getElementById('rollBtn').disabled = false;
+        updateShopButtons();
         return;
     }
 
     showToast('🤖 תור המחשב לשחק...');
     
-    // AI קניות: קונה גם בננה ומפעיל נגד השחקן!
+    // AI קניות
     if(botMoney >= 85 && !botBought.rocket){
         botMoney -= 85; botBought.rocket = true;
         botPos = Math.min(botPos + 6, TOTAL_STEPS);
@@ -443,10 +483,12 @@ function handleBotQuestion(){
     const isCorrect = Math.random() < 0.40;
     if(isCorrect){
         botMoney += 50;
-        showToast('🤖 המחשב ענה נכון על שאלה והרוויח 50₪!');
+        botPos = Math.min(botPos + 2, TOTAL_STEPS); // התקדמות 2 צעדים קדימה עבור המחשב
+        showToast('🤖 המחשב ענה נכון! הרוויח 50₪ וזז 2 צעדים קדימה!');
     } else {
         botMoney = Math.max(0, botMoney - 20);
-        showToast('🤖 המחשב טעה בשאלה והפסיד 20₪!');
+        botPos = Math.max(1, botPos - 2); // נסיגה 2 צעדים אחורה עבור המחשב
+        showToast('🤖 המחשב טעה! הפסיד 20₪ וזז 2 צעדים אחורה!');
     }
     updateBoardHighlight();
     endTurn(true);
