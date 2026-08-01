@@ -34,6 +34,7 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
 .score-pill{background:rgba(251,191,36,.14);border:1px solid rgba(251,191,36,.4);color:#fde68a;padding:8px 18px;border-radius:20px;font-weight:800;}
 .fail-pill{background:rgba(239,68,68,.14);border:1px solid rgba(239,68,68,.4);color:#fca5a5;padding:8px 18px;border-radius:20px;font-weight:800;}
 .reset-btn{background:linear-gradient(135deg,#a855f7,#6366f1);color:#fff;border:none;padding:9px 20px;border-radius:30px;font-weight:800;cursor:pointer;}
+.rules-btn{background:linear-gradient(135deg,#0ea5e9,#22d3ee);color:#04231c;border:none;padding:9px 20px;border-radius:30px;font-weight:800;cursor:pointer;}
 .sky-area{position:relative;height:440px;border-radius:26px;overflow:hidden;background:linear-gradient(180deg,#1e2a4a,#0a0c16 85%);border:1px solid rgba(255,255,255,.08);box-shadow:inset 0 0 60px rgba(0,0,0,.4);}
 .ground-line{position:absolute;left:0;right:0;bottom:0;height:6px;background:linear-gradient(90deg,#ef4444,#f59e0b,#ef4444);box-shadow:0 0 14px rgba(239,68,68,.7);}
 .balloon2{position:absolute;top:-130px;width:82px;height:100px;cursor:pointer;transform:translateX(-50%);}
@@ -65,6 +66,14 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
 @keyframes introPop{0%{transform:scale(0) rotate(-25deg);opacity:0;}100%{transform:scale(1) rotate(0);opacity:1;}}
 @keyframes introFadeUp{0%{opacity:0;transform:translateY(14px);}100%{opacity:1;transform:translateY(0);}}
 @keyframes curtainOut{0%{opacity:1;visibility:visible;}99%{opacity:0;visibility:visible;}100%{opacity:0;visibility:hidden;}}
+
+/* rules modal */
+.rules-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:2500;align-items:center;justify-content:center;padding:20px;}
+.rules-overlay.shown{display:flex;}
+.rules-box{background:#141a2e;border:1px solid rgba(251,191,36,.4);border-radius:22px;padding:28px;max-width:480px;width:100%;text-align:right;box-shadow:0 20px 50px rgba(0,0,0,.6);}
+.rules-box h3{margin:0 0 14px;color:#fde68a;font-size:1.3rem;}
+.rules-box p{color:#dde1f2;line-height:1.75;font-size:.95rem;margin:0 0 10px;}
+.rules-close{margin-top:8px;background:linear-gradient(135deg,#6366f1,#a855f7);color:#fff;border:none;padding:10px 24px;border-radius:30px;font-weight:800;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -99,6 +108,7 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
     <div class="score-bar">
         <div class="score-pill" id="scorePill">0 / 10 נכונות</div>
         <div class="fail-pill" id="failPill">0 נפלו</div>
+        <button class="rules-btn" onclick="showRules()">📜 חוקי המשחק</button>
         <button class="reset-btn" onclick="startGame()">🔄 סבב חדש (שאלות חדשות)</button>
     </div>
     <div class="sky-area" id="skyArea">
@@ -116,6 +126,17 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
         <div class="q-text" id="modalQ"></div>
         <div id="modalOpts"></div>
         <div style="text-align:center;"><button class="close-modal" id="closeModalBtn" onclick="closeModal()">לבלון הבא ⬇️</button></div>
+    </div>
+</div>
+
+<div class="rules-overlay" id="rulesOverlay">
+    <div class="rules-box">
+        <h3>📜 חוקי המשחק - בלוני צניחה</h3>
+        <p>בלונים ממוספרים נופלים מלמעלה, כל אחד במסלול ובקצב נפילה של כ-9 שניות. לחצו על בלון לפני שהוא מגיע לקו הקרקע כדי לפוצץ אותו.</p>
+        <p>ברגע שפוצצתם בלון, נפתחת שאלה טריוויה עם 4 אפשרויות ויש לכם 7 שניות לענות (עקבו אחרי פס הזמן שמתמלא באדום). לא הספקתם? זה נספר כתשובה שגויה.</p>
+        <p>אם בלון נוגע בקרקע לפני שלחצתם עליו בכלל - זה נספר כ"נפילה" ועוברים אוטומטית לבלון הבא, בלי הזדמנות לענות.</p>
+        <p>יש 10 בלונים בסך הכל בכל סבב. בסיום תראו כמה ענתם נכון וכמה בלונים נפלו. אפשר תמיד להתחיל סבב חדש עם שאלות אקראיות חדשות.</p>
+        <button class="rules-close" onclick="hideRules()">הבנתי, בואו נשחק!</button>
     </div>
 </div>
 
@@ -273,6 +294,8 @@ function showFinal(){
     banner.classList.add('shown');
     if(ratio===1) confetti({particleCount:180,spread:100,origin:{y:.5}});
 }
+function showRules(){ document.getElementById('rulesOverlay').classList.add('shown'); }
+function hideRules(){ document.getElementById('rulesOverlay').classList.remove('shown'); }
 startGame();
 document.getElementById('introCurtain').addEventListener('animationend', e=>{ e.target.remove(); });
 window.addEventListener('load', ()=>{ setTimeout(()=>confetti({particleCount:70,spread:80,origin:{y:.3},colors:['#fbbf24','#ef4444','#fde68a']}),950); });
