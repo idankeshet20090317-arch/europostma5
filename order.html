@@ -3,61 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>סדר שליחת השירים לגמר</title>
+    <title>יורופוסטמה - טופ 5 מכל הזמנים</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <style>
+        * { box-sizing: border-box; }
+
         body {
             font-family: 'Rubik', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #1a0008;
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(255, 0, 128, 0.2) 0%, transparent 40%),
-                radial-gradient(circle at 75% 70%, rgba(255, 0, 68, 0.25) 0%, transparent 45%);
-            color: white;
+            background: #0a0600;
+            color: #f5e6c8;
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
         }
 
-        body::before {
-            content: "❤️ 💖 💘 💕 ❤️ 💗 💕 💖 ❤️ 💘 💕 ❤️ 💖 💗 💕 ❤️ 💖 💘 💕 ❤️ 💗";
+        /* --- רקע: זירת פנסי כבוד זוהבים --- */
+        .spotlight-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            font-size: 2.2rem;
-            line-height: 3;
-            letter-spacing: 15px;
-            word-wrap: break-word;
-            opacity: 0.15;
-            z-index: -1;
-            pointer-events: none;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            background: radial-gradient(ellipse at 50% 105%, #2b1a00 0%, #160d00 45%, #030200 80%);
         }
 
-        .glowing-hearts {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .heart-glow {
+        .beam {
             position: absolute;
-            font-size: 2rem;
-            filter: drop-shadow(0 0 12px #ff0055) drop-shadow(0 0 25px #ff0055);
-            animation: pulseGlow 3s infinite ease-in-out;
+            bottom: -15%;
+            left: 50%;
+            width: 260px;
+            height: 170vh;
+            background: linear-gradient(to top, rgba(255, 215, 130, 0.4), rgba(255, 215, 130, 0.05) 55%, transparent 80%);
+            filter: blur(8px);
+            mix-blend-mode: screen;
+            transform-origin: bottom center;
+            animation: sweep 7s ease-in-out infinite;
+            opacity: 0.85;
         }
 
-        @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(1.3); opacity: 0.9; filter: drop-shadow(0 0 18px #ff007f) drop-shadow(0 0 35px #ff007f); }
+        .beam-1 { left: 18%; animation-delay: 0s; }
+        .beam-2 { left: 50%; width: 300px; animation-delay: -2.3s; }
+        .beam-3 { left: 82%; animation-delay: -4.6s; }
+
+        @keyframes sweep {
+            0%, 100% { transform: translateX(-50%) rotate(-24deg); }
+            50% { transform: translateX(-50%) rotate(24deg); }
+        }
+
+        .vignette {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background: radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.75) 100%);
+        }
+
+        /* --- נצנוצי זהב מרחפים --- */
+        .sparkle-container {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .sparkle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fff6d9 0%, #f8b500 55%, transparent 75%);
+            opacity: 0;
+            animation-name: floatUp, twinkleFade;
+            animation-timing-function: linear, ease-in-out;
+            animation-iteration-count: infinite, infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-115vh); }
+        }
+
+        @keyframes twinkleFade {
+            0%, 100% { opacity: 0; }
+            10% { opacity: 0.9; }
+            50% { opacity: 0.4; }
+            90% { opacity: 0.9; }
+        }
+
+        .burst-sparkle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fffbe8 0%, #ffd700 50%, transparent 75%);
+            top: 50%;
+            left: 50%;
+            opacity: 1;
+            animation: burstFly 1.4s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+        }
+
+        @keyframes burstFly {
+            0% { transform: translate(-50%, -50%) scale(0.3); opacity: 1; }
+            100% { transform: translate(calc(-50% + var(--bx)), calc(-50% + var(--by))) scale(1); opacity: 0; }
+        }
+
+        /* --- וילון פתיחה דרמטי --- */
+        .curtain {
+            position: fixed;
+            top: 0;
+            width: 51%;
+            height: 100%;
+            z-index: 5000;
+            background:
+                repeating-linear-gradient(90deg, rgba(0,0,0,0.15) 0px, transparent 3px, transparent 28px, rgba(0,0,0,0.15) 31px),
+                linear-gradient(135deg, #1a0f02 0%, #4a2c02 35%, #7a4a02 55%, #4a2c02 75%, #1a0f02 100%);
+            box-shadow: inset 0 0 120px rgba(0,0,0,0.7);
+        }
+
+        .curtain-left {
+            left: 0;
+            border-left: 6px solid #ffd700;
+        }
+
+        .curtain-right {
+            right: 0;
+            border-right: 6px solid #ffd700;
+        }
+
+        .curtain-left.opening {
+            animation: openLeft 1.6s cubic-bezier(0.6, 0.02, 0.3, 1) forwards;
+        }
+
+        .curtain-right.opening {
+            animation: openRight 1.6s cubic-bezier(0.6, 0.02, 0.3, 1) forwards;
+        }
+
+        @keyframes openLeft {
+            to { transform: translateX(-100%); }
+        }
+
+        @keyframes openRight {
+            to { transform: translateX(100%); }
+        }
+
+        .curtain-tassels {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: repeating-linear-gradient(90deg, #ffd700 0px, #ffd700 6px, transparent 6px, transparent 22px);
+            opacity: 0.8;
         }
 
         .pride-bar {
@@ -70,349 +166,307 @@
         }
 
         header {
-            padding: 60px 20px 40px 20px;
+            position: relative;
+            z-index: 10;
+            padding: 70px 20px 30px;
             text-align: center;
-            background: rgba(40, 0, 15, 0.65);
-            backdrop-filter: blur(12px);
-            margin-bottom: 30px;
-            border-bottom: 3px solid rgba(255, 0, 85, 0.4);
         }
 
         header h1 {
-            font-size: 3rem;
-            margin: 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
             font-weight: 900;
-            text-shadow: 0 0 15px rgba(255, 0, 85, 0.6);
-            color: #fff;
+            margin: 0;
+            background: linear-gradient(90deg, #fceabb 0%, #ffd700 25%, #f8b500 50%, #ffd700 75%, #fceabb 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+            text-shadow: 0 0 35px rgba(255, 215, 0, 0.35);
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        header p {
+            margin-top: 12px;
+            color: #d9b877;
+            font-weight: 700;
+            font-size: 1.15rem;
+            letter-spacing: 1px;
         }
 
         .container {
-            max-width: 800px;
+            position: relative;
+            z-index: 10;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
         }
 
-        .card {
-            background: rgba(20, 0, 10, 0.75);
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            padding: 35px;
-            margin-bottom: 30px;
-            border: 2px solid rgba(255, 0, 85, 0.3);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-        }
-
-        h2 {
-            font-size: 2rem;
-            margin-top: 0;
-            border-bottom: 2px solid rgba(255, 0, 85, 0.4);
-            padding-bottom: 12px;
-            color: #ff3377;
-            text-shadow: 0 0 8px rgba(255, 51, 119, 0.5);
-        }
-
-        .order-list {
-            list-style: none;
-            padding: 0;
-            margin: 20px 0 0 0;
-        }
-
-        .order-item {
-            font-size: 1.4rem;
-            font-weight: bold;
-            padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            margin-bottom: 12px;
-            border-radius: 15px;
-            border-right: 6px solid #ff0055;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
-        }
-
-        .search-box-card {
-            background: rgba(30, 5, 15, 0.8);
-            border: 2px solid #ff0055;
-            border-radius: 25px;
+        .results-card {
+            background: linear-gradient(160deg, #1c1206 0%, #2c1c07 100%);
+            border-radius: 28px;
             padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(255, 0, 85, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.35);
+            box-shadow:
+                0 0 0 1px rgba(255, 215, 0, 0.08),
+                0 0 35px rgba(255, 185, 0, 0.15),
+                0 20px 45px rgba(0, 0, 0, 0.6);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
         }
 
-        .search-row {
+        .results-card:hover {
+            transform: translateY(-8px);
+            box-shadow:
+                0 0 0 1px rgba(255, 215, 0, 0.2),
+                0 0 55px rgba(255, 185, 0, 0.3),
+                0 25px 55px rgba(0, 0, 0, 0.7);
+        }
+
+        .edition-title {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffe9a8, #f8b500, #d4a017);
+            color: #241800;
+            padding: 9px 26px;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 18px rgba(248, 181, 0, 0.35);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: right;
+            padding: 10px 8px;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.5);
+            font-size: 1.05rem;
+            color: #f8b500;
+            font-weight: 900;
+        }
+
+        td {
+            padding: 13px 8px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            vertical-align: middle;
+            color: #f5e6c8;
+            font-size: 1.08rem;
+            font-weight: 500;
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        .winner-row {
+            background: rgba(255, 215, 0, 0.1);
+            font-weight: 900;
+        }
+
+        .winner-row td {
+            color: #ffd700;
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
+        }
+
+        .flag {
+            font-size: 1.4rem;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .participant-cell {
             display: flex;
             align-items: center;
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50px;
-            padding: 5px 20px;
-            gap: 15px;
-            transition: all 0.3s ease;
+            justify-content: space-between;
+            gap: 10px;
         }
 
-        .search-row:focus-within {
-            border-color: #ff0055;
-            box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
-        }
-
-        .search-icon-span {
-            font-size: 1.6rem;
-            color: #ff0055;
-        }
-
-        .name-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 1.25rem;
-            padding: 12px 0;
-            font-family: 'Rubik', sans-serif;
-            min-width: 0;
-        }
-
-        .name-input:focus {
-            outline: none;
-        }
-
-        .check-btn {
-            background: linear-gradient(90deg, #ff0055, #ff5500);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'Rubik', sans-serif;
-            white-space: nowrap;
-        }
-
-        .check-btn:hover {
-            transform: scale(1.05);
-            filter: brightness(1.2);
-        }
-
-        .result-box {
-            margin-top: 25px;
-            padding: 20px;
-            border-radius: 20px;
-            font-size: 1.3rem;
-            font-weight: 900;
+        .footer-container {
+            position: relative;
+            z-index: 10;
+            grid-column: 1 / -1;
             text-align: center;
-            display: none;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .result-success {
-            background-color: #15803d;
-            border: 3px solid #22c55e;
-            color: #f0fdf4;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
-        }
-
-        .result-fail {
-            background-color: #b91c1c;
-            border: 3px solid #ef4444;
-            color: #fef2f2;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+            margin: 30px 0 60px;
         }
 
         .btn-back-home {
             display: inline-block;
             width: fit-content;
-            background: linear-gradient(90deg, #334155, #1e293b);
-            color: white;
-            padding: 12px 40px;
+            background: linear-gradient(135deg, #ffe9a8, #f8b500, #d4a017);
+            color: #241800;
+            padding: 16px 45px;
             border-radius: 50px;
             text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1rem;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            font-weight: 900;
+            font-size: 1.2rem;
+            border: none;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            text-align: center;
-            margin: 10px;
+            box-shadow: 0 10px 25px rgba(248, 181, 0, 0.4);
         }
 
         .btn-back-home:hover {
-            transform: translateY(-3px);
-            border-color: #ff0055;
-            box-shadow: 0 8px 25px rgba(255, 0, 85, 0.3);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 15px 32px rgba(248, 181, 0, 0.55);
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 600px) {
-            .search-row {
-                flex-direction: column;
-                border-radius: 20px;
-                padding: 15px;
-                gap: 10px;
-            }
-
-            .name-input {
-                width: 100%;
-                text-align: center;
-                padding: 5px 0;
-            }
-
-            .check-btn {
-                width: 100%;
-                padding: 14px;
-                box-sizing: border-box;
-            }
-
-            .search-icon-span {
-                display: none;
-            }
+            header h1 { font-size: 2.1rem; }
+            .beam { width: 160px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="glowing-hearts">
-        <div class="heart-glow" style="top: 15%; left: 10%; animation-delay: 0s;">💖</div>
-        <div class="heart-glow" style="top: 25%; right: 12%; animation-delay: 0.5s;">❤️</div>
-        <div class="heart-glow" style="top: 65%; left: 8%; animation-delay: 1.2s;">💘</div>
-        <div class="heart-glow" style="top: 75%; right: 15%; animation-delay: 0.8s;">💖</div>
-        <div class="heart-glow" style="top: 45%; left: 50%; animation-delay: 1.8s;">❤️</div>
+    <div class="spotlight-bg" aria-hidden="true">
+        <div class="beam beam-1"></div>
+        <div class="beam beam-2"></div>
+        <div class="beam beam-3"></div>
     </div>
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="sparkle-container" id="sparkleContainer" aria-hidden="true"></div>
+
+    <div class="curtain curtain-left" id="curtainLeft"><div class="curtain-tassels"></div></div>
+    <div class="curtain curtain-right" id="curtainRight"><div class="curtain-tassels"></div></div>
 
     <div class="pride-bar"></div>
 
     <header>
-        <h1>סדר שליחת שירים לגמר 🎤</h1>
+        <h1>👑 טופ 5 מכל הזמנים 👑</h1>
+        <p>היכל הכבוד הרשמי של יורופוסטמה</p>
     </header>
 
     <div class="container">
-
-        <div class="search-box-card">
-            <p style="font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; color: #ffa3c4;">תכתבו את השם שלכם בשביל לדעת איפה אתם:</p>
-            
-            <div class="search-row">
-                <span class="search-icon-span">🔍</span>
-                <input type="text" id="userNameInput" class="name-input" placeholder="הקלידו שם כאן...">
-                <button type="button" class="check-btn" onclick="checkMyOrder()">בדוק מיקום</button>
-            </div>
-
-            <div id="successNotice" class="result-box result-success"></div>
-            <div id="failNotice" class="result-box result-fail"></div>
+        <div class="results-card">
+            <div class="edition-title">✨ יורופוסטמה 4</div>
+            <table>
+                <thead>
+                    <tr><th>מיקום</th><th>משתתף</th><th>נקודות</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="winner-row"><td>🥇 מקום 1</td><td><span class="flag">👑</span> ניצן (חצי 1)</td><td>146</td></tr>
+                    <tr><td>🥈 מקום 2</td><td>מעין (חצי 2)</td><td>145</td></tr>
+                    <tr><td>🥉 מקום 3</td><td>שי (חצי 1)</td><td>140</td></tr>
+                    <tr><td>4</td><td>עידו (חצי 1)</td><td>137</td></tr>
+                    <tr><td>5</td><td>רון (חצי 2)</td><td>107</td></tr>
+                </tbody>
+            </table>
         </div>
 
-        <div class="card">
-            <h2>📋 סדר השירים הרשמי</h2>
-            <ul class="order-list">
-                <li class="order-item"><span>1.</span> שי </li>
-                <li class="order-item"><span>2.</span> תומר </li>
-                <li class="order-item"><span>3.</span> אגם</li>
-                <li class="order-item"><span>4.</span> קרן</li>
-                <li class="order-item"><span>5.</span> איתן</li>
-                <li class="order-item"><span>6.</span> אלונה</li>
-                <li class="order-item"><span>7.</span> עידן רשת</li>
-                <li class="order-item"><span>8.</span> אדיר</li>
-                <li class="order-item"><span>9.</span> נוי</li>
-                <li class="order-item"><span>10.</span> שלו</li>
-                <li class="order-item"><span>11.</span> סהר</li>
-                <li class="order-item"><span>12.</span> נריה</li>
-                <li class="order-item"><span>13.</span> עידן קשת</li>
-                <li class="order-item"><span>14.</span> איילת</li>
-                <li class="order-item"><span>15.</span> לב</li>
-                <li class="order-item"><span>16.</span> ניצן</li>
-                <li class="order-item"><span>17.</span> הילה</li>
-                <li class="order-item"><span>18.</span> נעם</li>
-                <li class="order-item"><span>19.</span> מעין 👑</li>
-                <li class="order-item"><span>20.</span> חשאבה</li>
-                <li class="order-item"><span>21.</span> עידו</li>
-                <li class="order-item"><span>22.</span> נדב</li>
-                <li class="order-item"><span>23.</span> גילי</li>
-                <li class="order-item"><span>24.</span> יוני</li>
-                <li class="order-item"><span>25.</span> גוזף</li>
-                <li class="order-item"><span>26.</span> טל</li>
-                <li class="order-item"><span>27.</span> רוני</li>
-                <li class="order-item"><span>28.</span> עדיאל</li>
-            </ul>
+        <div class="results-card">
+            <div class="edition-title">✨ יורופוסטמה 3</div>
+            <table>
+                <thead>
+                    <tr><th>מיקום</th><th>משתתף</th><th>נקודות</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="winner-row"><td>🥇 מקום 1</td><td><span class="flag">👑</span> אלונה (חצי 1)</td><td>149</td></tr>
+                    <tr><td>🥈 מקום 2</td><td>ניצן (חצי 1)</td><td>122</td></tr>
+                    <tr><td>🥉 מקום 3</td><td><span class="flag">🎵</span> נעם (חצי 2)</td><td>116</td></tr>
+                    <tr><td>4</td><td>עידן (חצי 2)</td><td>113</td></tr>
+                    <tr><td>5</td><td>עדיאל (חצי 2)</td><td>111</td></tr>
+                </tbody>
+            </table>
         </div>
 
-        <div style="text-align: center; margin-top: 30px;">
+        <div class="results-card">
+            <div class="edition-title">✨ יורופוסטמה 2</div>
+            <table>
+                <thead>
+                    <tr><th>מיקום</th><th>משתתף</th><th>נקודות</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="winner-row"><td>🥇 מקום 1</td><td><div class="participant-cell"><span><span class="flag">👑</span> גילי (חצי 2)</span></div></td><td>156</td></tr>
+                    <tr><td>🥈 מקום 2</td><td><div class="participant-cell"><span><span class="flag">🔥</span> חשאבה (חצי 2)</span></div></td><td>122</td></tr>
+                    <tr><td>🥉 מקום 3</td><td><div class="participant-cell"><span>ניצן (חצי 2)</span></div></td><td>119</td></tr>
+                    <tr><td>4</td><td><div class="participant-cell"><span>איילת (חצי 1)</span></div></td><td>100</td></tr>
+                    <tr><td>5</td><td><div class="participant-cell"><span>אלונה (חצי 1)</span></div></td><td>98</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="results-card">
+            <div class="edition-title">✨ יורופוסטמה 1</div>
+            <table>
+                <thead>
+                    <tr><th>מיקום</th><th>משתתף</th><th>נקודות</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="winner-row"><td>🥇 מקום 1</td><td><span class="flag">👑</span> אלונה (חצי 2)</td><td>128</td></tr>
+                    <tr><td>🥈 מקום 2</td><td>גילי (חצי 1)</td><td>115</td></tr>
+                    <tr><td>🥉 מקום 3</td><td>עידן קשת (חצי 1)</td><td>107</td></tr>
+                    <tr><td>4</td><td>עידו (חצי 1)</td><td>105</td></tr>
+                    <tr><td>5</td><td>הילה (חצי 1)</td><td>103</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer-container">
             <a href="index.html" class="btn-back-home">🏠 חזרה לעמוד הראשי</a>
         </div>
-
     </div>
 
     <script>
-        function checkMyOrder() {
-            let inputName = document.getElementById('userNameInput').value.trim();
-            const successBox = document.getElementById('successNotice');
-            const failBox = document.getElementById('failNotice');
-            
-            successBox.style.display = "none";
-            failBox.style.display = "none";
-
-            if (inputName === "") {
-                alert("אנא הקלידו שם כלשהו!");
-                return;
-            }
-
-            // הסרת הכתר במידה והמשתמש הקליד אותו, כדי למנוע שגיאות זיהוי
-            if (inputName.includes("מעין")) {
-                inputName = "מעין";
-            }
-
-            // בסיס הנתונים המעודכן שתואם ב-100% לרשימה הרשמית שמופיעה למעלה
-            const orderDatabase = {
-                "שי": 1,
-                "תומר": 2,
-                "אגם": 3,
-                "קרן": 4,
-                "איתן": 5,
-                "אלונה": 6,
-                "עידן רשת": 7,
-                "אדיר": 8,
-                "נוי": 9,
-                "שלו": 10,
-                "סהר": 11,
-                "נריה": 12,
-                "עידן קשת": 13,
-                "איילת": 14,
-                "לב": 15,
-                "ניצן": 16,
-                "הילה": 17,
-                "נעם": 18,
-                "מעין": 19,
-                "חשאבה": 20,
-                "עידו": 21,
-                "נדב": 22,
-                "גילי": 23,
-                "יוני": 24,
-                "גוזף": 25,
-                "טל": 26,
-                "רוני": 27,
-                "עדיאל": 28
-            };
-
-            if (orderDatabase[inputName]) {
-                const songNumber = orderDatabase[inputName];
-                // תצוגת השם המקורי עם הכתר למעיין בתוצאה
-                const displayName = inputName === "מעין" ? "מעין 👑" : inputName;
-                successBox.innerHTML = `מזל טוב ${displayName} את/ה שיר מספר ${songNumber} שיהיה לך בהצלחההה רבהההה<br><span style="font-size: 1rem; opacity: 0.9; font-weight: normal;">אוהבים עידנים</span>`;
-                successBox.style.display = "block";
-            } else {
-                failBox.innerHTML = `אוףףףףףףףף השם שלך לא נמצא מצטערים<br><span style="font-size: 1rem; opacity: 0.9; font-weight: normal;">אוהבים עידנים</span>`;
-                failBox.style.display = "block";
+        function spawnAmbientSparkles() {
+            const container = document.getElementById('sparkleContainer');
+            const count = 35;
+            for (let i = 0; i < count; i++) {
+                const s = document.createElement('div');
+                s.className = 'sparkle';
+                const size = 2 + Math.random() * 4;
+                s.style.width = size + 'px';
+                s.style.height = size + 'px';
+                s.style.left = Math.random() * 100 + 'vw';
+                s.style.top = (50 + Math.random() * 50) + 'vh';
+                const floatDuration = 6 + Math.random() * 8;
+                const twinkleDuration = 2 + Math.random() * 3;
+                s.style.animationDuration = floatDuration + 's, ' + twinkleDuration + 's';
+                s.style.animationDelay = (Math.random() * 8) + 's, ' + (Math.random() * 3) + 's';
+                container.appendChild(s);
             }
         }
 
-        document.getElementById('userNameInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                checkMyOrder();
+        function spawnBurst() {
+            const container = document.getElementById('sparkleContainer');
+            const count = 45;
+            for (let i = 0; i < count; i++) {
+                const b = document.createElement('div');
+                b.className = 'burst-sparkle';
+                const size = 3 + Math.random() * 6;
+                b.style.width = size + 'px';
+                b.style.height = size + 'px';
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 150 + Math.random() * 420;
+                const bx = Math.cos(angle) * distance;
+                const by = Math.sin(angle) * distance;
+                b.style.setProperty('--bx', bx + 'px');
+                b.style.setProperty('--by', by + 'px');
+                b.style.animationDelay = (Math.random() * 0.3) + 's';
+                container.appendChild(b);
+                setTimeout(() => b.remove(), 2200);
             }
+        }
+
+        window.addEventListener('load', function () {
+            spawnAmbientSparkles();
+            setTimeout(() => {
+                document.getElementById('curtainLeft').classList.add('opening');
+                document.getElementById('curtainRight').classList.add('opening');
+                spawnBurst();
+            }, 700);
         });
     </script>
 </body>
