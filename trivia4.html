@@ -28,6 +28,7 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
 .status-container { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 15px; }
 .score-pill{ background:rgba(16,185,129,.14);border:1px solid rgba(16,185,129,.4);color:#a7f3d0;padding:10px 20px;border-radius:20px;font-weight:800; }
 .bot-pill{ background:rgba(239,68,68,.14);border:1px solid rgba(239,68,68,.4);color:#fca5a5;padding:10px 20px;border-radius:20px;font-weight:800; }
+.rules-btn{background:linear-gradient(135deg,#0ea5e9,#22d3ee);color:#04231c;border:none;padding:10px 20px;border-radius:20px;font-weight:800;cursor:pointer;}
 
 /* חנות פרסים מעודכנת */
 .shop-section { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 20px; padding: 15px; margin-bottom: 20px; }
@@ -99,6 +100,16 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
 .finish-banner{display:none;margin-top:10px;background:rgba(255,255,255,.05);border:1px solid rgba(16,185,129,.4);border-radius:22px;padding:24px;}
 .finish-banner.shown{display:block;}
 
+/* rules modal - reuses larger box for detailed content */
+.rules-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:2500;align-items:center;justify-content:center;padding:20px;}
+.rules-overlay.shown{display:flex;}
+.rules-box{background:#141a2e;border:1px solid rgba(16,185,129,.4);border-radius:22px;padding:28px;max-width:560px;width:100%;text-align:right;box-shadow:0 20px 50px rgba(0,0,0,.6);max-height:85vh;overflow-y:auto;}
+.rules-box h3{margin:0 0 14px;color:#a7f3d0;font-size:1.35rem;}
+.rules-box h4{margin:16px 0 6px;color:#fde68a;font-size:1rem;}
+.rules-box p, .rules-box li{color:#dde1f2;line-height:1.75;font-size:.93rem;margin:0 0 6px;}
+.rules-box ul{margin:0 0 10px;padding-right:20px;}
+.rules-close{margin-top:12px;background:linear-gradient(135deg,#6366f1,#a855f7);color:#fff;border:none;padding:10px 24px;border-radius:30px;font-weight:800;cursor:pointer;}
+
 @media(max-width:768px){ .board{grid-template-columns:repeat(5,1fr);} }
 </style>
 </head>
@@ -122,6 +133,7 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
     <div class="status-container">
         <div class="score-pill" id="scorePill">👤 אתה: משבצת 0 | 🪙 0₪</div>
         <div class="bot-pill" id="botPill">🤖 המחשב: משבצת 0 | 🪙 0₪</div>
+        <button class="rules-btn" onclick="showRules()">📜 חוקי המשחק</button>
     </div>
 
     <div class="shop-section">
@@ -158,6 +170,34 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
         <div class="q-text" id="modalQ"></div>
         <div id="modalOpts"></div>
         <div style="text-align:center;"><button class="close-modal" id="closeModalBtn" onclick="closeModal()">המשיכו במסלול</button></div>
+    </div>
+</div>
+
+<div class="rules-overlay" id="rulesOverlay">
+    <div class="rules-box">
+        <h3>📜 חוקי המשחק - מסלול הלוח</h3>
+        <p>אתם מתחרים נגד המחשב על מסלול של 50 משבצות. שני הצדדים מתחילים ממשבצת 0, וכל תור מטילים קובייה ומתקדמים במספר הצעדים שיצא. מי שמגיע/ה ראשון/ה למשבצת 50 מנצח/ת מיד.</p>
+        <h4>סוגי המשבצות</h4>
+        <ul>
+            <li>🟣 <b>שאלה</b> - נפתחת שאלת טריוויה על יורופוסטמה 4. תשובה נכונה = +50₪ ועוד 2 צעדים קדימה. תשובה שגויה = -20₪ ו-2 צעדים אחורה.</li>
+            <li>🪜 <b>סולם</b> - קפיצה אוטומטית של 3-4 צעדים קדימה.</li>
+            <li>🐍 <b>נחש</b> - החלקה אוטומטית של 2-3 צעדים אחורה.</li>
+            <li>⭐ <b>בונוס</b> - עוד 2-3 צעדים קדימה בחינם.</li>
+            <li>🎁 <b>מתנה</b> - מקבלים 30₪.</li>
+            <li>⛔ <b>פספוס תור</b> - מפספסים את התור הבא שלכם.</li>
+            <li>🔥 <b>מלכודת (משבצת 49)</b> - חוזרים ישר להתחלה (משבצת 1), אלא אם קניתם מגן מלכודות.</li>
+            <li>🏁 <b>סיום (משבצת 50)</b> - מי שמגיע/ה לכאן ראשון/ה מנצח/ת!</li>
+        </ul>
+        <h4>חנות הפרסים</h4>
+        <p>בכל שלב בתור שלכם (כל עוד לא תור המחשב) אפשר לקנות שדרוגים עם המטבעות (₪) שצברתם:</p>
+        <ul>
+            <li>🍎 תפוח זהב - 50₪ - קפיצה מיידית של 3 צעדים קדימה.</li>
+            <li>🚀 טיל טורבו - 85₪ - קפיצה מיידית של 6 צעדים קדימה.</li>
+            <li>🛡️ מגן מלכודות - 70₪ - מציל אתכם פעם אחת מהמלכודת במשבצת 49.</li>
+            <li>🍌 קליפת בננה - 60₪ - דוחפת את המחשב 4 צעדים אחורה.</li>
+        </ul>
+        <p>כל פריט אפשר לקנות פעם אחת בלבד למשחק. גם המחשב "קונה" שדרוגים בעצמו כשיש לו מספיק כסף, אז אל תתמהמהו!</p>
+        <button class="rules-close" onclick="hideRules()">הבנתי, בואו נשחק!</button>
     </div>
 </div>
 
@@ -532,6 +572,9 @@ function resetGame(){
     document.getElementById('toast').textContent='';
     buildBoard();
 }
+
+function showRules(){ document.getElementById('rulesOverlay').classList.add('shown'); }
+function hideRules(){ document.getElementById('rulesOverlay').classList.remove('shown'); }
 
 resetGame();
 </script>
