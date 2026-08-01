@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -8,38 +9,128 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
-        /* --- בסיס ועיצוב גן עדן --- */
+        /* --- בסיס ורקע משחקי --- */
+        * { box-sizing: border-box; }
+
         body {
             font-family: 'Rubik', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #bae6fd;
-            color: #1f2937;
+            background: #0a0420;
+            color: #ffffff;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
-            transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
-        .scene-bg {
+        /* --- רקע משחקי: שמיים עם כוכבים + אורות ניאון + רצפת גריד סינת'ווייב --- */
+        .game-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             z-index: 0;
             pointer-events: none;
             overflow: hidden;
+            background: radial-gradient(ellipse at 50% 0%, #2e1065 0%, #1a0b3d 35%, #0a0420 75%, #05010f 100%);
         }
 
-        .scene-bg svg {
-            width: 100%;
-            height: 100%;
-            display: block;
+        .game-bg::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(2px 2px at 10% 20%, #fff, transparent),
+                radial-gradient(2px 2px at 30% 70%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 50% 15%, #fff, transparent),
+                radial-gradient(2px 2px at 70% 45%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 85% 25%, #fff, transparent),
+                radial-gradient(2px 2px at 15% 55%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 95% 65%, #fff, transparent),
+                radial-gradient(2px 2px at 60% 80%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 40% 35%, #fff, transparent),
+                radial-gradient(2px 2px at 25% 90%, #fff, transparent);
+            background-size: 100% 100%;
+            animation: twinkle 3s ease-in-out infinite alternate;
+            opacity: 0.7;
         }
 
-        body.flipped {
-            transform: rotate(360deg) scaleX(-1) scaleY(-1);
+        @keyframes twinkle {
+            0% { opacity: 0.35; }
+            100% { opacity: 0.9; }
+        }
+
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(70px);
+            opacity: 0.55;
+            animation: floatOrb 11s ease-in-out infinite;
+        }
+
+        .orb-1 { top: 8%;  left: 12%; width: 280px; height: 280px; background: #a855f7; }
+        .orb-2 { bottom: 18%; right: 8%; width: 320px; height: 320px; background: #0ea5e9; animation-delay: -4s; }
+        .orb-3 { top: 45%; right: 25%; width: 220px; height: 220px; background: #f97316; animation-delay: -7s; }
+        .orb-4 { bottom: 5%; left: 30%; width: 240px; height: 240px; background: #ec4899; animation-delay: -2.5s; }
+
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(35px, -45px) scale(1.12); }
+        }
+
+        .grid-floor {
+            position: absolute;
+            bottom: 0; left: -20%;
+            width: 140%; height: 42%;
+            background-image:
+                linear-gradient(rgba(168, 85, 247, 0.55) 1.5px, transparent 1.5px),
+                linear-gradient(90deg, rgba(56, 189, 248, 0.55) 1.5px, transparent 1.5px);
+            background-size: 65px 65px;
+            transform: perspective(320px) rotateX(62deg);
+            transform-origin: bottom;
+            animation: gridMove 2.2s linear infinite;
+            opacity: 0.6;
+            mask-image: linear-gradient(to top, rgba(0,0,0,1), transparent);
+            -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1), transparent);
+        }
+
+        @keyframes gridMove {
+            from { background-position-y: 0; }
+            to { background-position-y: 65px; }
+        }
+
+        /* --- כרטיסים נופלים באנימציית כניסה --- */
+        .falling-cards-container {
+            position: fixed;
+            inset: 0;
+            z-index: 1500;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .falling-card {
+            position: absolute;
+            top: -160px;
+            width: 62px;
+            height: 88px;
+            border-radius: 8px;
+            background: repeating-linear-gradient(45deg, #ef4444, #ef4444 12px, #eab308 12px, #eab308 24px);
+            border: 3px solid #ffffff;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            opacity: 0;
+            animation-name: cardFall;
+            animation-timing-function: cubic-bezier(0.3, 0.65, 0.55, 1.15);
+            animation-fill-mode: forwards;
+        }
+
+        .falling-card.fade-out {
+            transition: opacity 0.8s ease;
+            opacity: 0 !important;
+        }
+
+        @keyframes cardFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            85% { transform: translateY(90vh) rotate(380deg); opacity: 1; }
+            100% { transform: translateY(88vh) rotate(360deg); opacity: 1; }
         }
 
         /* --- כפתורי שליטה בראש המסך --- */
@@ -53,7 +144,7 @@
             flex-wrap: wrap;
         }
 
-        .flip-world-btn, .trivia-game-btn, .leaderboard-btn {
+        .leaderboard-btn, .archive-btn {
             color: white;
             border: none;
             padding: 14px 28px;
@@ -65,26 +156,6 @@
             transition: all 0.3s ease;
         }
 
-        .flip-world-btn {
-            background: linear-gradient(135deg, #fb923c, #f97316);
-            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.4);
-        }
-
-        .flip-world-btn:hover {
-            transform: scale(1.1) rotate(-2deg);
-            box-shadow: 0 15px 30px rgba(249, 115, 22, 0.6);
-        }
-
-        .trivia-game-btn {
-            background: linear-gradient(135deg, #a855f7, #6b21a8);
-            box-shadow: 0 10px 25px rgba(107, 33, 168, 0.4);
-        }
-
-        .trivia-game-btn:hover {
-            transform: scale(1.1) rotate(2deg);
-            box-shadow: 0 15px 30px rgba(107, 33, 168, 0.6);
-        }
-
         .leaderboard-btn {
             background: linear-gradient(135deg, #fbbf24, #d97706);
             box-shadow: 0 10px 25px rgba(217, 119, 6, 0.4);
@@ -93,6 +164,16 @@
         .leaderboard-btn:hover {
             transform: scale(1.1) rotate(2deg);
             box-shadow: 0 15px 30px rgba(217, 119, 6, 0.6);
+        }
+
+        .archive-btn {
+            background: linear-gradient(135deg, #38bdf8, #0369a1);
+            box-shadow: 0 10px 25px rgba(3, 105, 161, 0.4);
+        }
+
+        .archive-btn:hover {
+            transform: scale(1.1) rotate(-2deg);
+            box-shadow: 0 15px 30px rgba(3, 105, 161, 0.6);
         }
 
         .pride-bar {
@@ -107,14 +188,14 @@
         header {
             padding: 40px 20px;
             text-align: center;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            margin: 50px auto 30px;
+            margin: 60px auto 20px;
             max-width: 750px;
             border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            box-shadow: 0 15px 35px rgba(14, 165, 233, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
             position: relative;
             z-index: 10;
         }
@@ -123,108 +204,88 @@
             font-size: 3rem;
             margin: 0;
             font-weight: 900;
-            color: #0369a1;
-            text-shadow: 0 2px 4px rgba(255,255,255,0.8);
+            color: #fbbf24;
+            text-shadow: 0 2px 15px rgba(251, 191, 36, 0.5);
         }
 
         header p {
-            color: #0c4a6e;
+            color: #e0e7ff;
             font-weight: 700;
             font-size: 1.25rem;
             margin-top: 10px;
         }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            position: relative;
-            z-index: 5;
-        }
-
-        .results-card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 30px;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 20px 45px rgba(14, 165, 233, 0.15);
-            transition: all 0.3s ease;
-        }
-
-        .results-card:hover {
-            transform: translateY(-8px);
-            background: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 25px 50px rgba(14, 165, 233, 0.3);
-        }
-
-        .edition-title {
-            background: #0ea5e9;
-            color: #ffffff;
-            display: inline-block;
-            padding: 8px 24px;
-            border-radius: 50px;
-            font-weight: 900;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.3);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            text-align: right;
-            padding: 12px 10px;
-            border-bottom: 3px solid #0ea5e9;
-            font-size: 1.2rem;
-            color: #0369a1;
-            font-weight: 900;
-        }
-
-        td {
-            padding: 15px 10px;
-            border-bottom: 1px solid rgba(14, 165, 233, 0.1);
-            vertical-align: middle;
-            color: #1f2937;
-            font-size: 1.15rem;
-            font-weight: 500;
-        }
-
-        tr:last-child td { border-bottom: none; }
-
-        .winner-row {
-            background: rgba(253, 224, 71, 0.2);
-            font-weight: 900;
-        }
-        
-        .winner-row td {
-            color: #a16207;
-        }
-
-        .flag {
-            font-size: 1.5rem;
-            margin-left: 6px;
-            vertical-align: middle;
-        }
-
-        .participant-cell {
+        /* --- כפתור המשחק הענק --- */
+        .hero-play-section {
             display: flex;
+            justify-content: center;
             align-items: center;
-            justify-content: space-between;
-            gap: 10px;
+            margin: 70px auto 90px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .play-big-btn {
+            position: relative;
+            font-family: 'Rubik', sans-serif;
+            font-size: clamp(1.4rem, 4vw, 2.1rem);
+            font-weight: 900;
+            color: #ffffff;
+            background: linear-gradient(180deg, #ff6b6b 0%, #ee2e2e 55%, #c81e1e 100%);
+            border: none;
+            border-radius: 35px;
+            padding: 32px 70px;
+            cursor: pointer;
+            box-shadow:
+                0 12px 0 #7f1010,
+                0 20px 25px rgba(0, 0, 0, 0.45),
+                0 0 45px rgba(255, 82, 82, 0.65);
+            transform: translateY(0);
+            transition: transform 0.12s ease, box-shadow 0.12s ease;
+            animation: pulseBtn 1.8s ease-in-out infinite;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 0.5px;
+        }
+
+        .play-big-btn:hover {
+            filter: brightness(1.08);
+        }
+
+        .play-big-btn:active {
+            transform: translateY(11px);
+            box-shadow:
+                0 1px 0 #7f1010,
+                0 4px 10px rgba(0, 0, 0, 0.45),
+                0 0 30px rgba(255, 82, 82, 0.8);
+        }
+
+        @keyframes pulseBtn {
+            0%, 100% {
+                box-shadow: 0 12px 0 #7f1010, 0 20px 25px rgba(0,0,0,0.45), 0 0 45px rgba(255,82,82,0.65);
+            }
+            50% {
+                box-shadow: 0 12px 0 #7f1010, 0 20px 25px rgba(0,0,0,0.45), 0 0 70px rgba(255,82,82,0.95);
+            }
+        }
+
+        .footer-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 20px 20px 60px;
+        }
+
+        .footer-flags {
+            font-size: 2.5rem;
+            margin: 20px 0 10px;
+            letter-spacing: 8px;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.4));
         }
 
         .back-home {
             display: block;
             width: fit-content;
-            margin: 40px auto;
+            margin: 20px auto 0;
             background: #0ea5e9;
             color: #ffffff;
             padding: 16px 45px;
@@ -242,16 +303,73 @@
             box-shadow: 0 15px 30px rgba(14, 165, 233, 0.5);
         }
 
-        .footer-container {
-            grid-column: 1 / -1;
-            text-align: center;
+        /* --- כרטיסי תוצאות (משמשים כעת בתוך המודאל של הארכיון) --- */
+        .results-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            padding: 25px;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            color: #1f2937;
         }
 
-        .footer-flags {
-            font-size: 2.5rem;
-            margin: 40px 0 10px;
-            letter-spacing: 8px;
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
+        .edition-title {
+            background: #0ea5e9;
+            color: #ffffff;
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 1.15rem;
+            margin-bottom: 18px;
+            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.3);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: right;
+            padding: 10px 8px;
+            border-bottom: 3px solid #0ea5e9;
+            font-size: 1.05rem;
+            color: #0369a1;
+            font-weight: 900;
+        }
+
+        td {
+            padding: 12px 8px;
+            border-bottom: 1px solid rgba(14, 165, 233, 0.1);
+            vertical-align: middle;
+            color: #1f2937;
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        .winner-row {
+            background: rgba(253, 224, 71, 0.25);
+            font-weight: 900;
+        }
+
+        .winner-row td {
+            color: #a16207;
+        }
+
+        .flag {
+            font-size: 1.4rem;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .participant-cell {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
         }
 
         /* --- מסך משחק הזיכרון המורחב --- */
@@ -416,6 +534,9 @@
                 justify-content: center;
                 margin-top: 20px;
                 margin-bottom: -20px;
+            }
+            .play-big-btn {
+                padding: 26px 45px;
             }
         }
 
@@ -633,6 +754,56 @@
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(217, 119, 6, 0.4);
         }
+
+        /* --- מודאל ארכיון תוצאות --- */
+        .archive-modal {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.97);
+            border: 4px solid #0369a1;
+            border-radius: 25px;
+            padding: 30px;
+            max-width: 1100px;
+            width: 95%;
+            max-height: 85vh;
+            overflow-y: auto;
+            z-index: 4600;
+            display: none;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.55);
+        }
+
+        .archive-modal h3 {
+            margin-top: 0;
+            color: #0369a1;
+            text-align: center;
+            font-size: 1.7rem;
+            font-weight: 900;
+            border-bottom: 3px solid #0369a1;
+            padding-bottom: 12px;
+        }
+
+        .archive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .close-archive-btn {
+            display: block;
+            width: 100%;
+            background: #0369a1;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 1.2rem;
+            margin-top: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(3, 105, 161, 0.4);
+        }
     </style>
     <!-- Firebase - למסד נתונים משותף של טבלת השיאים (חינמי) -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -640,278 +811,35 @@
 </head>
 <body>
 
-    <div class="scene-bg" aria-hidden="true">
-        <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#5eb8f5"/>
-                    <stop offset="35%" stop-color="#8dd7f7"/>
-                    <stop offset="62%" stop-color="#c7ecfb"/>
-                    <stop offset="80%" stop-color="#fef3c7"/>
-                    <stop offset="100%" stop-color="#fde68a"/>
-                </linearGradient>
-                <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stop-color="#fff9c4" stop-opacity="0.95"/>
-                    <stop offset="45%" stop-color="#fde047" stop-opacity="0.5"/>
-                    <stop offset="100%" stop-color="#fde047" stop-opacity="0"/>
-                </radialGradient>
-                <linearGradient id="farHillGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#c4b5fd" stop-opacity="0.55"/>
-                    <stop offset="100%" stop-color="#a5b4fc" stop-opacity="0.55"/>
-                </linearGradient>
-                <linearGradient id="backHillGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#86efac"/>
-                    <stop offset="100%" stop-color="#4ade80"/>
-                </linearGradient>
-                <linearGradient id="frontHillGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#4ade80"/>
-                    <stop offset="100%" stop-color="#16a34a"/>
-                </linearGradient>
-                <linearGradient id="lakeGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#7dd3fc"/>
-                    <stop offset="55%" stop-color="#38bdf8"/>
-                    <stop offset="100%" stop-color="#0284c7"/>
-                </linearGradient>
-                <radialGradient id="wingGrad" cx="30%" cy="30%" r="80%">
-                    <stop offset="0%" stop-color="#fce7f3"/>
-                    <stop offset="45%" stop-color="#e9d5ff"/>
-                    <stop offset="100%" stop-color="#93c5fd"/>
-                </radialGradient>
-            </defs>
-
-            <!-- שמיים -->
-            <rect x="0" y="0" width="1600" height="900" fill="url(#skyGrad)"/>
-
-            <!-- שמש זוהרת -->
-            <circle cx="230" cy="150" r="230" fill="url(#sunGlow)"/>
-            <circle cx="230" cy="150" r="70" fill="#fef08a"/>
-
-            <!-- עננים -->
-            <g fill="#ffffff" opacity="0.9">
-                <ellipse cx="480" cy="130" rx="70" ry="28"/>
-                <ellipse cx="540" cy="115" rx="55" ry="24"/>
-                <ellipse cx="420" cy="120" rx="50" ry="22"/>
-
-                <ellipse cx="1000" cy="95" rx="80" ry="30"/>
-                <ellipse cx="1070" cy="80" rx="60" ry="26"/>
-                <ellipse cx="930" cy="90" rx="55" ry="24"/>
-
-                <ellipse cx="1330" cy="210" rx="65" ry="26"/>
-                <ellipse cx="1390" cy="195" rx="45" ry="20"/>
-
-                <ellipse cx="120" cy="320" rx="55" ry="22"/>
-                <ellipse cx="175" cy="305" rx="40" ry="18"/>
-            </g>
-
-            <!-- הרים רחוקים -->
-            <path d="M0,560 L0,480 Q120,400 240,460 Q380,380 520,470 Q650,390 800,465 Q950,385 1100,470 Q1250,400 1400,465 Q1520,410 1600,460 L1600,560 Z" fill="url(#farHillGrad)"/>
-
-            <!-- גבעה אחורית -->
-            <path d="M0,640 Q220,540 460,610 Q700,545 950,615 Q1200,550 1600,615 L1600,900 L0,900 Z" fill="url(#backHillGrad)"/>
-
-            <!-- אגם מהמם -->
-            <ellipse cx="800" cy="742" rx="330" ry="82" fill="url(#lakeGrad)"/>
-            <ellipse cx="705" cy="715" rx="110" ry="30" fill="#ffffff" opacity="0.28"/>
-            <path d="M540,745 Q650,735 760,745 Q870,755 980,745" stroke="#ffffff" stroke-width="4" fill="none" opacity="0.35" stroke-linecap="round"/>
-            <path d="M560,765 Q660,758 760,765 Q870,772 1000,762" stroke="#ffffff" stroke-width="3" fill="none" opacity="0.3" stroke-linecap="round"/>
-            <!-- שיקוף עצים באגם -->
-            <ellipse cx="620" cy="790" rx="26" ry="52" fill="#16a34a" opacity="0.18"/>
-            <ellipse cx="980" cy="795" rx="30" ry="55" fill="#15803d" opacity="0.18"/>
-
-            <!-- עצים גדולים -->
-            <g>
-                <rect x="95" y="600" width="22" height="110" rx="6" fill="#92400e"/>
-                <circle cx="106" cy="560" r="60" fill="#22c55e"/>
-                <circle cx="60" cy="590" r="45" fill="#16a34a"/>
-                <circle cx="155" cy="590" r="48" fill="#15803d"/>
-                <circle cx="106" cy="605" r="50" fill="#4ade80"/>
-            </g>
-
-            <g>
-                <rect x="1465" y="560" width="26" height="130" rx="6" fill="#78350f"/>
-                <circle cx="1478" cy="510" r="70" fill="#16a34a"/>
-                <circle cx="1420" cy="545" r="52" fill="#22c55e"/>
-                <circle cx="1540" cy="545" r="55" fill="#15803d"/>
-                <circle cx="1478" cy="565" r="58" fill="#4ade80"/>
-            </g>
-
-            <g>
-                <rect x="1330" y="655" width="16" height="75" rx="5" fill="#92400e"/>
-                <circle cx="1338" cy="630" r="42" fill="#4ade80"/>
-                <circle cx="1310" cy="650" r="30" fill="#22c55e"/>
-                <circle cx="1365" cy="648" r="32" fill="#16a34a"/>
-            </g>
-
-            <g>
-                <rect x="255" y="670" width="14" height="65" rx="5" fill="#92400e"/>
-                <circle cx="262" cy="648" r="38" fill="#4ade80"/>
-                <circle cx="238" cy="665" r="26" fill="#22c55e"/>
-                <circle cx="288" cy="663" r="28" fill="#15803d"/>
-            </g>
-
-            <!-- גבעת דשא קדמית -->
-            <path d="M0,780 Q250,720 500,770 Q800,715 1100,775 Q1350,725 1600,770 L1600,900 L0,900 Z" fill="url(#frontHillGrad)"/>
-
-            <!-- פרפרים -->
-            <g opacity="0.9">
-                <g transform="translate(430,800)">
-                    <ellipse cx="-8" cy="-4" rx="9" ry="6" fill="#f472b6"/>
-                    <ellipse cx="8" cy="-4" rx="9" ry="6" fill="#fb923c"/>
-                    <line x1="0" y1="-8" x2="0" y2="4" stroke="#78350f" stroke-width="1.5"/>
-                </g>
-                <g transform="translate(1180,845) scale(0.85)">
-                    <ellipse cx="-8" cy="-4" rx="9" ry="6" fill="#c4b5fd"/>
-                    <ellipse cx="8" cy="-4" rx="9" ry="6" fill="#93c5fd"/>
-                    <line x1="0" y1="-8" x2="0" y2="4" stroke="#78350f" stroke-width="1.5"/>
-                </g>
-            </g>
-
-            <!-- פרחים על הדשא -->
-            <g>
-                <g transform="translate(140,830)"><line x1="0" y1="0" x2="0" y2="26" stroke="#166534" stroke-width="3"/><circle cx="0" cy="-3" r="4" fill="#fde047"/><circle cx="-6" cy="0" r="4" fill="#f9a8d4"/><circle cx="6" cy="0" r="4" fill="#f9a8d4"/><circle cx="0" cy="4" r="4" fill="#f9a8d4"/><circle cx="0" cy="0" r="3" fill="#fbbf24"/></g>
-                <g transform="translate(340,860) scale(0.8)"><line x1="0" y1="0" x2="0" y2="26" stroke="#166534" stroke-width="3"/><circle cx="0" cy="-3" r="4" fill="#ffffff"/><circle cx="-6" cy="0" r="4" fill="#ffffff"/><circle cx="6" cy="0" r="4" fill="#ffffff"/><circle cx="0" cy="4" r="4" fill="#ffffff"/><circle cx="0" cy="0" r="3" fill="#fde047"/></g>
-                <g transform="translate(700,845)"><line x1="0" y1="0" x2="0" y2="26" stroke="#166534" stroke-width="3"/><circle cx="0" cy="-3" r="4" fill="#c4b5fd"/><circle cx="-6" cy="0" r="4" fill="#c4b5fd"/><circle cx="6" cy="0" r="4" fill="#c4b5fd"/><circle cx="0" cy="4" r="4" fill="#c4b5fd"/><circle cx="0" cy="0" r="3" fill="#fde047"/></g>
-                <g transform="translate(980,870) scale(0.9)"><line x1="0" y1="0" x2="0" y2="26" stroke="#166534" stroke-width="3"/><circle cx="0" cy="-3" r="4" fill="#fda4af"/><circle cx="-6" cy="0" r="4" fill="#fda4af"/><circle cx="6" cy="0" r="4" fill="#fda4af"/><circle cx="0" cy="4" r="4" fill="#fda4af"/><circle cx="0" cy="0" r="3" fill="#fbbf24"/></g>
-                <g transform="translate(1240,835)"><line x1="0" y1="0" x2="0" y2="26" stroke="#166534" stroke-width="3"/><circle cx="0" cy="-3" r="4" fill="#fde047"/><circle cx="-6" cy="0" r="4" fill="#fde047"/><circle cx="6" cy="0" r="4" fill="#fde047"/><circle cx="0" cy="4" r="4" fill="#fde047"/><circle cx="0" cy="0" r="3" fill="#f97316"/></g>
-                <g transform="translate(80,875) scale(0.85)"><line x1="0" y1="0" x2="0" y2="26" stroke="#166534" stroke-width="3"/><circle cx="0" cy="-3" r="4" fill="#f9a8d4"/><circle cx="-6" cy="0" r="4" fill="#f9a8d4"/><circle cx="6" cy="0" r="4" fill="#f9a8d4"/><circle cx="0" cy="4" r="4" fill="#f9a8d4"/><circle cx="0" cy="0" r="3" fill="#fde047"/></g>
-                <g transform="translate(1470,865)"><line x1="0" y1="0" x2="0" y2="26" stroke="#166534" stroke-width="3"/><circle cx="0" cy="-3" r="4" fill="#ffffff"/><circle cx="-6" cy="0" r="4" fill="#ffffff"/><circle cx="6" cy="0" r="4" fill="#ffffff"/><circle cx="0" cy="4" r="4" fill="#ffffff"/><circle cx="0" cy="0" r="3" fill="#fbbf24"/></g>
-            </g>
-
-            <!-- ציפורים -->
-            <g stroke="#475569" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.7">
-                <path d="M300,220 q10,-14 20,0 q10,-14 20,0"/>
-                <path d="M360,260 q8,-11 16,0 q8,-11 16,0"/>
-                <path d="M1230,300 q9,-13 18,0 q9,-13 18,0"/>
-            </g>
-
-            <!-- ארנב מעופף עם כנפיים -->
-            <g transform="translate(1160,260) rotate(-8)">
-                <!-- שביל נצנצים -->
-                <g opacity="0.85">
-                    <circle cx="-160" cy="70" r="4" fill="#fde047"/>
-                    <circle cx="-190" cy="55" r="3" fill="#f9a8d4"/>
-                    <circle cx="-215" cy="80" r="5" fill="#93c5fd"/>
-                    <path d="M-140,60 l4,-9 4,9 9,4 -9,4 -4,9 -4,-9 -9,-4 z" fill="#fef08a"/>
-                    <path d="M-185,95 l3,-6 3,6 6,3 -6,3 -3,6 -3,-6 -6,-3 z" fill="#fbcfe8"/>
-                </g>
-
-                <!-- כנף אחורית ימין -->
-                <path d="M10,-10 Q90,-70 130,-20 Q150,10 100,25 Q130,45 90,60 Q60,50 30,20 Z" fill="url(#wingGrad)" opacity="0.9" stroke="#c4b5fd" stroke-width="2"/>
-                <!-- כנף אחורית שמאל -->
-                <path d="M-10,-10 Q-90,-70 -130,-20 Q-150,10 -100,25 Q-130,45 -90,60 Q-60,50 -30,20 Z" fill="url(#wingGrad)" opacity="0.9" stroke="#c4b5fd" stroke-width="2"/>
-
-                <!-- זנב פונפון -->
-                <circle cx="-4" cy="55" r="12" fill="#fdf2f8"/>
-
-                <!-- גוף -->
-                <ellipse cx="0" cy="30" rx="34" ry="42" fill="#fffaf0"/>
-                <ellipse cx="0" cy="48" rx="24" ry="16" fill="#ffe4ec"/>
-
-                <!-- ידיים/כפות קדמיות -->
-                <ellipse cx="-22" cy="45" rx="9" ry="13" fill="#fffaf0"/>
-                <ellipse cx="22" cy="45" rx="9" ry="13" fill="#fffaf0"/>
-
-                <!-- ראש -->
-                <circle cx="0" cy="-15" r="28" fill="#fffaf0"/>
-
-                <!-- אוזניים -->
-                <path d="M-16,-38 Q-30,-95 -8,-90 Q-8,-55 -4,-35 Z" fill="#fffaf0"/>
-                <path d="M-16,-38 Q-24,-85 -10,-82 Q-11,-58 -8,-38 Z" fill="#fbcfe8"/>
-                <path d="M16,-38 Q30,-95 8,-90 Q8,-55 4,-35 Z" fill="#fffaf0"/>
-                <path d="M16,-38 Q24,-85 10,-82 Q11,-58 8,-38 Z" fill="#fbcfe8"/>
-
-                <!-- פנים -->
-                <circle cx="-9" cy="-16" r="3" fill="#1f2937"/>
-                <circle cx="9" cy="-16" r="3" fill="#1f2937"/>
-                <ellipse cx="0" cy="-6" rx="4" ry="3" fill="#fb7185"/>
-                <circle cx="-16" cy="-8" r="6" fill="#fbcfe8" opacity="0.8"/>
-                <circle cx="16" cy="-8" r="6" fill="#fbcfe8" opacity="0.8"/>
-            </g>
-        </svg>
+    <div class="game-bg" aria-hidden="true">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+        <div class="glow-orb orb-4"></div>
+        <div class="grid-floor"></div>
     </div>
+
+    <div id="fallingCardsContainer" class="falling-cards-container" aria-hidden="true"></div>
 
     <div class="pride-bar"></div>
 
     <div class="top-buttons-container">
-        <button class="flip-world-btn" onclick="flipWorld()">הפוך את העולם! 🌀</button>
-        <button class="trivia-game-btn" onclick="startTriviaGame()">🎮 משחק טריוויה זיכרון</button>
         <button class="leaderboard-btn" onclick="openLeaderboard()">🏆 טבלת שיאים</button>
+        <button class="archive-btn" onclick="openArchive()">📊 ארכיון תוצאות</button>
     </div>
 
     <header>
-        <h1>🏆 היכל התהילה בגן העדן 🏳️‍🌈</h1>
+        <h1>🏆 היכל התהילה 🏳️‍🌈</h1>
         <p>ארכיון המנצחים והניקוד הרשמי של יורופוסטמה</p>
     </header>
 
-    <div class="container">
-        <div class="results-card">
-            <div class="edition-title">✨ יורופוסטמה 4</div>
-            <table>
-                <thead>
-                    <tr><th>מיקום</th><th>משתתף</th><th>נקודות</th></tr>
-                </thead>
-                <tbody>
-                    <tr class="winner-row"><td>🥇 מקום 1</td><td><span class="flag">👑</span> ניצן (חצי 1)</td><td>146</td></tr>
-                    <tr><td>🥈 מקום 2</td><td>מעין (חצי 2)</td><td>145</td></tr>
-                    <tr><td>🥉 מקום 3</td><td>שי (חצי 1)</td><td>140</td></tr>
-                    <tr><td>4</td><td>עידו (חצי 1)</td><td>137</td></tr>
-                    <tr><td>5</td><td>רון (חצי 2)</td><td>107</td></tr>
-                </tbody>
-            </table>
-        </div>
+    <div class="hero-play-section">
+        <button class="play-big-btn" onclick="startTriviaGame()">🎮 בואו נשחק!</button>
+    </div>
 
-        <div class="results-card">
-            <div class="edition-title">✨ יורופוסטמה 3</div>
-            <table>
-                <thead>
-                    <tr><th>מיקום</th><th>משתתף</th><th>נקודות</th></tr>
-                </thead>
-                <tbody>
-                    <tr class="winner-row"><td>🥇 מקום 1</td><td><span class="flag">👑</span> אלונה (חצי 1)</td><td>149</td></tr>
-                    <tr><td>🥈 מקום 2</td><td>ניצן (חצי 1)</td><td>122</td></tr>
-                    <tr><td>🥉 מקום 3</td><td><span class="flag">🎵</span> נעם (חצי 2)</td><td>116</td></tr>
-                    <tr><td>4</td><td>עידן (חצי 2)</td><td>113</td></tr>
-                    <tr><td>5</td><td>עדיאל (חצי 2)</td><td>111</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="results-card">
-            <div class="edition-title">✨ יורופוסטמה 2</div>
-            <table>
-                <thead>
-                    <tr><th>מיקום</th><th>משתתף</th><th>נקודות</th></tr>
-                </thead>
-                <tbody>
-                    <tr class="winner-row"><td>🥇 מקום 1</td><td><div class="participant-cell"><span><span class="flag">👑</span> גילי (חצי 2)</span></div></td><td>156</td></tr>
-                    <tr><td>🥈 מקום 2</td><td><div class="participant-cell"><span><span class="flag">🔥</span> חשאבה (חצי 2)</span></div></td><td>122</td></tr>
-                    <tr><td>🥉 מקום 3</td><td><div class="participant-cell"><span>ניצן (חצי 2)</span></div></td><td>119</td></tr>
-                    <tr><td>4</td><td><div class="participant-cell"><span>איילת (חצי 1)</span></div></td><td>100</td></tr>
-                    <tr><td>5</td><td><div class="participant-cell"><span>אלונה (חצי 1)</span></div></td><td>98</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="results-card">
-            <div class="edition-title">✨ יורופוסטמה 1</div>
-            <table>
-                <thead>
-                    <tr><th>מיקום</th><th>משתתף</th><th>נקודות</th></tr>
-                </thead>
-                <tbody>
-                    <tr class="winner-row"><td>🥇 מקום 1</td><td><span class="flag">👑</span> אלונה (חצי 2)</td><td>128</td></tr>
-                    <tr><td>🥈 מקום 2</td><td>גילי (חצי 1)</td><td>115</td></tr>
-                    <tr><td>🥉 מקום 3</td><td>עידן קשת (חצי 1)</td><td>107</td></tr>
-                    <tr><td>4</td><td>עידו (חצי 1)</td><td>105</td></tr>
-                    <tr><td>5</td><td>הילה (חצי 1)</td><td>103</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="footer-container">
-            <div class="footer-flags">🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 👑</div>
-            <a href="index.html" class="back-home">✨ חזרה לעמוד הבית</a>
-        </div>
+    <div class="footer-container">
+        <div class="footer-flags">🏳️‍🌈 🇮🇱 🇪🇸 🇮🇹 🇸🇪 🇬🇧 🇫🇷 🇳🇴 👑</div>
+        <a href="index.html" class="back-home">✨ חזרה לעמוד הבית</a>
     </div>
 
     <div id="gameOverlay" class="game-overlay">
@@ -951,13 +879,110 @@
         <button class="close-leaderboard-btn" onclick="closeLeaderboard()">סגירה</button>
     </div>
 
+    <div id="archiveModal" class="archive-modal">
+        <h3>📊 ארכיון התוצאות המלא</h3>
+        <div class="archive-grid">
+            <div class="results-card">
+                <div class="edition-title">✨ יורופוסטמה 4</div>
+                <table>
+                    <thead>
+                        <tr><th>מיקום</th><th>משתתף</th><th>נקודות</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="winner-row"><td>🥇 מקום 1</td><td><span class="flag">👑</span> ניצן (חצי 1)</td><td>146</td></tr>
+                        <tr><td>🥈 מקום 2</td><td>מעין (חצי 2)</td><td>145</td></tr>
+                        <tr><td>🥉 מקום 3</td><td>שי (חצי 1)</td><td>140</td></tr>
+                        <tr><td>4</td><td>עידו (חצי 1)</td><td>137</td></tr>
+                        <tr><td>5</td><td>רון (חצי 2)</td><td>107</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="results-card">
+                <div class="edition-title">✨ יורופוסטמה 3</div>
+                <table>
+                    <thead>
+                        <tr><th>מיקום</th><th>משתתף</th><th>נקודות</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="winner-row"><td>🥇 מקום 1</td><td><span class="flag">👑</span> אלונה (חצי 1)</td><td>149</td></tr>
+                        <tr><td>🥈 מקום 2</td><td>ניצן (חצי 1)</td><td>122</td></tr>
+                        <tr><td>🥉 מקום 3</td><td><span class="flag">🎵</span> נעם (חצי 2)</td><td>116</td></tr>
+                        <tr><td>4</td><td>עידן (חצי 2)</td><td>113</td></tr>
+                        <tr><td>5</td><td>עדיאל (חצי 2)</td><td>111</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="results-card">
+                <div class="edition-title">✨ יורופוסטמה 2</div>
+                <table>
+                    <thead>
+                        <tr><th>מיקום</th><th>משתתף</th><th>נקודות</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="winner-row"><td>🥇 מקום 1</td><td><div class="participant-cell"><span><span class="flag">👑</span> גילי (חצי 2)</span></div></td><td>156</td></tr>
+                        <tr><td>🥈 מקום 2</td><td><div class="participant-cell"><span><span class="flag">🔥</span> חשאבה (חצי 2)</span></div></td><td>122</td></tr>
+                        <tr><td>🥉 מקום 3</td><td><div class="participant-cell"><span>ניצן (חצי 2)</span></div></td><td>119</td></tr>
+                        <tr><td>4</td><td><div class="participant-cell"><span>איילת (חצי 1)</span></div></td><td>100</td></tr>
+                        <tr><td>5</td><td><div class="participant-cell"><span>אלונה (חצי 1)</span></div></td><td>98</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="results-card">
+                <div class="edition-title">✨ יורופוסטמה 1</div>
+                <table>
+                    <thead>
+                        <tr><th>מיקום</th><th>משתתף</th><th>נקודות</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="winner-row"><td>🥇 מקום 1</td><td><span class="flag">👑</span> אלונה (חצי 2)</td><td>128</td></tr>
+                        <tr><td>🥈 מקום 2</td><td>גילי (חצי 1)</td><td>115</td></tr>
+                        <tr><td>🥉 מקום 3</td><td>עידן קשת (חצי 1)</td><td>107</td></tr>
+                        <tr><td>4</td><td>עידו (חצי 1)</td><td>105</td></tr>
+                        <tr><td>5</td><td>הילה (חצי 1)</td><td>103</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <button class="close-archive-btn" onclick="closeArchive()">סגירה</button>
+    </div>
+
     <script>
-        function flipWorld() {
-            document.body.classList.toggle('flipped');
+        /* ===== רקע: כרטיסים נופלים באנימציית כניסה ===== */
+        function spawnFallingCards() {
+            const container = document.getElementById('fallingCardsContainer');
+            const count = 14;
+            for (let i = 0; i < count; i++) {
+                const card = document.createElement('div');
+                card.className = 'falling-card';
+                const leftPos = Math.random() * 92;
+                const duration = 1.4 + Math.random() * 1.1;
+                const delay = Math.random() * 1.4;
+                card.style.left = leftPos + 'vw';
+                card.style.animationDuration = duration + 's';
+                card.style.animationDelay = delay + 's';
+                container.appendChild(card);
+
+                const totalTime = (duration + delay) * 1000;
+                setTimeout(() => {
+                    card.classList.add('fade-out');
+                    setTimeout(() => card.remove(), 900);
+                }, totalTime + 900);
+            }
         }
 
         function toggleCheatSheet(show) {
             document.getElementById('cheatSheetModal').style.display = show ? 'block' : 'none';
+        }
+
+        function openArchive() {
+            document.getElementById('archiveModal').style.display = 'block';
+        }
+
+        function closeArchive() {
+            document.getElementById('archiveModal').style.display = 'none';
         }
 
         function renderCheatSheet(matchIds) {
@@ -1288,6 +1313,7 @@
 
         // בדיקה בטעינת הדף אם צריך לבקש שם
         showNameModalIfNeeded();
+        spawnFallingCards();
     </script>
 </body>
 </html>
