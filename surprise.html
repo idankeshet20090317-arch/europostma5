@@ -1,19 +1,478 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>הפתעה</title>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background: #000000;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הפתעה - יורופוסטמה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+    :root{
+        --neon-pink:#ff2fd0;
+        --neon-cyan:#00f6ff;
+        --neon-purple:#8a2fff;
+        --bg-dark:#05040e;
+    }
+    *{box-sizing:border-box;}
+    html,body{
+        margin:0;padding:0;
+        background:var(--bg-dark);
+        color:#fff;
+        font-family:'Rubik',sans-serif;
+        overflow-x:hidden;
+        min-height:100%;
+    }
+    .grid-bg{
+        position:fixed;inset:0;z-index:0;
+        background-image:
+            linear-gradient(rgba(255,47,208,0.18) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,246,255,0.18) 1px, transparent 1px);
+        background-size:45px 45px;
+        transform:perspective(500px) rotateX(60deg);
+        transform-origin:top;
+        top:20%;height:150%;
+        animation:gridMove 8s linear infinite;
+        opacity:0.55;
+    }
+    @keyframes gridMove{from{background-position:0 0;}to{background-position:0 90px;}}
+    .glow-orb{position:fixed;border-radius:50%;filter:blur(90px);opacity:0.5;z-index:0;pointer-events:none;}
+    .orb1{width:400px;height:400px;background:var(--neon-pink);top:-100px;right:-100px;animation:floatOrb 12s ease-in-out infinite;}
+    .orb2{width:350px;height:350px;background:var(--neon-cyan);bottom:-100px;left:-100px;animation:floatOrb 14s ease-in-out infinite reverse;}
+    .orb3{width:300px;height:300px;background:var(--neon-purple);top:40%;left:50%;animation:floatOrb 16s ease-in-out infinite;}
+    @keyframes floatOrb{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(30px,-30px) scale(1.1);}}
+    .particle{
+        position:fixed;width:4px;height:4px;border-radius:50%;
+        background:var(--neon-cyan);
+        box-shadow:0 0 8px 2px var(--neon-cyan);
+        z-index:0;animation:rise linear infinite;opacity:0.8;
+    }
+    @keyframes rise{from{transform:translateY(110vh) translateX(0);opacity:0;}10%{opacity:1;}to{transform:translateY(-10vh) translateX(40px);opacity:0;}}
+
+    .content{position:relative;z-index:2;max-width:900px;margin:0 auto;padding:40px 20px 80px;}
+    header{text-align:center;padding:50px 15px 30px;}
+    .back-link{
+        display:inline-block;margin-bottom:25px;
+        color:var(--neon-cyan);text-decoration:none;font-weight:bold;
+        border:1px solid var(--neon-cyan);padding:6px 18px;border-radius:20px;
+        transition:.3s;
+    }
+    .back-link:hover{background:rgba(0,246,255,0.15);transform:scale(1.05);}
+
+    .glitch-title{
+        font-family:'Orbitron',sans-serif;
+        font-size:2.3rem;font-weight:800;letter-spacing:1px;
+        color:#fff;
+        text-shadow:0 0 10px var(--neon-cyan),0 0 25px var(--neon-pink);
+        animation:glitch 3.5s infinite;
+    }
+    @keyframes glitch{
+        0%,92%,100%{transform:translate(0,0);}
+        93%{transform:translate(-3px,2px);}
+        94%{transform:translate(3px,-2px);}
+        95%{transform:translate(-2px,-1px);}
+        96%{transform:translate(2px,1px);}
+    }
+    .subtitle{font-size:1.1rem;color:#c9c9ff;margin-top:15px;}
+
+    .countdown-wrap{display:flex;justify-content:center;gap:14px;margin:30px 0 10px;flex-wrap:wrap;}
+    .cbox{
+        background:rgba(255,255,255,0.05);border:1px solid rgba(0,246,255,0.4);
+        border-radius:16px;padding:14px 18px;min-width:80px;text-align:center;
+        backdrop-filter:blur(6px);box-shadow:0 0 20px rgba(0,246,255,0.15);
+    }
+    .cbox .num{font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:800;color:var(--neon-cyan);text-shadow:0 0 12px var(--neon-cyan);}
+    .cbox .lbl{font-size:.8rem;opacity:.75;margin-top:4px;}
+
+    .intro-card{
+        background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);
+        border-radius:24px;padding:26px;margin:35px 0;backdrop-filter:blur(10px);
+        line-height:1.8;font-size:1.08rem;box-shadow:0 10px 40px rgba(0,0,0,0.5);
+    }
+    .intro-card b{color:var(--neon-pink);}
+    .intro-card-big{
+        padding:38px 32px;
+        font-size:1.25rem;
+        border:1px solid rgba(255,47,208,0.4);
+        box-shadow:0 15px 50px rgba(255,47,208,0.15), 0 10px 40px rgba(0,0,0,0.5);
+    }
+    .intro-card-big u{
+        text-decoration-color:var(--neon-pink);
+        text-underline-offset:4px;
+    }
+
+    .big-news-card{
+        background:linear-gradient(160deg, rgba(255,47,208,0.12), rgba(0,246,255,0.08));
+        border:1px solid rgba(255,215,0,0.5);
+        border-radius:28px;
+        padding:36px 30px;
+        margin:40px 0 30px;
+        text-align:center;
+        box-shadow:0 20px 60px rgba(255,215,0,0.15), 0 10px 40px rgba(0,0,0,0.5);
+    }
+    .big-news-tag{
+        display:inline-block;
+        font-family:'Orbitron',sans-serif;
+        font-size:.9rem;
+        letter-spacing:2px;
+        color:#ffd700;
+        border:1px solid #ffd700;
+        background:rgba(255,215,0,0.12);
+        padding:6px 18px;
+        border-radius:20px;
+        margin-bottom:16px;
+    }
+    .big-news-title{
+        font-family:'Orbitron',sans-serif;
+        font-size:1.8rem;
+        font-weight:800;
+        margin-bottom:16px;
+        text-shadow:0 0 15px rgba(255,215,0,0.5);
+    }
+    .big-news-body{
+        font-size:1.15rem;
+        line-height:1.85;
+        opacity:.95;
+    }
+    .big-news-body b{color:#ffd700;}
+
+    .reveal-card{
+        position:relative;background:rgba(255,255,255,0.045);
+        border:1px solid rgba(255,255,255,0.15);border-radius:26px;padding:26px;
+        margin-bottom:28px;overflow:hidden;backdrop-filter:blur(10px);
+        box-shadow:0 15px 40px rgba(0,0,0,0.45);
+        transition:transform .35s ease;
+    }
+    .reveal-card:hover{transform:translateY(-4px);}
+    .reveal-card.semi1{border-color:rgba(255,47,208,0.5);}
+    .reveal-card.semi2{border-color:rgba(0,246,255,0.5);}
+    .reveal-card.final{border-color:rgba(255,215,0,0.6);}
+
+    .rc-tag{
+        display:inline-block;font-family:'Orbitron',sans-serif;font-size:.8rem;
+        letter-spacing:1px;padding:5px 14px;border-radius:20px;margin-bottom:12px;font-weight:700;
+    }
+    .semi1 .rc-tag{background:rgba(255,47,208,0.2);color:var(--neon-pink);border:1px solid var(--neon-pink);}
+    .semi2 .rc-tag{background:rgba(0,246,255,0.2);color:var(--neon-cyan);border:1px solid var(--neon-cyan);}
+    .final .rc-tag{background:rgba(255,215,0,0.2);color:#ffd700;border:1px solid #ffd700;}
+
+    .rc-title{font-size:1.4rem;font-weight:700;margin-bottom:10px;}
+    .rc-desc{font-size:1.02rem;line-height:1.7;opacity:.9;margin-bottom:18px;}
+
+    .reveal-btn{
+        display:inline-block;width:100%;padding:14px;border:none;border-radius:50px;
+        font-family:'Rubik',sans-serif;font-weight:bold;font-size:1.03rem;cursor:pointer;
+        color:#000;transition:.3s;
+    }
+    .semi1 .reveal-btn{background:linear-gradient(90deg,#ff2fd0,#8a2fff);color:#fff;}
+    .semi2 .reveal-btn{background:linear-gradient(90deg,#00f6ff,#0055ff);color:#fff;}
+    .final .reveal-btn{background:linear-gradient(90deg,#ffd700,#ff7700);color:#000;}
+    .reveal-btn:hover{transform:scale(1.03);filter:brightness(1.15);}
+
+    .hidden-info{
+        max-height:0;overflow:hidden;transition:max-height .5s ease;
+        margin-top:14px;font-size:1.02rem;line-height:1.8;
+        border-top:1px dashed rgba(255,255,255,0.2);padding-top:0;
+    }
+    .hidden-info.open{max-height:300px;padding-top:14px;}
+    .hidden-info b{color:#ffd700;}
+
+    .footer-note{text-align:center;opacity:.55;font-size:.9rem;margin-top:40px;}
+
+    /* זוהר שעוקב אחרי העכבר */
+    .cursor-glow{
+        position:fixed;
+        width:250px;height:250px;
+        border-radius:50%;
+        background:radial-gradient(circle, rgba(0,246,255,0.15), transparent 70%);
+        pointer-events:none;
+        z-index:1;
+        transform:translate(-50%,-50%);
+        transition:opacity .3s;
+        opacity:0;
+    }
+
+    /* ===== אפקט כניסה - רשת משבצות טכנולוגית (כמו הרקע) שנדלקת ואז נופלת ===== */
+    body.intro-locked{overflow:hidden;height:100vh;}
+
+    .intro-overlay{
+        position:fixed;inset:0;z-index:99999;
+        background:var(--bg-dark);
+        overflow:hidden;
+    }
+
+    .intro-gridfield{
+        position:absolute;inset:0;
+    }
+
+    .grid-sq{
+        position:absolute;
+        width:var(--sw,60px);
+        height:var(--sw,60px);
+        box-sizing:border-box;
+        background:rgba(20,10,50,0.25);
+        border:1px solid rgba(0,246,255,0.22);
+        transition:background .4s ease, border-color .4s ease, box-shadow .4s ease;
+        transition-delay:var(--lit-delay,0s);
+        will-change:transform,opacity;
+    }
+    .grid-sq.lit{
+        background:linear-gradient(135deg, rgba(0,246,255,0.35), rgba(138,47,255,0.45));
+        border-color:var(--neon-cyan);
+        box-shadow:0 0 14px 1px rgba(0,246,255,0.55), inset 0 0 12px rgba(138,47,255,0.5);
+    }
+    .grid-sq.falling{
+        transition:transform .95s cubic-bezier(.5,-0.2,.75,.2), opacity 1s ease .3s, background .3s ease;
+        transition-delay:var(--fall-delay,0s);
+        transform:translateY(140vh) rotate(var(--fall-rot,10deg));
+        opacity:0;
+        background:linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+    }
+
+    .intro-scanline{
+        position:absolute;left:0;width:100%;height:3px;
+        background:linear-gradient(90deg, transparent, var(--neon-cyan), var(--neon-purple), transparent);
+        box-shadow:0 0 20px 4px rgba(0,246,255,0.7);
+        top:-3px;
+        animation:scanSweep 1.3s cubic-bezier(.4,0,.2,1) infinite;
+        opacity:0.9;
+    }
+    @keyframes scanSweep{
+        0%{top:-3px;}
+        100%{top:100%;}
+    }
+
+    .intro-hud{
+        position:absolute;left:50%;bottom:14%;transform:translateX(-50%);
+        text-align:center;font-family:'Orbitron',sans-serif;
+        color:var(--neon-cyan);letter-spacing:2px;
+        text-shadow:0 0 10px var(--neon-cyan);
+        z-index:2;
+    }
+    .intro-hud .line1{font-size:1rem;opacity:.85;margin-bottom:8px;}
+    .intro-hud .line2{font-size:2rem;font-weight:800;color:#fff;text-shadow:0 0 14px var(--neon-purple),0 0 26px var(--neon-cyan);}
+
+    .intro-overlay.releasing .intro-hud,
+    .intro-overlay.releasing .intro-scanline{
+        transition:opacity .3s ease;
+        opacity:0;
+    }
+
+    @media(max-width:600px){
+        .glitch-title{font-size:1.7rem;}
+        .cbox{min-width:65px;padding:10px 12px;}
+        .cbox .num{font-size:1.3rem;}
+        .intro-hud .line2{font-size:1.4rem;}
+    }
+</style>
 </head>
-<body>
+<body class="intro-locked">
+
+
+<div class="intro-overlay" id="introOverlay">
+    <div class="intro-gridfield" id="gridField"></div>
+    <div class="intro-scanline"></div>
+    <div class="intro-hud">
+        <div class="line1" id="hudLine1">מאתחלים מערכת</div>
+        <div class="line2" id="hudLine2">0%</div>
+    </div>
+</div>
+
+<div class="grid-bg"></div>
+<div class="glow-orb orb1"></div>
+<div class="glow-orb orb2"></div>
+<div class="glow-orb orb3"></div>
+<div id="particles"></div>
+
+<div class="content">
+    <header>
+        <a href="index.html" class="back-link">⬅ חזרה לעמוד הראשי</a>
+        <div class="glitch-title">החדשות הגדולות</div>
+        <p class="subtitle">הפעם עשינו את זה קצת אחרת - ריכזנו את זה כאן בשבילכם</p>
+
+        <div class="countdown-wrap" id="countdown">
+            <div class="cbox"><div class="num" id="cd-days">--</div><div class="lbl">ימים</div></div>
+            <div class="cbox"><div class="num" id="cd-hours">--</div><div class="lbl">שעות</div></div>
+            <div class="cbox"><div class="num" id="cd-mins">--</div><div class="lbl">דקות</div></div>
+            <div class="cbox"><div class="num" id="cd-secs">--</div><div class="lbl">שניות</div></div>
+        </div>
+        <p class="subtitle" style="font-size:.95rem;opacity:.7;">הספירה היא לקראת תוצאות חצי הגמר</p>
+    </header>
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <div class="intro-card intro-card-big">
+        <b>שימו לב, זה משנה הכל:</b> השנה העולים לגמר <u>לא</u> ייחשפו יותר בהודעת וואטסאפ רגילה כמו תמיד. במקום זה - לכל חצי גמר יהיה <b>סרטון ייחודי משלו</b> שיציג את מי שעבר הלאה. בנוסף, לכל אחד מהמשדרים - שני חצאי הגמר והגמר הגדול - יהיה/תהיה מנחה/ת אורח/ת, שתלווה את הערב ותעלה גם לבמה במהלכו. הפרטים למטה, פשוט לחצו כדי לראות 👇
+    </div>
+
+    <!-- SEMI FINAL 1 -->
+    <div class="reveal-card semi1">
+        <span class="rc-tag">חצי גמר 1</span>
+        <div class="rc-title">מי מנחה/ת איתנו את הערב הזה</div>
+        <p class="rc-desc">בחצי הגמר הראשון תצטרפו אלינו כמנחה/ת אורח/ת. תלווה את הערב לאורכו ותעלה גם לבמה.</p>
+        <button class="reveal-btn" onclick="toggleInfo(this)">לחצו לגילוי מי זה/זו</button>
+        <div class="hidden-info">
+            מנחה/ת האורח/ת: <b>עדן גולן</b>
+        </div>
+    </div>
+
+    <!-- SEMI FINAL 2 -->
+    <div class="reveal-card semi2">
+        <span class="rc-tag">חצי גמר 2</span>
+        <div class="rc-title">מי מנחה/ת איתנו את הערב הזה</div>
+        <p class="rc-desc">גם בחצי הגמר השני יש אורח/ת מיוחד/ת שינחה/תנחה איתנו ותופיע/יופיע באותו ערב.</p>
+        <button class="reveal-btn" onclick="toggleInfo(this)">לחצו לגילוי מי זה/זו</button>
+        <div class="hidden-info">
+            מנחה/ת האורח/ת: <b>ריממבר מנדיי</b>
+        </div>
+    </div>
+
+    <!-- GRAND FINAL -->
+    <div class="reveal-card final">
+        <span class="rc-tag">הגמר הגדול</span>
+        <div class="rc-title">ולגמר עצמו - מי מצטרף/ת</div>
+        <p class="rc-desc">בגמר הגדול תהיה הופעה חיה של אורח/ת הפתעה, במהלך המשדר עצמו.</p>
+        <button class="reveal-btn" onclick="toggleInfo(this)">לחצו לגילוי מי זה/זו</button>
+        <div class="hidden-info">
+            אורח/ת הגמר: <b>אלקסה</b>
+        </div>
+    </div>
+
+    <!-- BIG NEWS -->
+    <div class="big-news-card">
+        <span class="big-news-tag">🚨 חדשות גדולות</span>
+        <div class="big-news-title">זה עוד לא הכל</div>
+        <div class="big-news-body">
+            בסרטוני חצאי הגמר הולכת לקרות עוד הפתעה - <b>חשיפת פנים ראשונה של רשת וקשת</b>. עד היום כולם הכירו אותם רק מהצד, בלי לדעת באמת מי עומד מאחורי הקלעים - והפעם, לראשונה, הם ייחשפו ממש מול המצלמה. זה משהו שמעולם לא קרה ביורופוסטמה, אז תעקבו כי זה הולך להיות רגע גדול.
+        </div>
+    </div>
+
+    <p class="footer-note">תוכל להחליף את השדות בסוגריים בשמות בפועל ישירות בקובץ.</p>
+</div>
+
+<script>
+    // ===== אפקט כניסה: רשת משבצות טכנולוגית (כמו הרקע) שנדלקת, ואז נופלת וחושפת את העמוד =====
+    (function introReveal(){
+        const overlay = document.getElementById('introOverlay');
+        const field = document.getElementById('gridField');
+        const hudLine2 = document.getElementById('hudLine2');
+
+        const sw = window.innerWidth < 600 ? 42 : 60;
+        const cols = Math.ceil(window.innerWidth / sw) + 1;
+        const rows = Math.ceil(window.innerHeight / sw) + 1;
+
+        const centerX = (cols*sw)/2;
+        const centerY = (rows*sw)/2;
+        let maxDist = 0;
+        const squares = [];
+
+        for(let c=0; c<cols; c++){
+            for(let r=0; r<rows; r++){
+                const x = c*sw;
+                const y = r*sw;
+                const dist = Math.hypot(x-centerX, y-centerY);
+                if(dist > maxDist) maxDist = dist;
+                squares.push({x, y, r, c, dist});
+            }
+        }
+
+        squares.forEach(({x,y,dist})=>{
+            const sq = document.createElement('div');
+            sq.className = 'grid-sq';
+            sq.style.setProperty('--sw', sw+'px');
+            sq.style.left = x+'px';
+            sq.style.top = y+'px';
+            const litDelay = (dist/maxDist) * 0.8;
+            sq.style.setProperty('--lit-delay', litDelay+'s');
+            sq.dataset.y = y;
+            field.appendChild(sq);
+        });
+
+        // שלב 1: כל המשבצות נדלקות בגל שמתרחב מהמרכז - כחול-סגול זורם
+        requestAnimationFrame(()=>{
+            field.querySelectorAll('.grid-sq').forEach(sq=> sq.classList.add('lit'));
+        });
+
+        // מונה אחוזים שרץ במקביל להדלקה
+        const litMs = 1000;
+        const start = performance.now();
+        function tickPercent(){
+            const p = Math.min(100, Math.round(((performance.now()-start)/litMs)*100));
+            hudLine2.textContent = p+'%';
+            if(p < 100) requestAnimationFrame(tickPercent);
+        }
+        tickPercent();
+
+        // שלב 2: אחרי שהרשת נדלקת, כל המשבצות נופלות מהמסך בגל מלמעלה למטה וחושפות את העמוד
+        setTimeout(()=>{
+            overlay.classList.add('releasing');
+            const maxY = rows*sw;
+            const allSq = field.querySelectorAll('.grid-sq');
+            allSq.forEach(sq=>{
+                const y = parseFloat(sq.dataset.y);
+                const fallDelay = (y/maxY) * 0.55 + Math.random()*0.12;
+                sq.style.setProperty('--fall-delay', fallDelay+'s');
+                sq.style.setProperty('--fall-rot', (Math.random()*20-10)+'deg');
+                sq.classList.add('falling');
+            });
+
+            setTimeout(()=>{
+                overlay.remove();
+                document.body.classList.remove('intro-locked');
+            }, 1600);
+        }, litMs + 200);
+    })();
+
+    const pWrap = document.getElementById('particles');
+    for(let i=0;i<35;i++){
+        const p = document.createElement('div');
+        p.className='particle';
+        p.style.left = Math.random()*100+'vw';
+        p.style.animationDuration = (6+Math.random()*10)+'s';
+        p.style.animationDelay = (Math.random()*10)+'s';
+        p.style.opacity = 0.3+Math.random()*0.7;
+        pWrap.appendChild(p);
+    }
+
+    function toggleInfo(btn){
+        const info = btn.nextElementSibling;
+        info.classList.toggle('open');
+        if(info.classList.contains('open')){
+            confetti({particleCount:80, spread:60, origin:{y:0.6}});
+        }
+    }
+
+    const target = new Date(2026, 7, 4, 20, 0, 0); // 4 באוגוסט 2026, שעה 20:00
+
+    function updateCountdown(){
+        const now = new Date();
+        let diff = target - now;
+        if(diff < 0) diff = 0;
+        const d = Math.floor(diff/(1000*60*60*24));
+        const h = Math.floor((diff/(1000*60*60))%24);
+        const m = Math.floor((diff/(1000*60))%60);
+        const s = Math.floor((diff/1000)%60);
+        document.getElementById('cd-days').textContent = d;
+        document.getElementById('cd-hours').textContent = h;
+        document.getElementById('cd-mins').textContent = m;
+        document.getElementById('cd-secs').textContent = s;
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // זוהר שעוקב אחרי העכבר (רק במחשב, לא מפריע בנייד)
+    const glow = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', (e)=>{
+        glow.style.opacity = '1';
+        glow.style.left = e.clientX + 'px';
+        glow.style.top = e.clientY + 'px';
+    });
+    document.addEventListener('mouseleave', ()=>{ glow.style.opacity = '0'; });
+
+    document.querySelector('.back-link').addEventListener('click', ()=>{
+        confetti({particleCount:70, spread:55, origin:{y:0.6}});
+    });
+</script>
 </body>
 </html>
