@@ -180,9 +180,9 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
         <h4>סוגי המשבצות</h4>
         <ul>
             <li>🟣 <b>שאלה</b> - נפתחת שאלת טריוויה על יורופוסטמה 4. תשובה נכונה = +50₪ ועוד 2 צעדים קדימה. תשובה שגויה = -20₪ ו-2 צעדים אחורה.</li>
-            <li>🪜 <b>סולם</b> - קפיצה אוטומטית של 3-4 צעדים קדימה.</li>
-            <li>🐍 <b>נחש</b> - החלקה אוטומטית של 2-3 צעדים אחורה.</li>
-            <li>⭐ <b>בונוס</b> - עוד 2-3 צעדים קדימה בחינם.</li>
+            <li>🪜 <b>סולם</b> - קפיצה אוטומטית של 3 צעדים קדימה (כל סולם בדיוק אותו דבר).</li>
+            <li>🐍 <b>נחש</b> - החלקה אוטומטית של 2 צעדים אחורה (כל נחש בדיוק אותו דבר).</li>
+            <li>⭐ <b>בונוס</b> - עוד 2 צעדים קדימה בחינם (כל כוכב בדיוק אותו דבר).</li>
             <li>🎁 <b>מתנה</b> - מקבלים 30₪.</li>
             <li>⛔ <b>פספוס תור</b> - מפספסים את התור הבא שלכם.</li>
             <li>🔥 <b>מלכודת (משבצת 49)</b> - חוזרים ישר להתחלה (משבצת 1), אלא אם קניתם מגן מלכודות.</li>
@@ -246,12 +246,15 @@ const POOL = [...CURATED, ...buildSeasonPool(SEASON4,'4')];
 
 /* ===== GAME ENGINE ===== */
 const TOTAL_STEPS = 50;
+// כל סולם תמיד +3, כל נחש תמיד -2, כל כוכב תמיד +2 (בלי יוצאים מהכלל).
+// המיקומים נבדקו במחשב (כולל ה-+2/-2 שקורה גם משאלה נכונה/שגויה) כדי שאף
+// קפיצה - מסולם, מנחש, מכוכב או מתשובה לשאלה - לעולם לא תנחית על משבצת מיוחדת אחרת.
 const TILE_MAP = {
-    3:{type:'question'}, 5:{type:'ladder',amount:3}, 8:{type:'snake',amount:2}, 10:{type:'question'},
-    12:{type:'star',amount:2}, 15:{type:'question'}, 18:{type:'gift'}, 20:{type:'question'},
-    22:{type:'skip'}, 25:{type:'ladder',amount:4}, 28:{type:'question'}, 31:{type:'snake',amount:3},
-    34:{type:'question'}, 37:{type:'star',amount:3}, 40:{type:'question'}, 42:{type:'gift'},
-    45:{type:'question'}, 47:{type:'skip'}, 49:{type:'trap'}, 50:{type:'finish'}
+    4:{type:'question'}, 8:{type:'snake',amount:2}, 9:{type:'question'}, 14:{type:'star',amount:2},
+    15:{type:'star',amount:2}, 18:{type:'ladder',amount:3}, 19:{type:'question'}, 20:{type:'ladder',amount:3},
+    28:{type:'question'}, 29:{type:'question'}, 32:{type:'gift'}, 35:{type:'question'},
+    38:{type:'skip'}, 39:{type:'question'}, 42:{type:'snake',amount:2}, 45:{type:'question'},
+    46:{type:'skip'}, 48:{type:'gift'}, 49:{type:'trap'}, 50:{type:'finish'}
 };
 const TILE_ICON = { normal:'', question:'❓', ladder:'🪜', snake:'🐍', star:'⭐', gift:'🎁', skip:'⛔', trap:'🔥', finish:'🏁' };
 function tileOf(n){ return TILE_MAP[n] || {type:'normal'}; }
@@ -312,24 +315,26 @@ function updateBoardHighlight(){
 }
 
 function updateShopButtons(){
-    // ניתן לקנות בחנות תמיד כל עוד לא תור הבוט והמשחק לא הסתיים
-    document.getElementById('itemApple').disabled = boughtItems.apple || money < 50 || isBotTurn || finished;
-    document.getElementById('itemRocket').disabled = boughtItems.rocket || money < 85 || isBotTurn || finished;
-    document.getElementById('itemShield').disabled = boughtItems.shield || money < 70 || isBotTurn || finished;
-    document.getElementById('itemBanana').disabled = boughtItems.banana || money < 60 || isBotTurn || finished;
+    // ניתן לקנות בחנות תמיד כל עוד לא תור הבוט, המשחק לא הסתיים ואין שאלה פתוחה
+    document.getElementById('itemApple').disabled = boughtItems.apple || money < 50 || isBotTurn || finished || awaitingAnswer;
+    document.getElementById('itemRocket').disabled = boughtItems.rocket || money < 85 || isBotTurn || finished || awaitingAnswer;
+    document.getElementById('itemShield').disabled = boughtItems.shield || money < 70 || isBotTurn || finished || awaitingAnswer;
+    document.getElementById('itemBanana').disabled = boughtItems.banana || money < 60 || isBotTurn || finished || awaitingAnswer;
 }
 
 /* ===== חנות שדרוגים ===== */
 function buyItem(item){
-    if(isBotTurn || finished) return;
+    if(isBotTurn || finished || awaitingAnswer) return;
     if(item === 'apple' && money >= 50 && !boughtItems.apple){
         money -= 50; boughtItems.apple = true;
         position = Math.min(position + 3, TOTAL_STEPS);
         showToast('🍎 אכלת תפוח זהב! קפצת 3 צעדים קדימה!');
+        applyTileEffect(position, false, false);
     } else if(item === 'rocket' && money >= 85 && !boughtItems.rocket){
         money -= 85; boughtItems.rocket = true;
         position = Math.min(position + 6, TOTAL_STEPS);
         showToast('🚀 הפעלת טיל טורבו! טסת 6 צעדים קדימה!');
+        applyTileEffect(position, false, false);
     } else if(item === 'shield' && money >= 70 && !boughtItems.shield){
         money -= 70; boughtItems.shield = true;
         hasShield = true;
@@ -338,6 +343,7 @@ function buyItem(item){
         money -= 60; boughtItems.banana = true;
         botPos = Math.max(botPos - 4, 1);
         showToast('🍌 זרקת קליפת בננה! המחשב החליק 4 צעדים אחורה!');
+        applyTileEffect(botPos, true, false);
     }
     updateBoardHighlight();
     checkWinCondition();
@@ -377,9 +383,11 @@ function roll(){
     },90);
 }
 
-function resolveTile(cellNum, isBot){
-    const tile = tileOf(cellNum);
-    
+/* applyTileEffect actually performs the ability of whatever tile a token lands on -
+   used for dice rolls (consumesTurn=true, ends the turn once resolved) AND for any
+   position change that happens mid-turn from the shop (consumesTurn=false, so buying
+   an item never skips your turn, but the tile's ability still fires). */
+function applyTileEffect(cellNum, isBot, consumesTurn){
     if(cellNum === 49){
         if(!isBot && hasShield){
             hasShield = false;
@@ -392,20 +400,22 @@ function resolveTile(cellNum, isBot){
             else { botPos = 1; showToast('🔥 המחשב נפל במלכודת 49 וחזר להתחלה!'); }
         }
         updateBoardHighlight();
-        endTurn(isBot);
+        if(consumesTurn) endTurn(isBot);
         return;
     }
+
+    const tile = tileOf(cellNum);
 
     if(tile.type==='question'){
         if(!isBot){
             awaitingAnswer = true;
-            openQuestion();
+            openQuestion(consumesTurn);
         } else {
-            handleBotQuestion();
+            handleBotQuestion(consumesTurn);
         }
         return;
     }
-    
+
     if(tile.type==='ladder'){
         if(!isBot) { position = Math.min(position+tile.amount, TOTAL_STEPS); showToast(`🪜 סולם! קפצת ${tile.amount} צעדים!`); }
         else { botPos = Math.min(botPos+tile.amount, TOTAL_STEPS); showToast(`🪜 המחשב טיפס בסולם ${tile.amount} צעדים!`); }
@@ -424,7 +434,12 @@ function resolveTile(cellNum, isBot){
     }
 
     updateBoardHighlight();
-    endTurn(isBot);
+    if(consumesTurn) endTurn(isBot);
+}
+
+/* dice-roll landings always resolve immediately and end the turn once handled */
+function resolveTile(cellNum, isBot){
+    applyTileEffect(cellNum, isBot, true);
 }
 
 function endTurn(isBot){
@@ -440,9 +455,10 @@ function endTurn(isBot){
     }
 }
 
-function openQuestion(){
+function openQuestion(consumesTurn){
     const item = drawQuestion();
     document.getElementById('modal').dataset.currentItem = JSON.stringify(item);
+    document.getElementById('modal').dataset.consumesTurn = consumesTurn ? '1' : '0';
     document.getElementById('modalQ').textContent = item.q;
     const optsDiv = document.getElementById('modalOpts');
     optsDiv.innerHTML = item.options.map((opt,i)=>`<button class="answer-btn" id="opt-${i}" onclick="answerModal(${i})">${opt}</button>`).join('');
@@ -476,9 +492,11 @@ function closeModal(){
     document.getElementById('modal').classList.remove('shown');
     awaitingAnswer = false;
     const result = document.getElementById('modal').dataset.result;
+    const consumesTurn = document.getElementById('modal').dataset.consumesTurn === '1';
     showToast(result==='correct' ? '✅ תשובה נכונה! קיבלת 50₪ ומתקדמים 2 צעדים קדימה!' : '❌ תשובה שגויה! הפסדת 20₪ ונסגת 2 צעדים אחורה');
     updateBoardHighlight();
-    endTurn(false);
+    if(consumesTurn) endTurn(false);
+    else updateShopButtons();
 }
 
 /* ===== תור המחשב ===== */
@@ -500,14 +518,17 @@ function startBotTurn(){
         botMoney -= 85; botBought.rocket = true;
         botPos = Math.min(botPos + 6, TOTAL_STEPS);
         showToast('🤖 המחשב קנה טיל טורבו וטס 6 צעדים קדימה!');
+        applyTileEffect(botPos, true, false);
     } else if(botMoney >= 60 && !botBought.banana && position > 4){
         botMoney -= 60; botBought.banana = true;
         position = Math.max(position - 4, 1);
         showToast('🍌 המחשב זרק עליך קליפת בננה! החלקת 4 צעדים אחורה!');
+        applyTileEffect(position, false, false);
     } else if(botMoney >= 50 && !botBought.apple){
         botMoney -= 50; botBought.apple = true;
         botPos = Math.min(botPos + 3, TOTAL_STEPS);
         showToast('🤖 המחשב קנה תפוח זהב וזז 3 צעדים קדימה!');
+        applyTileEffect(botPos, true, false);
     }
 
     setTimeout(()=>{
@@ -519,7 +540,7 @@ function startBotTurn(){
     }, 1200);
 }
 
-function handleBotQuestion(){
+function handleBotQuestion(consumesTurn){
     const isCorrect = Math.random() < 0.40;
     if(isCorrect){
         botMoney += 50;
@@ -531,7 +552,7 @@ function handleBotQuestion(){
         showToast('🤖 המחשב טעה! הפסיד 20₪ וזז 2 צעדים אחורה!');
     }
     updateBoardHighlight();
-    endTurn(true);
+    if(consumesTurn) endTurn(true);
 }
 
 function checkWinCondition(){
