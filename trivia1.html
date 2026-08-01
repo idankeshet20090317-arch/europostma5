@@ -28,6 +28,7 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
 .score-bar{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:14px 20px;margin-bottom:24px;}
 .score-pill{background:rgba(34,211,238,.14);border:1px solid rgba(34,211,238,.4);color:#a5f3fc;padding:8px 18px;border-radius:20px;font-weight:800;}
 .reset-btn{background:linear-gradient(135deg,#a855f7,#6366f1);color:#fff;border:none;padding:9px 20px;border-radius:30px;font-weight:800;cursor:pointer;}
+.rules-btn{background:linear-gradient(135deg,#0ea5e9,#22d3ee);color:#04231c;border:none;padding:9px 20px;border-radius:30px;font-weight:800;cursor:pointer;}
 .cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
 .scratch-wrap{position:relative;height:190px;border-radius:20px;overflow:hidden;box-shadow:0 15px 30px rgba(0,0,0,.4);touch-action:none;}
 .scratch-reveal{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px;text-align:center;background:linear-gradient(160deg,#141a2e,#0a0c16);}
@@ -57,6 +58,14 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
 @keyframes introPop{0%{transform:scale(0) rotate(-25deg);opacity:0;}100%{transform:scale(1) rotate(0);opacity:1;}}
 @keyframes introFadeUp{0%{opacity:0;transform:translateY(14px);}100%{opacity:1;transform:translateY(0);}}
 @keyframes curtainOut{0%{opacity:1;visibility:visible;}99%{opacity:0;visibility:visible;}100%{opacity:0;visibility:hidden;}}
+
+/* rules modal */
+.rules-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:2500;align-items:center;justify-content:center;padding:20px;}
+.rules-overlay.shown{display:flex;}
+.rules-box{background:#141a2e;border:1px solid rgba(34,211,238,.4);border-radius:22px;padding:28px;max-width:480px;width:100%;text-align:right;box-shadow:0 20px 50px rgba(0,0,0,.6);}
+.rules-box h3{margin:0 0 14px;color:#fde68a;font-size:1.3rem;}
+.rules-box p{color:#dde1f2;line-height:1.75;font-size:.95rem;margin:0 0 10px;}
+.rules-close{margin-top:8px;background:linear-gradient(135deg,#6366f1,#a855f7);color:#fff;border:none;padding:10px 24px;border-radius:30px;font-weight:800;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -90,6 +99,7 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
 <div class="container">
     <div class="score-bar">
         <div class="score-pill" id="scorePill">0 / 8 נכונות</div>
+        <button class="rules-btn" onclick="showRules()">📜 חוקי המשחק</button>
         <button class="reset-btn" onclick="resetGame()">🔄 סבב חדש (שאלות חדשות)</button>
     </div>
     <div class="cards-grid" id="cardsGrid"></div>
@@ -98,6 +108,17 @@ header.hero p{font-size:1rem;margin:10px 0 0;color:#b6bdd6;}
         <div id="finalScore" style="margin-top:8px;color:#dde1f2;"></div>
     </div>
 </div>
+
+<div class="rules-overlay" id="rulesOverlay">
+    <div class="rules-box">
+        <h3>📜 חוקי המשחק - כרטיסי גירוד</h3>
+        <p>על המסך פרוסים 8 כרטיסים "מגורדים". גרדו כל כרטיס עם העכבר (או האצבע במובייל) כדי לחשוף את השאלה שמסתתרת מתחתיו.</p>
+        <p>לאחר שגרדתם לפחות חצי מהכרטיס, בחרו תשובה אחת מתוך 4 האפשרויות שמופיעות. תשובה נכונה = נקודה, תשובה שגויה = בלי נקודה, אבל תמיד תראו מיד מהי התשובה הנכונה.</p>
+        <p>בסיום 8 הכרטיסים תופיע חגיגת ניקוד סופית. אפשר תמיד ללחוץ על "סבב חדש" כדי לקבל 8 כרטיסים עם שאלות אקראיות חדשות ולנסות שוב.</p>
+        <button class="rules-close" onclick="hideRules()">הבנתי, בואו נשחק!</button>
+    </div>
+</div>
+
 <script>
 /* ===== season 1 data ===== */
 const SEASON1 = [
@@ -227,6 +248,8 @@ function showFinal(){
     if(ratio===1) confetti({particleCount:180,spread:100,origin:{y:.5}});
 }
 function resetGame(){ buildCards(); }
+function showRules(){ document.getElementById('rulesOverlay').classList.add('shown'); }
+function hideRules(){ document.getElementById('rulesOverlay').classList.remove('shown'); }
 buildCards();
 document.getElementById('introCurtain').addEventListener('animationend', e=>{ e.target.remove(); });
 window.addEventListener('load', ()=>{ setTimeout(()=>confetti({particleCount:70,spread:80,origin:{y:.3},colors:['#22d3ee','#6366f1','#a5f3fc']}),950); });
