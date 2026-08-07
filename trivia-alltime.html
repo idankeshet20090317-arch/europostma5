@@ -423,7 +423,7 @@ function getRandomQuestion() {
     return q;
 }
 
-/* שמות נכסים יצירתיים (בתים, גינות, בריכות, וילות) */
+/* שמות נכסים יצירתיים */
 const PROPERTY_NAMES = [
     "דירת סטודיו", "גינת תבלינים", "בית עץ מוזיקלי", "בריכת נוי",
     "וילת אירוח", "גינת גג יוקרתית", "בריכה מחוממת", "בית נופש",
@@ -488,6 +488,7 @@ function initBoard() {
         board.appendChild(cell);
     });
     renderTokens();
+    updateUI();
 }
 
 function renderTokens() {
@@ -575,10 +576,13 @@ function playTurn() {
     const dice = Math.floor(Math.random() * 6) + 1;
     document.getElementById('diceDisplay').textContent = `🎲 ${dice}`;
     
+    const oldPos = p.pos;
     p.pos = (p.pos + dice) % TOTAL_CELLS;
-    if(p.pos < dice && p.pos !== 0) {
+    
+    /* תיקון: הבטחה שמעבר או נחיתה בהתחלה מעניקים 50 שקל */
+    if(p.pos < oldPos) {
         p.money += 50;
-        log(`${p.name} עבר בנקודת ההתחלה וקיבל 50 ₪!`);
+        log(`${p.name} השלים/ה סיבוב ועבר/ה בנקודת ההתחלה! קיבל/ה 50 ₪!`);
     }
 
     renderTokens();
@@ -599,10 +603,16 @@ function handleCellLanding(p) {
                 return;
             }
             if(p.isBot) {
-                if(p.money - cell.cost > 50) {
+                /* בוט חכם: שומר רזרבה של 180 ש"ח ולא קונה בעיוורון */
+                const remainingMoney = p.money - cell.cost;
+                const minReserve = 180; 
+                
+                if (remainingMoney >= minReserve) {
                     p.money -= cell.cost;
                     cellOwners[p.pos] = p.id;
-                    log(`🤖 הבוט קנה את ${cell.name} ב-${cell.cost} ₪`);
+                    log(`🤖 הבוט שיחק חכם וקנה את ${cell.name} ב-${cell.cost} ₪ (נשארו לו ${p.money} ₪)`);
+                } else {
+                    log(`🤖 הבוט החליט לוותר על קניית ${cell.name} כדי לשמור על רזרבה כספית בטוחה.`);
                 }
                 nextTurn();
             } else {
@@ -645,17 +655,16 @@ function askToBuy(p, cell) {
             hideModal();
             nextTurn();
         }},
-        { text: 'ווותר', action: () => { hideModal(); nextTurn(); } }
+        { text: 'וותר', action: () => { hideModal(); nextTurn(); } }
     ]);
 }
 
 function triggerTriviaChallenge(visitor, owner, cell) {
     const q = getRandomQuestion();
-    // עדכון קנס ל-1.75
     const refundAmount = Math.round(cell.cost * 1.75);
 
     if(visitor.isBot) {
-        // הבוט עונה נכון ב-70% מהמקרים (30% טעות)
+        // הבוט עונה נכון ב-70% מהמקרים
         const botFailed = Math.random() < 0.30; 
         if(botFailed) {
             owner.money += refundAmount;
@@ -701,7 +710,6 @@ function triggerChanceCard(p) {
     const punishment = devilPunishments[Math.floor(Math.random() * devilPunishments.length)];
 
     if(p.isBot) {
-        // הבוט מצליח ב-70% מהמקרים
         const botSuccess = Math.random() < 0.70;
         if(isAngel) {
             if(botSuccess) {
@@ -834,9 +842,8 @@ function hideRules() {
     document.getElementById('rulesModal').classList.remove('show');
 }
 
-// Start game
-initBoard();
-updateUI();
+/* טעינת הלוח בהפעלת העמוד */
+window.onload = initBoard;
 </script>
 </body>
 </html>
